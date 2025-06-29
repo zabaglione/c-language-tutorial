@@ -36,7 +36,11 @@ void print_environment_info(void)
 #ifdef __STDC_VERSION__
     printf("- __STDC_VERSION__: %ldL\n", __STDC_VERSION__);
 
-    if (__STDC_VERSION__ >= 201710L)
+    if (__STDC_VERSION__ >= 202311L)
+    {
+        printf("- 対応規格: C23\n");
+    }
+    else if (__STDC_VERSION__ >= 201710L)
     {
         printf("- 対応規格: C17 (C18)\n");
     }

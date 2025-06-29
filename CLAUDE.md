@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 This is a comprehensive C programming tutorial written in Japanese (C言語学習教材). The project teaches C programming from basics to advanced topics through 13 structured chapters, supporting multiple C standards (C90, C99, C11, C17).
 
 The project is organized into:
-- `src/` - Source code (tutorial chapters)
+- `src/` - Source code (tutorial chapters, including C23 optional chapter)
 - `scripts/` - Support scripts for PDF/HTML generation
 - `output/` - Generated PDFs and HTML files
 - `docs/` - Documentation and reports
@@ -28,6 +28,7 @@ make clean && make STANDARD=c90    # C90 standard
 make clean && make STANDARD=c99    # C99 standard  
 make clean && make STANDARD=c11    # C11 standard
 make clean && make STANDARD=c17    # C17 standard
+make clean && make STANDARD=c23    # C23 standard (compiler support required)
 
 # Run all examples
 make run-all
@@ -96,6 +97,7 @@ Each chapter in `src/` contains:
 | 11 | structures | 構造体とポインタ | C90/C11 |
 | 12 | function-pointers | 関数ポインタ | C90 |
 | 13 | advanced | 複数ファイル・発展技術 | C90/C99/C11/C17 |
+| 14 | c23-features | C23の新機能（オプション） | C23 |
 
 ### Build System Features
 
@@ -254,5 +256,6 @@ For learners using this tutorial:
 - **introduction**: Contains `test-standards` target for testing compiler compatibility
 - **function-pointers**: Uses a `bin/` directory for build outputs instead of in-place compilation
 - **advanced**: Covers advanced topics including C11/C17 features like `_Generic` and `_Static_assert`
+- **c23-features**: Optional chapter requiring C23 compiler support (gcc -std=c23)
 
 これらのガイドラインに従うことで、学習者にとって一貫性のある、理解しやすい教材を提供できます。

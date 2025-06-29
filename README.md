@@ -10,6 +10,7 @@ C言語の基礎から応用まで、体系的に学習できる教材です。�
 - **C99**: _Bool型、可変長配列、forループ内宣言など
 - **C11**: 匿名構造体、_Generic選択、_Static_assertなど  
 - **C17**: C11の不具合修正版
+- **C23**: bool型標準化、typeof演算子、nullptr、2進数リテラルなど（オプション章）
 
 ## 📁 プロジェクト構成
 
@@ -28,7 +29,8 @@ c-language-tutorial/
 │   ├── pointers/         # 第10章: ポインタ基礎
 │   ├── structures/       # 第11章: 構造体とポインタ
 │   ├── function-pointers/# 第12章: 関数ポインタ
-│   └── advanced/         # 第13章: 複数ファイル・発展技術
+│   ├── advanced/         # 第13章: 複数ファイル・発展技術
+│   └── c23-features/     # 第14章: C23の新機能（オプション）
 ├── scripts/              # 支援スクリプト
 │   ├── combine_chapters.sh
 │   ├── create_pdf.sh
@@ -77,6 +79,13 @@ c-language-tutorial/
 | 12 | [関数ポインタ](src/function-pointers/README.md) | 関数ポインタ、コールバック関数 | C90 |
 | 13 | [複数ファイル・発展技術](src/advanced/README.md) | 分割コンパイル、extern宣言、プリプロセッサ | C90/C99/C11/C17 |
 
+### 🟣 オプション（最新規格）
+C23対応コンパイラが利用可能な場合
+
+| 章 | タイトル | 主要な学習内容 | 対象規格 |
+|---|---------|---------------|---------|
+| 14 | [C23の新機能](src/c23-features/README.md) | bool型、typeof、nullptr、2進数リテラル | C23 |
+
 ##  開発環境
 
 ### 必要なソフトウェア
@@ -120,6 +129,9 @@ make clean        # 生成ファイルを削除
 make clean && make STANDARD=c90
 make clean && make STANDARD=c99
 make clean && make STANDARD=c11
+make clean && make STANDARD=c17
+# C23（第14章専用、コンパイラサポート必要）
+cd src/c23-features && make all
 ```
 
 ### 手動コンパイル

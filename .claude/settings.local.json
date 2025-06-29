@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(make test:*)",
+      "Bash(ls:*)",
+      "Bash(/usr/bin/make test)",
+      "Bash(/usr/bin/make examples)",
+      "Bash(/usr/bin/make:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": []
+  }
+}
