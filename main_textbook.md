@@ -1,0 +1,15787 @@
+---
+title: "C言語プログラミング教材"
+author: "プログラミング学習教材"
+date: "2024年"
+---
+
+# C言語プログラミング教材
+
+## 目次
+
+1. [第1章: C言語入門](#第1章-c言語入門)
+2. [第2章: 基本構文](#第2章-基本構文)
+3. [第3章: データ型と変数](#第3章-データ型と変数)
+4. [第4章: 演算子](#第4章-演算子)
+5. [第5章: 条件分岐](#第5章-条件分岐)
+6. [第6章: 繰り返し処理](#第6章-繰り返し処理)
+7. [第7章: 配列](#第7章-配列)
+8. [第8章: 文字列処理](#第8章-文字列処理)
+9. [第9章: 関数](#第9章-関数)
+10. [第10章: ポインタ](#第10章-ポインタ)
+11. [第11章: 構造体](#第11章-構造体)
+12. [第12章: 関数ポインタ](#第12章-関数ポインタ)
+13. [第13章: 高度なトピック](#第13章-高度なトピック)
+
+---
+
+
+# 第1章: C言語入門
+
+
+##  対応C規格
+- **主要対象:** 全規格共通
+- **学習内容:** C言語の基礎知識、開発環境構築、規格解説
+
+##  学習目標
+
+この章を完了すると、以下のことができるようになります：
+
+- C言語の特徴と歴史を理解する
+- 開発環境を構築し、基本的なコンパイル手順を覚える
+- C言語の規格（C90, C99, C11, C17）の違いを理解する
+- 簡単なプログラムをコンパイル・実行できる
+
+##  理論解説
+
+### C言語とは 
+
+C言語は1972年にデニス・リッチーがベル研究所で開発したプログラミング言語です。以下の特徴があります：
+
+#### 主な特徴
+- **システムプログラミング向け**: OS開発やハードウェア制御に適している
+- **高い移植性**: 異なるプラットフォーム間でのコード再利用が容易
+- **効率性**: メモリとCPUの使用効率が良い
+- **シンプルな文法**: 基本的な機能に絞られた明確な仕様
+
+#### 使用分野
+- オペレーティングシステム（Linux、Windows等）
+- 組込みシステム（マイコン、IoTデバイス）
+- データベースシステム
+- ゲームエンジン
+- 科学技術計算
+
+### C言語の規格 
+
+C言語は時代とともに進化し、複数の規格が策定されています：
+
+| 規格名 | 発表年 | 正式名称 | 主な特徴 |
+|--------|--------|----------|----------|
+| **C90** | 1990年 | ISO/IEC 9899:1990 | 初の国際標準、ANSI C |
+| **C99** | 1999年 | ISO/IEC 9899:1999 | _Bool型、可変長配列、inline関数 |
+| **C11** | 2011年 | ISO/IEC 9899:2011 | 匿名構造体、_Generic、マルチスレッド |
+| **C17** | 2018年 | ISO/IEC 9899:2018 | C11のバグ修正版 |
+
+#### 規格選択の指針
+- **学習目的**: C90から始めて段階的に新機能を学習
+- **業務開発**: C99以降を推奨（実用的な機能が多い）
+- **組込み**: C90またはC99（コンパイラ対応状況による）
+
+### 開発環境 
+
+C言語プログラムの開発には以下のツールが必要です：
+
+#### 必須ツール
+1. **テキストエディター**: コードを記述するツール
+2. **コンパイラ**: ソースコードを実行ファイルに変換
+3. **リンカー**: 複数のオブジェクトファイルを結合
+4. **デバッガー**: プログラムの動作を詳細に調査
+
+#### 推奨開発環境
+
+**Windows:**
+```bash
+# MinGW-w64のインストール（推奨）
+# または Microsoft Visual Studio Community
+```
+
+**macOS:**
+```bash
+# Xcode Command Line Toolsのインストール
+xcode-select --install
+```
+
+**Linux（Ubuntu/Debian）:**
+```bash
+sudo apt update
+sudo apt install build-essential
+```
+
+### コンパイル手順 
+
+C言語プログラムの実行までの流れ：
+
+1. **ソースコード作成**（.cファイル）
+2. **プリプロセッサ処理**（#includeの展開等）
+3. **コンパイル**（アセンブリコードに変換）
+4. **アセンブル**（オブジェクトファイルに変換）
+5. **リンク**（実行ファイルの生成）
+6. **実行**
+
+#### 基本的なコンパイルコマンド
+```bash
+# 一段階でコンパイル
+gcc program.c -o program
+
+# 段階的なコンパイル
+gcc -c program.c          # オブジェクトファイル作成
+gcc program.o -o program  # 実行ファイル作成
+```
+
+##  サンプルコード
+
+### 環境確認プログラム
+
+プログラムファイル: `examples/environment_check.c`
+
+このプログラムは開発環境が正しく設定されているかを確認します。
+
+### コンパイルと実行
+
+```bash
+# examples ディレクトリに移動
+cd examples
+
+# C90準拠でコンパイル
+gcc -std=c90 -Wall -Wextra -pedantic environment_check.c -o env_check_c90
+
+# C99準拠でコンパイル
+gcc -std=c99 -Wall -Wextra -pedantic environment_check.c -o env_check_c99
+
+# C11準拠でコンパイル
+gcc -std=c11 -Wall -Wextra -pedantic environment_check.c -o env_check_c11
+
+# C17準拠でコンパイル
+gcc -std=c17 -Wall -Wextra -pedantic environment_check.c -o env_check_c17
+
+# 実行
+./env_check_c90
+```
+
+##  演習課題
+
+### 基礎問題
+
+1. **環境構築確認**
+   - サンプルプログラムを正常にコンパイル・実行できることを確認してください
+   - C90、C99、C11、C17の各規格でコンパイルを試してください
+
+2. **コンパイラ情報の確認**
+   - 使用しているコンパイラの名前とバージョンを調べてください
+   - 対応している規格を確認してください
+
+### 応用問題
+
+1. **規格比較**
+   - C90とC99の主な違いを3つ以上挙げてください
+   - 組込み開発でC90が今でも使われる理由を考えてください
+
+2. **コンパイル手順の理解**
+   - プリプロセッサ、コンパイラ、リンカーの役割を説明してください
+   - `-E`, `-S`, `-c` オプションの効果を確認してください
+
+##  コンパイル方法
+
+この章では以下のMakefileを使用してコンパイルができます：
+
+```bash
+# 全ての例題をコンパイル
+make all
+
+# C90準拠でコンパイル
+make STANDARD=c90
+
+# C99準拠でコンパイル  
+make STANDARD=c99
+
+# C11準拠でコンパイル
+make STANDARD=c11
+
+# C17準拠でコンパイル
+make STANDARD=c17
+
+# クリーンアップ
+make clean
+```
+
+##  規格による違い
+
+この章では基本的な環境確認のため、規格による大きな違いはありません。ただし、コンパイラの警告やエラーメッセージに違いが出る場合があります。
+
+##  次の章へ
+
+環境構築が完了したら、[基本文法・Hello World](../basics-syntax/README.md) に進んでください。
+
+##  参考資料
+
+- [GCC公式ドキュメント](https://gcc.gnu.org/documentation.html)
+- [C言語規格書 (ISO/IEC 9899:2018)](https://www.iso.org/standard/74528.html)
+- [GNU Make マニュアル](https://www.gnu.org/software/make/manual/)
+
+## サンプルコード
+
+### environment_check.c
+
+```c
+/*
+ * environment_check.c - C言語開発環境確認プログラム
+ *
+ * このプログラムは開発環境が正しく設定されているかを確認します。
+ * 各種C規格でコンパイルして動作を確認してください。
+ */
+
+#include <stdio.h>
+#include <limits.h>
+
+/*
+ * 環境情報を表示する関数
+ */
+void print_environment_info(void)
+{
+    printf("=== C言語開発環境確認 ===\n\n");
+
+    /* コンパイラ情報 */
+    printf("コンパイラ情報:\n");
+
+#ifdef __GNUC__
+    printf("- GCC version: %d.%d.%d\n", __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__);
+#endif
+
+#ifdef _MSC_VER
+    printf("- Microsoft Visual C++ version: %d\n", _MSC_VER);
+#endif
+
+#ifdef __clang__
+    printf("- Clang version: %d.%d.%d\n", __clang_major__, __clang_minor__, __clang_patchlevel__);
+#endif
+
+    /* C規格情報 */
+    printf("\nC規格情報:\n");
+
+#ifdef __STDC_VERSION__
+    printf("- __STDC_VERSION__: %ldL\n", __STDC_VERSION__);
+
+    if (__STDC_VERSION__ >= 201710L)
+    {
+        printf("- 対応規格: C17 (C18)\n");
+    }
+    else if (__STDC_VERSION__ >= 201112L)
+    {
+        printf("- 対応規格: C11\n");
+    }
+    else if (__STDC_VERSION__ >= 199901L)
+    {
+        printf("- 対応規格: C99\n");
+    }
+    else
+    {
+        printf("- 対応規格: C90 (ANSI C)\n");
+    }
+#else
+    printf("- 対応規格: C90 (ANSI C) または未定義\n");
+#endif
+
+    /* システム情報 */
+    printf("\nシステム情報:\n");
+
+    printf("- int型サイズ: %lu bytes\n", (unsigned long)sizeof(int));
+    printf("- long型サイズ: %lu bytes\n", (unsigned long)sizeof(long));
+    printf("- ポインタサイズ: %lu bytes\n", (unsigned long)sizeof(void *));
+    printf("- char型範囲: %d 〜 %d\n", CHAR_MIN, CHAR_MAX);
+    printf("- int型範囲: %d 〜 %d\n", INT_MIN, INT_MAX);
+}
+
+/*
+ * 基本的な計算テスト
+ */
+void test_basic_operations(void)
+{
+    int a = 10;
+    int b = 3;
+    int result;
+
+    printf("\n=== 基本演算テスト ===\n");
+
+    result = a + b;
+    printf("%d + %d = %d\n", a, b, result);
+
+    result = a - b;
+    printf("%d - %d = %d\n", a, b, result);
+
+    result = a * b;
+    printf("%d * %d = %d\n", a, b, result);
+
+    result = a / b;
+    printf("%d / %d = %d\n", a, b, result);
+
+    result = a % b;
+    printf("%d %% %d = %d\n", a, b, result);
+
+    printf("基本演算テスト: 正常完了\n");
+}
+
+/*
+ * メイン関数
+ */
+int main(void)
+{
+    printf("C言語開発環境確認プログラム\n");
+    printf("コンパイル日時: %s %s\n\n", __DATE__, __TIME__);
+
+    /* 環境情報の表示 */
+    print_environment_info();
+
+    /* 基本演算のテスト */
+    test_basic_operations();
+
+    printf("\n=== 環境確認完了 ===\n");
+    printf("この出力が正常に表示されれば、開発環境は正しく設定されています。\n");
+
+    return 0;
+}
+```
+
+---
+
+# 第2章: 基本構文
+
+
+##  対応C規格
+- **主要対象:** C90
+- **学習内容:** プログラムの基本構造、main関数、printf関数
+
+##  学習目標
+
+この章を完了すると、以下のことができるようになります：
+
+- C言語プログラムの基本構造を理解する
+- main関数の役割を理解する
+- printf関数を使った文字列出力ができる
+- コメントの書き方を覚える
+- 基本的なエスケープシーケンスを使える
+
+##  理論解説
+
+### プログラムの基本構造 
+
+C言語のプログラムは以下の基本構造を持ちます：
+
+```c
+#include <stdio.h>    /* ヘッダーファイルのインクルード */
+
+int main(void)        /* メイン関数の定義 */
+
+    printf("Hello, World!\n");  /* 処理文 */
+    return 0;         /* 戻り値 */
+
+```
+
+#### 各部分の説明
+
+1. **プリプロセッサ指令** (`#include`)
+   - ヘッダーファイルを取り込む指令
+   - `stdio.h`は標準入出力関数の宣言を含む
+
+2. **main関数**
+   - プログラムの実行開始点
+   - すべてのC言語プログラムに必須
+
+3. **関数本体**（`{` と `}` で囲まれた部分）
+   - 実際の処理を記述する場所
+
+4. **return文**
+   - 関数の終了と戻り値の指定
+
+### main関数の詳細 
+
+main関数はプログラムの**エントリーポイント**（実行開始点）です。
+
+#### main関数の形式
+
+**標準的な形式:**
+```c
+int main(void)
+{
+    /* プログラムの処理 */
+    return 0;
+
+```
+
+**コマンドライン引数を受け取る形式:**
+```c
+int main(int argc, char *argv[])
+{
+    /* プログラムの処理 */
+    return 0;
+
+```
+
+#### 戻り値の意味
+- **0**: プログラムが正常終了
+- **0以外**: エラーで終了（エラーコード）
+
+### printf関数 
+
+printf関数は**フォーマット付き出力**を実行う標準ライブラリ関数です。
+
+#### 基本的な使い方
+
+```c
+printf("Hello, World!\n");
+```
+
+#### フォーマット指定子
+
+| 指定子 | データ型 | 説明 | 例 |
+|--------|----------|------|-----|
+| `%d` | int | 10進整数 | `printf("%d", 42);` |
+| `%c` | char | 文字 | `printf("%c", 'A');` |
+| `%s` | char* | 文字列 | `printf("%s", "Hello");` |
+| `%f` | double | 浮動小数点数 | `printf("%f", 3.14);` |
+
+#### エスケープシーケンス
+
+特殊文字を表現するための記号です：
+
+| シーケンス | 意味 | 説明 |
+|------------|------|------|
+| `\n` | 改行 | 次の実行に移る |
+| `\t` | タブ | タブ文字を挿入 |
+| `\"` | ダブルクォート | 文字列内で`"`を表示 |
+| `\\` | バックスラッシュ | `\`文字を表示 |
+
+### コメント 
+
+プログラムに説明を追加するためのコメント記法：
+
+#### C90スタイル
+```c
+/* これは複数実行にわたる
+   コメントです */
+
+/* 1行コメント */
+```
+
+#### C99以降のスタイル
+```c
+// これは1行コメントです（C99以降）
+```
+
+**重要:** この章ではC90準拠のため、`/* */` スタイルを使用します。
+
+### 基本的なプログラム例 
+
+#### 例: 単純な文字列出力
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    printf("Hello, World!\n");
+    return 0;
+
+```
+
+#### 例: 複数実行の出力
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    printf("C言語学習教材\n");
+    printf("基本文法・Hello World\n");
+    printf("プログラムが正常に動作しています！\n");
+    return 0;
+
+```
+
+#### 例: エスケープシーケンスの使用
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    printf("タブ区切り:\tアイテム1\tアイテム2\n");
+    printf("引用符の表示: \"Hello, World!\"\n");
+    printf("パス表示: C:\\Program Files\\MyApp\n");
+    return 0;
+
+```
+
+##  サンプルコード
+
+### Hello Worldプログラム
+
+プログラムファイル: `examples/hello_world.c`
+
+もっとも基本的なC言語プログラムです。
+
+### フォーマット出力プログラム
+
+プログラムファイル: `examples/formatted_output.c`
+
+printf関数のさまざまな使い方を学習します。
+
+### コンパイルと実行
+
+```bash
+# examples ディレクトリに移動
+cd examples
+
+# C90準拠でコンパイル
+gcc -std=c90 -Wall -Wextra -pedantic hello_world.c -o hello_world
+
+# 実行
+./hello_world
+```
+
+##  演習課題
+
+### 基礎問題
+
+1. **Hello World**
+   - 自分の名前を表示するプログラムを作成してください
+
+2. **複数実行出力**
+   - 好きな詩や歌詞を3実行以上で表示するプログラムを作成してください
+
+3. **エスケープシーケンス**
+   - タブとダブルクォートを使った表示プログラムを作成してください
+
+### 応用問題
+
+1. **フォーマット文字列**
+   - printf関数のさまざまなフォーマット指定子を試してください
+
+2. **プログラム構造の理解**
+   - main関数の戻り値を変更して動作を確認してください
+
+##  コンパイル方法
+
+この章では以下のMakefileを使用してコンパイルができます：
+
+```bash
+# 全ての例題をコンパイル
+make all
+
+# 特定のプログラムをコンパイル
+make hello_world
+
+# 実行
+make run
+
+# クリーンアップ
+make clean
+```
+
+##  規格による違い
+
+### C90での制限事項
+- コメントは `/* */` 形式のみ
+- 変数宣言は関数やブロックの先頭で実行う
+- forループ内での変数宣言は不可
+
+### C99以降の拡張
+- `//` 形式のコメント追加
+- forループ内での変数宣言が可能
+- 複合リテラル等の新機能
+
+##  次の章へ
+
+基本文法を理解したら、[データ型と変数](../data-types/README.md) に進んでください。
+
+##  参考資料
+
+- [printf関数リファレンス](https://ja.cppreference.com/w/c/io/fprintf)
+- [エスケープシーケンス一覧](https://ja.cppreference.com/w/c/language/escape)
+- [C90規格仕様](https://www.iso.org/standard/17782.html)
+
+## サンプルコード
+
+### formatted_output.c
+
+```c
+/*
+ * ファイル名: formatted_output.c
+ * 説明: printf関数のさまざまなフォーマット指定子を学習
+ * 規格: C90準拠
+ */
+
+#include <stdio.h>
+
+int main(void)
+{
+    /* 基本的な文字列出力 */
+    printf("=== C言語フォーマット出力 ===\n");
+
+    /* 整数の出力 */
+    printf("整数: %d\n", 42);
+    printf("負の整数: %d\n", -123);
+
+    /* 文字の出力 */
+    printf("文字: %c\n", 'A');
+    printf("文字コード: %c\n", 65); /* Aのアスキーコード */
+
+    /* 文字列の出力 */
+    printf("文字列: %s\n", "Hello, World!");
+
+    /* 浮動小数点数の出力 */
+    printf("浮動小数点数: %f\n", 3.14159);
+    printf("小数点以下2桁: %.2f\n", 3.14159);
+
+    /* エスケープシーケンスの使用 */
+    printf("\n--- エスケープシーケンス ---\n");
+    printf("改行\nとタブ\tの使用例：\n");
+    printf("項目1\t項目2\t項目3\n");
+    printf("値A\t値B\t値C\n");
+
+    /* 特殊文字の表示 */
+    printf("\n--- 特殊文字の表示 ---\n");
+    printf("ダブルクォート: \"Hello\"\n");
+    printf("バックスラッシュ: C:\\Program Files\\\n");
+
+    /* フォーマット指定子の組み合わせ */
+    printf("\n--- 複合表示 ---\n");
+    printf("名前: %s, 年齢: %d歳, 身長: %.1fcm\n", "田中太郎", 25, 175.5);
+
+    return 0;
+}
+```
+
+> C99版は[こちら](formatted_output_c99.c)を参照してください。
+
+### hello_world.c
+
+```c
+/*
+ * ファイル名: hello_world.c
+ * 説明: C言語の最も基本的なプログラム
+ * 規格: C90準拠
+ */
+
+#include <stdio.h>
+
+int main(void)
+{
+    printf("Hello, World!\n");
+    return 0;
+}
+```
+
+> C99版は[こちら](hello_world_c99.c)を参照してください。
+
+---
+
+# 第3章: データ型と変数
+
+
+##  対応C規格
+- **主要対象:** C90
+- **学習内容:** 基本データ型、変数宣言、初期化、スコープ、変数の生存期間
+
+##  学習目標
+
+この章を完了すると、以下のことができるようになります：
+
+- C言語の基本データ型を理解する
+- 変数の宣言と初期化ができる
+- 変数のスコープ（有効範囲）を理解する
+- データ型のサイズと範囲を把握する
+- 適切な型を選択してプログラムを作成できる
+
+##  理論解説
+
+### C言語の基本データ型 
+
+C言語では、さまざまなデータ型が用意されています。
+
+#### 整数型
+
+| 型名 | サイズ | 範囲 | 説明 |
+|------|--------|------|------|
+| `char` | 1バイト | -128 〜 127 | 文字、小さな整数 |
+| `unsigned char` | 1バイト | 0 〜 255 | 符号なし文字 |
+| `short` | 2バイト | -32,768 〜 32,767 | 短整数 |
+| `unsigned short` | 2バイト | 0 〜 65,535 | 符号なし短整数 |
+| `int` | 4バイト | -2,147,483,648 〜 2,147,483,647 | 整数 |
+| `unsigned int` | 4バイト | 0 〜 4,294,967,295 | 符号なし整数 |
+| `long` | 4/8バイト | システム依存 | 長整数 |
+| `unsigned long` | 4/8バイト | システム依存 | 符号なし長整数 |
+
+#### 浮動小数点数型
+
+| 型名 | サイズ | 精度 | 説明 |
+|------|--------|------|------|
+| `float` | 4バイト | 約7桁 | 単精度浮動小数点 |
+| `double` | 8バイト | 約15桁 | 倍精度浮動小数点 |
+| `long double` | 12/16バイト | システム依存 | 拡張精度浮動小数点 |
+
+#### その他の型
+
+| 型名 | 説明 |
+|------|------|
+| `void` | 「型なし」を表す（関数の戻り値等で使用） |
+
+### 変数の宣言と初期化 
+
+#### 基本的な変数宣言
+
+```c
+int age;        /* 整数型変数の宣言 */
+double height;  /* 倍精度浮動小数点型変数の宣言 */
+char grade;     /* 文字型変数の宣言 */
+```
+
+#### 初期化付き宣言
+
+```c
+int count = 10;           /* 宣言と同時に初期化 */
+double pi = 3.14159;     /* 浮動小数点数の初期化 |
+char letter = 'A';       /* 文字の初期化 */
+```
+
+#### 複数変数の同時宣言
+
+```c
+int x, y, z;                    /* 同じ型の複数変数 */
+int a = 1, b = 2, c;          /* 一部だけ初期化 */
+```
+
+### 変数の代入と演算 
+
+#### 代入演算子
+
+```c
+int number;
+number = 10;        /* 代入 */
+number += 5;        /* number = number + 5 と同じ */
+number -= 3;        /* number = number - 3 と同じ */
+number *= 2;        /* number = number * 2 と同じ */
+number /= 4;        /* number = number / 4 と同じ */
+```
+
+#### 基本演算子
+
+```c
+int a = 10, b = 3;
+int sum = a + b;        /* 加算: 13 */
+int diff = a - b;       /* 減算: 7 */
+int product = a * b;    /* 乗算: 30 */
+int quotient = a / b;   /* 除算: 3 (整数除算) */
+int remainder = a % b;  /* 剰余: 1 */
+```
+
+### 型変換（キャスト） 
+
+#### 暗黙の型変換
+
+```c
+int i = 42;
+double d;
+d = i;          /* int から double への自動変換 */
+```
+
+#### 明示的な型変換
+
+```c
+double pi = 3.14159;
+int rounded;
+rounded = (int)pi;      /* 明示的にintに変換（3になる） */
+```
+
+#### 型変換の注意点
+
+```c
+int a = 5, b = 2;
+double result;
+
+result = a / b;         /* 結果: 2.0 (整数除算後に変換) */
+result = (double)a / b; /* 結果: 2.5 (実数除算) */
+```
+
+### 変数のスコープ（有効範囲） 
+
+スコープとは、変数がプログラム中のどの部分でアクセス可能かを示す概念です。
+
+#### 1. ファイルスコープ（グローバルスコープ）
+
+ファイル全体でアクセス可能な変数です。
+
+```c
+#include <stdio.h>
+
+int global_count = 100;   /* ファイルスコープ変数 */
+double global_rate;     /* 初期化されていない場合は0になる */
+
+void function(void)
+{
+    global_count = 200; /* 関数内からアクセス可能 */
+}
+
+int main(void)
+{
+    global_count = 150;  /* main関数からもアクセス可能 */
+    function();
+    printf("global_count = %d\n", global_count); /* 200が出力 */
+    return 0;
+}
+
+```
+
+#### 2. 関数スコープ
+
+関数内で宣言された変数は、その関数内でのみアクセス可能です。
+
+```c
+void function_a(void)
+{
+    int local_a = 10;   /* function_a内でのみ有効 */
+    printf("local_a = %d\n", local_a);
+}
+
+void function_b(void)
+{
+    int local_a = 20;   /* 異なる関数なので同じ名前でも別変数 */
+    printf("local_a = %d\n", local_a);
+    /* function_aのlocal_aにはアクセス不可 */
+}
+
+```
+
+#### 3. ブロックスコープ
+
+`{` と `}` で囲まれたブロック内でのみアクセス可能な変数です。
+
+```c
+int main(void)
+{
+    int main_var = 5;
+    
+    if (main_var > 0) {
+        int block_var = 10;      /* このifブロック内でのみ有効 */
+        printf("block_var = %d\n", block_var);
+        
+        {
+            int nested_var = 20; /* さらに内側のブロック */
+            printf("nested_var = %d\n", nested_var);
+            /* block_varとmain_varにもアクセス可能 */
+        }
+        /* nested_varはここではアクセス不可 */
+    }
+    /* block_varはここではアクセス不可 */
+    
+    return 0;
+}
+
+```
+
+#### 4. スコープの隠蔽（シャドウイング）
+
+内側のスコープで同じ名前の変数を宣言すると、外側の変数が隠蔽されます。
+
+```c
+int x = 100;     /* グローバル変数 */
+
+int main(void)
+{
+    printf("グローバルx = %d\n", x);    /* 100が出力 */
+    
+    {
+        int x = 200; /* ローカル変数がグローバル変数を隠蔽 */
+        printf("ローカルx = %d\n", x);   /* 200が出力 */
+        
+        {
+            int x = 300; /* さらに内側で隠蔽 */
+            printf("内側x = %d\n", x);   /* 300が出力 */
+        }
+        
+        printf("ローカルx = %d\n", x);   /* 200が出力（復活） */
+    }
+    
+    printf("グローバルx = %d\n", x);    /* 100が出力（復活） */
+    return 0;
+}
+
+```
+
+### 変数の生存期間（Storage Duration） 
+
+変数がメモリ上に存在する期間を生存期間といいます。
+
+#### 1. 自動変数（Automatic Variables）
+
+関数やブロックに入るときに作成され、出るときに破棄される変数です。
+
+```c
+void demo_function(void)
+{
+    int auto_var = 5;      /* 自動変数（autoは省略可能） */
+    auto int explicit_auto = 10; /* 明示的にauto指定 */
+    
+    printf("auto_var = %d\n", auto_var);
+    /* 関数終了時にauto_varは破棄される */
+}
+
+int main(void)
+{
+    demo_function();
+    demo_function();    /* 毎回新しくauto_varが作成される */
+    return 0;
+}
+```
+
+#### 2. 静的変数（Static Variables）
+
+プログラム開始時に作成され、プログラム終了まで存在し続ける変数です。
+
+```c
+void counter_function(void)
+{
+    static int count = 0;   /* 静的ローカル変数、初期化は11回のみ */
+    
+    count++;
+    printf("関数呼出回数: %d\n", count);
+}
+
+int main(void)
+{
+    counter_function();     /* 1が出力 */
+    counter_function();     /* 2が出力 */
+    counter_function();     /* 3が出力 */
+    return 0;
+}
+
+```
+
+#### 3. 静的グローバル変数
+
+ファイル内でのみアクセス可能なグローバル変数です。
+
+```c
+static int file_private = 10;  /* このファイル内でのみアクセス可能 */
+int file_public = 20;          /* 他のファイルからもアクセス可能 */
+
+static void private_function(void)  /* このファイル内でのみ呼出可能 */
+{
+    printf("file_private = %d\n", file_private);
+}
+
+int main(void)
+{
+    private_function();
+    return 0;
+}
+```
+
+#### 4. レジスタ変数（Register Variables）
+
+可能であればレジスタに格納される変数です（C90では推奨のみ）。
+
+```c
+int main(void)
+{
+    register int fast_var = 100; /* レジスタ格納を要求 */
+    
+    /* レジスタ変数のアドレスは取得できない */
+    /* int *ptr = &fast_var;  <- エラー */
+    
+    return 0;
+}
+```
+
+### ストレージクラス指定子まとめ 
+
+| 指定子 | スコープ | 生存期間 | 初期化 | 説明 |
+|--------|----------|----------|--------|------|
+| `auto` | ブロック | 自動 | 未定義値 | デフォルト（省略可能） |
+| `static`（ローカル） | ブロック | 静的 | 0 | 関数呼出間で値保持 |
+| `static`（グローバル） | ファイル | 静的 | 0 | ファイル内限定 |
+| `extern` | グローバル | 静的 | 他で定義 | 他ファイルの変数参照 |
+| `register` | ブロック | 自動 | 未定義値 | レジスタ格納要求 |
+
+### 変数の初期化規則 
+
+#### 自動変数の初期化
+
+```c
+int main(void)
+{
+    int uninitialized;          /* 未定義値（危険） */
+    int initialized = 0;       /* 明示的初期化（推奨） */
+    
+    printf("uninitialized = %d\n", uninitialized); /* 予測不能 */
+    printf("initialized = %d\n", initialized);     /* 0 */
+    
+    return 0;
+}
+```
+
+#### 静的変数の初期化
+
+```c
+int global_int;          /* 自動的に0で初期化 */
+static int static_int;   /* 自動的に0で初期化 */
+
+int main(void)
+{
+    static int local_static;    /* 自動的に0で初期化 */
+    
+    printf("global_int = %d\n", global_int);       /* 0 */
+    printf("static_int = %d\n", static_int);       /* 0 */
+    printf("local_static = %d\n", local_static);   /* 0 */
+    
+    return 0;
+}
+```
+
+### 実践的なスコープ活用例 
+
+#### カウンター関数の実装
+
+```c
+int get_next_id(void)
+{
+    static int id_counter = 1000;   /* 初期値 */
+    
+    return id_counter++;    /* 現在値を返してからインクリメント */
+}
+
+int main(void)
+{
+    printf("ID: %d\n", get_next_id());    /* 1000 */
+    printf("ID: %d\n", get_next_id());    /* 1001 */
+    printf("ID: %d\n", get_next_id());    /* 1002 */
+    
+    return 0;
+}
+```
+
+#### モジュール内状態管理
+
+```c
+/* 設定管理モジュールの例 */
+static int debug_mode = 0;      /* モジュール内部状態 */
+static int max_connections = 10;
+
+void set_debug_mode(int mode)
+{
+    debug_mode = mode;
+}
+
+int is_debug_enabled(void)
+{
+    return debug_mode;
+}
+
+void set_max_connections(int max)
+{
+    if (max > 0 && max <= 100) {
+        max_connections = max;
+    }
+}
+
+int get_max_connections(void)
+{
+    return max_connections;
+}
+```
+
+### 定数の定義 
+
+#### `const`キーワード
+
+```c
+const int MAX_SIZE = 100;       /* 定数の定義 */
+const double PI = 3.14159;      /* 浮動小数点定数 */
+```
+
+#### `#define`プリプロセッサ
+
+```c
+#define MAX_STUDENTS 50          /* マクロ定数 */
+#define TITLE "C Language Tutorial"
+```
+
+### データ型のサイズ確認 
+
+`sizeof`演算子を使ってデータ型のサイズを確認できます：
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    printf("char: %lu バイト\n", sizeof(char));
+    printf("int: %lu バイト\n", sizeof(int));
+    printf("double: %lu バイト\n", sizeof(double));
+    return 0;
+
+```
+
+##  サンプルコード
+
+### 基本データ型の使用例
+
+**プログラムファイル:** [`examples/data_types_demo.c`](examples/data_types_demo.c) | [C99版](examples/data_types_demo_c99.c)
+
+各データ型の宣言、初期化、出力を学習します。
+
+```c
+/*
+ * ファイル名: data_types_demo.c
+ * 説明: C言語の基本データ型の使用例
+ * 規格: C90準拠
+ */
+
+#include <stdio.h>
+
+int main(void)
+{
+    /* 整数型の変数宣言と初期化 */
+    char letter = 'A';
+    short small_num = 1000;
+    int age = 25;
+    long big_num = 1234567L;
+    unsigned int positive = 100U;
+
+    /* 浮動小数点型の変数宣言と初期化 */
+    float pi_f = 3.14f;
+    double pi_d = 3.141592653589793;
+
+    printf("=== データ型のサイズと値 ===\n");
+
+    /* 各データ型のサイズを表示 */
+    printf("char     : %lu バイト, 値: %c (%d)\n",
+           sizeof(char), letter, letter);
+    printf("short    : %lu バイト, 値: %d\n",
+           sizeof(short), small_num);
+    printf("int      : %lu バイト, 値: %d\n",
+           sizeof(int), age);
+    printf("long     : %lu バイト, 値: %ld\n",
+           sizeof(long), big_num);
+    printf("unsigned : %lu バイト, 値: %u\n",
+           sizeof(unsigned int), positive);
+    printf("float    : %lu バイト, 値: %.6f\n",
+           sizeof(float), pi_f);
+    printf("double   : %lu バイト, 値: %.15f\n",
+           sizeof(double), pi_d);
+
+    /* 演算の例 */
+    printf("\n=== 基本演算 ===\n");
+    printf("10 + 3 = %d\n", 10 + 3);
+    printf("10 - 3 = %d\n", 10 - 3);
+    printf("10 * 3 = %d\n", 10 * 3);
+    printf("10 / 3 = %d (整数除算)\n", 10 / 3);
+    printf("10 %% 3 = %d (剰余)\n", 10 % 3);
+    printf("10.0 / 3.0 = %.2f (実数除算)\n", 10.0 / 3.0);
+
+    return 0;
+}
+```
+
+### 数値計算の応用例
+
+**プログラムファイル:** [`solutions/numerical_calc.c`](solutions/numerical_calc.c) | [C99版](solutions/numerical_calc_c99.c)
+
+math.hライブラリを使用した高度な数値計算を学習します。
+
+### コンパイルと実行
+
+```bash
+# examples ディレクトリに移動
+cd examples
+
+# C90準拠でコンパイル
+gcc -std=c90 -Wall -Wextra -pedantic data_types_demo.c -o data_types_demo
+
+# 実行
+./data_types_demo
+```
+
+##  演習課題
+
+### 基礎問題
+
+1. **変数宣言と初期化**
+   - さまざまなデータ型の変数を宣言し、初期化してください
+   - 各変数の値をprintf関数で出力してください
+
+2. **四則演算計算機**
+   - 2つの数値を変数に格納し、四則演算の結果を表示するプログラムを作成してください
+
+3. **データ型サイズの確認**
+   - sizeof演算子を使って、各データ型のサイズを表示するプログラムを作成してください
+
+### 応用問題
+
+1. **型変換の理解**
+   - 整数除算と実数除算の違いを確認するプログラムを作成してください
+
+2. **スコープの実験**
+   - グローバル変数とローカル変数を使い分けるプログラムを作成してください
+
+3. **定数の活用**
+   - constと#defineを使って定数を定義し、計算に使用してください
+
+##  コンパイル方法
+
+この章では以下のMakefileを使用してコンパイルができます：
+
+```bash
+# 全ての例題をコンパイル
+make all
+
+# 特定のプログラムをコンパイル
+make data_types_demo
+
+# 実行
+make run
+
+# クリーンアップ
+make clean
+```
+
+##  規格による違い
+
+### C90での制限事項
+- 変数宣言は関数やブロックの先頭で行う必要がある
+- `long long`型は使用できない
+- `_Bool`型は使用できない
+
+### C99以降の拡張
+- `long long`型の追加（64ビット整数）
+- `_Bool`型の追加（論理型）
+- 複素数型（`_Complex`）の追加
+- 変数宣言位置の制限緩和
+
+### 型サイズの注意点
+
+データ型のサイズはシステムに依存するため、portable（移植可能）なプログラムを書く際は注意が必要です：
+
+```c
+/* 推奨: 具体的なサイズが必要な場合 */
+#include <stdint.h>
+int32_t exact_32bit;    /* C99以降 */
+```
+
+##  よくある間違い
+
+### 1. 初期化忘れ
+```c
+/* NG: 初期化せずに使用 */
+int count;
+printf("%d\n", count);  /* 未定義値が出力される */
+
+/* OK: 初期化してから使用 */
+int count = 0;
+printf("%d\n", count);
+```
+
+### 2. 整数除算の結果
+```c
+/* NG: 期待した結果にならない */
+int result = 5 / 2;     /* 結果: 2 */
+
+/* OK: 実数除算を使用 */
+double result = 5.0 / 2.0;  /* 結果: 2.5 */
+```
+
+### 3. 型の範囲超過
+```c
+/* NG: charの範囲を超える */
+char big_num = 300;     /* オーバーフロー */
+
+/* OK: 適切な型を使用 */
+int big_num = 300;
+```
+
+##  次の章へ
+
+データ型と変数を理解したら、[演算子と式](../operators/README.md) に進んでください。
+
+##  参考資料
+
+- [C言語データ型リファレンス](https://ja.cppreference.com/w/c/language/type)
+- [sizeof演算子](https://ja.cppreference.com/w/c/language/sizeof)
+- [型変換](https://ja.cppreference.com/w/c/language/conversion)
+
+## サンプルコード
+
+### data_types_demo.c
+
+```c
+/*
+ * ファイル名: data_types_demo.c
+ * 説明: C言語の基本データ型の使用例
+ * 規格: C90準拠
+ */
+
+#include <stdio.h>
+
+int main(void)
+{
+    /* 整数型の変数宣言と初期化 */
+    char letter = 'A';
+    short small_num = 1000;
+    int age = 25;
+    long big_num = 1234567L;
+    unsigned int positive = 100U;
+
+    /* 浮動小数点型の変数宣言と初期化 */
+    float pi_f = 3.14f;
+    double pi_d = 3.141592653589793;
+
+    printf("=== データ型のサイズと値 ===\n");
+
+    /* 各データ型のサイズを表示 */
+    printf("char     : %lu バイト, 値: %c (%d)\n",
+           sizeof(char), letter, letter);
+    printf("short    : %lu バイト, 値: %d\n",
+           sizeof(short), small_num);
+    printf("int      : %lu バイト, 値: %d\n",
+           sizeof(int), age);
+    printf("long     : %lu バイト, 値: %ld\n",
+           sizeof(long), big_num);
+    printf("unsigned : %lu バイト, 値: %u\n",
+           sizeof(unsigned int), positive);
+    printf("float    : %lu バイト, 値: %.6f\n",
+           sizeof(float), pi_f);
+    printf("double   : %lu バイト, 値: %.15f\n",
+           sizeof(double), pi_d);
+
+    /* 演算の例 */
+    printf("\n=== 基本演算 ===\n");
+    printf("10 + 3 = %d\n", 10 + 3);
+    printf("10 - 3 = %d\n", 10 - 3);
+    printf("10 * 3 = %d\n", 10 * 3);
+    printf("10 / 3 = %d (整数除算)\n", 10 / 3);
+    printf("10 %% 3 = %d (剰余)\n", 10 % 3);
+    printf("10.0 / 3.0 = %.2f (実数除算)\n", 10.0 / 3.0);
+
+    return 0;
+}
+```
+
+> C99版は[こちら](data_types_demo_c99.c)を参照してください。
+
+---
+
+# 第4章: 演算子
+
+
+## 対応C規格
+- **主要対象:** C90
+- **学習内容:** 算術演算子、関係演算子、論理演算子、ビット演算子、演算子の優先順位
+
+## 学習目標
+
+この章を完了すると、以下のことができるようになります：
+
+- さまざまな演算子の種類と使い方を理解する
+- 演算子の優先順位と結合規則を把握する
+- 複雑な式を正しく記述できる
+- インクリメント・デクリメント演算子を適切に使える
+- ビット演算の基本を理解する
+
+## 理論解説
+
+### 算術演算子
+
+基本的な数値計算を実行する演算子です。
+
+| 演算子 | 意味 | 例 | 結果 |
+|--------|------|----|----- |
+| `+` | 加算 | `5 + 3` | `8` |
+| `-` | 減算 | `5 - 3` | `2` |
+| `*` | 乗算 | `5 * 3` | `15` |
+| `/` | 除算 | `7 / 3` | `2` (整数除算) |
+| `%` | 剰余 | `7 % 3` | `1` |
+
+#### 除算の注意点
+
+```c
+int a = 7, b = 3;
+int result = a / b;        /* 結果: 2 (整数除算) */
+double result = a / b;     /* 結果: 2.0 (整数除算後に型変換) */
+double result = (double)a / b; /* 結果: 2.333... (実数除算) */
+```
+
+### 代入演算子
+
+値を変数に代入する演算子です。
+
+| 演算子 | 意味 | 例 | 等価な記述 |
+|--------|------|----|-----------| 
+| `=` | 代入 | `a = 5` | - |
+| `+=` | 加算代入 | `a += 3` | `a = a + 3` |
+| `-=` | 減算代入 | `a -= 2` | `a = a - 2` |
+| `*=` | 乗算代入 | `a *= 2` | `a = a * 2` |
+| `/=` | 除算代入 | `a /= 3` | `a = a / 3` |
+| `%=` | 剰余代入 | `a %= 4` | `a = a % 4` |
+
+```c
+int count = 10;
+count += 5;     /* count は 15 になる */
+count *= 2;     /* count は 30 になる */
+```
+
+### インクリメント・デクリメント演算子
+
+変数の値を増減させる演算子です。
+
+| 演算子 | 意味 | 前置 | 後置 |
+|--------|------|------|------|
+| `++` | インクリメント | `++a` | `a++` |
+| `--` | デクリメント | `--a` | `a--` |
+
+#### 前置と後置の違い
+
+```c
+int a = 5, b = 5;
+int x, y;
+
+x = ++a;    /* a を先にインクリメント, x = 6, a = 6 */
+y = b++;    /* b の値を先に使用, y = 5, b = 6 */
+```
+
+**C99版での詳細:** [increment_decrement_c99.c](solutions/increment_decrement_c99.c)
+
+### 関係演算子
+
+2つの値を比較する演算子です。結果は真（非0）または偽（0）になります。
+
+| 演算子 | 意味 | 例 | 結果 |
+|--------|------|----|----- |
+| `==` | 等しい | `5 == 3` | `0` (偽) |
+| `!=` | 等しくない | `5 != 3` | `1` (真) |
+| `<` | より小さい | `5 < 3` | `0` (偽) |
+| `<=` | 以下 | `5 <= 3` | `0` (偽) |
+| `>` | より大きい | `5 > 3` | `1` (真) |
+| `>=` | 以上 | `5 >= 3` | `1` (真) |
+
+### 論理演算子
+
+論理値（真偽）を操作する演算子です。
+
+| 演算子 | 意味 | 例 | 説明 |
+|--------|------|----|----- |
+| `&&` | 論理積（AND） | `a && b` | a も b も真の場合のみ真 |
+| `||` | 論理和（OR） | `a || b` | a または b が真なら真 |
+| `!` | 論理否定（NOT） | `!a` | a が偽なら真、真なら偽 |
+
+#### 短絡評価
+
+```c
+int a = 0, b = 10;
+
+if (a != 0 && b / a > 5)   /* a が 0 なので、b / a は評価されない */
+    /* 実行されない */
+```
+
+### ビット演算子
+
+ビットレベルで値を操作する演算子です。
+
+| 演算子 | 意味 | 例 | 説明 |
+|--------|------|----|----- |
+| `&` | ビットAND | `a & b` | 対応するビットが両方1の場合1 |
+| `|` | ビットOR | `a | b` | 対応するビットのいずれかが1の場合1 |
+| `^` | ビットXOR | `a ^ b` | 対応するビットが異なる場合1 |
+| `~` | ビット反転 | `~a` | 各ビットを反転 |
+| `<<` | 左シフト | `a << 2` | ビットを左に2つシフト |
+| `>>` | 右シフト | `a >> 1` | ビットを右に1つシフト |
+
+```c
+unsigned char a = 5;    /* 00000101 */
+unsigned char b = 3;    /* 00000011 */
+
+printf("a & b = %d\n", a & b);  /* 1 (00000001) */
+printf("a | b = %d\n", a | b);  /* 7 (00000111) */
+printf("a ^ b = %d\n", a ^ b);  /* 6 (00000110) */
+printf("~a = %d\n", ~a);        /* 250 (11111010) */
+```
+
+**C99版での詳細:** [bitwise_demo_c99.c](examples/bitwise_demo_c99.c)
+
+### 条件演算子（三項演算子）
+
+条件に基づいて値を選択する演算子です。
+
+```c
+条件 ? 真の場合の値 : 偽の場合の値
+```
+
+```c
+int a = 3, b = 7;
+int max = (a > b) ? a : b;  /* b が大きいので max = 7 */
+
+printf("大きい方: %d\n", max);
+```
+
+**C99版での詳細:** [conditional_operator_c99.c](solutions/conditional_operator_c99.c)
+
+### sizeof演算子
+
+データ型や変数のサイズを取得する演算子です。
+
+```c
+printf("int のサイズ: %lu バイト\n", (unsigned long)sizeof(int));
+printf("double のサイズ: %lu バイト\n", (unsigned long)sizeof(double));
+
+int arr[10];
+printf("配列のサイズ: %lu バイト\n", (unsigned long)sizeof(arr));
+```
+
+### 演算子の優先順位
+
+演算子には優先順位があり、計算の順序に影響します。
+
+| 優先順位 | 演算子 | 結合規則 |
+|----------|--------|----------|
+| 1 | `()` `[]` `->` `.` | 左から右 |
+| 2 | `!` `~` `++` `--` `+` `-` `*` `&` `sizeof` `(型)` | 右から左 |
+| 3 | `*` `/` `%` | 左から右 |
+| 4 | `+` `-` | 左から右 |
+| 5 | `<<` `>>` | 左から右 |
+| 6 | `<` `<=` `>` `>=` | 左から右 |
+| 7 | `==` `!=` | 左から右 |
+| 8 | `&` | 左から右 |
+| 9 | `^` | 左から右 |
+| 10 | `|` | 左から右 |
+| 11 | `&&` | 左から右 |
+| 12 | `||` | 左から右 |
+| 13 | `?:` | 右から左 |
+| 14 | `=` `+=` `-=` `*=` `/=` `%=` `&=` `^=` `|=` `<<=` `>>=` | 右から左 |
+| 15 | `,` | 左から右 |
+
+#### 優先順位の例
+
+```c
+int result = 2 + 3 * 4;     /* 結果: 14 (乗算が先) */
+int result = (2 + 3) * 4;  /* 結果: 20 (括弧が先) */
+```
+
+**C99版での詳細:** [precedence_demo_c99.c](examples/precedence_demo_c99.c)
+
+## サンプルコード
+
+### 演算子の基本使用例
+
+プログラムファイル: [operators_demo.c](examples/operators_demo.c)  
+C99版: [operators_demo_c99.c](examples/operators_demo_c99.c)
+
+さまざまな演算子の使用方法を学習します。
+
+### ビット演算の実例
+
+プログラムファイル: [bitwise_demo.c](examples/bitwise_demo.c)  
+C99版: [bitwise_demo_c99.c](examples/bitwise_demo_c99.c)
+
+ビット演算の動作を可視化して確認します。
+
+### 演算子優先順位の確認
+
+プログラムファイル: [precedence_demo.c](examples/precedence_demo.c)  
+C99版: [precedence_demo_c99.c](examples/precedence_demo_c99.c)
+
+演算子の優先順位による計算結果の違いを確認します。
+
+### コンパイルと実行
+
+```bash
+# C90準拠でコンパイル
+gcc -std=c90 -Wall -Wextra -pedantic examples/operators_demo.c -o operators_demo
+
+# C99準拠でコンパイル
+gcc -std=c99 -Wall -Wextra -pedantic examples/operators_demo_c99.c -o operators_demo_c99
+
+# 実行
+./operators_demo
+```
+
+## 演習課題
+
+演習課題の詳細は [exercises/README.md](exercises/README.md) を参照してください。
+
+### 基礎問題
+
+1. **四則演算計算機**
+   - 2つの数値に対してすべての算術演算を実行するプログラムを作成してください
+
+2. **比較と論理演算**
+   - 2つの数値の中から最大値を求めるプログラムを作成してください
+
+3. **インクリメント・デクリメント**
+   - 前置と後置の違いを確認するプログラムを作成してください
+
+### 応用問題
+
+4. **ビット操作**
+   - 整数の各ビットを表示するプログラムを作成してください
+
+5. **条件演算子の活用**
+   - 三項演算子を使って複雑な条件分岐を実装してください
+
+6. **演算子優先順位**
+   - 複雑な式の計算順序を確認するプログラムを作成してください
+
+## 解答例
+
+各演習問題の解答例は [solutions/](solutions/) ディレクトリにあります：
+
+- [increment_decrement.c](solutions/increment_decrement.c) / [C99版](solutions/increment_decrement_c99.c)
+- [operator_precedence.c](solutions/operator_precedence.c) / [C99版](solutions/operator_precedence_c99.c)
+- [conditional_operator.c](solutions/conditional_operator.c) / [C99版](solutions/conditional_operator_c99.c)
+
+## コンパイル方法
+
+この章では以下のMakefileを使用してコンパイルができます：
+
+```bash
+# 全ての例題をコンパイル
+make all
+
+# 特定のプログラムをコンパイル
+make operators_demo
+
+# C99版をコンパイル
+make operators_demo_c99
+
+# 全て実行
+make run-all
+
+# クリーンアップ
+make clean
+```
+
+## 規格による違い
+
+### C90での制限事項
+- ビット演算子は整数型に対してのみ使用可能
+- 論理演算子の結果は0または1
+- ブロック先頭でのみ変数宣言可能
+
+### C99以降の拡張
+- `_Bool`型の追加により、論理値の取り扱いが明確化
+- 複素数型に対する演算子の追加
+- forループ内での変数宣言が可能
+- インライン関数の使用が可能
+
+## よくある間違い
+
+### 1. 代入と比較の混同
+```c
+/* NG: 代入を条件文で使用 */
+if (a = 5)     /* 常に真になる */
+    /* ... */
+
+/* OK: 比較演算子を使用 */
+if (a == 5)    /* a が 5 と等しいかチェック */
+    /* ... */
+```
+
+### 2. 整数除算の結果
+```c
+/* NG: 期待した結果にならない */
+double result = 5 / 2;      /* 結果: 2.0 */
+
+/* OK: 実数除算を使用 */
+double result = 5.0 / 2.0;  /* 結果: 2.5 */
+```
+
+### 3. 演算子の優先順位
+```c
+/* NG: 意図しない計算順序 */
+int result = a + b * c + d; /* b * c が先に計算される */
+
+/* OK: 括弧で明示 */
+int result = (a + b) * (c + d);
+```
+
+### 4. ビット演算の優先順位
+```c
+/* NG: 期待しない結果 */
+if (flags & MASK == 1)      /* flags & (MASK == 1) として評価される */
+
+/* OK: 括弧で明示 */
+if ((flags & MASK) == 1)    /* 正しい評価順序 */
+```
+
+## 次の章へ
+
+演算子と式を理解したら、[制御構造（条件分岐）](../control-if/README.md) に進んでください。
+
+## 参考資料
+
+- [C言語演算子リファレンス](https://ja.cppreference.com/w/c/language/operator_precedence)
+- [ビット演算詳細](https://ja.cppreference.com/w/c/language/operator_arithmetic)
+- [演算子優先順位表](https://ja.cppreference.com/w/c/language/operator_precedence)
+## サンプルコード
+
+### bitwise_demo.c
+
+```c
+/*
+ * bitwise_demo.c
+ * ビット演算の動作を可視化して確認
+ * C90準拠
+ */
+
+#include <stdio.h>
+
+/* ビットパターンを表示する関数 */
+void print_bits(unsigned char value) {
+    int i;
+    for (i = 7; i >= 0; i--) {
+        printf("%d", (value >> i) & 1);
+        if (i == 4) printf(" "); /* 読みやすさのため4ビットごとに空白 */
+    }
+}
+
+int main(void) {
+    unsigned char a = 5;    /* 00000101 */
+    unsigned char b = 3;    /* 00000011 */
+    unsigned char result;
+    
+    printf("===== ビット演算のデモ =====\n");
+    printf("初期値:\n");
+    printf("  a = %3d : ", a);
+    print_bits(a);
+    printf("\n");
+    printf("  b = %3d : ", b);
+    print_bits(b);
+    printf("\n\n");
+    
+    /* ビットAND */
+    result = a & b;
+    printf("ビットAND (a & b):\n");
+    printf("  ");
+    print_bits(a);
+    printf("\n& ");
+    print_bits(b);
+    printf("\n---------------\n  ");
+    print_bits(result);
+    printf(" = %d\n\n", result);
+    
+    /* ビットOR */
+    result = a | b;
+    printf("ビットOR (a | b):\n");
+    printf("  ");
+    print_bits(a);
+    printf("\n| ");
+    print_bits(b);
+    printf("\n---------------\n  ");
+    print_bits(result);
+    printf(" = %d\n\n", result);
+    
+    /* ビットXOR */
+    result = a ^ b;
+    printf("ビットXOR (a ^ b):\n");
+    printf("  ");
+    print_bits(a);
+    printf("\n^ ");
+    print_bits(b);
+    printf("\n---------------\n  ");
+    print_bits(result);
+    printf(" = %d\n\n", result);
+    
+    /* ビット反転 */
+    result = ~a;
+    printf("ビット反転 (~a):\n");
+    printf("~ ");
+    print_bits(a);
+    printf("\n---------------\n  ");
+    print_bits(result);
+    printf(" = %d\n\n", result);
+    
+    /* 左シフト */
+    printf("===== シフト演算のデモ =====\n");
+    a = 5;  /* リセット */
+    
+    result = a << 1;
+    printf("左シフト (a << 1):\n");
+    printf("  ");
+    print_bits(a);
+    printf(" << 1\n= ");
+    print_bits(result);
+    printf(" = %d (2倍)\n\n", result);
+    
+    result = a << 2;
+    printf("左シフト (a << 2):\n");
+    printf("  ");
+    print_bits(a);
+    printf(" << 2\n= ");
+    print_bits(result);
+    printf(" = %d (4倍)\n\n", result);
+    
+    /* 右シフト */
+    a = 20; /* 00010100 */
+    
+    result = a >> 1;
+    printf("右シフト (a >> 1):\n");
+    printf("  ");
+    print_bits(a);
+    printf(" >> 1\n= ");
+    print_bits(result);
+    printf(" = %d (1/2)\n\n", result);
+    
+    result = a >> 2;
+    printf("右シフト (a >> 2):\n");
+    printf("  ");
+    print_bits(a);
+    printf(" >> 2\n= ");
+    print_bits(result);
+    printf(" = %d (1/4)\n\n", result);
+    
+    /* 実用例：フラグ管理 */
+    printf("===== ビット演算の実用例（フラグ管理） =====\n");
+    #define FLAG_A 0x01  /* 0000 0001 */
+    #define FLAG_B 0x02  /* 0000 0010 */
+    #define FLAG_C 0x04  /* 0000 0100 */
+    #define FLAG_D 0x08  /* 0000 1000 */
+    
+    unsigned char flags = 0;
+    
+    printf("初期状態: ");
+    print_bits(flags);
+    printf("\n");
+    
+    /* フラグを立てる */
+    flags |= FLAG_A;
+    printf("FLAG_A を立てる: ");
+    print_bits(flags);
+    printf("\n");
+    
+    flags |= FLAG_C;
+    printf("FLAG_C を立てる: ");
+    print_bits(flags);
+    printf("\n");
+    
+    /* フラグのチェック */
+    if (flags & FLAG_A) {
+        printf("FLAG_A は ON です\n");
+    }
+    if (flags & FLAG_B) {
+        printf("FLAG_B は ON です\n");
+    } else {
+        printf("FLAG_B は OFF です\n");
+    }
+    
+    /* フラグをクリア */
+    flags &= ~FLAG_A;
+    printf("FLAG_A をクリア: ");
+    print_bits(flags);
+    printf("\n");
+    
+    /* フラグをトグル */
+    flags ^= FLAG_B;
+    printf("FLAG_B をトグル: ");
+    print_bits(flags);
+    printf("\n");
+    
+    return 0;
+}
+```
+
+> C99版は[こちら](bitwise_demo_c99.c)を参照してください。
+
+### operators_demo.c
+
+```c
+/*
+ * operators_demo.c
+ * さまざまな演算子の使用方法を学習
+ * C90準拠
+ */
+
+#include <stdio.h>
+
+int main(void) {
+    int a = 10, b = 3;
+    double x = 10.0, y = 3.0;
+    int result;
+    
+    printf("===== 算術演算子のデモ =====\n");
+    printf("整数演算 (a = %d, b = %d):\n", a, b);
+    printf("  a + b = %d\n", a + b);
+    printf("  a - b = %d\n", a - b);
+    printf("  a * b = %d\n", a * b);
+    printf("  a / b = %d (整数除算)\n", a / b);
+    printf("  a %% b = %d (剰余)\n", a % b);
+    
+    printf("\n実数演算 (x = %.1f, y = %.1f):\n", x, y);
+    printf("  x / y = %.2f (実数除算)\n", x / y);
+    
+    printf("\n===== 代入演算子のデモ =====\n");
+    result = a;
+    printf("result = %d\n", result);
+    result += 5;
+    printf("result += 5 -> %d\n", result);
+    result -= 3;
+    printf("result -= 3 -> %d\n", result);
+    result *= 2;
+    printf("result *= 2 -> %d\n", result);
+    result /= 4;
+    printf("result /= 4 -> %d\n", result);
+    result %= 3;
+    printf("result %%= 3 -> %d\n", result);
+    
+    printf("\n===== インクリメント・デクリメント演算子 =====\n");
+    a = 5;
+    printf("初期値: a = %d\n", a);
+    printf("a++ = %d (後置インクリメント)\n", a++);
+    printf("現在の a = %d\n", a);
+    printf("++a = %d (前置インクリメント)\n", ++a);
+    printf("現在の a = %d\n", a);
+    
+    a = 5;
+    printf("\n初期値: a = %d\n", a);
+    printf("a-- = %d (後置デクリメント)\n", a--);
+    printf("現在の a = %d\n", a);
+    printf("--a = %d (前置デクリメント)\n", --a);
+    printf("現在の a = %d\n", a);
+    
+    printf("\n===== 関係演算子のデモ =====\n");
+    a = 5; b = 3;
+    printf("a = %d, b = %d のとき:\n", a, b);
+    printf("  a == b : %d\n", a == b);
+    printf("  a != b : %d\n", a != b);
+    printf("  a < b  : %d\n", a < b);
+    printf("  a <= b : %d\n", a <= b);
+    printf("  a > b  : %d\n", a > b);
+    printf("  a >= b : %d\n", a >= b);
+    
+    printf("\n===== 論理演算子のデモ =====\n");
+    a = 1; b = 0;
+    printf("a = %d (真), b = %d (偽) のとき:\n", a, b);
+    printf("  a && b : %d\n", a && b);
+    printf("  a || b : %d\n", a || b);
+    printf("  !a     : %d\n", !a);
+    printf("  !b     : %d\n", !b);
+    
+    /* 短絡評価のデモ */
+    printf("\n短絡評価のデモ:\n");
+    a = 0; b = 5;
+    printf("a = %d, b = %d のとき:\n", a, b);
+    if (a != 0 && b / a > 2) {
+        printf("  条件は真です\n");
+    } else {
+        printf("  条件は偽です (a が 0 なので b/a は評価されない)\n");
+    }
+    
+    printf("\n===== 条件演算子（三項演算子）のデモ =====\n");
+    a = 10; b = 20;
+    result = (a > b) ? a : b;
+    printf("a = %d, b = %d のとき:\n", a, b);
+    printf("  (a > b) ? a : b = %d (大きい方の値)\n", result);
+    
+    printf("\n===== sizeof演算子のデモ =====\n");
+    printf("基本データ型のサイズ:\n");
+    printf("  sizeof(char)   = %lu バイト\n", (unsigned long)sizeof(char));
+    printf("  sizeof(short)  = %lu バイト\n", (unsigned long)sizeof(short));
+    printf("  sizeof(int)    = %lu バイト\n", (unsigned long)sizeof(int));
+    printf("  sizeof(long)   = %lu バイト\n", (unsigned long)sizeof(long));
+    printf("  sizeof(float)  = %lu バイト\n", (unsigned long)sizeof(float));
+    printf("  sizeof(double) = %lu バイト\n", (unsigned long)sizeof(double));
+    
+    return 0;
+}
+```
+
+> C99版は[こちら](operators_demo_c99.c)を参照してください。
+
+### precedence_demo.c
+
+```c
+/*
+ * precedence_demo.c
+ * 演算子の優先順位による計算結果の違いを確認
+ * C90準拠
+ */
+
+#include <stdio.h>
+
+int main(void) {
+    int a = 2, b = 3, c = 4, d = 5;
+    int result;
+    
+    printf("===== 演算子優先順位のデモ =====\n");
+    printf("初期値: a = %d, b = %d, c = %d, d = %d\n\n", a, b, c, d);
+    
+    /* 算術演算子の優先順位 */
+    printf("【算術演算子の優先順位】\n");
+    
+    result = a + b * c;
+    printf("a + b * c = %d + %d * %d = %d\n", a, b, c, result);
+    printf("  → 乗算が先: %d + (%d * %d) = %d + %d = %d\n\n", a, b, c, b * c, b * c, result);
+    
+    result = (a + b) * c;
+    printf("(a + b) * c = (%d + %d) * %d = %d\n", a, b, c, result);
+    printf("  → 括弧が先: (%d + %d) * %d = %d * %d = %d\n\n", a, b, c, a + b, a + b, result);
+    
+    result = a * b + c * d;
+    printf("a * b + c * d = %d * %d + %d * %d = %d\n", a, b, c, d, result);
+    printf("  → 乗算が先: (%d * %d) + (%d * %d) = %d + %d = %d\n\n", 
+           a, b, c, d, a * b, c * d, result);
+    
+    /* 複雑な式の例 */
+    printf("【複雑な式の評価順序】\n");
+    
+    result = a + b * c - d;
+    printf("a + b * c - d = %d + %d * %d - %d = %d\n", a, b, c, d, result);
+    printf("  評価順序:\n");
+    printf("  1) b * c = %d * %d = %d\n", b, c, b * c);
+    printf("  2) a + (b * c) = %d + %d = %d\n", a, b * c, a + b * c);
+    printf("  3) (a + b * c) - d = %d - %d = %d\n\n", a + b * c, d, result);
+    
+    /* 関係演算子と論理演算子 */
+    printf("【関係演算子と論理演算子の優先順位】\n");
+    
+    result = a < b && c > d;
+    printf("a < b && c > d = %d < %d && %d > %d = %d\n", a, b, c, d, result);
+    printf("  評価順序:\n");
+    printf("  1) a < b = %d < %d = %d (真)\n", a, b, a < b);
+    printf("  2) c > d = %d > %d = %d (偽)\n", c, d, c > d);
+    printf("  3) (a < b) && (c > d) = %d && %d = %d\n\n", a < b, c > d, result);
+    
+    /* ビット演算子と比較演算子 */
+    printf("【ビット演算子と比較演算子の優先順位】\n");
+    
+    /* 注意：この例は優先順位を示すためのもの */
+    result = (a & b) == 2;  /* 括弧を使って意図を明確にする */
+    printf("(a & b) == 2 = (%d & %d) == 2 = %d\n", a, b, result);
+    printf("  評価順序:\n");
+    printf("  1) a & b = %d & %d = %d\n", a, b, a & b);
+    printf("  2) (a & b) == 2 = %d == 2 = %d\n\n", a & b, result);
+    
+    /* 代入演算子の結合性 */
+    printf("【代入演算子の結合性（右結合）】\n");
+    
+    a = b = c = 10;
+    printf("a = b = c = 10 の後: a = %d, b = %d, c = %d\n", a, b, c);
+    printf("  → 右から左に評価: a = (b = (c = 10))\n\n");
+    
+    /* インクリメントと他の演算子 */
+    printf("【インクリメント演算子の優先順位】\n");
+    
+    a = 5;
+    result = ++a * 2;
+    printf("a = 5; result = ++a * 2;\n");
+    printf("  result = %d (前置++が先: 6 * 2)\n", result);
+    printf("  a = %d\n\n", a);
+    
+    a = 5;
+    result = a++ * 2;
+    printf("a = 5; result = a++ * 2;\n");
+    printf("  result = %d (後置++は後: 5 * 2)\n", result);
+    printf("  a = %d\n\n", a);
+    
+    /* 括弧を使った明確な表現 */
+    printf("【推奨：括弧で意図を明確にする】\n");
+    
+    a = 2; b = 3; c = 4; d = 1;
+    
+    /* 曖昧な式 */
+    result = a + b << 2 & c;
+    printf("曖昧: a + b << 2 & c = %d\n", result);
+    
+    /* 明確な式 */
+    result = ((a + b) << 2) & c;
+    printf("明確: ((a + b) << 2) & c = %d\n", result);
+    printf("  評価順序:\n");
+    printf("  1) a + b = %d + %d = %d\n", a, b, a + b);
+    printf("  2) (a + b) << 2 = %d << 2 = %d\n", a + b, (a + b) << 2);
+    printf("  3) ((a + b) << 2) & c = %d & %d = %d\n", (a + b) << 2, c, result);
+    
+    return 0;
+}
+```
+
+> C99版は[こちら](precedence_demo_c99.c)を参照してください。
+
+---
+
+# 第5章: 条件分岐
+
+
+##  対応C規格
+- **主要対象:** C90
+- **学習内容:** if文、else文、switch文、条件演算子による分岐処理
+
+##  学習目標
+
+この章を完了すると、以下のことができるようになります：
+
+- if文を使った条件分岐ができる
+- else if文で複数条件を処理できる
+- switch文による多分岐処理ができる
+- 条件演算子を適切に使える
+- ネストした条件分岐を理解する
+
+##  理論解説
+
+### if文の基本 🤔
+
+if文は条件に基づいてプログラムの実行を分岐させます。
+
+#### 基本構文
+
+```c
+if (条件式) 
+    /* 条件が真の場合に実行される文 */
+
+```
+
+#### 単純なif文の例
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    int score = ;
+    
+    if (score >= ) 
+        printf("優秀です！n");
+    
+    
+    return ;
+
+```
+
+### if-else文 
+
+条件が偽の場合の処理も指定できます。
+
+#### 基本構文
+
+```c
+if (条件式) 
+    /* 条件が真の場合の処理 */
+ else 
+    /* 条件が偽の場合の処理 */
+
+```
+
+#### if-else文の例
+
+```c
+int age = ;
+
+if (age >= ) 
+    printf("成人ですn");
+ else 
+    printf("未成年ですn");
+
+```
+
+### if-else if文 
+
+複数の条件を順次チェックできます。
+
+#### 基本構文
+
+```c
+if (条件) 
+    /* 条件が真の場合 */
+ else if (条件) 
+    /* 条件が真の場合 */
+ else if (条件) 
+    /* 条件が真の場合 */
+ else 
+    /* すべての条件が偽の場合 */
+
+```
+
+#### 成績判定の例
+
+```c
+int score = ;
+
+if (score >= 9) 
+    printf("成績: An");
+ else if (score >= ) 
+    printf("成績: n");
+ else if (score >= ) 
+    printf("成績: Cn");
+ else if (score >= ) 
+    printf("成績: Dn");
+ else 
+    printf("成績: n");
+
+```
+
+### ネストしたif文 
+
+if文の中にさらにif文を書くことができます。
+
+```c
+int temperatrue = ;
+int hmidity = ;
+
+if (temperatrue >= ) 
+    if (hmidity <= ) 
+        printf("快適な天気ですn");
+     else 
+        printf("暖かいですが湿度が高いですn");
+    
+ else 
+    if (hmidity <= ) 
+        printf("涼しく乾燥していますn");
+     else 
+        printf("寒くて湿気がありますn");
+    
+
+```
+
+### 条件式の詳細 
+
+#### 比較演算子
+
+```c
+int a = , b = ;
+
+if (a == b)   printf("等しいn"); 
+if (a != b)   printf("等しくないn"); 
+if (a < b)    printf("a は b より小さいn"); 
+if (a <= b)   printf("a は b 以下n"); 
+if (a > b)    printf("a は b より大きいn"); 
+if (a >= b)   printf("a は b 以上n"); 
+```
+
+#### 論理演算子の組み合わせ
+
+```c
+int age = ;
+int income = ;
+
+/* AND演算子 */
+if (age >=  && income >= ) 
+    printf("ローン審査に通りましたn");
+
+
+/* OR演算子 */
+if (age <  || age > ) 
+    printf("特別料金が適用されますn");
+
+
+/* NOT演算子 */
+if (!(age >= )) 
+    printf("歳未満ですn");
+
+```
+
+### switch文 
+
+複数の値に対する分岐処理を効率的に記述できます。
+
+#### 基本構文
+
+```c
+switch (変数または式) 
+    case 値:
+        /* 値の場合の処理 */
+        break;
+    case 値:
+        /* 値の場合の処理 */
+        break;
+    case 値:
+        /* 値の場合の処理 */
+        break;
+    default:
+        /* どの値にも一致しない場合の処理 */
+        break;
+
+```
+
+#### 曜日判定の例
+
+```c
+int day = ;
+
+switch (day) 
+    case :
+        printf("月曜日n");
+        break;
+    case :
+        printf("火曜日n");
+        break;
+    case :
+        printf("水曜日n");
+        break;
+    case :
+        printf("木曜日n");
+        break;
+    case :
+        printf("金曜日n");
+        break;
+    case :
+        printf("土曜日n");
+        break;
+    case :
+        printf("日曜日n");
+        break;
+    default:
+        printf("無効な曜日ですn");
+        break;
+
+```
+
+#### break文の重要性
+
+break文を忘れると、次のcaseも実行されます（フォールスルー）：
+
+```c
+int grade = '';
+
+switch (grade) 
+    case 'A':
+        printf("優秀n");
+        /* break がないので次のcaseも実行される */
+    case '':
+        printf("良好n");
+        /* break がないので次のcaseも実行される */
+    case 'C':
+        printf("普通n");
+        break;
+    default:
+        printf("要努力n");
+        break;
+
+/* grade が '' の場合、"良好" と "普通" の両方が出力される */
+```
+
+#### 意図的なフォールスルー
+
+時には意図的にbreakを省略することもあります：
+
+```c
+char ch = 'a';
+
+switch (ch) 
+    case 'a':
+    case 'e':
+    case 'i':
+    case 'o':
+    case '':
+        printf("母音ですn");
+        break;
+    default:
+        printf("子音ですn");
+        break;
+
+```
+
+### 条件演算子（三項演算子）の復習 
+
+条件分岐の簡潔な書き方として条件演算子があります。
+
+```c
+int a = , b = ;
+int max;
+
+/* if-else文での記述 */
+if (a > b) 
+    max = a;
+ else 
+    max = b;
+
+
+/* 条件演算子での記述 */
+max = (a > b) ? a : b;
+
+printf("最大値: %d\n", max);
+```
+
+### 条件式での注意点 
+
+#### 代入と比較の混同
+
+```c
+int x = ;
+
+/* NG: 代入になってしまう */
+if (x = ) 
+    printf("常に実行されるn");  /* x に  が代入され、常に真 */
+
+
+/* OK: 比較演算子を使用 */
+if (x == ) 
+    printf("x が  の場合のみ実行n");
+
+```
+
+#### 浮動小数点数の比較
+
+```c
+double d = . + .;
+
+/* NG: 浮動小数点の誤差で期待通りにならない可能性 */
+if (d == .) 
+    printf("等しいn");
+
+
+/* OK: 誤差を考慮した比較 */
+if (d >= .99999 && d <= .) 
+    printf("ほぼ等しいn");
+
+```
+
+##  サンプルコード
+
+### if文の基本使用例
+
+プログラムファイル: `examples/if_basic.c`
+
+基本的なif文、if-else文の使用方法を学習します。
+
+### 複雑な条件分岐
+
+プログラムファイル: `examples/complex_conditions.c`
+
+複数条件を組み合わせた分岐処理を学習します。
+
+### switch文の実例
+
+プログラムファイル: `examples/switch_demo.c`
+
+switch文を使った多分岐処理を学習します。
+
+### コンパイルと実行
+
+```bash
+# examples ディレクトリに移動
+cd examples
+
+# C90準拠でコンパイル
+gcc -std=c90 -Wall -Wextra -pedantic if_basic.c -o if_basic
+
+# 実行
+./if_basic
+```
+
+##  演習課題
+
+### 基礎問題
+
+. **年齢判定プログラム**
+   - 年齢を入力して、幼児・児童・学生・成人・高齢者に分類するプログラムを作成してください
+
+. **電卓プログラム**
+   - 2つの数値と演算子（+, -, *, /）を入力して計算結果を表示するプログラムをswitch文で作成してください
+
+. **成績判定システム**
+   - 点数を入力してA〜の成績を判定するプログラムを作成してください
+
+### 応用問題
+
+. **うるう年判定**
+   - 年を入力してうるう年かどうかを判定するプログラムを作成してください
+   - 条件: で割り切れる、ただしで割り切れる年は平年、で割り切れる年はうるう年
+
+. **MI計算と判定**
+   - 身長と体重を入力してMIを計算し、肥満度を判定するプログラムを作成してください
+
+. **三角形の判定**
+   - 2つの辺の長さを入力して、三角形として成立するか、どの種類の三角形かを判定してください
+
+##  コンパイル方法
+
+この章では以下のMakefileを使用してコンパイルができます：
+
+```bash
+# 全ての例題をコンパイル
+make all
+
+# 特定のプログラムをコンパイル
+make if_basic
+
+# 実行
+make run
+
+# クリーンアップ
+make clean
+```
+
+##  規格による違い
+
+### C90での制限事項
+- switch文の case ラベルは整数定数のみ
+- 複合文内での変数宣言は先頭のみ
+
+### C99以降の拡張
+- switch文でlong long型が使用可能
+- ブロック内での変数宣言位置の制限緩和
+
+##  よくある間違い
+
+### . セミコロンの位置
+
+```c
+/* NG: if文の後にセミコロン */
+if (condition);
+
+    printf("常に実行されるn");  /* 条件に関係なく実行 */
+
+
+/* OK: 正しい記述 */
+if (condition) 
+    printf("条件が真の場合のみ実行n");
+
+```
+
+### . switch文でのbreak忘れ
+
+```c
+/* NG: break忘れでフォールスルー */
+switch (vale) 
+    case :
+        printf("ですn");
+        /* break; を忘れると次のcaseも実行される */
+    case :
+        printf("ですn");
+        break;
+
+
+/* OK: 適切なbreak文 */
+switch (vale) 
+    case :
+        printf("ですn");
+        break;
+    case :
+        printf("ですn");
+        break;
+
+```
+
+### . 複雑な条件式での括弧不足
+
+```c
+/* NG: 意図しない優先順位 */
+if (a ==  || b ==  && c == ) 
+    /* && が || より優先される */
+
+
+/* OK: 括弧で明示 */
+if ((a == ) || (b ==  && c == )) 
+    /* 意図が明確 */
+
+```
+
+##  次の章へ
+
+条件分岐を理解したら、[制御構造（ループ）](../control-loop/README.md) に進んでください。
+
+##  参考資料
+
+- [if文詳細](https://ja.cppreference.com/w/c/language/if)
+- [switch文詳細](https://ja.cppreference.com/w/c/language/switch)
+- [条件演算子](https://ja.cppreference.com/w/c/language/operautor_other)
+
+## サンプルコード
+
+### conditional_operator.c
+
+```c
+/*
+ * 条件演算子（三項演算子）の使い方（C90準拠）
+ * 
+ * このプログラムは、条件演算子を使った
+ * 簡潔な条件分岐の書き方を示します。
+ * 規格: C90準拠
+ */
+#include <stdio.h>
+
+int main(void)
+{
+    /* 変数の宣言（C90では先頭で宣言） */
+    int a, b;
+    int max, min;
+    int age;
+    int score;
+    int bonus;
+    int number;
+    int abs_value;
+    char *result;
+    char *status;
+    
+    /* 2つの数の最大値・最小値を求める */
+    printf("2つの整数を入力してください: ");
+    scanf("%d %d", &a, &b);
+    
+    /* 条件演算子を使った最大値・最小値の判定 */
+    max = (a > b) ? a : b;
+    min = (a < b) ? a : b;
+    
+    printf("最大値: %d\n", max);
+    printf("最小値: %d\n", min);
+    
+    /* 年齢による判定 */
+    printf("\n年齢を入力してください: ");
+    scanf("%d", &age);
+    
+    status = (age >= 20) ? "成人" : "未成年";
+    printf("あなたは%sです。\n", status);
+    
+    /* 成績による合否判定 */
+    printf("\n点数を入力してください (0-100): ");
+    scanf("%d", &score);
+    
+    result = (score >= 60) ? "合格" : "不合格";
+    printf("判定: %s\n", result);
+    
+    /* ネストした条件演算子（読みやすさには注意） */
+    printf("成績評価: ");
+    printf("%c\n", (score >= 90) ? 'A' :
+                   (score >= 80) ? 'B' :
+                   (score >= 70) ? 'C' :
+                   (score >= 60) ? 'D' : 'F');
+    
+    /* 条件演算子と通常の計算を組み合わせる */
+    bonus = (score >= 80) ? 10 : 0;
+    printf("ボーナス点: %d\n", bonus);
+    printf("最終得点: %d\n", score + bonus);
+    
+    /* 絶対値の計算 */
+    printf("\n整数を入力してください: ");
+    scanf("%d", &number);
+    
+    abs_value = (number >= 0) ? number : -number;
+    printf("%d の絶対値は %d です。\n", number, abs_value);
+    
+    return 0;
+}```
+
+> C99版は[こちら](conditional_operator_c99.c)を参照してください。
+
+### if_basic.c
+
+```c
+/*
+ * if文の基本的な使い方（C90準拠）
+ * 
+ * このプログラムは、if文、if-else文、if-else if文の
+ * 基本的な使い方を示します。
+ * 規格: C90準拠
+ */
+#include <stdio.h>
+
+int main(void)
+{
+    /* 変数の宣言（C90では先頭で宣言） */
+    int score;
+    
+    printf("点数を入力してください (0-100): ");
+    scanf("%d", &score);
+    
+    /* 単純なif文 */
+    if (score == 100) {
+        printf("満点です！素晴らしい！\n");
+    }
+    
+    /* if-else文 */
+    if (score >= 60) {
+        printf("合格です\n");
+    } else {
+        printf("不合格です\n");
+    }
+    
+    /* if-else if文による成績判定 */
+    printf("成績評価: ");
+    if (score >= 90) {
+        printf("A (優秀)\n");
+    } else if (score >= 80) {
+        printf("B (良好)\n");
+    } else if (score >= 70) {
+        printf("C (普通)\n");
+    } else if (score >= 60) {
+        printf("D (可)\n");
+    } else {
+        printf("F (不可)\n");
+    }
+    
+    /* ネストしたif文 */
+    if (score >= 60) {
+        printf("おめでとうございます！");
+        if (score >= 80) {
+            printf("優秀な成績です！");
+        }
+        printf("\n");
+    }
+    
+    return 0;
+}```
+
+> C99版は[こちら](if_basic_c99.c)を参照してください。
+
+### switch_basic.c
+
+```c
+/*
+ * switch文の基本的な使い方（C90準拠）
+ * 
+ * このプログラムは、switch文による多分岐処理の
+ * 基本的な使い方を示します。
+ * 規格: C90準拠
+ */
+#include <stdio.h>
+
+int main(void)
+{
+    /* 変数の宣言（C90では先頭で宣言） */
+    int menu_choice;
+    char grade;
+    int month;
+    
+    /* メニュー選択の例 */
+    printf("=== レストランメニュー ===\n");
+    printf("1. ハンバーガー (500円)\n");
+    printf("2. ピザ (800円)\n");
+    printf("3. パスタ (700円)\n");
+    printf("4. サラダ (400円)\n");
+    printf("選択してください (1-4): ");
+    scanf("%d", &menu_choice);
+    
+    switch (menu_choice) {
+        case 1:
+            printf("ハンバーガーを注文しました。500円です。\n");
+            break;
+        case 2:
+            printf("ピザを注文しました。800円です。\n");
+            break;
+        case 3:
+            printf("パスタを注文しました。700円です。\n");
+            break;
+        case 4:
+            printf("サラダを注文しました。400円です。\n");
+            break;
+        default:
+            printf("無効な選択です。\n");
+            break;
+    }
+    
+    /* 成績評価の例 */
+    printf("\n成績を入力してください (A-F): ");
+    scanf(" %c", &grade);  /* 空白文字を読み飛ばすため、%cの前に空白を入れる */
+    
+    switch (grade) {
+        case 'A':
+        case 'a':
+            printf("優秀: 90点以上\n");
+            break;
+        case 'B':
+        case 'b':
+            printf("良好: 80-89点\n");
+            break;
+        case 'C':
+        case 'c':
+            printf("普通: 70-79点\n");
+            break;
+        case 'D':
+        case 'd':
+            printf("可: 60-69点\n");
+            break;
+        case 'F':
+        case 'f':
+            printf("不可: 60点未満\n");
+            break;
+        default:
+            printf("無効な成績です。\n");
+            break;
+    }
+    
+    /* 月から季節を判定する例（フォールスルーの活用） */
+    printf("\n月を入力してください (1-12): ");
+    scanf("%d", &month);
+    
+    printf("季節: ");
+    switch (month) {
+        case 12:
+        case 1:
+        case 2:
+            printf("冬\n");
+            break;
+        case 3:
+        case 4:
+        case 5:
+            printf("春\n");
+            break;
+        case 6:
+        case 7:
+        case 8:
+            printf("夏\n");
+            break;
+        case 9:
+        case 10:
+        case 11:
+            printf("秋\n");
+            break;
+        default:
+            printf("無効な月です\n");
+            break;
+    }
+    
+    return 0;
+}```
+
+> C99版は[こちら](switch_basic_c99.c)を参照してください。
+
+---
+
+# 第6章: 繰り返し処理
+
+
+##  対応C規格
+- **主要対象:** C90
+- **学習内容:** for文、while文、do-while文、break文、continue文、ネストしたループ
+
+##  学習目標
+
+この章を完了すると、以下のことができるようになります：
+
+- for文を使った繰り返し処理ができる
+- while文とdo-while文の違いを理解する
+- break文とcontinue文を適切に使える
+- ネストしたループを理解して活用できる
+- ループを使った実践的なプログラムを作成できる
+
+##  理論解説
+
+### for文 
+
+最も一般的なループ文で、初期化・条件・更新を実行で記述できます。
+
+#### 基本構文
+
+```c
+for (初期化; 条件式; 更新式) 
+    /* 繰り返し実行される文 */
+
+```
+
+#### 基本的な使用例
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    int i;
+    
+    /* 1から10まで出力 */
+    for (i = 1; i <= 10; i++) 
+        printf("%d ", i);
+    
+    printf("\n");
+    
+    return 0;
+
+```
+
+#### for文の詳細動作
+
+```c
+for (i = ; i < ; i++) 
+    printf("i = %d\n", i);
+
+
+/* 上記は以下と同等 */
+i = ;              /* 初期化（1回のみ実行） */
+while (i < )      /* 条件チェック */
+    printf("i = %d\n", i);  /* ループ本体 */
+    i++;            /* 更新式 */
+
+```
+
+#### さまざまなfor文のパターン
+
+```c
+/* 逆順ループ */
+for (i = ; i >= ; i--) 
+    printf("%d ", i);
+
+
+/* 2つず2つ増加 */
+for (i = ; i <= ; i += ) 
+    printf("%d ", i);
+
+
+/* 複数変数の制御 */
+for (i = , j = ; i < j; i++, j--) 
+    printf("i=%d, j=%d\n", i, j);
+
+```
+
+### while文 
+
+条件が真である間、繰り返し処理を実行します。
+
+#### 基本構文
+
+```c
+while (条件式) 
+    /* 繰り返し実行される文 */
+
+```
+
+#### while文の使用例
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    int count = ;
+    
+    while (count <= ) 
+        printf("count = %d\n", count);
+        count++;
+    
+    
+    return ;
+
+```
+
+#### while文の実践例
+
+```c
+/* ユーザー入力の処理 */
+int number;
+printf("正の数を入力してください（で終了）: ");
+
+while (scanf("%d", &number) ==  && number > ) 
+    printf("入力された数: %d\n", number);
+    printf("次の数を入力してください（で終了）: ");
+
+
+printf("プログラムを終了します。n");
+```
+
+### do-while文 
+
+最低1回は実行され、その後条件をチェックするループです。
+
+#### 基本構文
+
+```c
+do 
+    /* 最低1回は実行される文 */
+ while (条件式);
+```
+
+#### do-while文の使用例
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    int choice;
+    
+    do 
+        printf("nメニュー:n");
+        printf(". オプションn");
+        printf(". オプションn");
+        printf(". 終了n");
+        printf("選択してください: ");
+        scanf("%d", &choice);
+        
+        switch (choice) 
+            case :
+                printf("オプションが選択されましたn");
+                break;
+            case :
+                printf("オプションが選択されましたn");
+                break;
+            case :
+                printf("プログラムを終了しますn");
+                break;
+            default:
+                printf("無効な選択ですn");
+                break;
+        
+     while (choice != );
+    
+    return ;
+
+```
+
+### break文とcontinue文 ⏭
+
+ループの流れを制御する特別な文です。
+
+#### break文
+
+ループを強制的に終了します。
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    int i;
+    
+    for (i = ; i <= ; i++) 
+        if (i == ) 
+            break;  /* i が  のときループを抜ける */
+        
+        printf("%d ", i);
+    
+    printf("nループを抜けましたn");
+    
+    return ;
+
+/* 出力:      */
+```
+
+#### continue文
+
+現在の繰り返しをスキップして、次の繰り返しに進みます。
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    int i;
+    
+    for (i = ; i <= ; i++) 
+        if (i %  == ) 
+            continue;  /* 偶数の場合はスキップ */
+        
+        printf("%d ", i);
+    
+    printf("n");
+    
+    return ;
+
+/* 出力:     9 */
+```
+
+### ネストしたループ 
+
+ループの中にさらにループを含む構造です。
+
+#### 二重ループの例
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    int i, j;
+    
+    /* 九九表の作成 */
+    for (i = ; i <= 9; i++) 
+        for (j = ; j <= 9; j++) 
+            printf("%d ", i * j);
+        
+        printf("n");
+    
+    
+    return ;
+
+```
+
+#### 三角形パターンの出力
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    int i, j;
+    
+    /* 星印の三角形 */
+    for (i = ; i <= ; i++) 
+        for (j = ; j <= i; j++) 
+            printf("* ");
+        
+        printf("n");
+    
+    
+    return ;
+
+/*
+出力:
+* 
+* * 
+* * * 
+* * * * 
+* * * * * 
+*/
+```
+
+### ループでのbreak・continueの応用 
+
+#### ネストしたループでのbreak
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    int i, j;
+    int fond = ;
+    
+    for (i = ; i <=  && !fond; i++) 
+        for (j = ; j <= ; j++) 
+            if (i * j == ) 
+                printf("発見: %d * %d = n", i, j);
+                fond = ;
+                break;  /* 内側のループを抜ける */
+            
+        
+    
+    
+    return ;
+
+```
+
+#### ラベル付きbreak（goto文を使用）
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    int i, j;
+    
+    for (i = ; i <= ; i++) 
+        for (j = ; j <= ; j++) 
+            if (i * j == ) 
+                printf("発見: %d * %d = n", i, j);
+                goto exit_loops;  /* 両方のループを抜ける */
+            
+        
+    
+    
+exit_loops:
+    printf("ループ終了n");
+    return ;
+
+```
+
+### 無限ループ ♾
+
+意図的に終了しないループを作成することもあります。
+
+#### 無限ループの作成方法
+
+```c
+/* 方法: for文 */
+for (;;) 
+    /* 無限ループ */
+    if (条件) break;
+
+
+/* 方法: while文 */
+while () 
+    /* 無限ループ */
+    if (条件) break;
+
+
+/* 方法: do-while文 */
+do 
+    /* 無限ループ */
+    if (条件) break;
+ while ();
+```
+
+#### 無限ループの実用例
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    int choice;
+    
+    while ()   /* 無限ループ */
+        printf("n=== 計算機 ===n");
+        printf(". 足し算n");
+        printf(". 引き算n");
+        printf(". 終了n");
+        printf("選択: ");
+        
+        if (scanf("%d", &choice) != ) 
+            printf("入力エラーn");
+            break;
+        
+        
+        if (choice == ) 
+            printf("終了しますn");
+            break;
+        
+        
+        /* 計算処理... */
+    
+    
+    return ;
+
+```
+
+### ループの最適化とベストプラクティス 
+
+#### 効率的なループ
+
+```c
+/* NG: 毎回strlen()を呼び出し */
+for (i = ; i < strlen(str); i++) 
+    /* 処理 */
+
+
+/* OK: 長さを事前に計算 */
+len = strlen(str);
+for (i = ; i < len; i++) 
+    /* 処理 */
+
+```
+
+#### ループ変数の適切な使用
+
+```c
+int main(void)
+{
+
+    int i;  /* C90では関数の先頭で宣言 */
+    
+    for (i = ; i < ; i++) 
+        /* iはループ外でも有効 */
+    
+    
+    printf("最終的なi = %d\n", i);  /* が出力 */
+    
+    return ;
+
+```
+
+##  サンプルコード
+
+### 基本的なループ例
+
+プログラムファイル: `examples/loop_basic.c`
+
+for、while、do-while文の基本的な使用方法を学習します。
+
+### ネストしたループ
+
+プログラムファイル: `examples/nested_loops.c`
+
+二重・三重ループの使用例を学習します。
+
+### break・continue文
+
+プログラムファイル: `examples/break_continue.c`
+
+ループ制御文の使い方を学習します。
+
+### コンパイルと実行
+
+```bash
+# examples ディレクトリに移動
+cd examples
+
+# C90準拠でコンパイル
+gcc -std=c90 -Wall -Wextra -pedantic loop_basic.c -o loop_basic
+
+# 実行
+./loop_basic
+```
+
+##  演習課題
+
+### 基礎問題
+
+. **数列の出力**
+   - からまでの数を出力するプログラムを種類のループで作成してください
+
+. **偶数・奇数の判定**
+   - からまでの数で、偶数のみを出力するプログラムを作成してください
+
+. **階乗の計算**
+   - 入力された数の階乗を計算するプログラムを作成してください
+
+### 応用問題
+
+. **素数判定**
+   - 入力された数が素数かどうかを判定するプログラムを作成してください
+
+. **フィボナッチ数列**
+   - n項目までのフィボナッチ数列を出力するプログラムを作成してください
+
+. **パターン出力**
+   - 以下のようなパターンを出力するプログラムを作成してください：
+   ```
+   *
+   **
+   ***
+   ****
+   *****
+   ****
+   ***
+   **
+   *
+   ```
+
+### 発展問題
+
+. **成績管理システム**
+   - 複数の学生の成績を入力し、平均・最高・最低点を計算するプログラム
+
+. **簡易ゲーム**
+   - 数当てゲームを作成してください（-の範囲で乱数を生成）
+
+. **データ検索**
+   - 配列の中から特定の値を検索するプログラムを作成してください
+
+##  コンパイル方法
+
+この章では以下のMakefileを使用してコンパイルができます：
+
+```bash
+# 全ての例題をコンパイル
+make all
+
+# 特定のプログラムをコンパイル
+make loop_basic
+
+# 実行
+make run
+
+# クリーンアップ
+make clean
+```
+
+##  規格による違い
+
+### C90での制限事項
+- ループ変数は関数の先頭で宣言する必要がある
+- for文内での変数宣言は不可
+
+### C99以降の拡張
+- for文内での変数宣言が可能
+  ```c
+  for (int i = ; i < ; i++)   /* C99以降 */
+      /* 処理 */
+  
+  ```
+
+##  よくある間違い
+
+### . 無限ループの作成
+
+```c
+/* NG: 終了条件の記述ミス */
+for (i = ; i > ; i++)   /* 最初から条件が偽 */
+    /* 実行されない */
+
+
+/* NG: 更新式の記述ミス */
+for (i = ; i < ; i--)   /* 負の方向に進む */
+    /* 無限ループ */
+
+```
+
+### . セミコロンの位置
+
+```c
+/* NG: for文の後にセミコロン */
+for (i = ; i < ; i++);  /* 空文が実行される */
+
+    printf("%d\n", i);     /* ループ外で実行 */
+
+
+/* OK: 正しい記述 */
+for (i = ; i < ; i++) 
+    printf("%d\n", i);
+
+```
+
+### . ループ変数の範囲外アクセス
+
+```c
+/* NG: 配列の範囲を超える */
+int arr[];
+for (i = ; i <= ; i++)   /* i=で範囲外 */
+    arr[i] = i;
+
+
+/* OK: 正しい範囲 */
+for (i = ; i < ; i++) 
+    arr[i] = i;
+
+```
+
+##  次の章へ
+
+ループ処理を理解したら、[配列](../arrays/README.md) に進んでください。
+
+##  参考資料
+
+- [for文詳細](https://ja.cppreference.com/w/c/language/for)
+- [while文詳細](https://ja.cppreference.com/w/c/language/while)
+- [break・continue文](https://ja.cppreference.com/w/c/language/break)
+
+## サンプルコード
+
+### break_continue.c
+
+```c
+/*
+ * break文とcontinue文の使い方
+ *
+ * このプログラムは、ループ制御文である
+ * break文とcontinue文の使い方を示します。
+ */
+#include <stdio.h>
+
+int main(void)
+{
+    int i, j;
+    int sum;
+    int num;
+    int is_prime;
+    int count;
+    int value;
+    char ch;
+
+    /* 1. break文の基本 */
+    printf("=== break文の基本 ===\n");
+    printf("1から10まで出力（5で中断）:\n");
+    for (i = 1; i <= 10; i++)
+    {
+        if (i == 5)
+        {
+            printf("\n5に到達したので終了します\n");
+            break;
+        }
+        printf("%d ", i);
+    }
+    printf("\n\n");
+
+    /* 2. continue文の基本 */
+    printf("=== continue文の基本 ===\n");
+    printf("1から10まで出力（偶数をスキップ）:\n");
+    for (i = 1; i <= 10; i++)
+    {
+        if (i % 2 == 0)
+        {
+            continue; /* 偶数の場合は次の繰り返しへ */
+        }
+        printf("%d ", i);
+    }
+    printf("\n\n");
+
+    /* 3. 素数の判定（breakの活用） */
+    printf("=== 素数判定 ===\n");
+    printf("整数を入力してください: ");
+    scanf("%d", &num);
+
+    is_prime = 1; /* 素数フラグ（1:素数、0:素数でない） */
+
+    if (num <= 1)
+    {
+        is_prime = 0;
+    }
+    else
+    {
+        for (i = 2; i * i <= num; i++)
+        {
+            if (num % i == 0)
+            {
+                is_prime = 0;
+                break; /* 約数が見つかったら終了 */
+            }
+        }
+    }
+
+    if (is_prime)
+    {
+        printf("%d は素数です\n", num);
+    }
+    else
+    {
+        printf("%d は素数ではありません\n", num);
+    }
+    printf("\n");
+
+    /* 4. 負の数を除外した合計（continueの活用） */
+    printf("=== 正の数の合計計算 ===\n");
+    printf("5つの数を入力してください（負の数は無視されます）:\n");
+
+    sum = 0;
+    count = 0;
+    for (i = 0; i < 5; i++)
+    {
+        printf("%d番目の数: ", i + 1);
+        scanf("%d", &value);
+
+        if (value < 0)
+        {
+            printf("  → 負の数なのでスキップします\n");
+            continue;
+        }
+
+        sum += value;
+        count++;
+    }
+
+    printf("正の数の合計: %d（%d個）\n\n", sum, count);
+
+    /* 5. ネストしたループでのbreak */
+    printf("=== ネストしたループでのbreak ===\n");
+    printf("九九の表（5x5で中断）:\n");
+
+    for (i = 1; i <= 9; i++)
+    {
+        for (j = 1; j <= 9; j++)
+        {
+            if (i == 5 && j == 5)
+            {
+                printf("\n5x5で中断します\n");
+                break; /* 内側のループのみ終了 */
+            }
+            printf("%2d ", i * j);
+        }
+        if (i == 5 && j == 5)
+        {
+            break; /* 外側のループも終了 */
+        }
+        printf("\n");
+    }
+    printf("\n");
+
+    /* 6. 無限ループとbreak */
+    printf("=== 無限ループの制御 ===\n");
+    printf("'q'を入力すると終了します:\n");
+    while (1)
+    { /* 無限ループ */
+        printf("文字を入力: ");
+        scanf(" %c", &ch);
+
+        if (ch == 'q' || ch == 'Q')
+        {
+            printf("終了します\n");
+            break;
+        }
+
+        printf("入力された文字: %c\n", ch);
+    }
+    printf("\n");
+
+    /* 7. 3の倍数と5の倍数をスキップ */
+    printf("=== 3の倍数と5の倍数以外を表示 ===\n");
+    printf("1から30まで（3の倍数と5の倍数を除く）:\n");
+
+    for (i = 1; i <= 30; i++)
+    {
+        if (i % 3 == 0 || i % 5 == 0)
+        {
+            continue;
+        }
+        printf("%d ", i);
+    }
+    printf("\n");
+
+    return 0;
+}```
+
+### for_loop_basics.c
+
+```c
+/*
+ * for文の基本的な使い方
+ *
+ * このプログラムは、for文を使った様々な
+ * ループパターンを示します。
+ */
+#include <stdio.h>
+
+int main(void)
+{
+    int i, j;
+    int sum;
+    char ch;
+    int n;
+    int factorial;
+
+    /* 1. 基本的なfor文：1から10まで出力 */
+    printf("1から10まで: ");
+    for (i = 1; i <= 10; i++)
+    {
+        printf("%d ", i);
+    }
+    printf("\n\n");
+
+    /* 2. 逆順ループ：10から1まで出力 */
+    printf("10から1まで（逆順）: ");
+    for (i = 10; i >= 1; i--)
+    {
+        printf("%d ", i);
+    }
+    printf("\n\n");
+
+    /* 3. 偶数だけを出力 */
+    printf("0から20までの偶数: ");
+    for (i = 0; i <= 20; i += 2)
+    {
+        printf("%d ", i);
+    }
+    printf("\n\n");
+
+    /* 4. 累計の計算 */
+    sum = 0;
+    for (i = 1; i <= 100; i++)
+    {
+        sum += i;
+    }
+    printf("1から100までの合計: %d\n\n", sum);
+
+    /* 5. 九九の表（ネストしたfor文） */
+    printf("九九の表:\n");
+    printf("    ");
+    for (i = 1; i <= 9; i++)
+    {
+        printf("%3d ", i);
+    }
+    printf("\n");
+    printf("   ");
+    for (i = 1; i <= 9; i++)
+    {
+        printf("----");
+    }
+    printf("\n");
+
+    for (i = 1; i <= 9; i++)
+    {
+        printf("%2d |", i);
+        for (j = 1; j <= 9; j++)
+        {
+            printf("%3d ", i * j);
+        }
+        printf("\n");
+    }
+    printf("\n");
+
+    /* 6. 文字の出力 */
+    printf("アルファベット（大文字）: ");
+    for (ch = 'A'; ch <= 'Z'; ch++)
+    {
+        printf("%c ", ch);
+    }
+    printf("\n\n");
+
+    /* 7. 複数変数を使ったfor文 */
+    printf("複数変数の例:\n");
+    for (i = 0, j = 10; i < j; i++, j--)
+    {
+        printf("i = %d, j = %d, 合計 = %d\n", i, j, i + j);
+    }
+    printf("\n");
+
+    /* 8. 階乗の計算 */
+    n = 5;
+    factorial = 1;
+    printf("%d! = ", n);
+    for (i = n; i >= 1; i--)
+    {
+        factorial *= i;
+        printf("%d", i);
+        if (i > 1)
+            printf(" x ");
+    }
+    printf(" = %d\n", factorial);
+
+    return 0;
+}```
+
+### while_dowhile.c
+
+```c
+/*
+ * while文とdo-while文の使い方
+ *
+ * このプログラムは、while文とdo-while文の
+ * 基本的な使い方と違いを示します。
+ */
+#include <stdio.h>
+
+int main(void)
+{
+    int i;
+    int num;
+    int sum;
+    char choice;
+    int target;
+    int guess;
+    int attempts;
+
+    /* 1. 基本的なwhile文 */
+    printf("=== while文の基本 ===\n");
+    i = 1;
+    while (i <= 5)
+    {
+        printf("カウント: %d\n", i);
+        i++;
+    }
+    printf("\n");
+
+    /* 2. ユーザー入力を使ったwhile文 */
+    printf("=== 合計計算（0で終了）===\n");
+    sum = 0;
+    printf("数値を入力してください（0で終了）: ");
+    scanf("%d", &num);
+
+    while (num != 0)
+    {
+        sum += num;
+        printf("現在の合計: %d\n", sum);
+        printf("次の数値を入力してください（0で終了）: ");
+        scanf("%d", &num);
+    }
+    printf("最終合計: %d\n\n", sum);
+
+    /* 3. do-while文の基本 */
+    printf("=== do-while文の基本 ===\n");
+    i = 1;
+    do
+    {
+        printf("カウント: %d\n", i);
+        i++;
+    } while (i <= 5);
+    printf("\n");
+
+    /* 4. メニュー選択（do-whileの典型的な使用例） */
+    printf("=== メニューシステム ===\n");
+    do
+    {
+        printf("\n--- メインメニュー ---\n");
+        printf("1. 挨拶\n");
+        printf("2. 現在時刻の表示（ダミー）\n");
+        printf("3. カウントダウン\n");
+        printf("Q. 終了\n");
+        printf("選択してください: ");
+        scanf(" %c", &choice);
+
+        switch (choice)
+        {
+        case '1':
+            printf("こんにちは！\n");
+            break;
+        case '2':
+            printf("現在時刻: 12:00（ダミー）\n");
+            break;
+        case '3':
+            printf("カウントダウン開始: ");
+            for (i = 5; i >= 1; i--)
+            {
+                printf("%d... ", i);
+            }
+            printf("発射！\n");
+            break;
+        case 'Q':
+        case 'q':
+            printf("プログラムを終了します。\n");
+            break;
+        default:
+            printf("無効な選択です。\n");
+        }
+    } while (choice != 'Q' && choice != 'q');
+
+    /* 5. while vs do-whileの違い */
+    printf("\n=== while vs do-while ===\n");
+
+    /* 条件が最初から偽の場合のwhile */
+    printf("while文（条件が最初から偽）:\n");
+    i = 10;
+    while (i < 5)
+    {
+        printf("これは実行されません\n");
+        i++;
+    }
+    printf("while文は一度も実行されませんでした\n");
+
+    /* 条件が最初から偽の場合のdo-while */
+    printf("\ndo-while文（条件が最初から偽）:\n");
+    i = 10;
+    do
+    {
+        printf("do-while文は最低1回実行されます（i = %d）\n", i);
+        i++;
+    } while (i < 5);
+
+    /* 6. 数当てゲーム（簡易版） */
+    printf("\n=== 数当てゲーム ===\n");
+    target = 42; /* 正解の数 */
+    attempts = 0;
+
+    printf("1から100までの数を当ててください!\n");
+
+    do
+    {
+        printf("予想を入力: ");
+        scanf("%d", &guess);
+        attempts++;
+
+        if (guess < target)
+        {
+            printf("もっと大きいです\n");
+        }
+        else if (guess > target)
+        {
+            printf("もっと小さいです\n");
+        }
+        else
+        {
+            printf("正解！ %d回で当たりました!\n", attempts);
+        }
+    } while (guess != target);
+
+    return 0;
+}```
+
+---
+
+# 第7章: 配列
+
+
+##  対応C規格
+- **主要対象:** C90
+- **学習内容:** 次元配列、多次元配列、文字列配列、配列の初期化、配列とポインタの関係
+
+##  学習目標
+
+この章を完了すると、以下のことができるようになります：
+
+- 次元配列の宣言・初期化・使用ができる
+- 多次元配列を理解して活用できる
+- 文字列配列の扱い方を完全に理解する
+- char配列とchar*配列の違いを把握する
+- 配列を使った実践的なプログラムを作成できる
+
+##  理論解説
+
+### 配列の基本概念 
+
+配列は同じデータ型の要素を連続したメモリ領域に格納するデータ構造です。
+
+#### 次元配列の宣言
+
+```c
+データ型 配列名[要素数];
+```
+
+#### 基本的な配列の使用例
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    int numbers[5];         /* 5個のint型要素を持つ配列 */
+    int i;
+    
+    /* 配列への値の代入 */
+    numbers[0] = 10;
+    numbers[1] = 20;
+    numbers[2] = 30;
+    numbers[3] = 40;
+    numbers[4] = 50;
+    
+    /* 配列の値を出力 */
+    for (i = 0; i < 5; i++) {
+        printf("numbers[%d] = %d\n", i, numbers[i]);
+    }
+    
+    
+    return 0;
+
+```
+
+### 配列の初期化 
+
+#### 宣言時の初期化
+
+```c
+/* 方法1: 全要素を明示的に初期化 */
+int scores[5] = {85, 92, 78, 91, 88};
+
+/* 方法2: 部分的な初期化（残りは0で初期化） */
+int values[10] = {1, 2, 3};  /* values[0]=1, values[1]=2, values[2]=3, 残りは0 */
+
+/* 方法3: サイズを省略（要素数から自動決定） */
+int grades[] = {95, 87, 92, 76, 89};  /* サイズは5になる */
+
+/* 方法4: 全要素を0で初期化 */
+int zeros[10] = {0};        /* 全要素が0 */
+```
+
+#### C90での初期化の制限
+
+```c
+int main(void)
+{
+
+    int size = 5;
+    /* int arr[size];  <- C90では不可（Variable Length Array） */
+    
+    /* C90では定数でサイズを指定 */
+    #define ARRAY_SIZE 5
+    int arr[ARRAY_SIZE] = {1, 2, 3, 4, 5};
+    
+    return 0;
+
+```
+
+### 配列の操作 
+
+#### 配列要素へのアクセス
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    int data[5] = {10, 20, 30, 40, 50};
+    int i;
+    
+    /* 読み取り */
+    printf("3番目の要素: %d\n", data[2]);  /* 30が出力 */
+    
+    /* 書き込み */
+    data[2] = 35;
+    
+    /* ループでのアクセス */
+    for (i = 0; i < 5; i++) {
+        data[i] = data[i] * 2;  /* 各要素を2倍 */
+    }
+    
+    
+    return 0;
+
+```
+
+#### 配列のサイズ計算
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    int numbers[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    int size;
+    int i;
+    
+    /* 配列のサイズを計算 */
+    size = sizeof(numbers) / sizeof(numbers[0]);
+    
+    printf("配列のサイズ: %d\n", size);  /* 10が出力 */
+    
+    for (i = 0; i < size; i++) {
+        printf("%d ", numbers[i]);
+    }
+    
+    printf("\n");
+    
+    return 0;
+
+```
+
+### 文字配列（文字列） 
+
+#### char配列による文字列
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    char str1[6] = {'H', 'e', 'l', 'l', 'o', '\0'};  /* 明示的初期化 */
+    char str2[6] = "Hello";                           /* 文字列リテラル */
+    char str3[] = "Hello";                            /* サイズ自動決定 */
+    
+    printf("str1: %s\n", str1);
+    printf("str2: %s\n", str2);
+    printf("str3: %s\n", str3);
+    
+    return 0;
+
+```
+
+#### 文字配列の操作
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+
+    char buffer[50];
+    char name[20];
+    int i;
+    
+    /* 文字列のコピー */
+    strcpy(buffer, "Hello, World!");
+    printf("buffer: %s\n", buffer);
+    
+    /* 文字づつのアクセス */
+    strcpy(name, "Alice");
+    for (i = 0; name[i] != '\0'; i++) {
+        printf("name[%d] = '%c'\n", i, name[i]);
+    }
+    
+    
+    return 0;
+
+```
+
+### 文字列配列の扱い 
+
+これがユーザーの重要な要望の一2つです。
+
+#### 方法: 次元char配列
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+
+    /* 各文字列の最大長を20文字とする5つの文字列 */
+    char names[5][20];  /* 19文字+null終端文字 */
+    int i;
+    
+    /* 文字列配列への代入 */
+    strcpy(names[0], "Alice");
+    strcpy(names[1], "Bob");
+    strcpy(names[2], "Charlie");
+    strcpy(names[3], "David");
+    strcpy(names[4], "Eve");
+    
+    /* 文字列配列の表示 */
+    for (i = 0; i < 5; i++) {
+        printf("names[%d] = %s\n", i, names[i]);
+    }
+    
+    
+    return 0;
+
+```
+
+#### 方法: char*配列（文字列ポインタ配列）
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    /* 文字列ポインタの配列 */
+    char *fruits[] = {
+        "Apple",
+        "Banana", 
+        "Cherry",
+        "Date"
+    };
+    int i;
+    
+    /* 文字列ポインタ配列の表示 */
+    for (i = 0; i < 4; i++) {
+        printf("fruits[%d] = %s\n", i, fruits[i]);
+    }
+    
+    
+    return 0;
+
+```
+
+#### 文字列配列の初期化パターン
+
+```c
+/* パターン1: 2次元char配列の初期化 */
+char cities[3][10] = {
+    "Tokyo",
+    "Osaka", 
+    "Kyoto"
+};
+
+/* パターン2: char*配列の初期化 */
+char *colors[] = {
+    "Red",
+    "Green",
+    "Blue",
+    "Yellow"
+};
+
+/* パターン3: 混合初期化 */
+char languages[4][15] = {
+    "C",           /* 文字列リテラル */
+    "Python",        /* 文字列リテラル */
+    "Java",        /* 文字列リテラル */
+    "JavaScript"     /* 文字列リテラル */
+};
+```
+
+### char配列 vs char*配列の違い 
+
+これは文字列配列を扱う上で重要な概念です。
+
+#### メモリ配置の違い
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    /* 2次元char配列 */
+    char matrix[3][4] = {"ABC", "DEF", "GHI"};
+    
+    /* char*配列 */
+    char *pointers[] = {"ABC", "DEF", "GHI"};
+    
+    printf("=== 2次元char配列 ===\n");
+    printf("全体サイズ: %lu バイト\n", sizeof(matrix));        /* 12バイト */
+    printf("1行のサイズ: %lu バイト\n", sizeof(matrix[0]));    /* 4バイト */
+    
+    printf("\n=== char*配列 ===\n");
+    printf("全体サイズ: %lu バイト\n", sizeof(pointers));      /* 24バイト（8バイトx3） */
+    printf("要素のサイズ: %lu バイト\n", sizeof(pointers[0])); /* 8バイト（ポインタサイズ） */
+    
+    return 0;
+
+```
+
+#### 変更可能性の違い
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+
+    /* 2次元char配列（変更可能） */
+    char mutable_array[3][10] = {"Hello", "World", "Test"};
+    
+    /* char*配列（文字列リテラルは変更不可） */
+    char *immutable_array[] = {"Hello", "World", "Test"};
+    
+    /* 配列の内容変更 */
+    strcpy(mutable_array[0], "Hi");     /* OK: 内容変更可能 */
+    /* strcpy(immutable_array[0], "Hi"); <- NG: 文字列リテラルは変更不可 */
+    
+    /* ポインタの変更 */
+    /* mutable_array[0] = "New"; <- NG: 配列名は変更不可 */
+    immutable_array[0] = "New";         /* OK: ポインタ変更可能 */
+    
+    printf("mutable_array[0]: %s\n", mutable_array[0]);     /* "Hi" */
+    printf("immutable_array[0]: %s\n", immutable_array[0]); /* "New" */
+    
+    return 0;
+
+```
+
+#### 用途に応じた使い分け
+
+```c
+/* 固定文字列の配列（読み取り専用） - char*配列が適している */
+char *error_messages[] = {
+    "Success",
+    "File not found",
+    "Permission denied",
+    "Out of memory"
+};
+
+/* 動的に変更する文字列配列 - 2次元char配列が適している */
+char user_inputs[10][100];  /* ユーザー入力を格納 */
+
+/* 設定項目など（変更の可能性あり） - char*配列が適している */
+char *config_items[] = {
+    "debug=on",
+    "log_level=info", 
+    "max_connections=100"
+};
+```
+
+### 多次元配列 
+
+#### 次元配列の基本
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    int matrix[3][4] = {
+        {1,  2,  3,  4},
+        {5,  6,  7,  8},
+        {9, 10, 11, 12}
+    };
+    int i, j;
+    
+    /* 2次元配列の表示 */
+    for (i = 0; i < 3; i++) {
+        for (j = 0; j < 4; j++) {
+            printf("%d ", matrix[i][j]);
+        }
+        printf("\n");
+    }
+    
+    return 0;
+
+```
+
+#### 次元配列の例
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    /* 3次元配列: [2][3][4] */
+    int cube[2][3][4] = {
+        {
+            {1, 2, 3, 4},
+            {5, 6, 7, 8},
+            {9, 10, 11, 12}
+        },
+        {
+            {13, 14, 15, 16},
+            {17, 18, 19, 20},
+            {21, 22, 23, 24}
+        }
+    };
+    int i, j, k;
+    
+    for (i = 0; i < 2; i++) {
+        printf("=== Layer %d ===\n", i);
+        for (j = 0; j < 3; j++) {
+            for (k = 0; k < 4; k++) {
+                printf("%d ", cube[i][j][k]);
+            }
+            printf("\n");
+        }
+        printf("\n");
+    }
+    
+    return 0;
+
+```
+
+### 配列の実践的応用 
+
+#### 成績管理システム
+
+```c
+#include <stdio.h>
+
+#define MAX_STUDENTS 5
+#define MAX_SUBJECTS 3
+
+int main(void)
+{
+
+    char students[MAX_STUDENTS][20] = {
+        "Alice", "Bob", "Charlie", "David", "Eve"
+    };
+    char subjects[MAX_SUBJECTS][10] = {
+        "Math", "English", "Science"
+    };
+    int scores[MAX_STUDENTS][MAX_SUBJECTS] = {
+        {85, 92, 78},  /* Alice */
+        {90, 87, 85},  /* Bob */
+        {95, 91, 89},  /* Charlie */
+        {82, 79, 88},  /* David */
+        {91, 88, 93}   /* Eve */
+    };
+    int i, j;
+    int total;
+    
+    /* 成績表の表示 */
+    printf("Student    ");
+    for (j = 0; j < MAX_SUBJECTS; j++) {
+        printf("%-10s", subjects[j]);
+    }
+    printf("Average\n");
+    printf("----------------------------------------\n");
+    
+    for (i = 0; i < MAX_STUDENTS; i++) {
+        printf("%-10s ", students[i]);
+        total = 0;
+        for (j = 0; j < MAX_SUBJECTS; j++) {
+            printf("%-10d", scores[i][j]);
+            total += scores[i][j];
+        }
+        printf("%.1f\n", (double)total / MAX_SUBJECTS);
+    }
+    
+    return 0;
+
+```
+
+#### 文字列配列のソート
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_NAMES 5
+#define MAX_LENGTH 20
+
+int main(void)
+{
+
+    char names[MAX_NAMES][MAX_LENGTH] = {
+        "Charlie", "Alice", "Eve", "Bob", "David"
+    };
+    char temp[MAX_LENGTH];
+    int i, j;
+    
+    printf("ソート前:\n");
+    for (i = 0; i < MAX_NAMES; i++) {
+        printf("%s ", names[i]);
+    }
+    printf("\n");
+    
+    /* バブルソート */
+    for (i = 0; i < MAX_NAMES - 1; i++) {
+        for (j = 0; j < MAX_NAMES - 1 - i; j++) {
+            if (strcmp(names[j], names[j + 1]) > 0) {
+                strcpy(temp, names[j]);
+                strcpy(names[j], names[j + 1]);
+                strcpy(names[j + 1], temp);
+            }
+        }
+    }
+    
+    printf("ソート後:\n");
+    for (i = 0; i < MAX_NAMES; i++) {
+        printf("%s ", names[i]);
+    }
+    printf("\n");
+    
+    return 0;
+
+```
+
+### 配列とポインタの関係 
+
+配列名はその先頭要素へのポインタとして動作します。
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    int arr[5] = {10, 20, 30, 40, 50};
+    int *ptr;
+    int i;
+    
+    ptr = arr;  /* arr は &arr[0] と同じ */
+    
+    printf("=== 配列表記 ===\n");
+    for (i = 0; i < 5; i++) {
+        printf("arr[%d] = %d\n", i, arr[i]);
+    }
+    
+    printf("\n=== ポインタ表記 ===\n");
+    for (i = 0; i < 5; i++) {
+        printf("*(ptr + %d) = %d\n", i, *(ptr + i));
+    }
+    
+    /* 配列名とポインタの関係 */
+    printf("\n=== アドレス比較 ===\n");
+    printf("arr = %p\n", (void*)arr);
+    printf("&arr[0] = %p\n", (void*)&arr[0]);
+    printf("ptr = %p\n", (void*)ptr);
+    
+    return 0;
+
+```
+
+## 実践的なプログラム例
+
+### 基本的な配列操作（C90準拠）
+
+#### 1次元配列の基本
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    /* C90では先頭で全ての変数を宣言 */
+    int numbers[5] = {10, 20, 30, 40, 50};
+    int total = 0;
+    int i;
+    
+    /* 配列の全要素を表示 */
+    printf("=== 配列の内容 ===\n");
+    for (i = 0; i < 5; i++) {
+        printf("numbers[%d] = %d\n", i, numbers[i]);
+        total += numbers[i];
+    }
+    
+    printf("合計: %d\n", total);
+    printf("平均: %.1f\n", (double)total / 5);
+    
+    return 0;
+}
+```
+📁 **ファイル**: [`examples/array_basics.c`](examples/array_basics.c)  
+📁 **C99版**: [`examples/array_basics_c99.c`](examples/array_basics_c99.c)
+
+### 文字列配列の実例（C90準拠）
+
+#### char配列 vs char*配列の違い
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+    /* C90では先頭で全ての変数を宣言 */
+    char cities[3][20] = {"Tokyo", "Osaka", "Kyoto"};  /* 2次元char配列 */
+    char *fruits[] = {"Apple", "Banana", "Cherry"};    /* char*配列 */
+    int i;
+    
+    printf("=== 2次元char配列 ===\n");
+    for (i = 0; i < 3; i++) {
+        printf("cities[%d] = %s\n", i, cities[i]);
+    }
+    
+    printf("\n=== char*配列 ===\n");
+    for (i = 0; i < 3; i++) {
+        printf("fruits[%d] = %s\n", i, fruits[i]);
+    }
+    
+    /* メモリサイズの違い */
+    printf("\n=== メモリサイズ比較 ===\n");
+    printf("cities配列のサイズ: %lu バイト\n", (unsigned long)sizeof(cities));
+    printf("fruits配列のサイズ: %lu バイト\n", (unsigned long)sizeof(fruits));
+    
+    return 0;
+}
+```
+📁 **ファイル**: [`examples/string_arrays.c`](examples/string_arrays.c)  
+📁 **C99版**: [`examples/string_arrays_c99.c`](examples/string_arrays_c99.c)
+
+### 多次元配列の活用（C90準拠）
+
+#### 3x4行列の操作
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    /* C90では先頭で全ての変数を宣言 */
+    int matrix[3][4] = {
+        {1,  2,  3,  4},
+        {5,  6,  7,  8},
+        {9, 10, 11, 12}
+    };
+    int i, j;
+    int row_sum;
+    
+    printf("=== 行列の表示 ===\n");
+    for (i = 0; i < 3; i++) {
+        row_sum = 0;
+        for (j = 0; j < 4; j++) {
+            printf("%3d ", matrix[i][j]);
+            row_sum += matrix[i][j];
+        }
+        printf("| 行の合計: %d\n", row_sum);
+    }
+    
+    return 0;
+}
+```
+📁 **ファイル**: [`examples/multidimensional_arrays.c`](examples/multidimensional_arrays.c)  
+📁 **C99版**: [`examples/multidimensional_arrays_c99.c`](examples/multidimensional_arrays_c99.c)
+
+### コンパイル方法
+
+#### 基本的なコンパイル（C90準拠）
+```bash
+gcc -std=c90 -Wall -Wextra -pedantic array_basics.c -o array_basics
+```
+
+#### Makefileを使用した場合
+```bash
+# 全てのプログラムをコンパイル
+make all
+
+# 特定のプログラムをコンパイル  
+make array_basics
+
+# C99版をコンパイル
+make array_basics_c99
+
+# プログラムを実行
+make run-all
+
+# クリーンアップ
+make clean
+```
+
+## 演習課題と解答例
+
+### 利用可能な演習問題
+[演習問題詳細](exercises/README.md)では、配列と文字列配列の理解を深める課題が提供されています。
+
+#### 演習6-1: 配列の基本操作（C90準拠）
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    /* C90では先頭で全ての変数を宣言 */
+    int numbers[10] = {15, 23, 8, 42, 7, 31, 19, 5, 28, 36};
+    int i;
+    int max, min, sum;
+    double average;
+    
+    /* 最大値、最小値、合計の初期化 */
+    max = min = sum = numbers[0];
+    
+    /* 配列の全要素を処理 */
+    for (i = 1; i < 10; i++) {
+        if (numbers[i] > max) max = numbers[i];
+        if (numbers[i] < min) min = numbers[i];
+        sum += numbers[i];
+    }
+    
+    average = (double)sum / 10;
+    
+    printf("=== 配列の統計情報 ===\n");
+    printf("最大値: %d\n", max);
+    printf("最小値: %d\n", min);
+    printf("合計: %d\n", sum);
+    printf("平均: %.1f\n", average);
+    
+    return 0;
+}
+```
+📁 **解答例**: [`solutions/ex6_1.c`](solutions/ex6_1.c)  
+📁 **C99版**: [`solutions/ex6_1_c99.c`](solutions/ex6_1_c99.c)
+
+#### 演習6-2: 成績管理システム（C90準拠）
+```c
+#include <stdio.h>
+
+#define NUM_STUDENTS 5
+#define NUM_SUBJECTS 4
+
+/* 学生名と科目名 */
+char students[NUM_STUDENTS][20] = {
+    "田中太郎", "佐藤花子", "鈴木一郎", "高橋美咲", "伊藤健太"
+};
+
+char subjects[NUM_SUBJECTS][10] = {
+    "国語", "数学", "英語", "理科"
+};
+
+int main(void)
+{
+    /* C90では先頭で全ての変数を宣言 */
+    int grades[NUM_STUDENTS][NUM_SUBJECTS];
+    int i, j;
+    
+    printf("=== 成績管理システム ===\n");
+    printf("5人の学生の4科目の成績を入力してください。\n\n");
+    
+    /* 成績の入力 */
+    for (i = 0; i < NUM_STUDENTS; i++) {
+        printf("--- %s の成績 ---\n", students[i]);
+        for (j = 0; j < NUM_SUBJECTS; j++) {
+            printf("%s: ", subjects[j]);
+            scanf("%d", &grades[i][j]);
+        }
+        printf("\n");
+    }
+    
+    /* 成績表の表示処理などが続く... */
+    
+    return 0;
+}
+```
+📁 **解答例**: [`solutions/ex6_2.c`](solutions/ex6_2.c)  
+📁 **C99版**: [`solutions/ex6_2_c99.c`](solutions/ex6_2_c99.c)
+
+#### 演習6-3: 文字列配列の操作（C90準拠）
+```c
+#include <stdio.h>
+#include <string.h>
+
+#define NUM_PREFECTURES 10
+#define MAX_NAME_LENGTH 20
+
+/* 都道府県名のサンプルデータ */
+char prefectures[NUM_PREFECTURES][MAX_NAME_LENGTH] = {
+    "東京都", "神奈川県", "大阪府", "愛知県", "埼玉県",
+    "千葉県", "兵庫県", "北海道", "福岡県", "静岡県"
+};
+
+int main(void)
+{
+    /* C90では先頭で全ての変数を宣言 */
+    char working_array[NUM_PREFECTURES][MAX_NAME_LENGTH];
+    int i;
+    
+    printf("=== 都道府県管理システム ===\n\n");
+    
+    /* 作業用配列にコピー */
+    for (i = 0; i < NUM_PREFECTURES; i++) {
+        strcpy(working_array[i], prefectures[i]);
+    }
+    
+    /* ソート、検索処理などが続く... */
+    
+    return 0;
+}
+```
+📁 **解答例**: [`solutions/ex6_3.c`](solutions/ex6_3.c)  
+📁 **C99版**: [`solutions/ex6_3_c99.c`](solutions/ex6_3_c99.c)
+
+### 演習問題一覧
+1. **演習6-1**: 配列の基本操作（最大値・最小値・平均値）
+2. **演習6-2**: 成績管理システム（5人×4科目）
+3. **演習6-3**: 文字列配列の操作（都道府県管理）
+4. **演習6-4**: 行列演算（加算・減算・乗算・転置）
+5. **演習6-5**: 簡易辞書プログラム（英和・和英検索）
+
+### チャレンジ問題
+- **チャレンジ1**: ソートアルゴリズムの実装と比較
+- **チャレンジ2**: ライフゲーム（Conway's Game of Life）
+
+すべての演習には**C90版**と**C99版**の両方の解答例が提供されています。
+
+## 学習フローとコンパイル方法
+
+### 推奨学習順序
+1. **理論学習**: このREADME.mdで配列の概念を理解
+2. **サンプルコード**: examples/の基本例を確認
+3. **演習課題**: exercises/README.mdで課題を確認
+4. **実装練習**: solutions/の解答例を参考に自分で実装
+
+### Makefileを使用したコンパイル
+```bash
+# 全ての例題をコンパイル
+make all
+
+# 特定のプログラムをコンパイル
+make array_basics         # C90版
+make array_basics_c99     # C99版
+
+# 全てのプログラムを実行
+make run-all
+
+# C90準拠でのテスト
+make test
+
+# 複数のC標準でのテスト
+make test-standards
+
+# クリーンアップ
+make clean
+
+# ヘルプ表示
+make help
+```
+
+### 手動コンパイル
+```bash
+# C90準拠でコンパイル（推奨）
+gcc -std=c90 -Wall -Wextra -pedantic examples/array_basics.c -o array_basics
+
+# C99準拠でコンパイル
+gcc -std=c99 -Wall -Wextra -pedantic examples/array_basics_c99.c -o array_basics_c99
+
+# 実行
+./array_basics
+```
+
+## C90とC99の違い
+
+### C90の特徴（このチュートリアルの基準）
+```c
+int main(void)
+{
+    /* すべての変数を関数の先頭で宣言 */
+    int numbers[5] = {1, 2, 3, 4, 5};
+    int i;
+    int sum = 0;
+    
+    /* 配列サイズは定数で指定 */
+    #define ARRAY_SIZE 10
+    int arr[ARRAY_SIZE];
+    
+    /* forループは従来のスタイル */
+    for (i = 0; i < 5; i++) {
+        sum += numbers[i];
+    }
+    
+    return 0;
+}
+```
+
+### C99の拡張機能
+```c
+int main(void)
+{
+    int numbers[5] = {1, 2, 3, 4, 5};
+    
+    /* forループ内での変数宣言（C99） */
+    for (int i = 0; i < 5; i++) {
+        printf("%d ", numbers[i]);
+    }
+    
+    /* 必要な時点での変数宣言（C99） */
+    int sum = 0;
+    for (int i = 0; i < 5; i++) {
+        sum += numbers[i];
+    }
+    
+    /* 可変長配列（VLA）も可能（C99） */
+    int size = 10;
+    int vla[size];  /* C90では不可 */
+    
+    return 0;
+}
+```
+
+### このチュートリアルでの方針
+- **C90版**: 基準となる実装、互換性重視
+- **C99版**: 現代的な書き方、読みやすさ重視
+- **学習推奨**: まずC90で基礎を固めてからC99を学習
+
+## よくある間違いとデバッグ方法
+
+### 1. 配列の境界外アクセス
+
+#### 間違った例
+```c
+/* NG: 配列の範囲を超える */
+int arr[5] = {1, 2, 3, 4, 5};
+printf("%d\n", arr[5]);  /* 範囲外アクセス - 未定義動作 */
+```
+
+#### 正しい例
+```c
+/* OK: 正しい範囲でアクセス */
+#include <stdio.h>
+
+int main(void)
+{
+    int arr[5] = {1, 2, 3, 4, 5};
+    int i;
+    
+    /* 安全な配列アクセス */
+    for (i = 0; i < 5; i++) {  /* i < 5 であることを確認 */
+        printf("arr[%d] = %d\n", i, arr[i]);
+    }
+    
+    return 0;
+}
+```
+
+### 2. 文字列配列の初期化忘れ
+
+#### 間違った例
+```c
+/* NG: 初期化されていない文字配列 */
+char str[20];
+printf("%s\n", str);     /* 未定義動作 */
+```
+
+#### 正しい例
+```c
+/* OK: 適切な初期化 */
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+    char str[20] = "";       /* 空文字列で初期化 */
+    strcpy(str, "Hello");    /* 後から代入 */
+    printf("%s\n", str);
+    
+    return 0;
+}
+```
+
+### 3. 配列代入の間違い
+
+#### 間違った例
+```c
+/* NG: 配列は直接代入できない */
+char str1[20], str2[20] = "Hello";
+str1 = str2;             /* コンパイルエラー */
+```
+
+#### 正しい例
+```c
+/* OK: strcpyを使用 */
+#include <string.h>
+
+char str1[20], str2[20] = "Hello";
+strcpy(str1, str2);      /* 正しい文字列コピー */
+```
+
+### 4. C90とC99の混在エラー
+
+#### C90でコンパイル時のエラー例
+```c
+/* C90ではエラーになる書き方 */
+int main(void)
+{
+    int arr[5] = {1, 2, 3, 4, 5};
+    for (int i = 0; i < 5; i++) {  /* C90ではNG */
+        printf("%d ", arr[i]);
+    }
+    return 0;
+}
+```
+
+#### 正しいC90の書き方
+```c
+/* C90準拠の書き方 */
+int main(void)
+{
+    int arr[5] = {1, 2, 3, 4, 5};
+    int i;  /* 先頭で宣言 */
+    
+    for (i = 0; i < 5; i++) {
+        printf("%d ", arr[i]);
+    }
+    return 0;
+}
+```
+
+### デバッグのコツ
+- **境界チェック**: 配列アクセス時は必ずインデックスが範囲内かチェック
+- **初期化の確認**: 配列や文字列は使用前に必ず初期化
+- **コンパイル標準の確認**: `-std=c90` または `-std=c99` の指定を確認
+- **解答例との比較**: solutions/の正解コードと比較して違いを確認
+
+##  次の章へ
+
+配列と文字列配列を理解したら、[文字列処理](../strings/README.md) に進んでください。
+
+##  参考資料
+
+- [C言語配列リファレンス](https://ja.cppreference.com/w/c/language/array)
+- [文字列操作関数](https://ja.cppreference.com/w/c/string/byte)
+- [多次元配列の詳細](https://ja.cppreference.com/w/c/language/array)
+
+## サンプルコード
+
+### array_basics.c
+
+```c
+/*
+ * 配列の基本的な使い方（C90準拠版）
+ * 
+ * このプログラムは、1次元配列の宣言、初期化、
+ * 操作の基本的な方法を示します。
+ */
+#include <stdio.h>
+
+#define MAX_SIZE 10
+
+int main(void)
+{
+    /* C90では先頭で全ての変数を宣言 */
+    int numbers[5];
+    int i;
+    int scores[5] = {85, 92, 78, 96, 88};
+    int partial[10] = {1, 2, 3};
+    int auto_size[] = {5, 10, 15, 20, 25, 30};
+    int size;
+    int test_scores[] = {75, 88, 92, 67, 85, 91, 78, 84, 90, 86};
+    int n;
+    int sum = 0;
+    int max;
+    int min;
+    int search_array[] = {15, 23, 8, 42, 16, 4, 11, 29, 36, 19};
+    int search_value = 42;
+    int found = 0;
+    int position = -1;
+    int original[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    int source[5] = {11, 22, 33, 44, 55};
+    int destination[5];
+    int arr[MAX_SIZE];
+    
+    printf("=== 配列の基本的な使用 ===\n");
+    
+    /* 配列に値を代入 */
+    for (i = 0; i < 5; i++) {
+        numbers[i] = (i + 1) * 10;
+    }
+    
+    /* 配列の内容を表示 */
+    printf("配列の内容: ");
+    for (i = 0; i < 5; i++) {
+        printf("%d ", numbers[i]);
+    }
+    printf("\n\n");
+    
+    /* 2. 配列の初期化 */
+    printf("=== 配列の初期化 ===\n");
+    
+    /* 完全な初期化 */
+    printf("scores配列: ");
+    for (i = 0; i < 5; i++) {
+        printf("%d ", scores[i]);
+    }
+    printf("\n");
+    
+    /* 部分的な初期化 */
+    printf("partial配列: ");
+    for (i = 0; i < 10; i++) {
+        printf("%d ", partial[i]);
+    }
+    printf("\n");
+    
+    /* サイズを省略した初期化 */
+    size = sizeof(auto_size) / sizeof(auto_size[0]);
+    printf("auto_size配列（要素数%d）: ", size);
+    for (i = 0; i < size; i++) {
+        printf("%d ", auto_size[i]);
+    }
+    printf("\n\n");
+    
+    /* 3. 配列の統計計算 */
+    printf("=== 配列の統計計算 ===\n");
+    
+    n = sizeof(test_scores) / sizeof(test_scores[0]);
+    sum = 0;
+    max = test_scores[0];
+    min = test_scores[0];
+    
+    /* 合計、最大値、最小値を計算 */
+    for (i = 0; i < n; i++) {
+        sum += test_scores[i];
+        if (test_scores[i] > max) {
+            max = test_scores[i];
+        }
+        if (test_scores[i] < min) {
+            min = test_scores[i];
+        }
+    }
+    
+    printf("テストの点数: ");
+    for (i = 0; i < n; i++) {
+        printf("%d ", test_scores[i]);
+    }
+    printf("\n");
+    printf("要素数: %d\n", n);
+    printf("合計: %d\n", sum);
+    printf("平均: %.2f\n", (double)sum / n);
+    printf("最高点: %d\n", max);
+    printf("最低点: %d\n\n", min);
+    
+    /* 4. 配列の要素検索 */
+    printf("=== 配列の検索 ===\n");
+    
+    /* 線形探索 */
+    for (i = 0; i < 10; i++) {
+        if (search_array[i] == search_value) {
+            found = 1;
+            position = i;
+            break;
+        }
+    }
+    
+    if (found) {
+        printf("値 %d は位置 %d にあります\n", search_value, position);
+    } else {
+        printf("値 %d は見つかりませんでした\n", search_value);
+    }
+    printf("\n");
+    
+    /* 5. 配列の逆順表示 */
+    printf("=== 配列の逆順表示 ===\n");
+    
+    printf("元の配列: ");
+    for (i = 0; i < 10; i++) {
+        printf("%d ", original[i]);
+    }
+    printf("\n");
+    
+    printf("逆順: ");
+    for (i = 9; i >= 0; i--) {
+        printf("%d ", original[i]);
+    }
+    printf("\n\n");
+    
+    /* 6. 配列のコピー */
+    printf("=== 配列のコピー ===\n");
+    
+    /* 要素を1つずつコピー */
+    for (i = 0; i < 5; i++) {
+        destination[i] = source[i];
+    }
+    
+    printf("source配列: ");
+    for (i = 0; i < 5; i++) {
+        printf("%d ", source[i]);
+    }
+    printf("\n");
+    
+    printf("destination配列: ");
+    for (i = 0; i < 5; i++) {
+        printf("%d ", destination[i]);
+    }
+    printf("\n\n");
+    
+    /* 7. 配列サイズの注意点 */
+    printf("=== 配列サイズの情報 ===\n");
+    
+    printf("配列のサイズ: %lu バイト\n", sizeof(arr));
+    printf("要素1つのサイズ: %lu バイト\n", sizeof(arr[0]));
+    printf("要素数: %lu\n", sizeof(arr) / sizeof(arr[0]));
+    
+    return 0;
+}
+```
+
+> C99版は[こちら](array_basics_c99.c)を参照してください。
+
+### multidimensional_arrays.c
+
+```c
+/*
+ * 多次元配列の使い方（C90準拠版）
+ *
+ * このプログラムは、2次元配列と3次元配列の
+ * 宣言、初期化、操作方法を示します。
+ */
+#include <stdio.h>
+
+int main(void)
+{
+    /* C90では先頭で全ての変数を宣言 */
+    int i, j;
+    int matrix[3][4] = {
+        {1, 2, 3, 4},
+        {5, 6, 7, 8},
+        {9, 10, 11, 12}};
+    int grades[5][3] = {
+        {85, 92, 78}, /* 学生1 */
+        {90, 88, 85}, /* 学生2 */
+        {78, 85, 92}, /* 学生3 */
+        {92, 76, 88}, /* 学生4 */
+        {88, 90, 82}  /* 学生5 */
+    };
+    char *subjects[] = {"国語", "数学", "英語"};
+    int partial[4][5] = {
+        {1, 2},    /* 残りの要素は0 */
+        {3, 4, 5}, /* 残りの要素は0 */
+        {6}        /* 残りの要素は0 */
+        /* 4行目は全て0 */
+    };
+    int identity[5][5];
+    int image[2][3][3] = {
+        {
+            {255, 0, 0}, /* 赤 */
+            {0, 255, 0}, /* 緑 */
+            {0, 0, 255}  /* 青 */
+        },
+        {
+            {255, 255, 0}, /* 黄 */
+            {255, 0, 255}, /* マゼンタ */
+            {0, 255, 255}  /* シアン */
+        }};
+    int original_matrix[3][4] = {
+        {1, 2, 3, 4},
+        {5, 6, 7, 8},
+        {9, 10, 11, 12}};
+    int transposed[4][3];
+    int sum;
+
+    /* 1. 2次元配列の基本 */
+    printf("=== 2次元配列の基本 ===\n");
+
+    /* 3x4の2次元配列 */
+
+    /* 2次元配列の表示 */
+    printf("3x4の行列:\n");
+    for (i = 0; i < 3; i++)
+    {
+        for (j = 0; j < 4; j++)
+        {
+            printf("%3d ", matrix[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+
+    /* 2. 成績表の管理 */
+    printf("=== 成績表（学生x科目）===\n");
+
+    /* 5人の学生、3科目（国語、数学、英語）の成績 */
+
+    /* 成績表の表示 */
+    printf("       ");
+    for (j = 0; j < 3; j++)
+    {
+        printf("%-6s ", subjects[j]);
+    }
+    printf("平均\n");
+    printf("----------------------------------------\n");
+
+    for (i = 0; i < 5; i++)
+    {
+        printf("学生%d: ", i + 1);
+        sum = 0;
+        for (j = 0; j < 3; j++)
+        {
+            printf("%-6d ", grades[i][j]);
+            sum += grades[i][j];
+        }
+        printf("%.1f\n", sum / 3.0);
+    }
+
+    /* 科目別平均 */
+    printf("----------------------------------------\n");
+    printf("平均:  ");
+    for (j = 0; j < 3; j++)
+    {
+        sum = 0;
+        for (i = 0; i < 5; i++)
+        {
+            sum += grades[i][j];
+        }
+        printf("%-6.1f ", sum / 5.0);
+    }
+    printf("\n\n");
+
+    /* 3. 部分的な初期化 */
+    printf("=== 2次元配列の部分初期化 ===\n");
+
+    /* 部分的に初期化（残りは0） */
+
+    printf("部分的に初期化された配列:\n");
+    for (i = 0; i < 4; i++)
+    {
+        for (j = 0; j < 5; j++)
+        {
+            printf("%2d ", partial[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+
+    /* 4. 単位行列の作成 */
+    printf("=== 単位行列の作成 ===\n");
+
+    /* 単位行列を作成 */
+    for (i = 0; i < 5; i++)
+    {
+        for (j = 0; j < 5; j++)
+        {
+            if (i == j)
+            {
+                identity[i][j] = 1;
+            }
+            else
+            {
+                identity[i][j] = 0;
+            }
+        }
+    }
+
+    /* 単位行列を表示 */
+    printf("5x5の単位行列:\n");
+    for (i = 0; i < 5; i++)
+    {
+        for (j = 0; j < 5; j++)
+        {
+            printf("%d ", identity[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+
+    /* 5. 3次元配列の例 */
+    printf("=== 3次元配列（RGB画像データの例）===\n");
+
+    /* 2x3ピクセル、各ピクセルはRGB（3値） */
+
+    printf("画像データ（2x3ピクセル）:\n");
+    for (i = 0; i < 2; i++)
+    {
+        printf("行 %d:\n", i);
+        for (j = 0; j < 3; j++)
+        {
+            printf("  ピクセル[%d][%d]: R=%3d, G=%3d, B=%3d\n",
+                   i, j, image[i][j][0], image[i][j][1], image[i][j][2]);
+        }
+    }
+    printf("\n");
+
+    /* 6. 転置行列 */
+    printf("=== 行列の転置 ===\n");
+
+    /* 転置を計算 */
+    for (i = 0; i < 3; i++)
+    {
+        for (j = 0; j < 4; j++)
+        {
+            transposed[j][i] = original_matrix[i][j];
+        }
+    }
+
+    printf("元の行列（3x4）:\n");
+    for (i = 0; i < 3; i++)
+    {
+        for (j = 0; j < 4; j++)
+        {
+            printf("%3d ", original_matrix[i][j]);
+        }
+        printf("\n");
+    }
+
+    printf("\n転置行列（4x3）:\n");
+    for (i = 0; i < 4; i++)
+    {
+        for (j = 0; j < 3; j++)
+        {
+            printf("%3d ", transposed[i][j]);
+        }
+        printf("\n");
+    }
+
+    return 0;
+}```
+
+> C99版は[こちら](multidimensional_arrays_c99.c)を参照してください。
+
+### string_arrays.c
+
+```c
+/*
+ * 文字列配列の使い方（C90準拠版）
+ * 
+ * このプログラムは、文字列配列の宣言、初期化、
+ * 操作方法、およびchar配列とchar*配列の違いを示します。
+ */
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+    /* C90では先頭で全ての変数を宣言 */
+    int i;
+    char str1[20];
+    char str2[] = "World";
+    char fruits[5][20] = {
+        "Apple",
+        "Banana",
+        "Orange",
+        "Grape",
+        "Strawberry"
+    };
+    char *months[] = {
+        "January", "February", "March", "April",
+        "May", "June", "July", "August",
+        "September", "October", "November", "December"
+    };
+    char cities1[3][20] = {"Tokyo", "New York", "London"};
+    char *cities2[] = {"Tokyo", "New York", "London"};
+    char *programming_languages[] = {
+        "C", "C++", "Java", "Python", "JavaScript",
+        "Ruby", "Go", "Rust", "Swift", "Kotlin"
+    };
+    int n_languages;
+    char search_lang[20];
+    int found = 0;
+    char *words[] = {"cat", "elephant", "dog", "hippopotamus", "ant", "butterfly"};
+    int n_words;
+    int len;
+    char *menu_items[] = {
+        "1. ファイルを開く",
+        "2. ファイルを保存",
+        "3. 設定",
+        "4. ヘルプ",
+        "5. 終了"
+    };
+    int n_items;
+    
+    /* 1. char配列（文字配列）の基本 */
+    printf("=== char配列（文字配列）===\n");
+    
+    strcpy(str1, "Hello");  /* C90では初期化後に代入 */
+    
+    printf("str1: %s（サイズ: %lu）\n", str1, sizeof(str1));
+    printf("str2: %s（サイズ: %lu）\n", str2, sizeof(str2));
+    
+    /* 文字配列の変更 */
+    str1[0] = 'h';  /* 最初の文字を小文字に */
+    printf("変更後のstr1: %s\n\n", str1);
+    
+    /* 2. 文字列配列（2次元char配列）*/
+    printf("=== 2次元char配列による文字列配列 ===\n");
+    
+    printf("果物リスト:\n");
+    for (i = 0; i < 5; i++) {
+        printf("%d: %s\n", i + 1, fruits[i]);
+    }
+    
+    /* 文字列の変更 */
+    strcpy(fruits[2], "Mango");  /* OrangeをMangoに変更 */
+    printf("\n変更後（3番目をMangoに）:\n");
+    for (i = 0; i < 5; i++) {
+        printf("%d: %s\n", i + 1, fruits[i]);
+    }
+    printf("\n");
+    
+    /* 3. char*配列（ポインタ配列）*/
+    printf("=== char*配列による文字列配列 ===\n");
+    
+    printf("月の名前:\n");
+    for (i = 0; i < 12; i++) {
+        printf("%2d月: %s\n", i + 1, months[i]);
+    }
+    printf("\n");
+    
+    /* 4. char配列とchar*配列の違い */
+    printf("=== char配列とchar*配列の違い ===\n");
+    
+    printf("char配列のサイズ: %lu バイト\n", sizeof(cities1));
+    printf("char*配列のサイズ: %lu バイト\n", sizeof(cities2));
+    printf("（ポインタのサイズx要素数）\n\n");
+    
+    /* 5. 文字列の検索と操作 */
+    printf("=== 文字列配列の検索 ===\n");
+    
+    n_languages = sizeof(programming_languages) / sizeof(programming_languages[0]);
+    
+    printf("検索する言語名を入力: ");
+    scanf("%s", search_lang);
+    
+    found = 0;
+    for (i = 0; i < n_languages; i++) {
+        if (strcmp(programming_languages[i], search_lang) == 0) {
+            printf("%s は %d 番目にあります\n", search_lang, i + 1);
+            found = 1;
+            break;
+        }
+    }
+    
+    if (!found) {
+        printf("%s は見つかりませんでした\n", search_lang);
+    }
+    printf("\n");
+    
+    /* 6. 文字列の長さ順にソート（簡易版）*/
+    printf("=== 文字列の長さ順表示 ===\n");
+    
+    n_words = sizeof(words) / sizeof(words[0]);
+    
+    printf("元の順序:\n");
+    for (i = 0; i < n_words; i++) {
+        printf("%s ", words[i]);
+    }
+    printf("\n");
+    
+    /* 長さ順に表示（実際の配列は変更しない） */
+    printf("\n長さ順:\n");
+    for (len = 1; len <= 20; len++) {
+        for (i = 0; i < n_words; i++) {
+            if ((int)strlen(words[i]) == len) { /* 型キャストで警告を回避 */
+                printf("%s（%d文字） ", words[i], len);
+            }
+        }
+    }
+    printf("\n\n");
+    
+    /* 7. 動的な文字列配列の例 */
+    printf("=== コマンドメニューシステム ===\n");
+    
+    n_items = sizeof(menu_items) / sizeof(menu_items[0]);
+    
+    printf("メニュー:\n");
+    for (i = 0; i < n_items; i++) {
+        printf("%s\n", menu_items[i]);
+    }
+    
+    return 0;
+}```
+
+> C99版は[こちら](string_arrays_c99.c)を参照してください。
+
+---
+
+# 第8章: 文字列処理
+
+
+##  対応C規格
+- **主要対象:** C90
+- **学習内容:** 文字列の基本、文字列操作関数、文字列配列の詳細操作、文字列の比較・検索・変換
+
+##  学習目標
+
+この章を完了すると、以下のことができるようになります：
+
+- 文字列の基本概念を完全に理解する
+- 標準ライブラリの文字列操作関数を使いこなせる
+- 文字列配列の詳細な操作ができる
+- 次元文字配列と文字列ポインタ配列を使い分けられる
+- 実践的な文字列処理プログラムを作成できる
+
+##  理論解説
+
+### 文字列の基本概念 
+
+C言語では文字列は文字の配列として表現され、nll文字（''）で終端されます。
+
+#### 文字列の表現方法
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    /* 方法: 文字配列として宣言 */
+    char str[] = 'H', 'e', 'l', 'l', 'o', '';
+    
+    /* 方法: 文字列リテラルで初期化 */
+    char str[] = "Hello";
+    
+    /* 方法: サイズを自動決定 */
+    char str[] = "Hello";
+    
+    /* 方法: 文字列ポインタ */
+    char *str = "Hello";
+    
+    printf("str: %s\n", str);
+    printf("str: %s\n", str);
+    printf("str: %s\n", str);
+    printf("str: %s\n", str);
+    
+    return ;
+
+```
+
+#### 文字列の長さとサイズ
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+
+    char str[] = "Hello";
+    
+    printf("文字列: "%s"n", str);
+    printf("strlen(str): %lu\n", strlen(str));    /*  (文字数) */
+    printf("sizeof(str): %lu\n", sizeof(str));    /*  (配列サイズ) */
+    
+    return ;
+
+```
+
+### 標準文字列操作関数 
+
+#### strcpy() - 文字列のコピー
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+
+    char sorce[] = "Hello, World!";
+    char destination[];
+    
+    /* 文字列のコピー */
+    strcpy(destination, sorce);
+    printf("destination: %s\n", destination);
+    
+    /* 部分的なコピー */
+    struncpy(destination, sorce, );
+    destination[] = '';  /* nll終端を明示的に追加 */
+    printf("partial copy: %s\n", destination);  /* "Hello" */
+    
+    return ;
+
+```
+
+#### strcat() - 文字列の連結
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+
+    char str[] = "Hello";
+    char str[] = ", World!";
+    char str[] = " How are yo?";
+    
+    /* 文字列の連結 */
+    strcat(str, str);
+    printf("After strcat: %s\n", str);  /* "Hello, World!" */
+    
+    /* 部分的な連結 */
+    struncat(str, str, );
+    printf("After struncat: %s\n", str); /* "Hello, World! How" */
+    
+    return ;
+
+```
+
+#### strcmp() - 文字列の比較
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+
+    char str[] = "Apple";
+    char str[] = "anana";
+    char str[] = "Apple";
+    int result;
+    
+    /* 文字列の比較 */
+    result = strcmp(str, str);
+    if (result < ) 
+        printf(""%s" < "%s"n", str, str);
+     else if (result > ) 
+        printf(""%s" > "%s"n", str, str);
+     else 
+        printf(""%s" == "%s"n", str, str);
+    
+    
+    /* 等価性の確認 */
+    if (strcmp(str, str) == ) 
+        printf(""%s" と "%s" は同じですn", str, str);
+    
+    
+    /* 部分比較 */
+    if (struncmp(str, str, ) != ) 
+        printf("最初の文字が異なりますn");
+    
+    
+    return ;
+
+```
+
+#### 文字列検索関数
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+
+    char text[] = "Hello, World! Welcome to C programming.";
+    char *fond;
+    
+    /* 文字の検索 */
+    fond = strchr(text, 'W');
+    if (fond != NULL) 
+        printf("'W' fond at position: %ldn", fond - text);
+    
+    
+    /* 文字列の検索 */
+    fond = strstr(text, "World");
+    if (fond != NULL) 
+        printf(""World" fond at position: %ldn", fond - text);
+        printf("ond: %s\n", fond);
+    
+    
+    /* 最後の文字を検索 */
+    fond = strrchr(text, 'o');
+    if (fond != NULL) 
+        printf("Last 'o' at position: %ldn", fond - text);
+    
+    
+    return ;
+
+```
+
+### 文字列配列の詳細操作 
+
+これがユーザーの重要な要望の2つです。
+
+#### 次元文字配列での文字列配列
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_STRINGS 
+#define MAX_LNGTH 
+
+int main(void)
+{
+
+    /* 次元文字配列による文字列配列 */
+    char languages[MAX_STRINGS][MAX_LNGTH];
+    int count = ;
+    int i;
+    
+    /* 文字列配列への代入 */
+    strcpy(languages[count++], "C");
+    strcpy(languages[count++], "Python");
+    strcpy(languages[count++], "Java");
+    strcpy(languages[count++], "JavaScript");
+    strcpy(languages[count++], "C++");
+    
+    /* 表示 */
+    printf("プログラミング言語一覧:n");
+    for (i = ; i < count; i++) 
+        printf("%d. %s\n", i + , languages[i]);
+    
+    
+    /* 文字列の変更 */
+    strcpy(languages[], "C言語");
+    printf("n変更後の番目: %s\n", languages[]);
+    
+    return ;
+
+```
+
+#### 文字列ポインタ配列での文字列配列
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+
+    /* 文字列ポインタ配列 */
+    char *frits[] = 
+        "Apple",
+        "anana", 
+        "Cherry",
+        "Date",
+        "lderberry"
+    ;
+    int count = sizeof(frits) / sizeof(frits[]);
+    int i;
+    
+    /* 表示 */
+    printf("果物一覧:n");
+    for (i = ; i < count; i++) 
+        printf("%d. %s (長さ: %l)n", i + , frits[i], strlen(frits[i]));
+    
+    
+    /* ポインタの変更（文字列リテラルの置き換え） */
+    frits[] = "リンゴ";
+    printf("n変更後の番目: %s\n", frits[]);
+    
+    return ;
+
+```
+
+#### 文字列配列の初期化と動的変更
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_ITMS 
+#define MAX_LNGTH 
+
+int main(void)
+{
+
+    /* 動的に変更可能な文字列配列 */
+    char men_items[MAX_ITMS][MAX_LNGTH];
+    char *categories[] = "前菜", "メイン", "デザート", "飲み物";
+    int item_count = ;
+    int i;
+    
+    /* メニュー項目の追加 */
+    strcpy(men_items[item_count++], "サラダ");
+    strcpy(men_items[item_count++], "ステーキ");
+    strcpy(men_items[item_count++], "アイスクリーム");
+    strcpy(men_items[item_count++], "コーヒー");
+    
+    /* カテゴリ別表示 */
+    printf("=== レストランメニュー ===n");
+    for (i = ; i < item_count && i < ; i++) 
+        printf("[%s] %s\n", categories[i], men_items[i]);
+    
+    
+    /* 項目の変更 */
+    strcpy(men_items[], "ハンバーグ");
+    printf("nメイン料理を変更: %s\n", men_items[]);
+    
+    return ;
+
+```
+
+### 文字列配列の比較と使い分け 
+
+#### メモリ使用量の比較
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+
+    /* 次元文字配列 */
+    char matrix_strings[][] = 
+        "Cat", "Dog", "ird", "ish", "Rabbit"
+    ;
+    
+    /* 文字列ポインタ配列 */
+    char *pointer_strings[] = 
+        "Cat", "Dog", "ird", "ish", "Rabbit"
+    ;
+    
+    printf("=== メモリ使用量比較 ===n");
+    printf("次元文字配列: %lu バイトn", sizeof(matrix_strings));
+    printf("文字列ポインタ配列: %lu バイトn", sizeof(pointer_strings));
+    
+    printf("n=== 実際の文字列長 ===n");
+    int i;
+    int total_chars = ;
+    for (i = ; i < ; i++) 
+        int len = strlen(matrix_strings[i]);
+        printf("%s: %d文字n", matrix_strings[i], len);
+        total_chars += len;
+    
+    printf("総文字数: %d文字n", total_chars);
+    printf("未使用領域: %lu バイトn", sizeof(matrix_strings) - total_chars - );
+    
+    return ;
+
+```
+
+#### 動的な文字列配列の管理
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_STUDENTS 
+#define MAX_NAM_LNGTH 
+
+typedef strct 
+    char name[MAX_NAM_LNGTH];
+    int age;
+    float gpa;
+ Stdent;
+
+int main(void)
+{
+
+    Stdent stdents[MAX_STUDENTS];
+    char *stats_messages[] = 
+        "優秀", "良好", "普通", "要努力"
+    ;
+    int stdent_count = ;
+    int i;
+    
+    /* 学生データの追加 */
+    strcpy(stdents[stdent_count].name, "田中太郎");
+    stdents[stdent_count].age = ;
+    stdents[stdent_count].gpa = .;
+    stdent_count++;
+    
+    strcpy(stdents[stdent_count].name, "佐藤花子");
+    stdents[stdent_count].age = 9;
+    stdents[stdent_count].gpa = .;
+    stdent_count++;
+    
+    strcpy(stdents[stdent_count].name, "鈴木一郎");
+    stdents[stdent_count].age = ;
+    stdents[stdent_count].gpa = .;
+    stdent_count++;
+    
+    /* 学生情報の表示 */
+    printf("=== 学生一覧 ===n");
+    for (i = ; i < stdent_count; i++) 
+        char *stats;
+        if (stdents[i].gpa >= .) stats = stats_messages[];
+        else if (stdents[i].gpa >= .) stats = stats_messages[];
+        else if (stdents[i].gpa >= .) stats = stats_messages[];
+        else stats = stats_messages[];
+        
+        printf("%s (%d歳) - GPA: %.f [%s]n", 
+               stdents[i].name, stdents[i].age, stdents[i].gpa, stats);
+    
+    
+    return ;
+
+```
+
+### 文字列配列のソートと検索 
+
+#### 文字列配列のバブルソート
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_WORDS 
+#define MAX_LNGTH 
+
+int main(void)
+{
+
+    char words[MAX_WORDS][MAX_LNGTH] = 
+        "Zebra", "Apple", "Monkey", "anana",
+        "Cat", "Dog", "lephant", "ish"
+    ;
+    char temp[MAX_LNGTH];
+    int i, j;
+    
+    printf("ソート前:n");
+    for (i = ; i < MAX_WORDS; i++) 
+        printf("%s ", words[i]);
+    
+    printf("nn");
+    
+    /* バブルソート */
+    for (i = ; i < MAX_WORDS - ; i++) 
+        for (j = ; j < MAX_WORDS -  - i; j++) 
+            if (strcmp(words[j], words[j + ]) > ) 
+                strcpy(temp, words[j]);
+                strcpy(words[j], words[j + ]);
+                strcpy(words[j + ], temp);
+            
+        
+    
+    
+    printf("ソート後:n");
+    for (i = ; i < MAX_WORDS; i++) 
+        printf("%s ", words[i]);
+    
+    printf("n");
+    
+    return ;
+
+```
+
+#### 文字列配列での検索
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_CITIS 
+#define MAX_LNGTH 
+
+int search_city(char cities[][MAX_LNGTH], int count, char *target)
+{
+
+    int i;
+    for (i = ; i < count; i++) 
+        if (strcmp(cities[i], target) == ) 
+            return i;  /* 見2つかった場合のインデックス */
+        
+    
+    return -;  /* 見2つからない場合 */
+
+
+int main(void)
+{
+
+    char cities[MAX_CITIS][MAX_LNGTH] = 
+        "Tokyo", "Osaka", "Kyoto", "Nagoya", "Sapporo",
+        "koka", "Kobe", "Sendai", "Hiroshima", "Yokohama"
+    ;
+    char search_target[] = "Kyoto";
+    int result;
+    int i;
+    
+    printf("都市一覧:n");
+    for (i = ; i < MAX_CITIS; i++) 
+        printf("%d. %s\n", i + , cities[i]);
+    
+    
+    /* 検索実行 */
+    result = search_city(cities, MAX_CITIS, search_target);
+    if (result != -) 
+        printf("n"%s" は %d番目にあります。n", search_target, result + );
+     else 
+        printf("n"%s" は見2つかりませんでした。n", search_target);
+    
+    
+    return ;
+
+```
+
+### 実践的な文字列処理 
+
+#### 文字列の分割（トークン化）
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_TOKNS 
+#define MAX_LNGTH 
+
+int main(void)
+{
+
+    char inpt[] = "apple,banana,cherry,date,elderberry";
+    char tokens[MAX_TOKNS][MAX_LNGTH];
+    char temp[];
+    char *token;
+    int count = ;
+    int i;
+    
+    /* 入力文字列をコピー（strtokは元の文字列を変更するため） */
+    strcpy(temp, inpt);
+    
+    /* カンマで分割 */
+    token = strtok(temp, ",");
+    while (token != NULL && count < MAX_TOKNS) 
+        strcpy(tokens[count], token);
+        count++;
+        token = strtok(NULL, ",");
+    
+    
+    printf("分割結果:n");
+    for (i = ; i < count; i++) 
+        printf("%d: %s\n", i + , tokens[i]);
+    
+    
+    return ;
+
+```
+
+#### 文字列の変換（大文字・小文字）
+
+```c
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+#define MAX_STRINGS 
+#define MAX_LNGTH 
+
+void to_uuppercase(char *str)
+{
+
+    int i;
+    for (i = ; str[i] != ''; i++) 
+        str[i] = topper(str[i]);
+    
+
+
+void to_lowercase(char *str)
+{
+
+    int i;
+    for (i = ; str[i] != ''; i++) 
+        str[i] = tolower(str[i]);
+    
+
+
+int main(void)
+{
+
+    char original[MAX_STRINGS][MAX_LNGTH] = 
+        "Hello World",
+        "Programming Langage",
+        "C Langage Ttutorial",
+        "String Processing",
+        "Array Maniplation"
+    ;
+    char uuppercase[MAX_STRINGS][MAX_LNGTH];
+    char lowercase[MAX_STRINGS][MAX_LNGTH];
+    int i;
+    
+    /* 文字列をコピーして変換 */
+    for (i = ; i < MAX_STRINGS; i++) 
+        strcpy(uuppercase[i], original[i]);
+        strcpy(lowercase[i], original[i]);
+        
+        to_uuppercase(uuppercase[i]);
+        to_lowercase(lowercase[i]);
+    
+    
+    /* 結果の表示 */
+    printf("元の文字列 -> 大文字 -> 小文字n");
+    printf("=====================================n");
+    for (i = ; i < MAX_STRINGS; i++) 
+        printf("%-s -> %-s -> %s\n", 
+               original[i], uuppercase[i], lowercase[i]);
+    
+    
+    return ;
+
+```
+
+#### 文字列配列を使った簡易データベース
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_RCORDS 
+#define MAX_ILD_LNGTH 
+
+typedef strct 
+    char name[MAX_ILD_LNGTH];
+    char department[MAX_ILD_LNGTH];
+    char position[MAX_ILD_LNGTH];
+    int salary;
+ mployee;
+
+int main(void)
+{
+
+    mployee employees[MAX_RCORDS];
+    char *departments[] = "営業", "開発", "人事", "経理";
+    char *positions[] = "部長", "課長", "主任", "一般";
+    int employee_count = ;
+    int i, j;
+    
+    /* サンプルデータの追加 */
+    strcpy(employees[employee_count].name, "田中太郎");
+    strcpy(employees[employee_count].department, departments[]); /* 開発 */
+    strcpy(employees[employee_count].position, positions[]);     /* 課長 */
+    employees[employee_count].salary = ;
+    employee_count++;
+    
+    strcpy(employees[employee_count].name, "佐藤花子");
+    strcpy(employees[employee_count].department, departments[]); /* 営業 */
+    strcpy(employees[employee_count].position, positions[]);     /* 部長 */
+    employees[employee_count].salary = ;
+    employee_count++;
+    
+    strcpy(employees[employee_count].name, "鈴木一郎");
+    strcpy(employees[employee_count].department, departments[]); /* 開発 */
+    strcpy(employees[employee_count].position, positions[]);     /* 一般 */
+    employees[employee_count].salary = ;
+    employee_count++;
+    
+    /* 全従業員の表示 */
+    printf("=== 従業員一覧 ===n");
+    printf("%-s %-s %-s %s\n", "名前", "部署", "役職", "給与");
+    printf("--------------------------------------------------n");
+    for (i = ; i < employee_count; i++) 
+        printf("%-s %-s %-s %d円n",
+               employees[i].name,
+               employees[i].department,
+               employees[i].position,
+               employees[i].salary);
+    
+    
+    /* 部署別集計 */
+    printf("n=== 部署別従業員数 ===n");
+    for (i = ; i < ; i++) 
+        int count = ;
+        for (j = ; j < employee_count; j++) 
+            if (strcmp(employees[j].department, departments[i]) == ) 
+                count++;
+            
+        
+        printf("%s: %d人n", departments[i], count);
+    
+    
+    return ;
+
+```
+
+##  サンプルコード
+
+### 基本的な文字列操作
+
+プログラムファイル: `examples/string_basic.c`
+
+標準ライブラリの文字列操作関数の使用方法を学習します。
+
+### 文字列配列の実践例
+
+プログラムファイル: `examples/string_array_operations.c`
+
+次元文字配列と文字列ポインタ配列の使い分けを学習します。
+
+### 文字列処理の応用
+
+プログラムファイル: `examples/advanced_string_processing.c`
+
+実践的な文字列処理テクニックを学習します。
+
+### コンパイルと実行
+
+```bash
+# examples ディレクトリに移動
+cd examples
+
+# C90準拠でコンパイル
+gcc -std=c90 -Wall -Wextra -pedantic string_basic.c -o string_basic
+
+# 実行
+./string_basic
+```
+
+##  演習課題
+
+### 基礎問題
+
+. **文字列の基本操作**
+   - 2つの文字列を入力して連結・比較・長さ計算を実行うプログラムを作成してください
+
+. **文字列配列の管理**
+   - 学生名を格納する文字列配列を作成し、追加・削除・表示機能を実装してください
+
+. **文字列の検索**
+   - 文字列配列から特定の文字列を検索するプログラムを作成してください
+
+### 応用問題
+
+. **単語カウンタ**
+   - 文章を入力して、各単語の出現1回数をカウントするプログラムを作成してください
+
+. **文字列ソートプログラム**
+   - 複数の文字列を入力してアルファベット順にソートするプログラムを作成してください
+
+. **簡易テキストエディタ**
+   - 文字列配列を使って行単位でテキストを管理するプログラムを作成してください
+
+### 発展問題
+
+. **文字列データベース**
+   - 商品情報（名前、価格、カテゴリ）を文字列配列で管理するシステムを作成してください
+
+. **文字列パーサー**
+   - CSV形式の文字列を解析して構造化データに変換するプログラムを作成してください
+
+. **文字列暗号化**
+   - 簡単な暗号化・復号化機能を持2つプログラムを作成してください
+
+##  コンパイル方法
+
+この章では以下のMakefileを使用してコンパイルができます：
+
+```bash
+# 全ての例題をコンパイル
+make all
+
+# 特定のプログラムをコンパイル
+make string_basic
+
+# 実行
+make run
+
+# クリーンアップ
+make clean
+```
+
+##  規格による違い
+
+### C90での制限事項
+- 文字列操作はnll終端が前提
+- 可変長文字列配列は使用不可
+- Unicode対応は限定的
+
+### C99以降の拡張
+- snprintf()などの安全な文字列操作関数
+- 可変長配列による動的な文字列配列
+- より豊富な文字分類関数
+
+##  よくある間違い
+
+### . nll終端の忘れ
+
+```c
+/* NG: nll終端なし */
+char str[];
+struncpy(str, "Hello", );  /* nll終端なし */
+printf("%s\n", str);       /* 未定義動作 */
+
+/* OK: 明示的にnll終端 */
+char str[];
+struncpy(str, "Hello", );
+str[] = '';
+printf("%s\n", str);
+```
+
+### . バッファオーバーフロー
+
+```c
+/* NG: バッファサイズ不足 */
+char sumall[];
+strcpy(sumall, "Hello, World!");  /* バッファオーバーフロー */
+
+/* OK: 適切なサイズ */
+char large[];
+strcpy(large, "Hello, World!");
+```
+
+### . 文字列比較の間違い
+
+```c
+/* NG: ポインタの比較 */
+char *str = "Hello";
+char *str = "Hello";
+if (str == str)  /* 間違い */ 
+
+/* OK: 文字列内容の比較 */
+if (strcmp(str, str) == )  /* 正しい */ 
+```
+
+##  次の章へ
+
+文字列処理を理解したら、[関数](../functions/README.md) に進んでください。
+
+##  参考資料
+
+- [C言語文字列リファレンス](https://ja.cppreference.com/w/c/string/byte)
+- [文字分類関数](https://ja.cppreference.com/w/c/string/ctype)
+- [文字列操作のベストプラクティス](https://ja.cppreference.com/w/c/string)
+
+## サンプルコード
+
+### advanced_string_processing.c
+
+```c
+/*
+ * 文字列処理の応用
+ * ファイル名: advanced_string_processing.c
+ * 説明: 実践的な文字列処理テクニックを学習
+ */
+
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+#define MAX_TOKENS 10
+#define MAX_LENGTH 100
+#define MAX_STRINGS 5
+
+/* 文字列を大文字に変換 */
+void to_uppercase(char *str)
+{
+    int i;
+    
+    if (str == NULL) {
+        return;
+    }
+    
+    for (i = 0; str[i] != '\0'; i++) {
+        str[i] = toupper((unsigned char)str[i]);
+    }
+}
+
+/* 文字列を小文字に変換 */
+void to_lowercase(char *str)
+{
+    int i;
+    
+    if (str == NULL) {
+        return;
+    }
+    
+    for (i = 0; str[i] != '\0'; i++) {
+        str[i] = tolower((unsigned char)str[i]);
+    }
+}
+
+/* 文字列配列のバブルソート */
+void bubble_sort_strings(char arr[][MAX_LENGTH], int n)
+{
+    int i, j;
+    char temp[MAX_LENGTH];
+    
+    for (i = 0; i < n - 1; i++) {
+        for (j = 0; j < n - 1 - i; j++) {
+            if (strcmp(arr[j], arr[j + 1]) > 0) {
+                strcpy(temp, arr[j]);
+                strcpy(arr[j], arr[j + 1]);
+                strcpy(arr[j + 1], temp);
+            }
+        }
+    }
+}
+
+/* 文字列配列での検索 */
+int search_string(char arr[][MAX_LENGTH], int count, char *target)
+{
+    int i;
+    
+    for (i = 0; i < count; i++) {
+        if (strcmp(arr[i], target) == 0) {
+            return i;  /* 見つかった場合のインデックス */
+        }
+    }
+    return -1;  /* 見つからない場合 */
+}
+
+int main(void)
+{
+    /* 文字列の分割（トークン化） */
+    printf("=== 文字列の分割（トークン化） ===\n");
+    char input[] = "apple,banana,cherry,date,elderberry";
+    char tokens[MAX_TOKENS][MAX_LENGTH];
+    char temp[100];
+    char *token;
+    int token_count = 0;
+    int i;
+    
+    /* 入力文字列をコピー（strtokは元の文字列を変更するため） */
+    strcpy(temp, input);
+    
+    /* カンマで分割 */
+    token = strtok(temp, ",");
+    while (token != NULL && token_count < MAX_TOKENS) {
+        strcpy(tokens[token_count], token);
+        token_count++;
+        token = strtok(NULL, ",");
+    }
+    
+    printf("分割結果:\n");
+    for (i = 0; i < token_count; i++) {
+        printf("%d: %s\n", i + 1, tokens[i]);
+    }
+    
+    /* 文字列の変換（大文字・小文字） */
+    printf("\n=== 文字列の変換（大文字・小文字） ===\n");
+    char original[MAX_STRINGS][MAX_LENGTH] = {
+        "Hello World",
+        "Programming Language",
+        "C Language Tutorial",
+        "String Processing",
+        "Array Manipulation"
+    };
+    char uppercase_copy[MAX_STRINGS][MAX_LENGTH];
+    char lowercase_copy[MAX_STRINGS][MAX_LENGTH];
+    
+    /* 文字列をコピーして変換 */
+    for (i = 0; i < MAX_STRINGS; i++) {
+        strcpy(uppercase_copy[i], original[i]);
+        strcpy(lowercase_copy[i], original[i]);
+        
+        to_uppercase(uppercase_copy[i]);
+        to_lowercase(lowercase_copy[i]);
+    }
+    
+    /* 結果の表示 */
+    printf("元の文字列 -> 大文字 -> 小文字\n");
+    printf("=====================================\n");
+    for (i = 0; i < MAX_STRINGS; i++) {
+        printf("%-20s -> %-20s -> %s\n", 
+               original[i], uppercase_copy[i], lowercase_copy[i]);
+    }
+    
+    /* 文字列配列のソートと検索 */
+    printf("\n=== 文字列配列のソート ===\n");
+    char words[8][MAX_LENGTH] = {
+        "Zebra", "Apple", "Monkey", "Banana",
+        "Cat", "Dog", "Elephant", "Fish"
+    };
+    
+    printf("ソート前:\n");
+    for (i = 0; i < 8; i++) {
+        printf("%s ", words[i]);
+    }
+    printf("\n\n");
+    
+    /* バブルソート */
+    bubble_sort_strings(words, 8);
+    
+    printf("ソート後:\n");
+    for (i = 0; i < 8; i++) {
+        printf("%s ", words[i]);
+    }
+    printf("\n");
+    
+    /* 検索のテスト */
+    printf("\n=== 文字列の検索 ===\n");
+    char cities[10][MAX_LENGTH] = {
+        "Tokyo", "Osaka", "Kyoto", "Nagoya", "Sapporo",
+        "Fukuoka", "Kobe", "Sendai", "Hiroshima", "Yokohama"
+    };
+    char search_target[] = "Kyoto";
+    int result;
+    
+    printf("都市一覧:\n");
+    for (i = 0; i < 10; i++) {
+        printf("%d. %s\n", i + 1, cities[i]);
+    }
+    
+    /* 検索実行 */
+    result = search_string(cities, 10, search_target);
+    if (result != -1) {
+        printf("\n\"%s\" は %d番目にあります。\n", search_target, result + 1);
+    } else {
+        printf("\n\"%s\" は見つかりませんでした。\n", search_target);
+    }
+    
+    /* 簡易データベースの例 */
+    printf("\n=== 簡易従業員データベース ===\n");
+    char employee_names[3][MAX_LENGTH] = {
+        "田中太郎", "佐藤花子", "鈴木一郎"
+    };
+    char departments[3][MAX_LENGTH] = {
+        "開発", "営業", "開発"
+    };
+    char positions[3][MAX_LENGTH] = {
+        "課長", "部長", "一般"
+    };
+    int salaries[3] = {800000, 1200000, 500000};
+    
+    /* 全従業員の表示 */
+    printf("%-12s %-8s %-8s %s\n", "名前", "部署", "役職", "給与");
+    printf("--------------------------------------------------\n");
+    for (i = 0; i < 3; i++) {
+        printf("%-12s %-8s %-8s %d円\n",
+               employee_names[i],
+               departments[i],
+               positions[i],
+               salaries[i]);
+    }
+    
+    /* 部署別集計 */
+    printf("\n=== 部署別従業員数 ===\n");
+    char unique_depts[4][MAX_LENGTH] = {"営業", "開発", "人事", "経理"};
+    int dept_count;
+    
+    for (i = 0; i < 4; i++) {
+        int count = 0;
+        int j;
+        
+        for (j = 0; j < 3; j++) {
+            if (strcmp(departments[j], unique_depts[i]) == 0) {
+                count++;
+            }
+        }
+        printf("%s: %d人\n", unique_depts[i], count);
+    }
+    
+    return 0;
+}
+
+/*
+学習ポイント:
+1. 文字列の分割:
+   - strtok()関数による分割
+   - 元の文字列が変更されることに注意
+   - 区切り文字の指定方法
+
+2. 文字列変換:
+   - toupper()/tolower()による大文字小文字変換
+   - ctype.hライブラリの活用
+   - 文字列全体の変換処理
+
+3. 文字列ソート:
+   - バブルソートアルゴリズムの実装
+   - strcmp()による文字列比較
+   - 配列要素の交換処理
+
+4. 実用的な応用:
+   - データベース的な処理
+   - 集計・分析機能
+   - 検索・フィルタリング
+
+注意点:
+- strtok()は元の文字列を変更するため注意
+- 文字のキャストにはunsigned charを使用
+- バッファサイズの管理
+- NULL文字の適切な処理
+*/
+```
+
+> C99版は[こちら](advanced_string_processing_c99.c)を参照してください。
+
+### string_array_operations.c
+
+```c
+/*
+ * 文字列配列の実践例
+ * ファイル名: string_array_operations.c
+ * 説明: 二次元文字配列と文字列ポインタ配列の使い分けを学習
+ */
+
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_STRINGS 5
+#define MAX_LENGTH 20
+
+int main(void)
+{
+    /* 二次元文字配列での文字列配列 */
+    printf("=== 二次元文字配列による文字列配列 ===\n");
+    char languages[MAX_STRINGS][MAX_LENGTH];
+    int count = 0;
+    int i;
+    
+    /* 文字列配列への代入 */
+    strcpy(languages[count++], "C");
+    strcpy(languages[count++], "Python");
+    strcpy(languages[count++], "Java");
+    strcpy(languages[count++], "JavaScript");
+    strcpy(languages[count++], "C++");
+    
+    /* 表示 */
+    printf("プログラミング言語一覧:\n");
+    for (i = 0; i < count; i++) {
+        printf("%d. %s\n", i + 1, languages[i]);
+    }
+    
+    /* 文字列の変更 */
+    strcpy(languages[0], "C言語");
+    printf("\n変更後の1番目: %s\n", languages[0]);
+    
+    /* 文字列ポインタ配列での文字列配列 */
+    printf("\n=== 文字列ポインタ配列 ===\n");
+    char *fruits[] = {
+        "Apple",
+        "Banana", 
+        "Cherry",
+        "Date",
+        "Elderberry"
+    };
+    int fruit_count = sizeof(fruits) / sizeof(fruits[0]);
+    
+    /* 表示 */
+    printf("果物一覧:\n");
+    for (i = 0; i < fruit_count; i++) {
+        printf("%d. %s (長さ: %lu)\n", i + 1, fruits[i], 
+               (unsigned long)strlen(fruits[i]));
+    }
+    
+    /* ポインタの変更（文字列リテラルの置き換え） */
+    fruits[0] = "リンゴ";
+    printf("\n変更後の1番目: %s\n", fruits[0]);
+    
+    /* 文字列配列の初期化と動的変更 */
+    printf("\n=== 動的に変更可能な文字列配列 ===\n");
+    char menu_items[4][MAX_LENGTH];
+    char *categories[] = {"前菜", "メイン", "デザート", "飲み物"};
+    int item_count = 0;
+    
+    /* メニュー項目の追加 */
+    strcpy(menu_items[item_count++], "サラダ");
+    strcpy(menu_items[item_count++], "ステーキ");
+    strcpy(menu_items[item_count++], "アイスクリーム");
+    strcpy(menu_items[item_count++], "コーヒー");
+    
+    /* カテゴリ別表示 */
+    printf("=== レストランメニュー ===\n");
+    for (i = 0; i < item_count && i < 4; i++) {
+        printf("[%s] %s\n", categories[i], menu_items[i]);
+    }
+    
+    /* 項目の変更 */
+    strcpy(menu_items[1], "ハンバーグ");
+    printf("\nメイン料理を変更: %s\n", menu_items[1]);
+    
+    /* メモリ使用量の比較 */
+    printf("\n=== メモリ使用量比較 ===\n");
+    char matrix_strings[5][10] = {
+        "Cat", "Dog", "Bird", "Fish", "Rabbit"
+    };
+    
+    char *pointer_strings[] = {
+        "Cat", "Dog", "Bird", "Fish", "Rabbit"
+    };
+    
+    printf("二次元文字配列: %lu バイト\n", 
+           (unsigned long)sizeof(matrix_strings));
+    printf("文字列ポインタ配列: %lu バイト\n", 
+           (unsigned long)sizeof(pointer_strings));
+    
+    printf("\n=== 実際の文字列長 ===\n");
+    int total_chars = 0;
+    for (i = 0; i < 5; i++) {
+        int len = strlen(matrix_strings[i]);
+        printf("%s: %d文字\n", matrix_strings[i], len);
+        total_chars += len;
+    }
+    printf("総文字数: %d文字\n", total_chars);
+    printf("未使用領域: %lu バイト\n", 
+           sizeof(matrix_strings) - total_chars - 5);
+    
+    return 0;
+}
+
+/*
+学習ポイント:
+1. 二次元文字配列:
+   - 固定サイズのメモリ確保
+   - 文字列の変更が可能
+   - メモリ使用効率は低い場合がある
+   
+2. 文字列ポインタ配列:
+   - ポインタのみを格納
+   - 文字列リテラルは変更不可
+   - メモリ使用効率が良い
+   
+3. 使い分けの基準:
+   - 文字列を変更する必要がある: 二次元配列
+   - 文字列が固定: ポインタ配列
+   - メモリ効率を重視: ポインタ配列
+   
+4. 実用的な応用:
+   - メニュー管理システム
+   - 設定項目の管理
+   - データの分類・整理
+
+注意点:
+- 文字列リテラルの変更は未定義動作
+- バッファサイズの確認
+- 配列の境界チェック
+*/
+```
+
+> C99版は[こちら](string_array_operations_c99.c)を参照してください。
+
+### string_basic.c
+
+```c
+/*
+ * 文字列操作の基本例
+ * ファイル名: string_basic.c
+ * 説明: 標準ライブラリの文字列操作関数の使用方法を学習
+ */
+
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+    /* 文字列の表現方法 */
+    char str1[] = {'H', 'e', 'l', 'l', 'o', '\0'};
+    char str2[] = "Hello";
+    char str3[10] = "Hello";
+    char *str4 = "Hello";
+    
+    printf("=== 文字列の表現方法 ===\n");
+    printf("str1: %s\n", str1);
+    printf("str2: %s\n", str2);
+    printf("str3: %s\n", str3);
+    printf("str4: %s\n", str4);
+    
+    /* 文字列の長さとサイズ */
+    printf("\n=== 文字列の長さとサイズ ===\n");
+    printf("文字列: \"%s\"\n", str2);
+    printf("strlen(str2): %lu文字\n", (unsigned long)strlen(str2));
+    printf("sizeof(str2): %lu バイト\n", (unsigned long)sizeof(str2));
+    
+    /* strcpy() - 文字列のコピー */
+    printf("\n=== 文字列のコピー ===\n");
+    char source[] = "Hello, World!";
+    char destination[50];
+    
+    strcpy(destination, source);
+    printf("destination: %s\n", destination);
+    
+    /* 部分的なコピー */
+    strncpy(destination, source, 5);
+    destination[5] = '\0';  /* null終端を明示的に追加 */
+    printf("partial copy: %s\n", destination);  /* "Hello" */
+    
+    /* strcat() - 文字列の連結 */
+    printf("\n=== 文字列の連結 ===\n");
+    char str_a[50] = "Hello";
+    char str_b[] = ", World!";
+    char str_c[] = " How are you?";
+    
+    strcat(str_a, str_b);
+    printf("After strcat: %s\n", str_a);  /* "Hello, World!" */
+    
+    /* 部分的な連結 */
+    strncat(str_a, str_c, 4);
+    printf("After strncat: %s\n", str_a); /* "Hello, World! How" */
+    
+    /* strcmp() - 文字列の比較 */
+    printf("\n=== 文字列の比較 ===\n");
+    char apple[] = "Apple";
+    char banana[] = "Banana";
+    char apple2[] = "Apple";
+    int result;
+    
+    result = strcmp(apple, banana);
+    if (result < 0) {
+        printf("\"%s\" < \"%s\"\n", apple, banana);
+    } else if (result > 0) {
+        printf("\"%s\" > \"%s\"\n", apple, banana);
+    } else {
+        printf("\"%s\" == \"%s\"\n", apple, banana);
+    }
+    
+    /* 等価性の確認 */
+    if (strcmp(apple, apple2) == 0) {
+        printf("\"%s\" と \"%s\" は同じです\n", apple, apple2);
+    }
+    
+    /* 部分比較 */
+    if (strncmp(apple, banana, 1) != 0) {
+        printf("最初の文字が異なります\n");
+    }
+    
+    /* 文字列検索関数 */
+    printf("\n=== 文字列検索関数 ===\n");
+    char text[] = "Hello, World! Welcome to C programming.";
+    char *found;
+    
+    /* 文字の検索 */
+    found = strchr(text, 'W');
+    if (found != NULL) {
+        printf("'W' found at position: %ld\n", found - text);
+    }
+    
+    /* 文字列の検索 */
+    found = strstr(text, "World");
+    if (found != NULL) {
+        printf("\"World\" found at position: %ld\n", found - text);
+        printf("Found: %s\n", found);
+    }
+    
+    /* 最後の文字を検索 */
+    found = strrchr(text, 'o');
+    if (found != NULL) {
+        printf("Last 'o' at position: %ld\n", found - text);
+    }
+    
+    return 0;
+}
+
+/*
+学習ポイント:
+1. 文字列の表現方法:
+   - 文字配列による初期化
+   - 文字列リテラルによる初期化
+   - ポインタによる文字列参照
+
+2. 標準ライブラリ関数:
+   - strlen(): 文字列の長さを取得
+   - strcpy()/strncpy(): 文字列のコピー
+   - strcat()/strncat(): 文字列の連結
+   - strcmp()/strncmp(): 文字列の比較
+
+3. 文字列検索:
+   - strchr(): 文字の検索
+   - strrchr(): 文字の後方検索
+   - strstr(): 部分文字列の検索
+
+注意点:
+- strncpy()使用時はnull終端文字の確認が必要
+- バッファオーバーフローの防止
+- NULLポインタのチェック
+*/
+
+```
+
+> C99版は[こちら](string_basic_c99.c)を参照してください。
+
+---
+
+# 第9章: 関数
+
+
+## 対応C規格
+- **主要対象:** C90
+- **学習内容:** 関数の基本、引数と戻り値、関数のスコープ、再帰関数、関数プロトタイプ
+
+## 学習目標
+
+この章を完了すると、以下のことができるようになります：
+
+- 関数の定義と呼び出しができる
+- 引数と戻り値を適切に使える
+- 関数のスコープを理解する
+- 再帰関数を作成できる
+- 関数プロトタイプの重要性を理解する
+
+## 理論解説
+
+### 関数の基本概念 
+
+関数は特定の処理をまとめたコードブロックで、プログラムの再利用性と保守性を向上させます。
+
+#### 関数を使う理由
+1. **コードの再利用性**: 同じ処理を何度も書く必要がない
+2. **プログラムの構造化**: 複雑な問題を小さな部分に分割
+3. **保守性の向上**: 修正が必要な箇所を特定しやすい
+4. **可読性の向上**: プログラムの意図が明確になる
+5. **デバッグの容易さ**: 問題のある部分を特定しやすい
+
+#### 関数の構成要素
+
+```c
+戻り値の型 関数名(引数リスト)
+{
+    /* 関数本体 */
+    return 戻り値;  /* 戻り値がある場合 */
+}
+```
+
+### 基本的な関数の例
+
+```c
+#include <stdio.h>
+
+/* 2つの数の合計を計算する関数 */
+int add(int a, int b)
+{
+    int result = a + b;
+    return result;
+}
+
+int main(void)
+{
+    int num1 = 10;
+    int num2 = 20;
+    int sum;
+    
+    /* 関数の呼び出し */
+    sum = add(num1, num2);
+    
+    printf("%d + %d = %d\n", num1, num2, sum);
+    
+    return 0;
+}
+```
+
+### 関数の定義と宣言 
+
+#### 関数プロトタイプ（前方宣言）
+
+```c
+#include <stdio.h>
+
+/* 関数プロトタイプ */
+int multiply(int x, int y);
+void print_result(int value);
+double calculate_average(int *array, int size);
+
+int main(void)
+{
+    int a = 5, b = 3;
+    int product;
+    
+    product = multiply(a, b);
+    print_result(product);
+    
+    return 0;
+}
+
+/* 関数の実装 */
+int multiply(int x, int y)
+{
+    return x * y;
+}
+
+void print_result(int value)
+{
+    printf("結果: %d\n", value);
+}
+
+double calculate_average(int *array, int size)
+{
+    int i;
+    int sum = 0;
+    
+    if (size <= 0)
+    {
+        return 0.0;
+    }
+    
+    for (i = 0; i < size; i++)
+    {
+        sum += array[i];
+    }
+    
+    return (double)sum / size;
+}
+```
+
+### 引数の渡し方
+
+#### 値渡し（Call by Value）
+
+```c
+/* 値渡しの例 */
+void swap_wrong(int a, int b)
+{
+    int temp = a;
+    a = b;
+    b = temp;
+    /* 呼び出し元の変数は変更されない */
+}
+
+/* ポインタを使った参照渡し */
+void swap_correct(int *a, int *b)
+{
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+    /* 呼び出し元の変数が変更される */
+}
+
+int main(void)
+{
+    int x = 10, y = 20;
+    
+    printf("交換前: x = %d, y = %d\n", x, y);
+    
+    swap_wrong(x, y);
+    printf("値渡し後: x = %d, y = %d\n", x, y);
+    
+    swap_correct(&x, &y);
+    printf("ポインタ渡し後: x = %d, y = %d\n", x, y);
+    
+    return 0;
+}
+```
+
+### 様々な関数の種類
+
+#### 戻り値のない関数（void関数）
+
+```c
+void print_header(void)
+{
+    printf("====================\n");
+    printf(" プログラム開始\n");
+    printf("====================\n");
+}
+
+void greet_user(char *name)
+{
+    printf("こんにちは、%sさん！\n", name);
+}
+```
+
+#### 配列を扱う関数
+
+```c
+/* 配列の要素数を計算できないため、サイズを別途渡す必要がある */
+int array_sum(int arr[], int size)
+{
+    int i, sum = 0;
+    
+    for (i = 0; i < size; i++)
+    {
+        sum += arr[i];
+    }
+    
+    return sum;
+}
+
+/* 配列を初期化する関数 */
+void initialize_array(int arr[], int size, int value)
+{
+    int i;
+    
+    for (i = 0; i < size; i++)
+    {
+        arr[i] = value;
+    }
+}
+```
+
+### 再帰関数
+
+再帰関数は自分自身を呼び出す関数です。
+
+```c
+/* 階乗を計算する再帰関数 */
+int factorial(int n)
+{
+    /* 基底条件 */
+    if (n <= 1)
+    {
+        return 1;
+    }
+    
+    /* 再帰呼び出し */
+    return n * factorial(n - 1);
+}
+
+/* フィボナッチ数列を計算する再帰関数 */
+int fibonacci(int n)
+{
+    /* 基底条件 */
+    if (n <= 1)
+    {
+        return n;
+    }
+    
+    /* 再帰呼び出し */
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}
+```
+
+### 関数のスコープと生存期間
+
+#### ローカル変数とグローバル変数
+
+```c
+#include <stdio.h>
+
+/* グローバル変数 */
+int global_count = 0;
+
+void increment_global(void)
+{
+    global_count++;  /* グローバル変数にアクセス */
+}
+
+void local_example(void)
+{
+    int local_var = 10;  /* ローカル変数 */
+    
+    printf("ローカル変数: %d\n", local_var);
+    /* 関数を抜けるとlocal_varは消滅 */
+}
+
+/* static変数の例 */
+void counter(void)
+{
+    static int count = 0;  /* static変数は値を保持 */
+    count++;
+    printf("呼び出し回数: %d\n", count);
+}
+
+int main(void)
+{
+    int i;
+    
+    /* staticの効果を確認 */
+    for (i = 0; i < 3; i++)
+    {
+        counter();
+    }
+    
+    return 0;
+}
+```
+
+### 関数ポインタの基礎
+
+関数へのポインタを使うことで、関数を変数のように扱えます。
+
+```c
+#include <stdio.h>
+
+/* 計算用の関数 */
+int add(int a, int b) { return a + b; }
+int subtract(int a, int b) { return a - b; }
+int multiply(int a, int b) { return a * b; }
+
+int main(void)
+{
+    /* 関数ポインタの宣言 */
+    int (*operation)(int, int);
+    int x = 10, y = 5;
+    
+    /* 関数ポインタに関数を代入 */
+    operation = add;
+    printf("%d + %d = %d\n", x, y, operation(x, y));
+    
+    operation = subtract;
+    printf("%d - %d = %d\n", x, y, operation(x, y));
+    
+    operation = multiply;
+    printf("%d * %d = %d\n", x, y, operation(x, y));
+    
+    return 0;
+}
+```
+
+## 実例コード
+
+完全な実装例は以下のファイルを参照してください：
+
+### 基本的な関数の使い方
+- [function_basics.c](examples/function_basics.c) - C90準拠版
+- [function_basics_c99.c](examples/function_basics_c99.c) - C99準拠版
+
+### 高度な関数の使い方
+- [advanced_functions.c](examples/advanced_functions.c) - C90準拠版
+- [advanced_functions_c99.c](examples/advanced_functions_c99.c) - C99準拠版
+
+## コンパイルと実行
+
+```bash
+# 基本的な関数の例をコンパイル
+gcc -Wall -Wextra -pedantic -std=c90 examples/function_basics.c -o function_basics
+
+# 実行
+./function_basics
+
+# C99版をコンパイル
+gcc -Wall -Wextra -pedantic -std=c99 examples/function_basics_c99.c -o function_basics_c99
+
+# 数学関数を使う場合は-lmを追加
+gcc -Wall -Wextra -pedantic examples/advanced_functions.c -lm -o advanced_functions
+```
+
+## 演習問題
+
+この章の演習問題は[exercises/README.md](exercises/README.md)にあります。
+
+## 注意事項
+
+1. **関数プロトタイプ**: main関数より後に定義する関数は、必ずプロトタイプ宣言が必要
+2. **配列の扱い**: 配列を関数に渡すときは、サイズ情報も一緒に渡す
+3. **再帰の深さ**: 再帰関数は深くなりすぎるとスタックオーバーフローを起こす
+4. **グローバル変数**: できるだけ使用を避け、必要な場合は慎重に使用する
+5. **static変数**: 関数内でstatic変数を使うと、値が保持される
+
+## 次のステップ
+
+関数の基本を理解したら、以下のトピックに進みましょう：
+
+1. より複雑な関数の設計パターン
+2. 関数ポインタと高階関数
+3. 可変長引数関数（stdarg.h）
+4. インライン関数（C99以降）
+5. ライブラリ関数の作成
+## サンプルコード
+
+### advanced_functions.c
+
+```c
+/*
+ * 高度な関数の使い方
+ * 
+ * このプログラムは、再帰関数、ローカル変数とグローバル変数、
+ * 配列を引数に取る関数の使い方を示します。
+ */
+#include <stdio.h>
+
+/* グローバル変数 */
+int global_counter = 0;
+
+/* 関数プロトタイプ */
+int factorial(int n);
+int fibonacci(int n);
+void display_array(int arr[], int size);
+int sum_array(int arr[], int size);
+double average_array(int arr[], int size);
+void increment_counter(void);
+int local_vs_global_demo(int param);
+
+/* 階乗を計算する再帰関数 */
+int factorial(int n)
+{
+    if (n <= 1) {
+        return 1;  /* 基底条件 */
+    }
+    return n * factorial(n - 1);  /* 再帰呼び出し */
+}
+
+/* フィボナッチ数列を計算する再帰関数 */
+int fibonacci(int n)
+{
+    if (n <= 0) {
+        return 0;
+    }
+    if (n == 1) {
+        return 1;
+    }
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+/* 配列を表示する関数 */
+void display_array(int arr[], int size)
+{
+    int i;
+    printf("配列の内容: ");
+    for (i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+/* 配列の合計を計算する関数 */
+int sum_array(int arr[], int size)
+{
+    int sum = 0;
+    int i;
+    
+    for (i = 0; i < size; i++) {
+        sum += arr[i];
+    }
+    return sum;
+}
+
+/* 配列の平均を計算する関数 */
+double average_array(int arr[], int size)
+{
+    if (size == 0) {
+        return 0.0;
+    }
+    return (double)sum_array(arr, size) / size;
+}
+
+/* グローバル変数を操作する関数 */
+void increment_counter(void)
+{
+    global_counter++;
+    printf("グローバルカウンター: %d\n", global_counter);
+}
+
+/* ローカル変数とグローバル変数のデモ */
+int local_vs_global_demo(int param)
+{
+    int local_var = 10;  /* ローカル変数 */
+    
+    printf("  関数内 - ローカル変数: %d\n", local_var);
+    printf("  関数内 - グローバル変数: %d\n", global_counter);
+    printf("  関数内 - 引数: %d\n", param);
+    
+    local_var += param;
+    global_counter += param;
+    
+    return local_var;
+}
+
+int main(void)
+{
+    int i;
+    
+    printf("=== 高度な関数の使用例 ===\n\n");
+    
+    /* 1. 再帰関数（階乗） */
+    printf("=== 再帰関数: 階乗 ===\n");
+    for (i = 0; i <= 7; i++) {
+        printf("%d! = %d\n", i, factorial(i));
+    }
+    printf("\n");
+    
+    /* 2. 再帰関数（フィボナッチ数列） */
+    printf("=== 再帰関数: フィボナッチ数列 ===\n");
+    printf("最初の10個のフィボナッチ数: ");
+    for (i = 0; i < 10; i++) {
+        printf("%d ", fibonacci(i));
+    }
+    printf("\n\n");
+    
+    /* 3. 配列を引数に取る関数 */
+    printf("=== 配列を引数に取る関数 ===\n");
+    int numbers[] = {5, 12, 8, 23, 16, 9, 14, 7};
+    int size = sizeof(numbers) / sizeof(numbers[0]);
+    
+    display_array(numbers, size);
+    printf("合計: %d\n", sum_array(numbers, size));
+    printf("平均: %.2f\n", average_array(numbers, size));
+    printf("\n");
+    
+    /* 4. ローカル変数とグローバル変数 */
+    printf("=== ローカル変数とグローバル変数 ===\n");
+    printf("初期状態のグローバル変数: %d\n", global_counter);
+    
+    printf("\n1回目の関数呼び出し:\n");
+    int result1 = local_vs_global_demo(5);
+    printf("  戻り値: %d\n", result1);
+    
+    printf("\n2回目の関数呼び出し:\n");
+    int result2 = local_vs_global_demo(3);
+    printf("  戻り値: %d\n", result2);
+    
+    printf("\n最終的なグローバル変数: %d\n\n", global_counter);
+    
+    /* 5. グローバル変数を操作する関数 */
+    printf("=== グローバル変数の操作 ===\n");
+    for (i = 0; i < 5; i++) {
+        increment_counter();
+    }
+    printf("\n");
+    
+    /* 6. 関数の組み合わせ使用 */
+    printf("=== 関数の組み合わせ使用 ===\n");
+    
+    /* 配列の各要素の階乗を計算 */
+    int sumall_numbers[] = {1, 2, 3, 4, 5};
+    int sumall_size = sizeof(sumall_numbers) / sizeof(sumall_numbers[0]);
+    
+    printf("元の配列: ");
+    display_array(sumall_numbers, sumall_size);
+    
+    printf("各要素の階乗:\n");
+    for (i = 0; i < sumall_size; i++) {
+        printf("%d! = %d\n", sumall_numbers[i], factorial(sumall_numbers[i]));
+    }
+    printf("\n");
+    
+    /* 7. 再帰の深さの制限例 */
+    printf("=== 再帰の制限例 ===\n");
+    printf("大きな数での階乗計算:\n");
+    for (i = 10; i <= 12; i++) {
+        printf("%d! = %d\n", i, factorial(i));
+    }
+    printf("注意: 大きな数では整数オーバーフローが発生する可能性があります\n");
+    
+    return 0;
+}```
+
+> C99版は[こちら](advanced_functions_c99.c)を参照してください。
+
+### function_basics.c
+
+```c
+/*
+ * 関数の基本的な使い方
+ * 
+ * このプログラムは、関数の定義、呼び出し、
+ * 引数と戻り値の基本的な使い方を示します。
+ */
+#include <stdio.h>
+
+/* 関数プロトタイプ宣言 */
+int add(int a, int b);
+int subtract(int a, int b);
+int multiply(int a, int b);
+double divide(int a, int b);
+void print_message(void);
+void print_number(int num);
+int square(int n);
+int max(int a, int b);
+
+/* 2つの数の加算 */
+int add(int a, int b)
+{
+    return a + b;
+}
+
+/* 2つの数の減算 */
+int subtract(int a, int b)
+{
+    return a - b;
+}
+
+/* 2つの数の乗算 */
+int multiply(int a, int b)
+{
+    return a * b;
+}
+
+/* 2つの数の除算（浮動小数点で返す） */
+double divide(int a, int b)
+{
+    if (b == 0) {
+        printf("エラー: ゼロで割ることはできません\n");
+        return 0.0;
+    }
+    return (double)a / b;
+}
+
+/* 戻り値なし、引数なしの関数 */
+void print_message(void)
+{
+    printf("これは関数から出力されたメッセージです\n");
+}
+
+/* 戻り値なし、引数ありの関数 */
+void print_number(int num)
+{
+    printf("数値: %d\n", num);
+}
+
+/* 数の平方を計算 */
+int square(int n)
+{
+    return n * n;
+}
+
+/* 2つの数の最大値を返す */
+int max(int a, int b)
+{
+    if (a > b) {
+        return a;
+    } else {
+        return b;
+    }
+}
+
+int main(void)
+{
+    int x = 15;
+    int y = 7;
+    int result;
+    double dresult;
+    
+    printf("=== 関数の基本操作 ===\n");
+    printf("x = %d, y = %d\n\n", x, y);
+    
+    /* 1. 基本的な算術関数 */
+    printf("=== 基本的な算術関数 ===\n");
+    result = add(x, y);
+    printf("%d + %d = %d\n", x, y, result);
+    
+    result = subtract(x, y);
+    printf("%d - %d = %d\n", x, y, result);
+    
+    result = multiply(x, y);
+    printf("%d x %d = %d\n", x, y, result);
+    
+    dresult = divide(x, y);
+    printf("%d / %d = %.2f\n", x, y, dresult);
+    printf("\n");
+    
+    /* 2. void関数の使用 */
+    printf("=== void関数の使用 ===\n");
+    print_message();
+    print_number(42);
+    print_number(x + y);
+    printf("\n");
+    
+    /* 3. 関数の戻り値を直接使用 */
+    printf("=== 関数の戻り値を直接使用 ===\n");
+    printf("%d の平方は %d です\n", x, square(x));
+    printf("%d と %d の最大値は %d です\n", x, y, max(x, y));
+    
+    /* 関数呼び出しをネスト */
+    printf("(%d + %d) の平方は %d です\n", x, y, square(add(x, y)));
+    printf("\n");
+    
+    /* 4. 関数を使った計算の例 */
+    printf("=== 複雑な計算例 ===\n");
+    {
+        /* 三角形の面積計算（底辺 x 高さ / 2） */
+        int base = 10;
+        int height = 8;
+        double area = divide(multiply(base, height), 2);
+        printf("底辺%d、高さ%dの三角形の面積: %.1f\n", base, height, area);
+        
+        /* 円の面積の近似計算 */
+        int radius = 5;
+        double pi = 3.14159;
+        double circle_area = pi * square(radius);
+        printf("半径%dの円の面積（近似）: %.2f\n", radius, circle_area);
+        printf("\n");
+    }
+    
+    /* 5. デモ用の固定値を使った関数 */
+    printf("=== デモ用固定値での関数使用 ===\n");
+    int num1 = 15, num2 = 4;
+    
+    printf("使用する値: %d と %d\n", num1, num2);
+    
+    printf("\n計算結果:\n");
+    printf("%d + %d = %d\n", num1, num2, add(num1, num2));
+    printf("%d - %d = %d\n", num1, num2, subtract(num1, num2));
+    printf("%d x %d = %d\n", num1, num2, multiply(num1, num2));
+    
+    if (num2 != 0) {
+        printf("%d / %d = %.2f\n", num1, num2, divide(num1, num2));
+    }
+    
+    printf("最大値: %d\n", max(num1, num2));
+    
+    return 0;
+}
+```
+
+> C99版は[こちら](function_basics_c99.c)を参照してください。
+
+---
+
+# 第10章: ポインタ
+
+
+##  対応C規格
+- **主要対象:** C90
+- **学習内容:** ポインタの基本概念、アドレス演算子、間接参照演算子、ポインタと配列、ポインタ演算
+
+##  学習目標
+
+この章を完了すると、以下のことができるようになります：
+
+- ポインタの基本概念を理解する
+- アドレス演算子（&）と間接参照演算子（*）を使える
+- ポインタと配列の関係を理解する
+- ポインタ演算ができる
+- ポインタを関数の引数として使える
+
+##  理論解説
+
+### ポインタの基本概念 
+
+ポインタは他の変数のメモリアドレスを格納する変数です。これにより間接的に他の変数にアクセスできます。
+
+#### メモリとアドレス
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    int number = 42;
+    
+    printf("変数numberの値: %d\n", number);
+    printf("変数numberのアドレス: %p\n", (void*)&number);
+    printf("変数numberのサイズ: %lu バイト\n", (unsigned long)sizeof(number));
+    
+    return 0;
+
+```
+
+#### ポインタ変数の宣言
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    int value = 100;        /* 通常の整数変数 */
+    int *ptr;               /* 整数を指すポインタ変数 */
+    
+    ptr = &value;           /* valueのアドレスをptrに代入 */
+    
+    printf("value = %d\n", value);
+    printf("&value = %p\n", (void*)&value);
+    printf("ptr = %p\n", (void*)ptr);
+    printf("*ptr = %d\n", *ptr);        /* ポインタが指す値 */
+    
+    return 0;
+
+```
+
+### アドレス演算子（&）と間接参照演算子（*） 
+
+#### アドレス演算子（&）
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    int a = 10;
+    double b = 3.14;
+    char c = 'A';
+    
+    printf("変数のアドレス:\n");
+    printf("&a = %p\n", (void*)&a);
+    printf("&b = %p\n", (void*)&b);
+    printf("&c = %p\n", (void*)&c);
+    
+    /* ポインタ変数の宣言と初期化 */
+    int *ptr_a = &a;
+    double *ptr_b = &b;
+    char *ptr_c = &c;
+    
+    printf("\nポインタの値（アドレス）:\n");
+    printf("ptr_a = %p\n", (void*)ptr_a);
+    printf("ptr_b = %p\n", (void*)ptr_b);
+    printf("ptr_c = %p\n", (void*)ptr_c);
+    
+    return 0;
+
+```
+
+#### 間接参照演算子（*）
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    int original = 50;
+    int *pointer = &original;
+    
+    printf("=== 元の状態 ===\n");
+    printf("original = %d\n", original);
+    printf("*pointer = %d\n", *pointer);
+    
+    /* ポインタを通じて値を変更 */
+    *pointer = 75;
+    
+    printf("\n=== *pointer = 75 実行後 ===\n");
+    printf("original = %d\n", original);      /* 75に変更される */
+    printf("*pointer = %d\n", *pointer);      /* 75 */
+    
+    /* 元の変数を直接変更 */
+    original = 99;
+    
+    printf("\n=== original = 99 実行後 ===\n");
+    printf("original = %d\n", original);      /* 99 */
+    printf("*pointer = %d\n", *pointer);      /* 99 */
+    
+    return 0;
+
+```
+
+### ポインタのデータ型 
+
+#### さまざまなデータ型のポインタ
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    /* 各データ型の変数 */
+    char char_var = 'X';
+    int int_var = 123;
+    float float_var = 3.14f;
+    double double_var = 2.718;
+    
+    /* 各データ型のポインタ */
+    char *char_ptr = &char_var;
+    int *int_ptr = &int_var;
+    float *float_ptr = &float_var;
+    double *double_ptr = &double_var;
+    
+    printf("=== 値の表示 ===\n");
+    printf("char: %c\n", *char_ptr);
+    printf("int: %d\n", *int_ptr);
+    printf("float: %.2f\n", *float_ptr);
+    printf("double: %.3f\n", *double_ptr);
+    
+    printf("\n=== ポインタのサイズ ===\n");
+    printf("char*: %lu バイト\n", (unsigned long)sizeof(char_ptr));
+    printf("int*: %lu バイト\n", (unsigned long)sizeof(int_ptr));
+    printf("float*: %lu バイト\n", (unsigned long)sizeof(float_ptr));
+    printf("double*: %lu バイト\n", (unsigned long)sizeof(double_ptr));
+    
+    return 0;
+
+```
+
+#### void*ポインタ（汎用ポインタ）
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    int int_value = 456;
+    double double_value = 1.618;
+    
+    void *generic_ptr;      /* 汎用ポインタ */
+    
+    /* intを指す */
+    generic_ptr = &int_value;
+    printf("int値: %d\n", *(int*)generic_ptr);  /* キャストが必要 */
+    
+    /* doubleを指す */
+    generic_ptr = &double_value;
+    printf("double値: %.3f\n", *(double*)generic_ptr);  /* キャストが必要 */
+    
+    return 0;
+
+```
+
+### ポインタと配列の関係 
+
+#### 配列名はポインタ
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    int arr[] = {10, 20, 30, 40, 50};
+    int *ptr = arr;         /* arr は &arr[0] と同じ */
+    int i;
+    
+    printf("=== 配列とポインタの関係 ===\n");
+    printf("arr = %p\n", (void*)arr);
+    printf("&arr[0] = %p\n", (void*)&arr[0]);
+    printf("ptr = %p\n", (void*)ptr);
+    
+    printf("\n=== 配列要素へのアクセス ===\n");
+    for (i = 0; i < 5; i++) {
+        printf("arr[%d] = %d, *(arr + %d) = %d, *(ptr + %d) = %d\n",
+               i, arr[i], i, *(arr + i), i, *(ptr + i));
+    }
+    
+    return 0;
+
+```
+
+#### ポインタを使った配列操作
+
+```c
+#include <stdio.h>
+
+void print_array_index(int arr[], int size)
+{
+    int i;
+    
+    printf("インデックス記法: ");
+    for (i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+void print_array_pointer(int *ptr, int size)
+{
+    int i;
+    
+    printf("ポインタ記法: ");
+    for (i = 0; i < size; i++) {
+        printf("%d ", *(ptr + i));
+    }
+    printf("\n");
+}
+
+int main(void)
+{
+    int numbers[] = {11, 22, 33, 44, 55};
+    int size = sizeof(numbers) / sizeof(numbers[0]);
+    
+    print_array_index(numbers, size);
+    print_array_pointer(numbers, size);
+    
+    return 0;
+
+```
+
+### ポインタ演算 
+
+#### ポインタの加算・減算
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    int arr[] = {5, 15, 25, 35, 45};
+    int *ptr = arr;
+    int i;
+    
+    printf("=== ポインタ演算の例 ===\n");
+    for (i = 0; i < 5; i++) {
+        printf("ptr + %d = %p, *(ptr + %d) = %d\n",
+               i, (void*)(ptr + i), i, *(ptr + i));
+    }
+    
+    printf("\n=== ポインタのインクリメント ===\n");
+    ptr = arr;  /* 先頭に戻す */
+    for (i = 0; i < 5; i++) {
+        printf("*ptr = %d (アドレス: %p)\n", *ptr, (void*)ptr);
+        ptr++;  /* 次の要素に移動 */
+    }
+    
+    return 0;
+
+```
+
+#### ポインタ同士の差
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    int arr[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    int *start = &arr[2];   /* arr[2]を指す */
+    int *end = &arr[7];     /* arr[7]を指す */
+    
+    printf("start が指す値: %d (インデックス2)\n", *start);
+    printf("end が指す値: %d (インデックス7)\n", *end);
+    printf("ポインタの差: %ld\n", end - start);  /* 5 */
+    printf("バイト差: %ld\n", (char*)end - (char*)start);
+    
+    return 0;
+
+```
+
+### ポインタと関数 
+
+#### ポインタを引数とする関数
+
+```c
+#include <stdio.h>
+
+/* 値を交換する関数 */
+void swap(int *a, int *b)
+{
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+/* 値を倍にする関数 */
+void double_value(int *value)
+{
+    *value = (*value) * 2;
+}
+
+/* 配列の要素を変更する関数 */
+void modify_array(int arr[], int size)
+{
+    int i;
+    
+    for (i = 0; i < size; i++) {
+        arr[i] *= 3;  /* 各要素を3倍 */
+    }
+}
+
+int main(void)
+{
+    int x = 8, y = 12;
+    int numbers[] = {1, 2, 3, 4, 5};
+    int size = sizeof(numbers) / sizeof(numbers[0]);
+    int i;
+    
+    printf("=== swap関数のテスト ===\n");
+    printf("交換前: x = %d, y = %d\n", x, y);
+    swap(&x, &y);
+    printf("交換後: x = %d, y = %d\n", x, y);
+    
+    printf("\n=== double_value関数のテスト ===\n");
+    printf("2倍前: x = %d\n", x);
+    double_value(&x);
+    printf("2倍後: x = %d\n", x);
+    
+    printf("\n=== modify_array関数のテスト ===\n");
+    printf("変更前: ");
+    for (i = 0; i < size; i++) {
+        printf("%d ", numbers[i]);
+    }
+    printf("\n");
+    
+    modify_array(numbers, size);
+    
+    printf("変更後: ");
+    for (i = 0; i < size; i++) {
+        printf("%d ", numbers[i]);
+    }
+    printf("\n");
+    
+    return 0;
+
+```
+
+#### ポインタを戻り値とする関数
+
+```c
+#include <stdio.h>
+
+/* 配列から最大値のアドレスを返す */
+int* find_max_ptr(int arr[], int size)
+{
+
+    int *max_ptr = &arr[];
+    int i;
+    
+    for (i = ; i < size; i++) 
+        if (arr[i] > *max_ptr) 
+            max_ptr = &arr[i];
+        
+    
+    
+    return max_ptr;
+
+
+/* 配列から指定値を検索してアドレスを返す */
+int* search_vale(int arr[], int size, int target)
+{
+
+    int i;
+    
+    for (i = ; i < size; i++) 
+        if (arr[i] == target) 
+            return &arr[i];  /* 見2つかった要素のアドレス */
+        
+    
+    
+    return NULL;  /* 見2つからない場合 */
+
+
+int main(void)
+{
+
+    int data[] = , , , 9, , , ;
+    int size = sizeof(data) / sizeof(data[]);
+    int *result_ptr;
+    int search_target = ;
+    int i;
+    
+    /* 配列の表示 */
+    printf("配列: ");
+    for (i = ; i < size; i++) 
+        printf("%d ", data[i]);
+    
+    printf("n");
+    
+    /* 最大値の検索 */
+    result_ptr = find_max_ptr(data, size);
+    printf("最大値: %d (アドレス: %p)n", *result_ptr, (void*)result_ptr);
+    
+    /* 特定値の検索 */
+    result_ptr = search_vale(data, size, search_target);
+    if (result_ptr != NULL) 
+        printf("%d が見2つかりました (アドレス: %p)n", 
+               *result_ptr, (void*)result_ptr);
+     else 
+        printf("%d は見2つかりませんでしたn", search_target);
+    
+    
+    return ;
+
+```
+
+### 文字列とポインタ 
+
+#### 文字列リテラルとポインタ
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    char *str = "Hello, World!";     /* 文字列リテラル */
+    char str[] = "Hello, World!";    /* 文字配列 */
+    char *ptr = str;
+    
+    printf("str: %s\n", str);
+    printf("str: %s\n", str);
+    printf("ptr: %s\n", ptr);
+    
+    printf("n=== アドレスの比較 ===n");
+    printf("strのアドレス: %pn", (void*)str);
+    printf("strのアドレス: %pn", (void*)str);
+    printf("ptrの値: %pn", (void*)ptr);
+    
+    /* 文字配列は変更可能 */
+    str[] = 'h';
+    printf("n変更後のstr: %s\n", str);
+    
+    /* 文字列リテラルは変更不可 */
+    /* str[] = 'h';  <- 実行時エラーの可能性 */
+    
+    return ;
+
+```
+
+#### ポインタを使った文字列操作
+
+```c
+#include <stdio.h>
+
+/* 文字列の長さを計算（ポインタ版） */
+int string_length(char *str)
+{
+
+    int length = 0;
+    
+    while (*str != '\0') {
+        length++;
+        str++;
+    }
+    
+    
+    return length;
+
+
+/* 文字列をコピー（ポインタ版） */
+void string_copy(char *dest, char *src)
+{
+
+    while (*src != '') 
+        *dest = *src;
+        dest++;
+        src++;
+    
+    *dest = '';  /* nll終端文字を追加 */
+
+
+/* 文字列を連結（ポインタ版） */
+void string_concat(char *dest, char *src)
+{
+
+    /* destの末尾を見2つける */
+    while (*dest != '') 
+        dest++;
+    
+    
+    /* srcをdestの末尾に追加 */
+    while (*src != '') 
+        *dest = *src;
+        dest++;
+        src++;
+    
+    *dest = '';
+
+
+int main(void)
+{
+
+    char str[] = "Hello";
+    char str[] = "World";
+    char bffer[];
+    char result[];
+    
+    printf("元の文字列: "%s", "%s"n", str, str);
+    
+    /* 長さの計算 */
+    printf("strの長さ: %d\n", string_length(str));
+    printf("strの長さ: %d\n", string_length(str));
+    
+    /* 文字列のコピー */
+    string_copy(bffer, str);
+    printf("コピー結果: "%s"n", bffer);
+    
+    /* 文字列の連結 */
+    string_copy(result, str);  /* まずstrをコピー */
+    string_concat(result, ", ");
+    string_concat(result, str);
+    string_concat(result, "!");
+    printf("連結結果: "%s"n", result);
+    
+    return ;
+
+```
+
+### ポインタの配列 
+
+#### ポインタ配列の基本
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    int a = , b = , c = , d = ;
+    int *ptr_array[];  /* ポインタの配列 */
+    int i;
+    
+    /* ポインタ配列に各変数のアドレスを格納 */
+    ptr_array[] = &a;
+    ptr_array[] = &b;
+    ptr_array[] = &c;
+    ptr_array[] = &d;
+    
+    printf("=== ポインタ配列の内容 ===n");
+    for (i = ; i < ; i++) 
+        printf("ptr_array[%d] = %p, *ptr_array[%d] = %d\n",
+               i, (void*)ptr_array[i], i, *ptr_array[i]);
+    
+    
+    /* ポインタを通じて値を変更 */
+    *ptr_array[] = ;
+    *ptr_array[] = ;
+    
+    printf("n=== 変更後の値 ===n");
+    printf("a = %d, b = %d, c = %d, d = %d\n", a, b, c, d);
+    
+    return ;
+
+```
+
+#### 文字列ポインタの配列
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+
+    char *frits[] = 
+        "Apple",
+        "anana",
+        "Cherry",
+        "Date",
+        "lderberry"
+    ;
+    int count = sizeof(frits) / sizeof(frits[]);
+    int i;
+    
+    printf("=== 果物リスト ===n");
+    for (i = ; i < count; i++) 
+        printf("%d. %s\n", i + , frits[i]);
+    
+    
+    /* ポインタの変更 */
+    frits[] = "leberry";
+    
+    printf("n=== 変更後 ===n");
+    for (i = ; i < count; i++) 
+        printf("%d. %s\n", i + , frits[i]);
+    
+    
+    return ;
+
+```
+
+### 実践的なポインタ活用例 
+
+#### 動的配列の操作
+
+```c
+#include <stdio.h>
+
+/* 配列内の要素を逆順にする */
+void reverse_array(int *arr, int size)
+{
+
+    int *start = arr;
+    int *end = arr + size - ;
+    int temp;
+    
+    while (start < end) 
+        temp = *start;
+        *start = *end;
+        *end = temp;
+        start++;
+        end--;
+    
+
+
+/* 配列を1回転させる（右につシフト） */
+void rotate_right(int *arr, int size)
+{
+
+    int last = *(arr + size - );
+    int i;
+    
+    for (i = size - ; i > ; i--) 
+        *(arr + i) = *(arr + i - );
+    
+    *arr = last;
+
+
+int main(void)
+{
+
+    int numbers[] = , , , , , , , ;
+    int size = sizeof(numbers) / sizeof(numbers[]);
+    int i;
+    
+    printf("元の配列: ");
+    for (i = ; i < size; i++) 
+        printf("%d ", numbers[i]);
+    
+    printf("n");
+    
+    /* 配列を逆順にする */
+    reverse_array(numbers, size);
+    printf("逆順後: ");
+    for (i = ; i < size; i++) 
+        printf("%d ", numbers[i]);
+    
+    printf("n");
+    
+    /* 配列を右に1回転 */
+    rotate_right(numbers, size);
+    printf("右1回転後: ");
+    for (i = ; i < size; i++) 
+        printf("%d ", numbers[i]);
+    
+    printf("n");
+    
+    return ;
+
+```
+
+#### ポインタを使ったソート
+
+```c
+#include <stdio.h>
+
+/* ポインタを使ったバブルソート */
+void bbble_sort_ptr(int *arr, int size)
+{
+
+    int i, j;
+    int *ptr, *ptr;
+    int temp;
+    
+    for (i = ; i < size - ; i++) 
+        for (j = ; j < size -  - i; j++) 
+            ptr = arr + j;
+            ptr = arr + j + ;
+            
+            if (*ptr > *ptr) 
+                temp = *ptr;
+                *ptr = *ptr;
+                *ptr = temp;
+            
+        
+    
+
+
+/* 2つの配列を比較 */
+int compare_arrays(int *arr, int *arr, int size)
+{
+
+    int i;
+    
+    for (i = ; i < size; i++) 
+        if (*(arr + i) != *(arr + i)) 
+            return ;  /* 異なる */
+        
+    
+    
+    return ;  /* 同じ */
+
+
+int main(void)
+{
+
+    int original[] = , , , , , , 9;
+    int copy[] = , , , , , , 9;
+    int size = sizeof(original) / sizeof(original[]);
+    int i;
+    
+    printf("ソート前: ");
+    for (i = ; i < size; i++) 
+        printf("%d ", original[i]);
+    
+    printf("n");
+    
+    /* ソート実行 */
+    bbble_sort_ptr(original, size);
+    
+    printf("ソート後: ");
+    for (i = ; i < size; i++) 
+        printf("%d ", original[i]);
+    
+    printf("n");
+    
+    /* 配列の比較 */
+    if (compare_arrays(original, copy, size)) 
+        printf("配列は同じですn");
+     else 
+        printf("配列は異なりますn");
+    
+    
+    return ;
+
+```
+
+##  サンプルコード
+
+### ポインタの基本操作
+
+プログラムファイル: `examples/pointer_basic.c`
+
+ポインタの宣言、初期化、基本的な操作を学習します。
+
+**C99版**: [pointer_basic_c99.c](examples/pointer_basic_c99.c) - bool型、restrict修飾子、固定幅整数型を使用
+
+### ポインタと配列
+
+プログラムファイル: `examples/pointer_arrays.c`
+
+ポインタと配列の関係、ポインタ演算を学習します。
+
+**C99版**: [pointer_arrays_c99.c](examples/pointer_arrays_c99.c) - 可変長配列、複合リテラル、指定初期化子を使用
+
+### ポインタと関数
+
+プログラムファイル: `examples/pointer_functions.c`
+
+関数引数、戻り値としてのポインタの使用方法を学習します。
+
+**C99版**: [pointer_functions_c99.c](examples/pointer_functions_c99.c) - インライン関数、restrict修飾子、可変長配列パラメータを使用
+
+### コンパイルと実行
+
+```bash
+# examples ディレクトリに移動
+cd examples
+
+# C90準拠でコンパイル
+gcc -std=c90 -Wall -Wextra -pedantic pointer_basic.c -o pointer_basic
+
+# 実行
+./pointer_basic
+```
+
+##  演習課題
+
+### 基礎問題
+
+1. **ポインタの基本操作**
+   - 2つの変数の値をポインタを使って交換するプログラムを作成してください
+   - 解答例: [solutions/ex1_pointer_swap.c](solutions/ex1_pointer_swap.c) (C90版) / [solutions/ex1_pointer_swap_c99.c](solutions/ex1_pointer_swap_c99.c) (C99版)
+
+2. **配列とポインタ**
+   - ポインタ演算を使って配列の要素を逆順に表示するプログラムを作成してください
+   - 解答例: [solutions/ex2_array_reverse.c](solutions/ex2_array_reverse.c) (C90版) / [solutions/ex2_array_reverse_c99.c](solutions/ex2_array_reverse_c99.c) (C99版)
+
+3. **文字列操作**
+   - ポインタを使って文字列の長さを計算し、文字列を逆順にするプログラムを作成してください
+
+### 応用問題
+
+4. **配列操作関数**
+   - ポインタを使って配列の最大値、最小値、平均値を計算する関数を作成してください
+
+5. **文字列処理**
+   - ポインタを使って文字列の検索、置換、分割を実行する関数群を作成してください
+
+6. **データ変換**
+   - ポインタを使って配列のデータ型変換を実行するプログラムを作成してください
+
+### 発展問題
+
+7. **メモリ操作**
+   - ポインタを使って任意のデータ型の配列をコピーする汎用関数を作成してください
+
+8. **アルゴリズム実装**
+   - ポインタを使って各種ソートアルゴリズムを実装してください
+
+9. **データ構造**
+   - ポインタを使って簡単なリンクリスト構造を実装してください
+
+##  コンパイル方法
+
+この章では以下のMakefileを使用してコンパイルができます：
+
+```bash
+# 全ての例題をコンパイル
+make all
+
+# 特定のプログラムをコンパイル
+make pointer_basic
+
+# 実行
+make run
+
+# クリーンアップ
+make clean
+```
+
+##  規格による違い
+
+### C90での制限事項
+- void*からの暗黙的な型変換は制限的
+- ポインタ演算は整数型との組み合わせのみ
+- 関数ポインタの表記法は限定的
+
+### C99以降の拡張
+- restrict修飾子の追加
+- 可変長配列とポインタの関係改善
+- より厳密なポインタ型チェック
+
+##  よくある間違い
+
+### 1. 未初期化ポインタの使用
+
+```c
+/* NG: 初期化されていないポインタ */
+int *ptr;
+*ptr = 10;  /* 危険: 不明なメモリへの書き込み */
+
+/* OK: 適切に初期化 */
+int value = 0;
+int *ptr = &value;
+*ptr = 10;
+```
+
+### 2. NULLポインタの参照
+
+```c
+/* NG: NULLポインタの参照 */
+int *ptr = NULL;
+printf("%d\n", *ptr);  /* セグメンテーション違反 */
+
+/* OK: NULLチェック */
+if (ptr != NULL) {
+    printf("%d\n", *ptr);
+}
+
+```
+
+### 3. スコープ外変数へのポインタ
+
+```c
+/* NG: ローカル変数のアドレス返し */
+int* bad_function(void)
+{
+    int local = 100;
+    return &local;  /* 危険: ローカル変数のアドレス */
+}
+
+/* OK: 静的変数または引数で渡された変数を使用 */
+int* good_function(int *param)
+{
+    return param;  /* 引数で渡されたアドレスを返す */
+}
+
+```
+
+### 4. 配列境界の越えた参照
+
+```c
+/* NG: 配列の範囲外アクセス */
+int arr[] = {1, 2, 3, 4, 5};
+int *ptr = arr;
+printf("%d\n", *(ptr + 10));  /* 範囲外アクセス */
+
+/* OK: 範囲チェック */
+int index = 2;
+if (index >= 0 && index < 5) {
+    printf("%d\n", *(ptr + index));
+}
+
+```
+
+##  次の章へ
+
+ポインタの基礎を理解したら、「構造体とポインタ」の実装をお待ちください。現在実装中です。
+
+##  参考資料
+
+- [C言語ポインタリファレンス](https://ja.cppreference.com/w/c/language/pointer)
+- [ポインタ演算の詳細](https://ja.cppreference.com/w/c/language/operautor_arithmetic)
+- [メモリモデルとポインタ](https://ja.cppreference.com/w/c/language/memory_model)
+
+## サンプルコード
+
+### pointer_arrays.c
+
+```c
+/*
+ * pointer_arrays.c
+ * ポインタと配列の関係、ポインタ演算を学習
+ * C90準拠
+ */
+
+#include <stdio.h>
+
+void print_array_with_index(int arr[], int size)
+{
+    int i;
+    printf("インデックス記法: ");
+    for (i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+void print_array_with_pointer(int *ptr, int size)
+{
+    int i;
+    printf("ポインタ記法: ");
+    for (i = 0; i < size; i++) {
+        printf("%d ", *(ptr + i));
+    }
+    printf("\n");
+}
+
+void print_array_with_increment(int *ptr, int size)
+{
+    int i;
+    printf("インクリメント: ");
+    for (i = 0; i < size; i++) {
+        printf("%d ", *ptr);
+        ptr++;  /* ポインタを次の要素に進める */
+    }
+    printf("\n");
+}
+
+int main(void)
+{
+    int numbers[6] = {10, 20, 30, 40, 50, 60};
+    int *ptr = numbers;  /* 配列名は先頭要素のアドレス */
+    int size = sizeof(numbers) / sizeof(numbers[0]);
+    int i;
+    int *start;     /* C90: ポインタ変数の宣言を先頭に配置 */
+    int *end;
+    char message[] = "Hello, World!";
+    char *str_ptr;
+    int str_len = 0;
+    int matrix[3][4] = {
+        {1, 2, 3, 4},
+        {5, 6, 7, 8},
+        {9, 10, 11, 12}
+    };
+    int *matrix_ptr;
+    int total_elements = 3 * 4;
+    int a = 100, b = 200, c = 300;
+    int *ptr_array[3];  /* ポインタの配列 */
+    
+    printf("===== 配列とポインタの関係 =====\n");
+    printf("配列名numbers: %p\n", (void*)numbers);
+    printf("&numbers[0]: %p\n", (void*)&numbers[0]);
+    printf("ポインタptr: %p\n", (void*)ptr);
+    printf("これらはすべて同じアドレスです\n");
+    
+    printf("\n===== 配列要素へのアクセス方法 =====\n");
+    print_array_with_index(numbers, size);
+    print_array_with_pointer(ptr, size);
+    
+    /* ポインタをリセット（print_array_with_incrementでptrが変更されるため） */
+    ptr = numbers;
+    print_array_with_increment(ptr, size);
+    
+    printf("\n===== ポインタ演算の詳細 =====\n");
+    ptr = numbers;  /* 先頭に戻す */
+    
+    for (i = 0; i < size; i++) {
+        printf("ptr + %d = %p, *(ptr + %d) = %d\n",
+               i, (void*)(ptr + i), i, *(ptr + i));
+    }
+    
+    printf("\n===== アドレスの差による要素間隔の確認 =====\n");
+    printf("numbers[0]のアドレス: %p\n", (void*)&numbers[0]);
+    printf("numbers[1]のアドレス: %p\n", (void*)&numbers[1]);
+    printf("アドレス差: %ld バイト\n", 
+           (char*)&numbers[1] - (char*)&numbers[0]);
+    printf("int型のサイズ: %lu バイト\n", (unsigned long)sizeof(int));
+    
+    printf("\n===== ポインタによる配列の逆順表示 =====\n");
+    ptr = numbers + size - 1;  /* 最後の要素を指す */
+    printf("逆順: ");
+    for (i = 0; i < size; i++) {
+        printf("%d ", *ptr);
+        ptr--;  /* ポインタを前の要素に戻す */
+    }
+    printf("\n");
+    
+    printf("\n===== ポインタ同士の演算 =====\n");
+    start = &numbers[1];  /* numbers[1]を指す */
+    end = &numbers[4];    /* numbers[4]を指す */
+    
+    printf("start が指す値: %d (numbers[1])\n", *start);
+    printf("end が指す値: %d (numbers[4])\n", *end);
+    printf("ポインタの差: %ld (要素数)\n", end - start);
+    printf("バイト差: %ld バイト\n", (char*)end - (char*)start);
+    
+    printf("\n===== 文字列（文字配列）とポインタ =====\n");
+    str_ptr = message;
+    
+    printf("文字列: %s\n", message);
+    printf("文字ごとの表示: ");
+    
+    /* 文字列の終端（'\0'）まで表示 */
+    while (*str_ptr != '\0') {
+        printf("%c", *str_ptr);
+        str_ptr++;
+        str_len++;
+    }
+    printf("\n");
+    printf("文字列の長さ: %d文字\n", str_len);
+    
+    printf("\n===== 2次元配列とポインタ =====\n");
+    matrix_ptr = (int*)matrix;  /* 1次元ポインタとして扱う */
+    
+    printf("2次元配列を1次元ポインタで表示:\n");
+    for (i = 0; i < total_elements; i++) {
+        printf("%2d ", *(matrix_ptr + i));
+        if ((i + 1) % 4 == 0) {
+            printf("\n");
+        }
+    }
+    
+    printf("\n===== ポインタ配列の例 =====\n");
+    
+    ptr_array[0] = &a;
+    ptr_array[1] = &b;
+    ptr_array[2] = &c;
+    
+    printf("ポインタ配列の内容:\n");
+    for (i = 0; i < 3; i++) {
+        printf("ptr_array[%d] = %p, *ptr_array[%d] = %d\n",
+               i, (void*)ptr_array[i], i, *ptr_array[i]);
+    }
+    
+    return 0;
+}
+
+/*
+学習ポイント:
+1. 配列名は先頭要素のポインタと同等
+2. ポインタ演算: ptr + n は n個後の要素を指す
+3. *(ptr + i) と ptr[i] は同等
+4. ポインタのインクリメント/デクリメント
+5. ポインタ同士の差は要素数を表す
+6. 文字列もポインタで操作可能
+7. 2次元配列も1次元ポインタで扱える
+8. ポインタの配列の活用
+
+重要な概念:
+- 配列の記法とポインタ記法の等価性
+- ポインタ演算の自動的な型サイズ調整
+- メモリレイアウトの理解
+- 安全な境界チェックの重要性
+*/
+```
+
+> C99版は[こちら](pointer_arrays_c99.c)を参照してください。
+
+### pointer_basic.c
+
+```c
+/*
+ * pointer_basic.c
+ * ポインタの宣言、初期化、基本的な操作を学習
+ * C90準拠
+ */
+
+#include <stdio.h>
+
+int main(void)
+{
+    int value = 42;         /* 通常の整数変数 */
+    int *ptr;               /* 整数ポインタ変数の宣言 */
+    int another_value = 100;
+    char char_var = 'A';    /* C90: 全変数宣言を先頭に配置 */
+    float float_var = 3.14f;
+    double double_var = 2.718;
+    char *char_ptr;
+    float *float_ptr;
+    double *double_ptr;
+    int *null_ptr;          /* C90: NULLポインタ用変数 */
+    void *generic_ptr;      /* C90: void*ポインタ用変数 */
+    int int_val = 123;
+    double double_val = 45.67;
+    
+    printf("===== ポインタの基本操作 =====\n");
+    
+    /* ポインタの初期化 */
+    ptr = &value;           /* valueのアドレスをptrに代入 */
+    
+    printf("変数valueの値: %d\n", value);
+    printf("変数valueのアドレス: %p\n", (void*)&value);
+    printf("ポインタptrの値（アドレス）: %p\n", (void*)ptr);
+    printf("ポインタptrが指す値: %d\n", *ptr);
+    
+    printf("\n===== 間接参照による値の変更 =====\n");
+    printf("変更前: value = %d, *ptr = %d\n", value, *ptr);
+    
+    *ptr = 75;              /* ポインタを通じて値を変更 */
+    printf("*ptr = 75 実行後:\n");
+    printf("変更後: value = %d, *ptr = %d\n", value, *ptr);
+    
+    printf("\n===== ポインタの再代入 =====\n");
+    printf("another_value = %d\n", another_value);
+    
+    ptr = &another_value;   /* ptrを別の変数に向ける */
+    printf("ptr = &another_value 実行後:\n");
+    printf("ポインタptrが指す値: %d\n", *ptr);
+    printf("ポインタptrのアドレス: %p\n", (void*)ptr);
+    
+    printf("\n===== 様々なデータ型のポインタ =====\n");
+    
+    /* C90: ポインタの初期化は宣言後に */
+    char_ptr = &char_var;
+    float_ptr = &float_var;
+    double_ptr = &double_var;
+    
+    printf("char値: %c (アドレス: %p)\n", *char_ptr, (void*)char_ptr);
+    printf("float値: %.2f (アドレス: %p)\n", *float_ptr, (void*)float_ptr);
+    printf("double値: %.3f (アドレス: %p)\n", *double_ptr, (void*)double_ptr);
+    
+    printf("\n===== ポインタのサイズ =====\n");
+    printf("int*のサイズ: %lu バイト\n", (unsigned long)sizeof(int*));
+    printf("char*のサイズ: %lu バイト\n", (unsigned long)sizeof(char*));
+    printf("float*のサイズ: %lu バイト\n", (unsigned long)sizeof(float*));
+    printf("double*のサイズ: %lu バイト\n", (unsigned long)sizeof(double*));
+    
+    printf("\n===== NULLポインタ =====\n");
+    null_ptr = NULL;        /* C90: 初期化は宣言後に */
+    printf("NULLポインタの値: %p\n", (void*)null_ptr);
+    
+    if (null_ptr == NULL) {
+        printf("null_ptrはNULLです（安全チェック）\n");
+    }
+    
+    /* NULLポインタの参照は危険なのでコメントアウト */
+    /* printf("NULL参照: %d\n", *null_ptr);  // 危険！ */
+    
+    printf("\n===== void*ポインタ（汎用ポインタ） =====\n");
+    
+    generic_ptr = &int_val;
+    printf("intを指すvoid*: %d\n", *(int*)generic_ptr);
+    
+    generic_ptr = &double_val;
+    printf("doubleを指すvoid*: %.2f\n", *(double*)generic_ptr);
+    
+    return 0;
+}
+
+/*
+学習ポイント:
+1. ポインタの宣言: int *ptr;
+2. アドレス演算子: &variable
+3. 間接参照演算子: *pointer
+4. ポインタの初期化と再代入
+5. NULLポインタの安全な使用
+6. void*ポインタと型キャスト
+7. ポインタのサイズは型に関係なく一定
+8. 安全なプログラミングのためのNULLチェック
+
+注意点:
+- 未初期化ポインタの使用は危険
+- NULLポインタの参照は避ける
+- void*ポインタは使用時に適切な型キャストが必要
+*/
+```
+
+> C99版は[こちら](pointer_basic_c99.c)を参照してください。
+
+### pointer_functions.c
+
+```c
+/*
+ * pointer_functions.c
+ * 関数引数、戻り値としてのポインタの使用方法を学習
+ * C90準拠
+ */
+
+#include <stdio.h>
+#include <string.h>
+
+/* 2つの値を交換する関数 */
+void swap_values(int *a, int *b)
+{
+    int temp;
+    
+    printf("  swap関数内: 交換前 *a = %d, *b = %d\n", *a, *b);
+    
+    temp = *a;
+    *a = *b;
+    *b = temp;
+    
+    printf("  swap関数内: 交換後 *a = %d, *b = %d\n", *a, *b);
+}
+
+/* 値を2倍にする関数 */
+void double_value(int *value)
+{
+    printf("  double_value関数内: 変更前 *value = %d\n", *value);
+    *value = (*value) * 2;
+    printf("  double_value関数内: 変更後 *value = %d\n", *value);
+}
+
+/* 配列の合計を計算する関数 */
+int sum_array(int *arr, int size)
+{
+    int sum = 0;
+    int i;
+    
+    for (i = 0; i < size; i++) {
+        sum += *(arr + i);  /* ポインタ記法 */
+    }
+    
+    return sum;
+}
+
+/* 配列の要素を変更する関数 */
+void modify_array(int *arr, int size, int multiplier)
+{
+    int i;
+    
+    printf("  modify_array関数内: 変更前\n    ");
+    for (i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+    
+    for (i = 0; i < size; i++) {
+        arr[i] *= multiplier;
+    }
+    
+    printf("  modify_array関数内: 変更後（%d倍）\n    ", multiplier);
+    for (i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+/* 配列から最大値のポインタを返す関数 */
+int* find_max_pointer(int *arr, int size)
+{
+    int *max_ptr = arr;  /* 最初の要素を最大とする */
+    int i;
+    
+    for (i = 1; i < size; i++) {
+        if (*(arr + i) > *max_ptr) {
+            max_ptr = arr + i;
+        }
+    }
+    
+    return max_ptr;
+}
+
+/* 配列から指定値を検索してポインタを返す関数 */
+int* search_value(int *arr, int size, int target)
+{
+    int i;
+    
+    for (i = 0; i < size; i++) {
+        if (*(arr + i) == target) {
+            return arr + i;  /* 見つかった要素のポインタを返す */
+        }
+    }
+    
+    return NULL;  /* 見つからない場合はNULLを返す */
+}
+
+/* 文字列の長さを計算する関数（ポインタ版） */
+int string_length_ptr(char *str)
+{
+    int length = 0;
+    
+    while (*str != '\0') {
+        length++;
+        str++;
+    }
+    
+    return length;
+}
+
+/* 文字列をコピーする関数（ポインタ版） */
+void string_copy_ptr(char *dest, char *src)
+{
+    while (*src != '\0') {
+        *dest = *src;
+        dest++;
+        src++;
+    }
+    *dest = '\0';  /* null終端文字を追加 */
+}
+
+/* 配列を初期化する関数 */
+void init_array(int *arr, int size, int init_value)
+{
+    int i;
+    
+    for (i = 0; i < size; i++) {
+        *(arr + i) = init_value + i;  /* 初期値 + インデックス */
+    }
+}
+
+/* 配列を表示する関数 */
+void print_array(char *label, int *arr, int size)
+{
+    int i;
+    
+    printf("%s: ", label);
+    for (i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+int main(void)
+{
+    /* C90: 全変数宣言を先頭に配置 */
+    int x = 10, y = 20;
+    int numbers[6];
+    int size;
+    int total;
+    int data[] = {45, 67, 23, 89, 12, 56, 78};
+    int data_size;
+    int *result_ptr;
+    int search_target = 56;
+    char original[] = "Hello, World!";
+    char copy_buffer[50];
+    char *fruits[] = {"Apple", "Banana", "Cherry", "Date"};
+    int fruit_count;
+    int i;
+    int *arrays[2];         /* C90では可変初期化ができないため配列サイズを固定 */
+    int sizes[2];
+    char *labels[] = {"numbers配列", "data配列"};
+    int array_sum;
+    
+    printf("===== ポインタを引数とする関数 =====\n");
+    
+    /* 変数の初期化 */
+    size = sizeof(numbers) / sizeof(numbers[0]);
+    data_size = sizeof(data) / sizeof(data[0]);
+    fruit_count = sizeof(fruits) / sizeof(fruits[0]);
+    
+    /* swap関数のテスト */
+    printf("\nswap関数のテスト:\n");
+    printf("交換前: x = %d, y = %d\n", x, y);
+    swap_values(&x, &y);
+    printf("交換後: x = %d, y = %d\n", x, y);
+    
+    /* double_value関数のテスト */
+    printf("\ndouble_value関数のテスト:\n");
+    printf("2倍前: x = %d\n", x);
+    double_value(&x);
+    printf("2倍後: x = %d\n", x);
+    
+    printf("\n===== 配列を操作する関数 =====\n");
+    
+    /* 配列の初期化 */
+    init_array(numbers, size, 10);
+    print_array("初期化後", numbers, size);
+    
+    /* 配列の合計計算 */
+    total = sum_array(numbers, size);
+    printf("配列の合計: %d\n", total);
+    
+    /* 配列の変更 */
+    printf("\n配列変更のテスト:\n");
+    modify_array(numbers, size, 3);
+    print_array("main関数内での変更後", numbers, size);
+    
+    printf("\n===== ポインタを戻り値とする関数 =====\n");
+    
+    print_array("検索対象配列", data, data_size);
+    
+    /* 最大値の検索 */
+    result_ptr = find_max_pointer(data, data_size);
+    if (result_ptr != NULL) {
+        printf("最大値: %d (アドレス: %p)\n", *result_ptr, (void*)result_ptr);
+        printf("最大値のインデックス: %ld\n", result_ptr - data);
+    }
+    
+    /* 特定値の検索 */
+    result_ptr = search_value(data, data_size, search_target);
+    if (result_ptr != NULL) {
+        printf("%d が見つかりました (アドレス: %p)\n", 
+               *result_ptr, (void*)result_ptr);
+        printf("見つかった位置のインデックス: %ld\n", result_ptr - data);
+        
+        /* 見つかった値を変更 */
+        *result_ptr = 999;
+        print_array("値変更後", data, data_size);
+    } else {
+        printf("%d は見つかりませんでした\n", search_target);
+    }
+    
+    printf("\n===== 文字列操作関数 =====\n");
+    
+    printf("元の文字列: \"%s\"\n", original);
+    printf("文字列の長さ: %d文字\n", string_length_ptr(original));
+    
+    /* 文字列のコピー */
+    string_copy_ptr(copy_buffer, original);
+    printf("コピーした文字列: \"%s\"\n", copy_buffer);
+    
+    printf("\n===== ポインタによる高度な操作 =====\n");
+    
+    /* ポインタの配列を使った複数の文字列 */
+    
+    printf("果物リスト:\n");
+    for (i = 0; i < fruit_count; i++) {
+        printf("  %d. %s (長さ: %d文字)\n", 
+               i + 1, fruits[i], string_length_ptr(fruits[i]));
+    }
+    
+    /* 複数の配列を処理 */
+    /* C90: 配列初期化は宣言時のみ可能なため、手動で代入 */
+    arrays[0] = numbers;
+    arrays[1] = data;
+    sizes[0] = size;
+    sizes[1] = data_size;
+    
+    printf("\n複数配列の合計:\n");
+    for (i = 0; i < 2; i++) {
+        array_sum = sum_array(arrays[i], sizes[i]);
+        printf("  %s の合計: %d\n", labels[i], array_sum);
+    }
+    
+    return 0;
+}
+
+/*
+学習ポイント:
+1. 関数引数としてのポインタ:
+   - 値の変更が可能（参照渡し）
+   - 配列の受け渡し
+   - NULLチェックの重要性
+
+2. 戻り値としてのポインタ:
+   - 配列要素のアドレス返し
+   - NULLによるエラー表現
+   - ローカル変数のアドレス返しは危険
+
+3. 実用的なポインタ活用:
+   - 配列操作の効率化
+   - 文字列処理
+   - データ検索と変更
+   - 複数データの一括処理
+
+4. メモリ安全性:
+   - 境界チェック
+   - NULLポインタチェック
+   - 適切な初期化
+
+注意点:
+- ローカル変数のアドレスを返してはいけない
+- 配列の範囲外アクセスに注意
+- NULLポインタの参照は避ける
+- ポインタ演算の境界を意識する
+*/
+```
+
+> C99版は[こちら](pointer_functions_c99.c)を参照してください。
+
+---
+
+# 第11章: 構造体
+
+
+## 対応C規格
+- **主要対象:** C90
+- **学習内容:** 構造体の基本、構造体ポインタ、構造体配列、->演算子、メモリ管理
+
+## 学習目標
+
+この章を完了すると、以下のことができるようになります：
+
+- 構造体の基本概念を理解する
+- 構造体ポインタを効果的に使える
+- ->演算子と.演算子の使い分けができる
+- 構造体配列とポインタ配列を活用できる
+- 構造体を使ったデータ管理ができる
+
+## 理論解説
+
+### 構造体の基本概念
+
+構造体は異なるデータ型を組み合わせて新しいデータ型を作る仕組みです。
+
+#### 構造体の定義と宣言
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+/* 学生情報を表す構造体 */
+struct Student {
+    int id;
+    char name[50];
+    int age;
+    double gpa;
+};
+
+int main(void)
+{
+    struct Student student;
+    
+    /* メンバーに値を代入 */
+    student.id = 1001;
+    strcpy(student.name, "田中太郎");
+    student.age = 20;
+    student.gpa = 3.5;
+    
+    /* メンバーの値を表示 */
+    printf("学生ID: %d\n", student.id);
+    printf("名前: %s\n", student.name);
+    printf("年齢: %d\n", student.age);
+    printf("GPA: %.1f\n", student.gpa);
+    
+    return 0;
+}
+```
+
+#### 構造体の初期化
+
+```c
+#include <stdio.h>
+
+struct Point {
+    int x;
+    int y;
+};
+
+struct Rectangle {
+    struct Point top_left;
+    struct Point bottom_right;
+};
+
+int main(void)
+{
+    /* 初期化方法1: 順序指定 */
+    struct Point p1 = {10, 20};
+    
+    /* 初期化方法2: 部分初期化 */
+    struct Point p2 = {5};  /* x=5, y=0 */
+    
+    /* 初期化方法3: ネストした構造体 */
+    struct Rectangle rect = {{0, 0}, {100, 50}};
+    
+    /* 初期化方法4: 個別代入 */
+    struct Point p3;
+    p3.x = 30;
+    p3.y = 40;
+    
+    printf("p1: (%d, %d)\n", p1.x, p1.y);
+    printf("p2: (%d, %d)\n", p2.x, p2.y);
+    printf("p3: (%d, %d)\n", p3.x, p3.y);
+    printf("矩形: (%d,%d) から (%d,%d)\n", 
+           rect.top_left.x, rect.top_left.y,
+           rect.bottom_right.x, rect.bottom_right.y);
+    
+    return 0;
+}
+```
+
+### 構造体ポインタの基本
+
+構造体もポインタで操作できます。大きな構造体を関数に渡す際に効率的です。
+
+#### 構造体ポインタの宣言と使用
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+struct Book {
+    char title[100];
+    char author[50];
+    int pages;
+    double price;
+};
+
+int main(void)
+{
+    struct Book book;
+    struct Book *book_ptr;
+    
+    /* 構造体ポインタを構造体のアドレスに設定 */
+    book_ptr = &book;
+    
+    /* ポインタを通じてメンバーにアクセス（方法1: (*ptr).member） */
+    strcpy((*book_ptr).title, "C言語入門");
+    strcpy((*book_ptr).author, "山田花子");
+    (*book_ptr).pages = 350;
+    (*book_ptr).price = 2800.0;
+    
+    /* 直接アクセスとポインタアクセスの比較 */
+    printf("=== 直接アクセス ===\n");
+    printf("書名: %s\n", book.title);
+    printf("著者: %s\n", book.author);
+    printf("ページ数: %d\n", book.pages);
+    printf("価格: %.0f円\n", book.price);
+    
+    printf("\n=== ポインタアクセス ===\n");
+    printf("書名: %s\n", (*book_ptr).title);
+    printf("著者: %s\n", (*book_ptr).author);
+    printf("ページ数: %d\n", (*book_ptr).pages);
+    printf("価格: %.0f円\n", (*book_ptr).price);
+    
+    return 0;
+}
+```
+
+### アロー演算子（->）の使用
+
+構造体ポインタには便利なアロー演算子（->）が用意されています。
+
+#### ->演算子と.演算子の比較
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+struct Employee {
+    int id;
+    char name[50];
+    char department[30];
+    double salary;
+};
+
+void print_employee_info(struct Employee *emp)
+{
+    printf("=== 社員情報 ===\n");
+    printf("ID: %d\n", emp->id);           /* emp->id は (*emp).id と同じ */
+    printf("名前: %s\n", emp->name);       /* emp->name は (*emp).name と同じ */
+    printf("部署: %s\n", emp->department); /* emp->department は (*emp).department と同じ */
+    printf("給与: %.0f円\n", emp->salary); /* emp->salary は (*emp).salary と同じ */
+}
+
+int main(void)
+{
+    struct Employee emp;
+    struct Employee *emp_ptr = &emp;
+    
+    /* ->演算子を使用してメンバーに値を設定 */
+    emp_ptr->id = 2001;
+    strcpy(emp_ptr->name, "佐藤次郎");
+    strcpy(emp_ptr->department, "開発部");
+    emp_ptr->salary = 350000.0;
+    
+    /* 3つの方法でアクセス */
+    printf("=== 直接アクセス（.演算子） ===\n");
+    printf("ID: %d\n", emp.id);
+    
+    printf("\n=== ポインタ経由（(*ptr).member） ===\n");
+    printf("ID: %d\n", (*emp_ptr).id);
+    
+    printf("\n=== ポインタ経由（->演算子） ===\n");
+    printf("ID: %d\n", emp_ptr->id);
+    
+    printf("\n");
+    print_employee_info(emp_ptr);
+    
+    return 0;
+}
+```
+
+#### ->演算子の実践例
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+struct Car {
+    char brand[30];
+    char model[30];
+    int year;
+    double mileage;
+    int is_electric;
+};
+
+/* 車の情報を更新する関数 */
+void update_mileage(struct Car *car, double new_mileage)
+{
+    if (car != NULL && new_mileage >= car->mileage) {
+        car->mileage = new_mileage;
+        printf("%s %s の走行距離を %.1f km に更新しました\n", 
+               car->brand, car->model, car->mileage);
+    }
+}
+
+/* 車の詳細情報を表示する関数 */
+void display_car_details(struct Car *car)
+{
+    if (car == NULL) {
+        printf("無効な車両データです\n");
+        return;
+    }
+    
+    printf("=== 車両情報 ===\n");
+    printf("ブランド: %s\n", car->brand);
+    printf("モデル: %s\n", car->model);
+    printf("年式: %d年\n", car->year);
+    printf("走行距離: %.1f km\n", car->mileage);
+    printf("電気自動車: %s\n", car->is_electric ? "はい" : "いいえ");
+    printf("\n");
+}
+
+int main(void)
+{
+    struct Car my_car;
+    struct Car *car_ptr = &my_car;
+    
+    /* ->演算子で車の初期設定 */
+    strcpy(car_ptr->brand, "Toyota");
+    strcpy(car_ptr->model, "Prius");
+    car_ptr->year = 2020;
+    car_ptr->mileage = 15000.0;
+    car_ptr->is_electric = 0;  /* ハイブリッド車 */
+    
+    display_car_details(car_ptr);
+    
+    /* 走行距離を更新 */
+    update_mileage(car_ptr, 18500.0);
+    
+    display_car_details(car_ptr);
+    
+    return 0;
+}
+```
+
+### 構造体配列とポインタ
+
+構造体の配列とそのポインタ操作について学習します。
+
+#### 構造体配列の基本操作
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+struct Product {
+    int code;
+    char name[50];
+    double price;
+    int stock;
+};
+
+void print_product(struct Product *prod)
+{
+    printf("商品コード: %d\n", prod->code);
+    printf("商品名: %s\n", prod->name);
+    printf("価格: %.0f円\n", prod->price);
+    printf("在庫: %d個\n", prod->stock);
+    printf("---\n");
+}
+
+void print_all_products(struct Product products[], int count)
+{
+    int i;
+    printf("=== 全商品リスト ===\n");
+    for (i = 0; i < count; i++) {
+        print_product(&products[i]);  /* 配列要素のアドレスを渡す */
+    }
+}
+
+int main(void)
+{
+    struct Product inventory[3];
+    int i;
+    
+    /* 商品データの初期化 */
+    inventory[0] = (struct Product){101, "ノートPC", 98000, 5};
+    
+    strcpy(inventory[1].name, "マウス");
+    inventory[1].code = 102;
+    inventory[1].price = 2980;
+    inventory[1].stock = 20;
+    
+    inventory[2].code = 103;
+    strcpy(inventory[2].name, "キーボード");
+    inventory[2].price = 4500;
+    inventory[2].stock = 15;
+    
+    print_all_products(inventory, 3);
+    
+    /* ポインタを使った配列操作 */
+    printf("\n=== ポインタを使った操作 ===\n");
+    struct Product *ptr = inventory;  /* 配列の先頭要素を指す */
+    
+    for (i = 0; i < 3; i++) {
+        printf("%d番目: %s (%.0f円)\n", 
+               i + 1, (ptr + i)->name, (ptr + i)->price);
+    }
+    
+    return 0;
+}
+```
+
+#### ポインタ演算による構造体配列操作
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+struct Score {
+    char subject[30];
+    int points;
+    char grade;
+};
+
+/* 成績を計算してグレードを設定 */
+void calculate_grade(struct Score *score)
+{
+    if (score->points >= 90) {
+        score->grade = 'A';
+    } else if (score->points >= 80) {
+        score->grade = 'B';
+    } else if (score->points >= 70) {
+        score->grade = 'C';
+    } else if (score->points >= 60) {
+        score->grade = 'D';
+    } else {
+        score->grade = 'F';
+    }
+}
+
+/* 配列内の最高得点を見つける */
+struct Score* find_best_score(struct Score scores[], int count)
+{
+    struct Score *best = &scores[0];
+    int i;
+    
+    for (i = 1; i < count; i++) {
+        if (scores[i].points > best->points) {
+            best = &scores[i];
+        }
+    }
+    
+    return best;
+}
+
+int main(void)
+{
+    struct Score my_scores[4];
+    struct Score *ptr;
+    struct Score *best;
+    int i;
+    
+    /* 成績データの入力 */
+    strcpy(my_scores[0].subject, "数学");
+    my_scores[0].points = 85;
+    
+    strcpy(my_scores[1].subject, "英語");
+    my_scores[1].points = 92;
+    
+    strcpy(my_scores[2].subject, "理科");
+    my_scores[2].points = 78;
+    
+    strcpy(my_scores[3].subject, "社会");
+    my_scores[3].points = 88;
+    
+    /* 各科目のグレードを計算 */
+    ptr = my_scores;  /* 配列の先頭を指すポインタ */
+    for (i = 0; i < 4; i++) {
+        calculate_grade(ptr + i);  /* ポインタ演算でi番目の要素 */
+    }
+    
+    /* 結果表示 */
+    printf("=== 成績表 ===\n");
+    for (i = 0; i < 4; i++) {
+        printf("%s: %d点 (評価: %c)\n", 
+               my_scores[i].subject, 
+               my_scores[i].points, 
+               my_scores[i].grade);
+    }
+    
+    /* 最高得点の科目を見つける */
+    best = find_best_score(my_scores, 4);
+    printf("\n最高得点: %s (%d点)\n", best->subject, best->points);
+    
+    return 0;
+}
+```
+
+### 構造体ポインタ配列
+
+ポインタの配列で複数の構造体を効率的に管理します。
+
+#### 構造体ポインタ配列の基本
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+struct Person {
+    char name[50];
+    int age;
+    char city[30];
+};
+
+void print_person_info(struct Person *person)
+{
+    printf("名前: %s, 年齢: %d歳, 居住地: %s\n", 
+           person->name, person->age, person->city);
+}
+
+int main(void)
+{
+    /* 個別の構造体変数 */
+    struct Person person1 = {"山田太郎", 25, "東京"};
+    struct Person person2 = {"佐藤花子", 30, "大阪"};
+    struct Person person3 = {"田中次郎", 28, "名古屋"};
+    struct Person person4 = {"鈴木美咲", 22, "福岡"};
+    
+    /* 構造体ポインタの配列 */
+    struct Person *people[4];
+    int i;
+    
+    /* ポインタ配列に各構造体のアドレスを設定 */
+    people[0] = &person1;
+    people[1] = &person2;
+    people[2] = &person3;
+    people[3] = &person4;
+    
+    printf("=== 全員の情報 ===\n");
+    for (i = 0; i < 4; i++) {
+        printf("%d. ", i + 1);
+        print_person_info(people[i]);
+    }
+    
+    /* 特定の条件で検索 */
+    printf("\n=== 25歳未満の人 ===\n");
+    for (i = 0; i < 4; i++) {
+        if (people[i]->age < 25) {
+            print_person_info(people[i]);
+        }
+    }
+    
+    return 0;
+}
+```
+
+#### 動的な構造体ポインタ配列
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+struct Student {
+    int id;
+    char name[50];
+    double gpa;
+};
+
+/* 学生データを作成する関数 */
+struct Student create_student(int id, const char* name, double gpa)
+{
+    struct Student student;
+    student.id = id;
+    strcpy(student.name, name);
+    student.gpa = gpa;
+    return student;
+}
+
+/* GPA順でソート（バブルソート） */
+void sort_students_by_gpa(struct Student *students[], int count)
+{
+    int i, j;
+    struct Student *temp;
+    
+    for (i = 0; i < count - 1; i++) {
+        for (j = 0; j < count - 1 - i; j++) {
+            if (students[j]->gpa < students[j + 1]->gpa) {
+                temp = students[j];
+                students[j] = students[j + 1];
+                students[j + 1] = temp;
+            }
+        }
+    }
+}
+
+/* 学生一覧を表示 */
+void display_students(struct Student *students[], int count)
+{
+    int i;
+    printf("ID\t名前\t\tGPA\n");
+    printf("------------------------\n");
+    for (i = 0; i < count; i++) {
+        printf("%d\t%s\t\t%.1f\n", 
+               students[i]->id, 
+               students[i]->name, 
+               students[i]->gpa);
+    }
+    printf("\n");
+}
+
+int main(void)
+{
+    /* 学生データの作成 */
+    struct Student student1 = create_student(1001, "田中太郎", 3.2);
+    struct Student student2 = create_student(1002, "佐藤花子", 3.8);
+    struct Student student3 = create_student(1003, "山田次郎", 2.9);
+    struct Student student4 = create_student(1004, "鈴木美咲", 3.5);
+    struct Student student5 = create_student(1005, "高橋健太", 3.1);
+    
+    /* 構造体ポインタ配列 */
+    struct Student *class_roster[] = {
+        &student1, &student2, &student3, &student4, &student5
+    };
+    
+    int class_size = sizeof(class_roster) / sizeof(class_roster[0]);
+    
+    printf("=== 入学順（元の順序） ===\n");
+    display_students(class_roster, class_size);
+    
+    /* GPA順でソート */
+    sort_students_by_gpa(class_roster, class_size);
+    
+    printf("=== GPA順（高い順） ===\n");
+    display_students(class_roster, class_size);
+    
+    /* 優秀な学生を見つける */
+    printf("=== GPA 3.5以上の学生 ===\n");
+    int i;
+    for (i = 0; i < class_size; i++) {
+        if (class_roster[i]->gpa >= 3.5) {
+            printf("%s (GPA: %.1f)\n", 
+                   class_roster[i]->name, 
+                   class_roster[i]->gpa);
+        }
+    }
+    
+    return 0;
+}
+```
+
+### ネストした構造体とポインタ
+
+構造体の中に他の構造体を含む場合のポインタ操作について学習します。
+
+#### ネストした構造体の基本
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+struct Address {
+    char street[100];
+    char city[50];
+    char postal_code[20];
+};
+
+struct Contact {
+    char phone[20];
+    char email[50];
+};
+
+struct Employee {
+    int id;
+    char name[50];
+    struct Address address;    /* ネストした構造体 */
+    struct Contact contact;    /* ネストした構造体 */
+    double salary;
+};
+
+void print_employee_details(struct Employee *emp)
+{
+    printf("=== 社員詳細情報 ===\n");
+    printf("ID: %d\n", emp->id);
+    printf("名前: %s\n", emp->name);
+    printf("住所: %s, %s %s\n", 
+           emp->address.street, 
+           emp->address.city, 
+           emp->address.postal_code);
+    printf("電話: %s\n", emp->contact.phone);
+    printf("メール: %s\n", emp->contact.email);
+    printf("給与: %.0f円\n", emp->salary);
+    printf("\n");
+}
+
+void update_address(struct Employee *emp, const char* street, 
+                   const char* city, const char* postal_code)
+{
+    strcpy(emp->address.street, street);
+    strcpy(emp->address.city, city);
+    strcpy(emp->address.postal_code, postal_code);
+    printf("%s の住所を更新しました\n", emp->name);
+}
+
+int main(void)
+{
+    struct Employee emp;
+    struct Employee *emp_ptr = &emp;
+    
+    /* 基本情報の設定 */
+    emp_ptr->id = 5001;
+    strcpy(emp_ptr->name, "田中太郎");
+    emp_ptr->salary = 450000.0;
+    
+    /* ネストした構造体メンバーの設定 */
+    strcpy(emp_ptr->address.street, "新宿区西新宿1-2-3");
+    strcpy(emp_ptr->address.city, "東京都");
+    strcpy(emp_ptr->address.postal_code, "160-0023");
+    
+    strcpy(emp_ptr->contact.phone, "03-1234-5678");
+    strcpy(emp_ptr->contact.email, "tanaka@company.co.jp");
+    
+    print_employee_details(emp_ptr);
+    
+    /* 住所更新 */
+    update_address(emp_ptr, "渋谷区渋谷2-3-4", "東京都", "150-0002");
+    
+    print_employee_details(emp_ptr);
+    
+    return 0;
+}
+```
+
+#### 構造体ポインタのネスト
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+struct Engine {
+    char type[50];
+    double displacement;
+    int horsepower;
+};
+
+struct Car {
+    char model[50];
+    int year;
+    struct Engine *engine;  /* エンジン情報へのポインタ */
+    double price;
+};
+
+struct Dealership {
+    char name[50];
+    struct Car *inventory;  /* 車の在庫配列へのポインタ */
+    int car_count;
+};
+
+void print_car_info(struct Car *car)
+{
+    printf("=== 車両情報 ===\n");
+    printf("モデル: %s (%d年)\n", car->model, car->year);
+    if (car->engine != NULL) {
+        printf("エンジン: %s %.1fL %dHP\n", 
+               car->engine->type, 
+               car->engine->displacement, 
+               car->engine->horsepower);
+    }
+    printf("価格: %.0f万円\n", car->price);
+    printf("\n");
+}
+
+void print_dealership_inventory(struct Dealership *dealer)
+{
+    int i;
+    printf("=== %s の在庫 ===\n", dealer->name);
+    for (i = 0; i < dealer->car_count; i++) {
+        printf("%d. %s (%.0f万円)\n", 
+               i + 1, 
+               (dealer->inventory + i)->model, 
+               (dealer->inventory + i)->price);
+    }
+    printf("\n");
+}
+
+int main(void)
+{
+    /* エンジン情報 */
+    struct Engine engine1 = {"V6ガソリン", 3.5, 280};
+    struct Engine engine2 = {"直4ハイブリッド", 1.8, 120};
+    struct Engine engine3 = {"V8ガソリン", 5.0, 450};
+    
+    /* 車両情報 */
+    struct Car cars[3] = {
+        {"セダンLX", 2023, &engine1, 450},
+        {"ハイブリッドEC", 2024, &engine2, 380},
+        {"スポーツST", 2023, &engine3, 850}
+    };
+    
+    /* ディーラー情報 */
+    struct Dealership dealer = {
+        "トーキョー自動車",
+        cars,
+        3
+    };
+    
+    /* ディーラーの在庫一覧 */
+    print_dealership_inventory(&dealer);
+    
+    /* 各車両の詳細情報 */
+    int i;
+    for (i = 0; i < dealer.car_count; i++) {
+        print_car_info(dealer.inventory + i);
+    }
+    
+    return 0;
+}
+```
+
+### 構造体とメモリ管理
+
+構造体のメモリレイアウトとアライメントについて理解します。
+
+#### 構造体のメモリサイズとアライメント
+
+```c
+#include <stdio.h>
+
+struct Example1 {
+    char a;     /* 1バイト */
+    int b;      /* 4バイト */
+    char c;     /* 1バイト */
+};
+
+struct Example2 {
+    char a;     /* 1バイト */
+    char c;     /* 1バイト */
+    int b;      /* 4バイト */
+};
+
+struct Example3 {
+    double d;   /* 8バイト */
+    char a;     /* 1バイト */
+    int b;      /* 4バイト */
+};
+
+void analyze_struct_memory(void)
+{
+    struct Example1 ex1;
+    struct Example2 ex2;
+    struct Example3 ex3;
+    
+    printf("=== 構造体メモリ分析 ===\n");
+    
+    printf("Example1 (char, int, char):\n");
+    printf("  sizeof: %lu バイト\n", sizeof(struct Example1));
+    printf("  a のオフセット: %lu\n", (unsigned long)&ex1.a - (unsigned long)&ex1);
+    printf("  b のオフセット: %lu\n", (unsigned long)&ex1.b - (unsigned long)&ex1);
+    printf("  c のオフセット: %lu\n", (unsigned long)&ex1.c - (unsigned long)&ex1);
+    printf("\n");
+    
+    printf("Example2 (char, char, int):\n");
+    printf("  sizeof: %lu バイト\n", sizeof(struct Example2));
+    printf("  a のオフセット: %lu\n", (unsigned long)&ex2.a - (unsigned long)&ex2);
+    printf("  c のオフセット: %lu\n", (unsigned long)&ex2.c - (unsigned long)&ex2);
+    printf("  b のオフセット: %lu\n", (unsigned long)&ex2.b - (unsigned long)&ex2);
+    printf("\n");
+    
+    printf("Example3 (double, char, int):\n");
+    printf("  sizeof: %lu バイト\n", sizeof(struct Example3));
+    printf("  d のオフセット: %lu\n", (unsigned long)&ex3.d - (unsigned long)&ex3);
+    printf("  a のオフセット: %lu\n", (unsigned long)&ex3.a - (unsigned long)&ex3);
+    printf("  b のオフセット: %lu\n", (unsigned long)&ex3.b - (unsigned long)&ex3);
+    printf("\n");
+}
+
+int main(void)
+{
+    analyze_struct_memory();
+    
+    printf("=== 基本データ型のサイズ ===\n");
+    printf("char: %lu バイト\n", sizeof(char));
+    printf("int: %lu バイト\n", sizeof(int));
+    printf("double: %lu バイト\n", sizeof(double));
+    printf("ポインタ: %lu バイト\n", sizeof(void*));
+    
+    return 0;
+}
+```
+
+#### 構造体の配列とポインタの効率性
+
+```c
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+
+struct LargeData {
+    char description[256];
+    double values[100];
+    int status;
+};
+
+/* 値渡しで構造体を処理（非効率） */
+double process_by_value(struct LargeData data)
+{
+    int i;
+    double sum = 0.0;
+    
+    for (i = 0; i < 100; i++) {
+        sum += data.values[i];
+    }
+    
+    return sum / 100.0;  /* 平均値 */
+}
+
+/* ポインタ渡しで構造体を処理（効率的） */
+double process_by_pointer(struct LargeData *data)
+{
+    int i;
+    double sum = 0.0;
+    
+    for (i = 0; i < 100; i++) {
+        sum += data->values[i];
+    }
+    
+    return sum / 100.0;  /* 平均値 */
+}
+
+/* 構造体にテストデータを設定 */
+void setup_test_data(struct LargeData *data)
+{
+    int i;
+    strcpy(data->description, "テストデータセット");
+    
+    for (i = 0; i < 100; i++) {
+        data->values[i] = (double)(i + 1) * 1.5;
+    }
+    
+    data->status = 1;
+}
+
+int main(void)
+{
+    struct LargeData test_data;
+    clock_t start, end;
+    double result;
+    int iterations = 10000;
+    int i;
+    
+    setup_test_data(&test_data);
+    
+    printf("=== 構造体サイズ情報 ===\n");
+    printf("LargeData のサイズ: %lu バイト\n", sizeof(struct LargeData));
+    printf("テスト回数: %d 回\n\n", iterations);
+    
+    /* 値渡しのテスト */
+    printf("値渡しでのテスト開始...\n");
+    start = clock();
+    for (i = 0; i < iterations; i++) {
+        result = process_by_value(test_data);
+    }
+    end = clock();
+    printf("値渡し結果: %.1f\n", result);
+    printf("実行時間: %.3f 秒\n\n", (double)(end - start) / CLOCKS_PER_SEC);
+    
+    /* ポインタ渡しのテスト */
+    printf("ポインタ渡しでのテスト開始...\n");
+    start = clock();
+    for (i = 0; i < iterations; i++) {
+        result = process_by_pointer(&test_data);
+    }
+    end = clock();
+    printf("ポインタ渡し結果: %.1f\n", result);
+    printf("実行時間: %.3f 秒\n", (double)(end - start) / CLOCKS_PER_SEC);
+    
+    return 0;
+}
+```
+
+### 実践的な構造体活用例
+
+#### データベース風の学生管理システム
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_STUDENTS 100
+#define MAX_NAME_LEN 50
+
+struct Student {
+    int id;
+    char name[MAX_NAME_LEN];
+    int age;
+    double gpa;
+    char major[30];
+};
+
+struct StudentDatabase {
+    struct Student *students[MAX_STUDENTS];
+    int count;
+};
+
+/* 学生データベースの初期化 */
+void init_database(struct StudentDatabase *db)
+{
+    int i;
+    db->count = 0;
+    for (i = 0; i < MAX_STUDENTS; i++) {
+        db->students[i] = NULL;
+    }
+}
+
+/* 学生を追加 */
+int add_student(struct StudentDatabase *db, struct Student *student)
+{
+    if (db->count >= MAX_STUDENTS) {
+        printf("エラー: データベースが満杯です\n");
+        return 0;
+    }
+    
+    db->students[db->count] = student;
+    db->count++;
+    printf("学生 %s を追加しました (ID: %d)\n", student->name, student->id);
+    return 1;
+}
+
+/* IDで学生を検索 */
+struct Student* find_student_by_id(struct StudentDatabase *db, int id)
+{
+    int i;
+    for (i = 0; i < db->count; i++) {
+        if (db->students[i]->id == id) {
+            return db->students[i];
+        }
+    }
+    return NULL;
+}
+
+/* 専攻で学生を検索 */
+void find_students_by_major(struct StudentDatabase *db, const char* major)
+{
+    int i;
+    int found = 0;
+    
+    printf("=== %s専攻の学生 ===\n", major);
+    for (i = 0; i < db->count; i++) {
+        if (strcmp(db->students[i]->major, major) == 0) {
+            printf("ID: %d, 名前: %s, GPA: %.1f\n", 
+                   db->students[i]->id,
+                   db->students[i]->name,
+                   db->students[i]->gpa);
+            found = 1;
+        }
+    }
+    
+    if (!found) {
+        printf("該当する学生が見つかりませんでした\n");
+    }
+    printf("\n");
+}
+
+/* 全学生の一覧表示 */
+void display_all_students(struct StudentDatabase *db)
+{
+    int i;
+    
+    printf("=== 全学生一覧 (%d名) ===\n", db->count);
+    printf("ID\t名前\t\t年齢\tGPA\t専攻\n");
+    printf("------------------------------------------------\n");
+    
+    for (i = 0; i < db->count; i++) {
+        printf("%d\t%s\t\t%d\t%.1f\t%s\n",
+               db->students[i]->id,
+               db->students[i]->name,
+               db->students[i]->age,
+               db->students[i]->gpa,
+               db->students[i]->major);
+    }
+    printf("\n");
+}
+
+/* 平均GPAを計算 */
+double calculate_average_gpa(struct StudentDatabase *db)
+{
+    double total = 0.0;
+    int i;
+    
+    if (db->count == 0) return 0.0;
+    
+    for (i = 0; i < db->count; i++) {
+        total += db->students[i]->gpa;
+    }
+    
+    return total / db->count;
+}
+
+int main(void)
+{
+    struct StudentDatabase db;
+    init_database(&db);
+    
+    /* 学生データの作成 */
+    struct Student student1 = {2001, "田中太郎", 20, 3.2, "コンピュータ"};
+    struct Student student2 = {2002, "佐藤花子", 21, 3.8, "数学"};
+    struct Student student3 = {2003, "山田次郎", 19, 2.9, "コンピュータ"};
+    struct Student student4 = {2004, "鈴木美咲", 20, 3.5, "物理"};
+    struct Student student5 = {2005, "高橋健太", 22, 3.1, "数学"};
+    
+    /* データベースに学生を追加 */
+    add_student(&db, &student1);
+    add_student(&db, &student2);
+    add_student(&db, &student3);
+    add_student(&db, &student4);
+    add_student(&db, &student5);
+    
+    /* 全学生表示 */
+    display_all_students(&db);
+    
+    /* 特定IDの学生を検索 */
+    struct Student *found = find_student_by_id(&db, 2003);
+    if (found != NULL) {
+        printf("ID 2003 の学生: %s (%s専攻)\n\n", found->name, found->major);
+    }
+    
+    /* 専攻別検索 */
+    find_students_by_major(&db, "コンピュータ");
+    find_students_by_major(&db, "数学");
+    
+    /* 統計情報 */
+    printf("=== 統計情報 ===\n");
+    printf("登録学生数: %d名\n", db.count);
+    printf("平均GPA: %.2f\n", calculate_average_gpa(&db));
+    
+    return 0;
+}
+```
+
+## サンプルコード
+
+### 構造体の基本操作
+
+プログラムファイル: `examples/struct_basics.c`
+
+構造体の定義、初期化、メンバーアクセスの基本を学習します。
+
+### 構造体ポインタと->演算子
+
+プログラムファイル: `examples/struct_pointers.c`
+
+構造体ポインタと->演算子の使用方法を学習します。
+
+### 構造体配列の操作
+
+プログラムファイル: `examples/struct_arrays.c`
+
+構造体配列とポインタを使ったデータ管理を学習します。
+
+### コンパイルと実行
+
+```bash
+# examples ディレクトリに移動
+cd examples
+
+# C90準拠でコンパイル
+gcc -std=c90 -Wall -Wextra -pedantic struct_basics.c -o struct_basics
+
+# 実行
+./struct_basics
+```
+
+## 演習課題
+
+### 基礎問題
+
+1. **学生情報管理**
+   - 学生の情報（ID、名前、年齢、成績）を格納する構造体を定義し、ポインタを使って情報を表示・更新するプログラムを作成してください
+
+2. **座標計算**
+   - 2D座標を表す構造体を定義し、2点間の距離を計算する関数をポインタを使って実装してください
+
+3. **商品管理**
+   - 商品情報（コード、名前、価格、在庫）の構造体を作成し、構造体配列で複数商品を管理するプログラムを作成してください
+
+### 応用問題
+
+4. **従業員データベース**
+   - 従業員情報と部署情報をネストした構造体で管理し、部署別の給与統計を算出するプログラムを作成してください
+
+5. **図書管理システム**
+   - 本の情報（タイトル、著者、出版年、貸出状況）を管理し、検索・貸出・返却機能を実装してください
+
+6. **成績管理システム**
+   - 学生と科目の構造体を使って、学生別・科目別の成績統計を管理するプログラムを作成してください
+
+### 発展問題
+
+7. **動的配列システム**
+   - 構造体ポインタ配列を動的に拡張できるシステムを実装してください
+
+8. **データソート**
+   - 構造体ポインタ配列を複数の条件（名前、年齢、成績など）でソートできるプログラムを作成してください
+
+9. **階層データ構造**
+   - 会社組織（部署→チーム→従業員）のような階層構造を構造体とポインタで表現してください
+
+## コンパイル方法
+
+この章では以下のMakefileを使用してコンパイルができます：
+
+```bash
+# 全ての例題をコンパイル
+make all
+
+# 特定のプログラムをコンパイル
+make struct_basics
+
+# 実行
+make run
+
+# クリーンアップ
+make clean
+```
+
+## 規格による違い
+
+### C90での制限事項
+- 構造体の初期化は順序通りのみ
+- 可変長配列メンバーは不可
+- 匿名構造体・共用体は不可
+
+### C99以降の拡張
+- 指定イニシャライザが使用可能
+- 可変長配列メンバー（C99）
+- 匿名構造体・共用体（C11）
+
+## よくある間違い
+
+### 1. NULLポインタの参照
+
+```c
+/* NG: NULLポインタの参照 */
+struct Student *student = NULL;
+printf("%s\n", student->name);  /* セグメンテーション違反 */
+
+/* OK: NULLチェック */
+if (student != NULL) {
+    printf("%s\n", student->name);
+}
+```
+
+### 2. スタック上の構造体アドレスの返却
+
+```c
+/* NG: ローカル構造体のアドレス返し */
+struct Point* create_point(int x, int y) {
+    struct Point p = {x, y};
+    return &p;  /* 危険: ローカル変数のアドレス */
+}
+
+/* OK: 静的変数または呼び出し元で用意 */
+void create_point(struct Point *p, int x, int y) {
+    p->x = x;
+    p->y = y;
+}
+```
+
+### 3. 構造体の比較
+
+```c
+/* NG: 構造体の直接比較 */
+struct Point p1 = {10, 20};
+struct Point p2 = {10, 20};
+if (p1 == p2) {  /* コンパイルエラー */
+}
+
+/* OK: メンバーごとの比較 */
+if (p1.x == p2.x && p1.y == p2.y) {
+    printf("同じ座標です\n");
+}
+```
+
+## 次の章へ
+
+構造体を理解したら、[関数ポインタ](../function-pointers/README.md) に進んでください。
+
+## 参考資料
+
+- [C言語構造体リファレンス](https://ja.cppreference.com/w/c/language/struct)
+- [メモリアライメントの詳細](https://ja.cppreference.com/w/c/language/object)
+- [構造体の初期化](https://ja.cppreference.com/w/c/language/struct_initialization)
+## サンプルコード
+
+### struct_arrays.c
+
+```c
+/*
+ * struct_arrays.c - 構造体配列の操作
+ * 
+ * このプログラムでは以下を学習します：
+ * - 構造体配列の宣言と初期化
+ * - 構造体配列とポインタ演算
+ * - 構造体ポインタ配列
+ * - 実践的なデータ管理
+ */
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define MAX_STUDENTS 50
+#define MAX_BOOKS 100
+#define MAX_NAME_LEN 50
+
+/* 学生情報を表す構造体 */
+struct Student {
+    int id;
+    char name[MAX_NAME_LEN];
+    double scores[5];  /* 5教科の点数 */
+    double average;
+    char grade;
+};
+
+/* 書籍情報を表す構造体 */
+struct Book {
+    int isbn;
+    char title[100];
+    char author[50];
+    int year;
+    int is_borrowed;
+    int borrower_id;  /* 借りている学生のID */
+};
+
+/* 図書館を表す構造体 */
+struct Library {
+    struct Book books[MAX_BOOKS];
+    int book_count;
+    struct Student *students[MAX_STUDENTS];
+    int student_count;
+};
+
+/* 学生の平均点を計算する関数 */
+void calculate_average(struct Student *student)
+{
+    int i;
+    double sum = 0.0;
+    
+    for (i = 0; i < 5; i++) {
+        sum += student->scores[i];
+    }
+    
+    student->average = sum / 5.0;
+    
+    /* 成績評価 */
+    if (student->average >= 90.0) {
+        student->grade = 'A';
+    } else if (student->average >= 80.0) {
+        student->grade = 'B';
+    } else if (student->average >= 70.0) {
+        student->grade = 'C';
+    } else if (student->average >= 60.0) {
+        student->grade = 'D';
+    } else {
+        student->grade = 'F';
+    }
+}
+
+/* 学生情報を表示する関数 */
+void print_student(const struct Student *student)
+{
+    int i;
+    
+    printf("ID: %d, 名前: %s\n", student->id, student->name);
+    printf("点数: ");
+    for (i = 0; i < 5; i++) {
+        printf("%.0f ", student->scores[i]);
+    }
+    printf("\n平均: %.1f, 評価: %c\n", student->average, student->grade);
+    printf("---\n");
+}
+
+/* 成績順にソート（バブルソート） */
+void sort_students_by_average(struct Student students[], int count)
+{
+    int i, j;
+    struct Student temp;
+    
+    for (i = 0; i < count - 1; i++) {
+        for (j = 0; j < count - 1 - i; j++) {
+            if (students[j].average < students[j + 1].average) {
+                temp = students[j];
+                students[j] = students[j + 1];
+                students[j + 1] = temp;
+            }
+        }
+    }
+}
+
+/* 書籍を追加する関数 */
+int add_book(struct Library *lib, int isbn, const char *title, 
+             const char *author, int year)
+{
+    if (lib->book_count >= MAX_BOOKS) {
+        return 0;  /* 追加失敗 */
+    }
+    
+    struct Book *book = &lib->books[lib->book_count];
+    book->isbn = isbn;
+    strcpy(book->title, title);
+    strcpy(book->author, author);
+    book->year = year;
+    book->is_borrowed = 0;
+    book->borrower_id = -1;
+    
+    lib->book_count++;
+    return 1;  /* 追加成功 */
+}
+
+/* 書籍を検索する関数 */
+struct Book* find_book_by_isbn(struct Library *lib, int isbn)
+{
+    int i;
+    for (i = 0; i < lib->book_count; i++) {
+        if (lib->books[i].isbn == isbn) {
+            return &lib->books[i];
+        }
+    }
+    return NULL;
+}
+
+/* 書籍を借りる関数 */
+int borrow_book(struct Library *lib, int isbn, int student_id)
+{
+    struct Book *book = find_book_by_isbn(lib, isbn);
+    
+    if (book == NULL) {
+        printf("ISBN %d の書籍が見つかりません\n", isbn);
+        return 0;
+    }
+    
+    if (book->is_borrowed) {
+        printf("「%s」は既に貸出中です\n", book->title);
+        return 0;
+    }
+    
+    book->is_borrowed = 1;
+    book->borrower_id = student_id;
+    printf("ID %d の学生が「%s」を借りました\n", student_id, book->title);
+    return 1;
+}
+
+/* 学生の借りている本を表示 */
+void show_borrowed_books(struct Library *lib, int student_id)
+{
+    int i;
+    int count = 0;
+    
+    printf("\nID %d の学生が借りている本:\n", student_id);
+    for (i = 0; i < lib->book_count; i++) {
+        if (lib->books[i].is_borrowed && 
+            lib->books[i].borrower_id == student_id) {
+            printf("- %s (%s著, %d年)\n", 
+                   lib->books[i].title, 
+                   lib->books[i].author, 
+                   lib->books[i].year);
+            count++;
+        }
+    }
+    
+    if (count == 0) {
+        printf("  借りている本はありません\n");
+    }
+}
+
+int main(void)
+{
+    printf("===== 構造体配列の操作 =====\n\n");
+    
+    /* 1. 構造体配列の基本 */
+    printf("1. 構造体配列の基本\n");
+    
+    struct Student students[5] = {
+        {1001, "田中太郎", {85, 90, 78, 92, 88}, 0, ' '},
+        {1002, "佐藤花子", {92, 88, 95, 90, 93}, 0, ' '},
+        {1003, "山田次郎", {75, 80, 72, 78, 70}, 0, ' '},
+        {1004, "鈴木美咲", {88, 85, 90, 87, 91}, 0, ' '},
+        {1005, "高橋健太", {60, 65, 58, 70, 62}, 0, ' '}
+    };
+    
+    int student_count = 5;
+    int i;
+    
+    /* 平均点の計算 */
+    for (i = 0; i < student_count; i++) {
+        calculate_average(&students[i]);
+    }
+    
+    printf("=== 全学生の成績 ===\n");
+    for (i = 0; i < student_count; i++) {
+        print_student(&students[i]);
+    }
+    printf("\n");
+    
+    /* 2. 構造体配列のソート */
+    printf("2. 構造体配列のソート\n");
+    
+    sort_students_by_average(students, student_count);
+    
+    printf("=== 成績順（高い順） ===\n");
+    for (i = 0; i < student_count; i++) {
+        printf("%d位: %s (平均: %.1f)\n", 
+               i + 1, students[i].name, students[i].average);
+    }
+    printf("\n");
+    
+    /* 3. 構造体ポインタ配列 */
+    printf("3. 構造体ポインタ配列\n");
+    
+    struct Student *top_students[3];
+    int top_count = 0;
+    
+    /* 平均80点以上の学生を選抜 */
+    for (i = 0; i < student_count; i++) {
+        if (students[i].average >= 80.0 && top_count < 3) {
+            top_students[top_count++] = &students[i];
+        }
+    }
+    
+    printf("=== 優秀学生（平均80点以上） ===\n");
+    for (i = 0; i < top_count; i++) {
+        printf("%s (平均: %.1f, 評価: %c)\n", 
+               top_students[i]->name, 
+               top_students[i]->average, 
+               top_students[i]->grade);
+    }
+    printf("\n");
+    
+    /* 4. より複雑な構造体の管理 */
+    printf("4. 図書館システム\n");
+    
+    struct Library library = {.book_count = 0, .student_count = 0};
+    
+    /* 書籍の追加 */
+    add_book(&library, 1001, "プログラミング入門", "山田太郎", 2020);
+    add_book(&library, 1002, "データ構造とアルゴリズム", "佐藤花子", 2019);
+    add_book(&library, 1003, "オペレーティングシステム", "田中次郎", 2021);
+    add_book(&library, 1004, "ネットワーク基礎", "鈴木一郎", 2022);
+    add_book(&library, 1005, "データベース設計", "高橋美咲", 2020);
+    
+    printf("図書館の蔵書数: %d冊\n\n", library.book_count);
+    
+    /* 学生を図書館に登録 */
+    for (i = 0; i < 3; i++) {
+        library.students[i] = &students[i];
+        library.student_count++;
+    }
+    
+    /* 本の貸出 */
+    borrow_book(&library, 1001, students[0].id);
+    borrow_book(&library, 1003, students[0].id);
+    borrow_book(&library, 1002, students[1].id);
+    borrow_book(&library, 1001, students[2].id);  /* 既に貸出中 */
+    
+    /* 各学生の借りている本を表示 */
+    for (i = 0; i < 3; i++) {
+        show_borrowed_books(&library, students[i].id);
+    }
+    printf("\n");
+    
+    /* 5. ポインタ演算による配列走査 */
+    printf("5. ポインタ演算による配列走査\n");
+    
+    struct Book *book_ptr = library.books;
+    struct Book *book_end = library.books + library.book_count;
+    
+    printf("=== 貸出中の書籍一覧 ===\n");
+    while (book_ptr < book_end) {
+        if (book_ptr->is_borrowed) {
+            printf("「%s」 → 学生ID: %d\n", 
+                   book_ptr->title, book_ptr->borrower_id);
+        }
+        book_ptr++;
+    }
+    
+    return 0;
+}
+
+/*
+実行結果例:
+===== 構造体配列の操作 =====
+
+1. 構造体配列の基本
+=== 全学生の成績 ===
+ID: 1001, 名前: 田中太郎
+点数: 85 90 78 92 88 
+平均: 86.6, 評価: B
+---
+ID: 1002, 名前: 佐藤花子
+点数: 92 88 95 90 93 
+平均: 91.6, 評価: A
+---
+ID: 1003, 名前: 山田次郎
+点数: 75 80 72 78 70 
+平均: 75.0, 評価: C
+---
+ID: 1004, 名前: 鈴木美咲
+点数: 88 85 90 87 91 
+平均: 88.2, 評価: B
+---
+ID: 1005, 名前: 高橋健太
+点数: 60 65 58 70 62 
+平均: 63.0, 評価: D
+---
+
+2. 構造体配列のソート
+=== 成績順（高い順） ===
+1位: 佐藤花子 (平均: 91.6)
+2位: 鈴木美咲 (平均: 88.2)
+3位: 田中太郎 (平均: 86.6)
+4位: 山田次郎 (平均: 75.0)
+5位: 高橋健太 (平均: 63.0)
+
+3. 構造体ポインタ配列
+=== 優秀学生（平均80点以上） ===
+佐藤花子 (平均: 91.6, 評価: A)
+鈴木美咲 (平均: 88.2, 評価: B)
+田中太郎 (平均: 86.6, 評価: B)
+
+4. 図書館システム
+図書館の蔵書数: 5冊
+
+ID 1001 の学生が「プログラミング入門」を借りました
+ID 1001 の学生が「オペレーティングシステム」を借りました
+ID 1002 の学生が「データ構造とアルゴリズム」を借りました
+「プログラミング入門」は既に貸出中です
+
+ID 1001 の学生が借りている本:
+- プログラミング入門 (山田太郎著, 2020年)
+- オペレーティングシステム (田中次郎著, 2021年)
+
+ID 1002 の学生が借りている本:
+- データ構造とアルゴリズム (佐藤花子著, 2019年)
+
+ID 1003 の学生が借りている本:
+  借りている本はありません
+
+5. ポインタ演算による配列走査
+=== 貸出中の書籍一覧 ===
+「プログラミング入門」 → 学生ID: 1001
+「データ構造とアルゴリズム」 → 学生ID: 1002
+「オペレーティングシステム」 → 学生ID: 1001
+*/
+```
+
+> C99版は[こちら](struct_arrays_c99.c)を参照してください。
+
+### struct_basics.c
+
+```c
+/*
+ * struct_basics.c - 構造体の基本操作
+ * 
+ * このプログラムでは以下を学習します：
+ * - 構造体の定義方法
+ * - 構造体変数の宣言と初期化
+ * - 構造体メンバーへのアクセス
+ * - 構造体の関数への渡し方
+ */
+
+#include <stdio.h>
+#include <string.h>
+
+/* 座標を表す構造体 */
+struct Point {
+    int x;
+    int y;
+};
+
+/* 学生情報を表す構造体 */
+struct Student {
+    int id;
+    char name[50];
+    int age;
+    double gpa;
+};
+
+/* 商品情報を表す構造体 */
+struct Product {
+    int code;
+    char name[100];
+    double price;
+    int stock;
+};
+
+/* 構造体を値渡しで受け取る関数 */
+void print_point_by_value(struct Point p)
+{
+    printf("座標: (%d, %d)\n", p.x, p.y);
+}
+
+/* 構造体をポインタ渡しで受け取る関数 */
+void print_point_by_pointer(struct Point *p)
+{
+    if (p != NULL) {
+        printf("座標: (%d, %d)\n", p->x, p->y);
+    }
+}
+
+/* 学生情報を表示する関数 */
+void display_student(struct Student s)
+{
+    printf("=== 学生情報 ===\n");
+    printf("ID: %d\n", s.id);
+    printf("名前: %s\n", s.name);
+    printf("年齢: %d歳\n", s.age);
+    printf("GPA: %.2f\n", s.gpa);
+    printf("\n");
+}
+
+/* 商品情報を更新する関数（ポインタ使用） */
+void update_stock(struct Product *p, int quantity)
+{
+    if (p != NULL) {
+        p->stock += quantity;
+        if (quantity > 0) {
+            printf("%s の在庫を %d 個追加しました。現在の在庫: %d\n", 
+                   p->name, quantity, p->stock);
+        } else {
+            printf("%s の在庫を %d 個減らしました。現在の在庫: %d\n", 
+                   p->name, -quantity, p->stock);
+        }
+    }
+}
+
+int main(void)
+{
+    printf("===== 構造体の基本操作 =====\n\n");
+    
+    /* 1. 構造体の宣言と初期化 */
+    printf("1. 構造体の宣言と初期化\n");
+    
+    /* 方法1: 宣言後に個別に代入 */
+    struct Point p1;
+    p1.x = 10;
+    p1.y = 20;
+    
+    /* 方法2: 初期化リストを使用 */
+    struct Point p2 = {30, 40};
+    
+    /* 方法3: 部分的な初期化（残りは0） */
+    struct Point p3 = {50};  /* y は 0 になる */
+    
+    printf("p1: (%d, %d)\n", p1.x, p1.y);
+    printf("p2: (%d, %d)\n", p2.x, p2.y);
+    printf("p3: (%d, %d)\n", p3.x, p3.y);
+    printf("\n");
+    
+    /* 2. 構造体のコピー */
+    printf("2. 構造体のコピー\n");
+    struct Point p4 = p1;  /* 構造体全体のコピー */
+    p4.x = 100;  /* p4を変更してもp1は影響を受けない */
+    
+    printf("p1（元）: (%d, %d)\n", p1.x, p1.y);
+    printf("p4（コピー後変更）: (%d, %d)\n", p4.x, p4.y);
+    printf("\n");
+    
+    /* 3. 構造体と関数 */
+    printf("3. 構造体と関数\n");
+    print_point_by_value(p1);     /* 値渡し */
+    print_point_by_pointer(&p2);  /* ポインタ渡し */
+    printf("\n");
+    
+    /* 4. 文字列を含む構造体 */
+    printf("4. 文字列を含む構造体\n");
+    struct Student student1;
+    student1.id = 1001;
+    strcpy(student1.name, "田中太郎");
+    student1.age = 20;
+    student1.gpa = 3.5;
+    
+    display_student(student1);
+    
+    /* 5. 構造体の配列 */
+    printf("5. 構造体の配列\n");
+    struct Product products[3] = {
+        {101, "ノートPC", 98000.0, 5},
+        {102, "マウス", 2980.0, 20},
+        {103, "キーボード", 4500.0, 15}
+    };
+    
+    int i;
+    printf("=== 商品リスト ===\n");
+    for (i = 0; i < 3; i++) {
+        printf("商品コード: %d, 名前: %s, 価格: %.0f円, 在庫: %d\n",
+               products[i].code, products[i].name, 
+               products[i].price, products[i].stock);
+    }
+    printf("\n");
+    
+    /* 6. 構造体ポインタの使用 */
+    printf("6. 構造体ポインタの使用\n");
+    struct Product *prod_ptr = &products[0];
+    
+    /* アロー演算子でメンバーアクセス */
+    printf("ポインタ経由でアクセス: %s (%.0f円)\n", 
+           prod_ptr->name, prod_ptr->price);
+    
+    /* 在庫の更新 */
+    update_stock(prod_ptr, 3);
+    update_stock(&products[1], -5);
+    printf("\n");
+    
+    /* 7. 構造体のサイズ */
+    printf("7. 構造体のサイズ\n");
+    printf("sizeof(struct Point): %lu バイト\n", sizeof(struct Point));
+    printf("sizeof(struct Student): %lu バイト\n", sizeof(struct Student));
+    printf("sizeof(struct Product): %lu バイト\n", sizeof(struct Product));
+    printf("\n");
+    
+    /* 8. ネストした構造体 */
+    printf("8. ネストした構造体\n");
+    struct Rectangle {
+        struct Point top_left;
+        struct Point bottom_right;
+    };
+    
+    struct Rectangle rect = {{0, 0}, {100, 50}};
+    printf("矩形: 左上(%d, %d) - 右下(%d, %d)\n",
+           rect.top_left.x, rect.top_left.y,
+           rect.bottom_right.x, rect.bottom_right.y);
+    
+    /* 矩形の幅と高さを計算 */
+    int width = rect.bottom_right.x - rect.top_left.x;
+    int height = rect.bottom_right.y - rect.top_left.y;
+    printf("幅: %d, 高さ: %d, 面積: %d\n", width, height, width * height);
+    
+    return 0;
+}
+
+/*
+実行結果例:
+===== 構造体の基本操作 =====
+
+1. 構造体の宣言と初期化
+p1: (10, 20)
+p2: (30, 40)
+p3: (50, 0)
+
+2. 構造体のコピー
+p1（元）: (10, 20)
+p4（コピー後変更）: (100, 20)
+
+3. 構造体と関数
+座標: (10, 20)
+座標: (30, 40)
+
+4. 文字列を含む構造体
+=== 学生情報 ===
+ID: 1001
+名前: 田中太郎
+年齢: 20歳
+GPA: 3.50
+
+5. 構造体の配列
+=== 商品リスト ===
+商品コード: 101, 名前: ノートPC, 価格: 98000円, 在庫: 5
+商品コード: 102, 名前: マウス, 価格: 2980円, 在庫: 20
+商品コード: 103, 名前: キーボード, 価格: 4500円, 在庫: 15
+
+6. 構造体ポインタの使用
+ポインタ経由でアクセス: ノートPC (98000円)
+ノートPC の在庫を 3 個追加しました。現在の在庫: 8
+マウス の在庫を 5 個減らしました。現在の在庫: 15
+
+7. 構造体のサイズ
+sizeof(struct Point): 8 バイト
+sizeof(struct Student): 72 バイト
+sizeof(struct Product): 120 バイト
+
+8. ネストした構造体
+矩形: 左上(0, 0) - 右下(100, 50)
+幅: 100, 高さ: 50, 面積: 5000
+*/
+```
+
+> C99版は[こちら](struct_basics_c99.c)を参照してください。
+
+### struct_pointers.c
+
+```c
+/*
+ * struct_pointers.c - 構造体ポインタと->演算子
+ * 
+ * このプログラムでは以下を学習します：
+ * - 構造体ポインタの宣言と使用
+ * - アロー演算子（->）の使い方
+ * - 構造体ポインタと関数
+ * - 効率的なデータ処理
+ */
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+/* 従業員情報を表す構造体 */
+struct Employee {
+    int id;
+    char name[50];
+    char department[30];
+    double salary;
+    int years_of_service;
+};
+
+/* 日付を表す構造体 */
+struct Date {
+    int year;
+    int month;
+    int day;
+};
+
+/* プロジェクト情報を表す構造体 */
+struct Project {
+    int id;
+    char name[100];
+    struct Date start_date;
+    struct Date end_date;
+    struct Employee *manager;  /* 管理者へのポインタ */
+    double budget;
+};
+
+/* 従業員情報を表示する関数 */
+void print_employee(struct Employee *emp)
+{
+    if (emp == NULL) {
+        printf("エラー: 無効な従業員データ\n");
+        return;
+    }
+    
+    printf("=== 従業員情報 ===\n");
+    printf("ID: %d\n", emp->id);
+    printf("名前: %s\n", emp->name);
+    printf("部署: %s\n", emp->department);
+    printf("給与: %.0f円\n", emp->salary);
+    printf("勤続年数: %d年\n", emp->years_of_service);
+    printf("\n");
+}
+
+/* 給与を更新する関数 */
+void update_salary(struct Employee *emp, double percentage)
+{
+    if (emp == NULL || percentage < -100) {
+        printf("エラー: 無効なパラメータ\n");
+        return;
+    }
+    
+    double old_salary = emp->salary;
+    emp->salary = old_salary * (1 + percentage / 100.0);
+    
+    printf("%s の給与を更新しました\n", emp->name);
+    printf("変更前: %.0f円 → 変更後: %.0f円 (%.1f%%)\n", 
+           old_salary, emp->salary, percentage);
+}
+
+/* 最高給与の従業員を見つける関数 */
+struct Employee* find_highest_paid(struct Employee employees[], int count)
+{
+    if (employees == NULL || count <= 0) {
+        return NULL;
+    }
+    
+    struct Employee *highest = &employees[0];
+    int i;
+    
+    for (i = 1; i < count; i++) {
+        if (employees[i].salary > highest->salary) {
+            highest = &employees[i];
+        }
+    }
+    
+    return highest;
+}
+
+/* プロジェクト情報を表示する関数 */
+void print_project(struct Project *proj)
+{
+    if (proj == NULL) {
+        printf("エラー: 無効なプロジェクトデータ\n");
+        return;
+    }
+    
+    printf("=== プロジェクト情報 ===\n");
+    printf("ID: %d\n", proj->id);
+    printf("プロジェクト名: %s\n", proj->name);
+    printf("開始日: %d年%d月%d日\n", 
+           proj->start_date.year, proj->start_date.month, proj->start_date.day);
+    printf("終了日: %d年%d月%d日\n", 
+           proj->end_date.year, proj->end_date.month, proj->end_date.day);
+    printf("予算: %.0f円\n", proj->budget);
+    
+    if (proj->manager != NULL) {
+        printf("管理者: %s (%s)\n", 
+               proj->manager->name, proj->manager->department);
+    } else {
+        printf("管理者: 未定\n");
+    }
+    printf("\n");
+}
+
+/* 部署別の統計を計算する関数 */
+void calculate_department_stats(struct Employee employees[], int count, 
+                              const char *department)
+{
+    int dept_count = 0;
+    double total_salary = 0.0;
+    int total_years = 0;
+    int i;
+    
+    for (i = 0; i < count; i++) {
+        if (strcmp(employees[i].department, department) == 0) {
+            dept_count++;
+            total_salary += employees[i].salary;
+            total_years += employees[i].years_of_service;
+        }
+    }
+    
+    if (dept_count > 0) {
+        printf("=== %s の統計 ===\n", department);
+        printf("人数: %d名\n", dept_count);
+        printf("平均給与: %.0f円\n", total_salary / dept_count);
+        printf("平均勤続年数: %.1f年\n", (double)total_years / dept_count);
+        printf("\n");
+    } else {
+        printf("%s に該当する従業員はいません\n\n", department);
+    }
+}
+
+/* 構造体のスワップ（ポインタのみ交換） */
+void swap_employees(struct Employee **emp1, struct Employee **emp2)
+{
+    struct Employee *temp = *emp1;
+    *emp1 = *emp2;
+    *emp2 = temp;
+}
+
+int main(void)
+{
+    printf("===== 構造体ポインタと->演算子 =====\n\n");
+    
+    /* 1. 構造体ポインタの基本 */
+    printf("1. 構造体ポインタの基本\n");
+    
+    struct Employee emp1 = {
+        1001, "田中太郎", "開発部", 350000.0, 5
+    };
+    
+    struct Employee *emp_ptr = &emp1;
+    
+    /* ドット演算子とアロー演算子の比較 */
+    printf("ドット演算子: %s\n", emp1.name);
+    printf("アロー演算子: %s\n", emp_ptr->name);
+    printf("間接参照とドット: %s\n", (*emp_ptr).name);
+    printf("\n");
+    
+    /* 2. ポインタを使った関数呼び出し */
+    printf("2. ポインタを使った関数呼び出し\n");
+    print_employee(emp_ptr);
+    
+    /* 3. ポインタを通じた構造体の更新 */
+    printf("3. ポインタを通じた構造体の更新\n");
+    update_salary(emp_ptr, 10.0);  /* 10%昇給 */
+    printf("\n");
+    
+    /* 4. 構造体配列とポインタ */
+    printf("4. 構造体配列とポインタ\n");
+    
+    struct Employee employees[] = {
+        {2001, "佐藤花子", "営業部", 300000.0, 3},
+        {2002, "山田次郎", "開発部", 400000.0, 7},
+        {2003, "鈴木美咲", "人事部", 320000.0, 4},
+        {2004, "高橋健太", "営業部", 280000.0, 2},
+        {2005, "伊藤良子", "開発部", 450000.0, 10}
+    };
+    
+    int emp_count = sizeof(employees) / sizeof(employees[0]);
+    
+    /* 最高給与の従業員を検索 */
+    struct Employee *highest_paid = find_highest_paid(employees, emp_count);
+    if (highest_paid != NULL) {
+        printf("最高給与の従業員:\n");
+        printf("名前: %s, 給与: %.0f円\n\n", 
+               highest_paid->name, highest_paid->salary);
+    }
+    
+    /* 5. ポインタ配列 */
+    printf("5. ポインタ配列\n");
+    
+    struct Employee *dept_members[5];
+    int dept_count = 0;
+    int i;
+    
+    /* 開発部のメンバーを抽出 */
+    for (i = 0; i < emp_count; i++) {
+        if (strcmp(employees[i].department, "開発部") == 0) {
+            dept_members[dept_count++] = &employees[i];
+        }
+    }
+    
+    printf("開発部のメンバー:\n");
+    for (i = 0; i < dept_count; i++) {
+        printf("- %s (ID: %d)\n", 
+               dept_members[i]->name, dept_members[i]->id);
+    }
+    printf("\n");
+    
+    /* 6. ネストした構造体とポインタ */
+    printf("6. ネストした構造体とポインタ\n");
+    
+    struct Project project1 = {
+        101,
+        "新システム開発",
+        {2024, 1, 1},
+        {2024, 12, 31},
+        &employees[1],  /* 山田次郎を管理者に設定 */
+        5000000.0
+    };
+    
+    print_project(&project1);
+    
+    /* 7. 部署別統計 */
+    printf("7. 部署別統計\n");
+    calculate_department_stats(employees, emp_count, "開発部");
+    calculate_department_stats(employees, emp_count, "営業部");
+    
+    /* 8. ポインタのスワップ */
+    printf("8. ポインタのスワップ\n");
+    
+    struct Employee *ptr1 = &employees[0];
+    struct Employee *ptr2 = &employees[1];
+    
+    printf("スワップ前:\n");
+    printf("ptr1 → %s\n", ptr1->name);
+    printf("ptr2 → %s\n", ptr2->name);
+    
+    swap_employees(&ptr1, &ptr2);
+    
+    printf("\nスワップ後:\n");
+    printf("ptr1 → %s\n", ptr1->name);
+    printf("ptr2 → %s\n", ptr2->name);
+    
+    return 0;
+}
+
+/*
+実行結果例:
+===== 構造体ポインタと->演算子 =====
+
+1. 構造体ポインタの基本
+ドット演算子: 田中太郎
+アロー演算子: 田中太郎
+間接参照とドット: 田中太郎
+
+2. ポインタを使った関数呼び出し
+=== 従業員情報 ===
+ID: 1001
+名前: 田中太郎
+部署: 開発部
+給与: 350000円
+勤続年数: 5年
+
+3. ポインタを通じた構造体の更新
+田中太郎 の給与を更新しました
+変更前: 350000円 → 変更後: 385000円 (10.0%)
+
+4. 構造体配列とポインタ
+最高給与の従業員:
+名前: 伊藤良子, 給与: 450000円
+
+5. ポインタ配列
+開発部のメンバー:
+- 山田次郎 (ID: 2002)
+- 伊藤良子 (ID: 2005)
+
+6. ネストした構造体とポインタ
+=== プロジェクト情報 ===
+ID: 101
+プロジェクト名: 新システム開発
+開始日: 2024年1月1日
+終了日: 2024年12月31日
+予算: 5000000円
+管理者: 山田次郎 (開発部)
+
+7. 部署別統計
+=== 開発部 の統計 ===
+人数: 2名
+平均給与: 425000円
+平均勤続年数: 8.5年
+
+=== 営業部 の統計 ===
+人数: 2名
+平均給与: 290000円
+平均勤続年数: 2.5年
+
+8. ポインタのスワップ
+スワップ前:
+ptr1 → 佐藤花子
+ptr2 → 山田次郎
+
+スワップ後:
+ptr1 → 山田次郎
+ptr2 → 佐藤花子
+*/
+```
+
+> C99版は[こちら](struct_pointers_c99.c)を参照してください。
+
+---
+
+# 第12章: 関数ポインタ
+
+
+##  対応C規格
+- **主要対象:** C90
+- **学習内容:** 関数ポインタの基本、コールバック関数、関数ポインタ配列、動的な関数呼び出し
+
+##  学習目標
+
+この章を完了すると、以下のことができるようになります：
+
+- 関数ポインタの基本概念を理解する
+- 関数ポインタの宣言と初期化ができる
+- コールバック関数を実装できる
+- 関数ポインタ配列を活用できる
+- 動的な関数選択システムを作成できる
+
+##  理論解説
+
+### 関数ポインタの基本概念 
+
+関数ポインタは関数のアドレスを格納するポインタです。これにより、実行時に呼び出す関数を動的に決定できます。
+
+#### 関数ポインタの宣言
+
+```c
+#include <stdio.h>
+
+/* 通常の関数 */
+int add(int a, int b)
+{
+
+    return a + b;
+
+
+int subtract(int a, int b)
+{
+
+    return a - b;
+
+
+int main(void)
+{
+
+    /* 関数ポインタの宣言 */
+    int (*operation)(int, int);
+    
+    /* 関数ポインタに関数のアドレスを代入 */
+    operation = add;  /* または &add */
+    
+    /* 関数ポインタを通じて関数を呼び出し */
+    printf("addition: %d\n", operation(, ));
+    
+    /* 別の関数を指すように変更 */
+    operation = subtract;
+    printf("subtraction: %d\n", operation(, ));
+    
+    return ;
+
+```
+
+#### 関数ポインタの基本文法
+
+```c
+#include <stdio.h>
+
+/* さまざまな関数 */
+void greet(void)
+{
+
+    printf("こんにちは！n");
+
+
+int multiply(int x, int y)
+{
+
+    return x * y;
+
+
+double divide(double a, double b)
+
+    if (b != .) 
+        return a / b;
+    
+    return .;
+
+
+int main(void)
+{
+
+    /* さまざまな関数ポインタの宣言 */
+    void (*greeting_fnc)(void);           /* 引数なし、戻り値なし */
+    int (*math_fnc)(int, int);            /* int引数2つ、int戻り値 */
+    double (*calc_fnc)(double, double);   /* double引数2つ、double戻り値 */
+    
+    /* 関数ポインタの初期化 */
+    greeting_fnc = greet;
+    math_fnc = multiply;
+    calc_fnc = divide;
+    
+    /* 関数ポインタを使った呼び出し */
+    greeting_fnc();                       /* greet()を呼び出し */
+    printf("乗算: %d\n", math_fnc(, )); /* multiply(, )を呼び出し */
+    printf("除算: %.fn", calc_fnc(., .)); /* divide(., .)を呼び出し */
+    
+    /* 2つの異なる呼び出し方法 */
+    printf("直接呼び出し: %d\n", (*math_fnc)(, ));  /* (*ptr)(args) */
+    printf("間接呼び出し: %d\n", math_fnc(, ));     /* ptr(args) */
+    
+    return ;
+
+```
+
+### 関数ポインタの実践的な使用 
+
+#### 計算機システム
+
+```c
+#include <stdio.h>
+
+/* 演算関数群 */
+double add_op(double a, double b)  return a + b; 
+double sb_op(double a, double b)  return a - b; 
+double ml_op(double a, double b)  return a * b; 
+double div_op(double a, double b) 
+
+    if (b != .) return a / b;
+    printf("エラー: ゼロ除算n");
+    return .;
+
+
+/* 演算を実行する関数 */
+double calculate(double a, double b, double (*operation)(double, double))
+
+    return operation(a, b);
+
+
+/* 演算子に基づいて関数を選択 */
+double (*get_operation(char op))(double, double)
+
+    switch (op) 
+        case '+': return add_op;
+        case '-': return sb_op;
+        case '*': return ml_op;
+        case '/': return div_op;
+        default:  return NULL;
+    
+
+
+int main(void)
+{
+
+    double num1 = 20.0, num2 = 5.0;
+    char operators[] = {'+', '-', '*', '/'};
+    const char* op_names[] = {"加算", "減算", "乗算", "除算"};
+    int i;
+    
+    printf("数値1: %.1f, 数値2: %.1f\n\n", num1, num2);
+    
+    /* すべての演算を実行 */
+    for (i = 0; i < 4; i++) 
+    {
+        double (*op_func)(double, double) = get_operation(operators[i]);
+        if (op_func != NULL) 
+        {
+            double result = calculate(num1, num2, op_func);
+            printf("%s (%c): %.2f\n", op_names[i], operators[i], result);
+        }
+    }
+    
+    return 0;
+
+```
+
+#### 動的メニューシステム
+
+```c
+#include <stdio.h>
+
+/* メニュー項目の処理関数 */
+void show_profile(void)
+{
+
+    printf("=== プロフィール表示 ===n");
+    printf("名前: 田中太郎n");
+    printf("年齢: 歳n");
+    printf("職業: エンジニアnn");
+
+
+void show_settings(void)
+{
+
+    printf("=== 設定画面 ===n");
+    printf("言語: 日本語n");
+    printf("テーマ: ダークn");
+    printf("通知: ONnn");
+
+
+void show_help(void)
+{
+
+    printf("=== ヘルプ ===n");
+    printf("このアプリケーションの使用方法:n");
+    printf(". メニューから項目を選択n");
+    printf(". 処理が実行されますnn");
+
+
+void exit_app(void)
+{
+
+    printf("アプリケーションを終了します。n");
+
+
+/* メニュー項目の構造体 */
+strct MenuItem 
+    char name[];
+    void (*handler)(void);  /* 関数ポインタ */
+;
+
+int main(void)
+{
+
+    /* メニュー項目の定義 */
+    strct MenuItem men[] = 
+        "プロフィール", show_profile,
+        "設定", show_settings,
+        "ヘルプ", show_help,
+        "終了", exit_app
+    ;
+    
+    int men_size = sizeof(men) / sizeof(men[]);
+    int choice;
+    int i;
+    
+    do 
+        printf("=== メインメニュー ===n");
+        for (i = ; i < men_size; i++) 
+            printf("%d. %s\n", i + , men[i].name);
+        
+        printf("選択してください (-%d): ", men_size);
+        
+        if (scanf("%d", &choice) ==  && choice >=  && choice <= men_size) 
+            printf("n");
+            men[choice - ].handler();  /* 関数ポインタを使って実行 */
+            
+            if (choice == men_size)   /* 終了が選択された場合 */
+                break;
+            
+         else 
+            printf("無効な選択です。nn");
+            /* 入力バッファをクリア */
+            while (getchar() != 'n');
+        
+     while ();
+    
+    return ;
+
+```
+
+### コールバック関数 
+
+コールバック関数は他の関数に引数として渡される関数です。
+
+#### 配列処理のコールバック
+
+```c
+#include <stdio.h>
+
+/* 配列の各要素に適用する関数群 */
+int square(int x)  return x * x; 
+int cube(int x)  return x * x * x; 
+int double_vale(int x)  return x * ; 
+int increment(int x)  return x + ; 
+
+/* 配列の各要素に関数を適用 */
+void apply_to_array(int arr[], int size, int (*fnc)(int))
+
+    int i;
+    for (i = ; i < size; i++) 
+        arr[i] = fnc(arr[i]);
+    
+
+
+/* 配列を表示する関数 */
+void print_array(int arr[], int size, const char* label)
+{
+
+    int i;
+    printf("%s: ", label);
+    for (i = ; i < size; i++) 
+        printf("%d ", arr[i]);
+    
+    printf("n");
+
+
+int main(void)
+{
+
+    int numbers[] = , , , , ;
+    int size = sizeof(numbers) / sizeof(numbers[]);
+    int temp[];
+    int i;
+    
+    print_array(numbers, size, "元の配列");
+    
+    /* 乗を適用 */
+    for (i = ; i < size; i++) temp[i] = numbers[i];
+    apply_to_array(temp, size, square);
+    print_array(temp, size, "乗後");
+    
+    /* 乗を適用 */
+    for (i = ; i < size; i++) temp[i] = numbers[i];
+    apply_to_array(temp, size, cube);
+    print_array(temp, size, "乗後");
+    
+    /* 倍を適用 */
+    for (i = ; i < size; i++) temp[i] = numbers[i];
+    apply_to_array(temp, size, double_vale);
+    print_array(temp, size, "倍後");
+    
+    /* インクリメントを適用 */
+    for (i = ; i < size; i++) temp[i] = numbers[i];
+    apply_to_array(temp, size, increment);
+    print_array(temp, size, "インクリメント後");
+    
+    return ;
+
+```
+
+#### ソートのコールバック（比較関数）
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+/* 比較関数の型定義 */
+typedef int (*compare_fnc_t)(const void *a, const void *b);
+
+/* 整数の比較関数 */
+int compare_int_asc(const void *a, const void *b)
+{
+
+    int ia = *(const int*)a;
+    int ib = *(const int*)b;
+    return (ia > ib) - (ia < ib);  /* 昇順 */
+
+
+int compare_int_desc(const void *a, const void *b)
+{
+
+    int ia = *(const int*)a;
+    int ib = *(const int*)b;
+    return (ib > ia) - (ib < ia);  /* 降順 */
+
+
+/* 簡単なバブルソート（コールバック版） */
+void bbble_sort(void *base, size_t num, size_t size, 
+                 int (*compare)(const void *, const void *))
+
+    char *arr = (char*)base;
+    char *temp = malloc(size);
+    size_t i, j;
+    
+    if (temp == NULL) return;
+    
+    for (i = ; i < num - ; i++) 
+        for (j = ; j < num -  - i; j++) 
+            void *elem = arr + j * size;
+            void *elem = arr + (j + ) * size;
+            
+            if (compare(elem, elem) > ) 
+                /* 要素を交換 */
+                memcpy(temp, elem, size);
+                memcpy(elem, elem, size);
+                memcpy(elem, temp, size);
+            
+        
+    
+    
+    free(temp);
+
+
+/* 配列を表示 */
+void print_int_array(int arr[], int size, const char* label)
+{
+
+    int i;
+    printf("%s: ", label);
+    for (i = ; i < size; i++) 
+        printf("%d ", arr[i]);
+    
+    printf("n");
+
+
+int main(void)
+{
+
+    int numbers[] = , , , , , , 9, ;
+    int size = sizeof(numbers) / sizeof(numbers[]);
+    int temp[];
+    int i;
+    
+    print_int_array(numbers, size, "元の配列");
+    
+    /* 昇順ソート */
+    for (i = ; i < size; i++) temp[i] = numbers[i];
+    bbble_sort(temp, size, sizeof(int), compare_int_asc);
+    print_int_array(temp, size, "昇順ソート");
+    
+    /* 降順ソート */
+    for (i = ; i < size; i++) temp[i] = numbers[i];
+    bbble_sort(temp, size, sizeof(int), compare_int_desc);
+    print_int_array(temp, size, "降順ソート");
+    
+    return ;
+
+```
+
+### 関数ポインタ配列 
+
+関数ポインタの配列を使って、複数の関数を効率的に管理できます。
+
+#### 演算関数配列
+
+```c
+#include <stdio.h>
+
+/* 演算関数群 */
+int add_func(int a, int b) { return a + b; }
+int sub_func(int a, int b) { return a - b; }
+int mul_func(int a, int b) { return a * b; }
+int div_func(int a, int b) { return b != 0 ? a / b : 0; }
+int mod_func(int a, int b) { return b != 0 ? a % b : 0; }
+
+int main(void)
+{
+    /* 関数ポインタ配列の宣言と初期化 */
+    int (*operations[])(int, int) = 
+    {
+        add_func,  /* インデックス0: 加算 */
+        sub_func,  /* インデックス1: 減算 */
+        mul_func,  /* インデックス2: 乗算 */
+        div_func,  /* インデックス3: 除算 */
+        mod_func   /* インデックス4: 剰余 */
+    };
+    
+    const char* op_names[] = {"加算", "減算", "乗算", "除算", "剰余"};
+    const char* op_symbols[] = {"+", "-", "*", "/", "%"};
+    int num_ops = sizeof(operations) / sizeof(operations[0]);
+    int a = 20, b = 5;
+    int i;
+    
+    printf("数値: a = %d, b = %d\n\n", a, b);
+    
+    /* すべての演算を実行 */
+    for (i = 0; i < num_ops; i++) 
+    {
+        int result = operations[i](a, b);
+        printf("%s (%s): %d %s %d = %d\n", 
+               op_names[i], op_symbols[i], a, op_symbols[i], b, result);
+    }
+    
+    /* 特定の演算だけ実行 */
+    printf("\n特定の演算:\n");
+    printf("乗算結果: %d\n", operations[2](a, b));  /* mul_func */
+    printf("除算結果: %d\n", operations[3](a, b));  /* div_func */
+    
+    return 0;
+}
+```
+
+#### 状態機械（ステートマシン）
+
+```c
+#include <stdio.h>
+
+/* 状態の定義 */
+typedef enum 
+{
+    STATE_IDLE,
+    STATE_RUNNING,
+    STATE_PAUSED,
+    STATE_STOPPED,
+    STATE_COUNT
+} State;
+
+/* 状態処理関数の宣言 */
+void handle_idle(void);
+void handle_running(void);
+void handle_paused(void);
+void handle_stopped(void);
+
+/* 現在の状態 */
+static State current_state = STATE_IDLE;
+
+/* 状態処理関数配列 */
+void (*state_handlers[])(void) = 
+{
+    handle_idle,     /* STATE_IDLE */
+    handle_running,  /* STATE_RUNNING */
+    handle_paused,   /* STATE_PAUSED */
+    handle_stopped   /* STATE_STOPPED */
+};
+
+const char* state_names[] = 
+{
+    "待機中", "実行中", "一時停止", "停止中"
+};
+
+/* 各状態の処理関数 */
+void handle_idle(void)
+{
+    printf("[待機中] システムが待機状態です\n");
+    printf("  利用可能なアクション: 開始(s)\n");
+}
+
+void handle_running(void)
+{
+    printf("[実行中] システムが動作しています\n");
+    printf("  利用可能なアクション: 一時停止(p), 停止(q)\n");
+}
+
+void handle_paused(void)
+{
+    printf("[一時停止] システムが一時停止中です\n");
+    printf("  利用可能なアクション: 再開(r), 停止(q)\n");
+}
+
+void handle_stopped(void)
+{
+    printf("[停止中] システムが停止しました\n");
+    printf("  利用可能なアクション: リセット(reset)\n");
+}
+
+/* 状態遷移関数 */
+void transition_to_state(State new_state)
+{
+    if (new_state >= 0 && new_state < STATE_COUNT) 
+    {
+        printf("状態遷移: %s -> %s\n", 
+               state_names[current_state], state_names[new_state]);
+        current_state = new_state;
+    }
+}
+
+/* 現在の状態を処理 */
+void process_current_state(void)
+{
+    if (current_state >= 0 && current_state < STATE_COUNT) 
+    {
+        state_handlers[current_state]();
+    }
+}
+
+int main(void)
+{
+    char command[10];
+    
+    printf("=== ステートマシンデモ ===\n");
+    printf("コマンド: s(start), p(pause), r(resume), q(quit), reset\n\n");
+    
+    while (1) 
+    {
+        process_current_state();
+        printf("\nコマンドを入力してください: ");
+        
+        if (scanf("%9s", command) == 1) 
+        {
+            if (strcmp(command, "s") == 0 && current_state == STATE_IDLE) 
+            {
+                transition_to_state(STATE_RUNNING);
+            }
+            else if (strcmp(command, "p") == 0 && current_state == STATE_RUNNING) 
+            {
+                transition_to_state(STATE_PAUSED);
+            }
+            else if (strcmp(command, "r") == 0 && current_state == STATE_PAUSED) 
+            {
+                transition_to_state(STATE_RUNNING);
+            }
+            else if (strcmp(command, "q") == 0) 
+            {
+                transition_to_state(STATE_STOPPED);
+            }
+            else if (strcmp(command, "reset") == 0) 
+            {
+                transition_to_state(STATE_IDLE);
+            }
+            else if (strcmp(command, "exit") == 0) 
+            {
+                printf("プログラムを終了します\n");
+                break;
+            }
+            else 
+            {
+                printf("無効なコマンドまたは現在の状態では実行できません\n");
+            }
+        }
+        printf("\n");
+    }
+    
+    return 0;
+}
+```
+
+### 高度な関数ポインタ活用
+
+#### プラグインシステム
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+/* プラグインインターフェース */
+typedef struct 
+{
+    char name[50];
+    char version[10];
+    void (*init)(void);
+    void (*execute)(void);
+    void (*cleanup)(void);
+} Plugin;
+
+/* プラグイン: ログ出力 */
+void log_init(void) { printf("ログプラグイン初期化\n"); }
+void log_execute(void) { printf("ログファイルに出力中...\n"); }
+void log_cleanup(void) { printf("ログプラグイン終了処理\n"); }
+
+/* プラグイン: データベース接続 */
+void db_init(void) { printf("データベースプラグイン初期化\n"); }
+void db_execute(void) { printf("データベースに接続中...\n"); }
+void db_cleanup(void) { printf("データベース接続終了\n"); }
+
+/* プラグイン: ネットワーク通信 */
+void net_init(void) { printf("ネットワークプラグイン初期化\n"); }
+void net_execute(void) { printf("ネットワーク通信実行中...\n"); }
+void net_cleanup(void) { printf("ネットワーク接続終了\n"); }
+
+/* プラグインの登録 */
+Plugin plugins[] = 
+{
+    {"LogPlugin", "1.0", log_init, log_execute, log_cleanup},
+    {"DatabasePlugin", "2.0", db_init, db_execute, db_cleanup},
+    {"NetworkPlugin", "1.5", net_init, net_execute, net_cleanup}
+};
+
+int plugin_count = sizeof(plugins) / sizeof(plugins[0]);
+
+/* プラグイン管理システム */
+void load_plugins(void)
+{
+    int i;
+    printf("=== プラグイン読み込み ===\n");
+    for (i = 0; i < plugin_count; i++) 
+    {
+        printf("プラグイン: %s (v%s)\n", plugins[i].name, plugins[i].version);
+        plugins[i].init();
+    }
+    printf("\n");
+}
+
+void execute_plugins(void)
+{
+    int i;
+    printf("=== プラグイン実行 ===\n");
+    for (i = 0; i < plugin_count; i++) 
+    {
+        printf("[%s] ", plugins[i].name);
+        plugins[i].execute();
+    }
+    printf("\n");
+}
+
+void unload_plugins(void)
+{
+    int i;
+    printf("=== プラグイン終了処理 ===\n");
+    for (i = 0; i < plugin_count; i++) 
+    {
+        printf("[%s] ", plugins[i].name);
+        plugins[i].cleanup();
+    }
+    printf("\n");
+}
+
+/* 特定のプラグインを実行 */
+void execute_plugin_by_name(const char* name)
+{
+    int i;
+    for (i = 0; i < plugin_count; i++) 
+    {
+        if (strcmp(plugins[i].name, name) == 0) 
+        {
+            printf("プラグイン '%s' を実行:\n", name);
+            plugins[i].execute();
+            return;
+        }
+    }
+    printf("プラグイン '%s' が見つかりません\n", name);
+}
+
+int main(void)
+{
+    load_plugins();
+    execute_plugins();
+    
+    /* 特定のプラグインのみ実行 */
+    execute_plugin_by_name("DatabasePlugin");
+    execute_plugin_by_name("InvalidPlugin");
+    
+    unload_plugins();
+    
+    return 0;
+}
+```
+
+#### イベントハンドラシステム
+
+```c
+#include <stdio.h>
+
+/* イベントタイプ */
+typedef enum 
+{
+    EVENT_CLICK,
+    EVENT_KEYPRESS,
+    EVENT_MOUSE_MOVE,
+    EVENT_WINDOW_CLOSE,
+    EVENT_TYPE_COUNT
+} EventType;
+
+/* イベントデータ */
+typedef struct 
+{
+    EventType type;
+    int x, y;      /* 座標 */
+    int key_code;  /* キーコード */
+    char message[100];
+} Event;
+
+/* イベントハンドラ関数の型 */
+typedef void (*EventHandler)(const Event* event);
+
+/* イベントハンドラ配列 */
+EventHandler event_handlers[EVENT_TYPE_COUNT] = {NULL};
+
+/* 各イベントのハンドラ実装 */
+void handle_click(const Event* event)
+{
+    printf("クリックイベント: 座標(%d, %d) - %s\n", 
+           event->x, event->y, event->message);
+}
+
+void handle_keypress(const Event* event)
+{
+    printf("キー押下イベント: キーコード %d - %s\n", 
+           event->key_code, event->message);
+}
+
+void handle_mouse_move(const Event* event)
+{
+    printf("マウス移動イベント: 座標(%d, %d)\n", event->x, event->y);
+}
+
+void handle_window_close(const Event* event)
+{
+    printf("ウィンドウ閉じるイベント: %s\n", event->message);
+}
+
+/* イベントハンドラの登録 */
+void register_event_handler(EventType type, EventHandler handler)
+{
+    if (type >= 0 && type < EVENT_TYPE_COUNT) 
+    {
+        event_handlers[type] = handler;
+        printf("イベントハンドラ登録: タイプ %d\n", type);
+    }
+}
+
+/* イベントの処理 */
+void process_event(const Event* event)
+{
+    if (event->type >= 0 && event->type < EVENT_TYPE_COUNT && 
+        event_handlers[event->type] != NULL) 
+    {
+        event_handlers[event->type](event);
+    } 
+    else 
+    {
+        printf("未処理のイベント: タイプ %d\n", event->type);
+    }
+}
+
+/* イベントの作成補助関数 */
+Event create_click_event(int x, int y, const char* msg)
+{
+    Event event = {EVENT_CLICK, x, y, 0, ""};
+    strncpy(event.message, msg, sizeof(event.message) - 1);
+    return event;
+}
+
+Event create_keypress_event(int key_code, const char* msg)
+{
+    Event event = {EVENT_KEYPRESS, 0, 0, key_code, ""};
+    strncpy(event.message, msg, sizeof(event.message) - 1);
+    return event;
+}
+
+int main(void)
+{
+    printf("=== イベントハンドラシステム ===\n\n");
+    
+    /* イベントハンドラを登録 */
+    register_event_handler(EVENT_CLICK, handle_click);
+    register_event_handler(EVENT_KEYPRESS, handle_keypress);
+    register_event_handler(EVENT_MOUSE_MOVE, handle_mouse_move);
+    register_event_handler(EVENT_WINDOW_CLOSE, handle_window_close);
+    
+    printf("\n=== イベント処理テスト ===\n");
+    
+    /* さまざまなイベントを生成・処理 */
+    Event click_event = create_click_event(100, 200, "ボタンクリック");
+    process_event(&click_event);
+    
+    Event key_event = create_keypress_event(65, "Aキー押下");
+    process_event(&key_event);
+    
+    Event mouse_event = {EVENT_MOUSE_MOVE, 150, 300, 0, ""};
+    process_event(&mouse_event);
+    
+    Event close_event = {EVENT_WINDOW_CLOSE, 0, 0, 0, "アプリケーション終了"};
+    process_event(&close_event);
+    
+    /* 未登録のイベントタイプ */
+    Event unknown_event = {99, 0, 0, 0, ""};
+    process_event(&unknown_event);
+    
+    return 0;
+}
+```
+
+### 関数ポインタのtypedef
+
+複雑な関数ポインタの型を簡潔に書くためにtypedefを使用します。
+
+```c
+#include <stdio.h>
+
+/* 関数ポインタの型定義 */
+typedef int (*BinaryOperation)(int, int);
+typedef void (*EventCallback)(int event_id, const char* message);
+typedef double (*MathFunction)(double);
+
+/* 演算関数 */
+int add_nums(int a, int b) { return a + b; }
+int mul_nums(int a, int b) { return a * b; }
+
+/* イベントコールバック関数 */
+void on_start(int id, const char* msg) 
+{
+    printf("開始イベント[%d]: %s\n", id, msg);
+}
+
+void on_stop(int id, const char* msg) 
+{
+    printf("停止イベント[%d]: %s\n", id, msg);
+}
+
+/* 数学関数 */
+double square_root(double x) { return x * x; }   /* 簡易版 */
+double absolute(double x) { return x < 0 ? -x : x; }
+
+/* 関数を実行する汎用関数 */
+int execute_binary_op(int a, int b, BinaryOperation op)
+{
+    return op(a, b);
+}
+
+void trigger_event(int id, const char* message, EventCallback callback)
+{
+    callback(id, message);
+}
+
+double apply_math_func(double value, MathFunction func)
+{
+    return func(value);
+}
+
+int main(void)
+{
+    /* 型定義を使った関数ポインタの使用 */
+    BinaryOperation math_op;
+    EventCallback event_handler;
+    MathFunction math_func;
+    
+    printf("=== typedef を使った関数ポインタ ===\n\n");
+    
+    /* 数値演算 */
+    math_op = add_nums;
+    printf("加算: %d\n", execute_binary_op(10, 5, math_op));
+    
+    math_op = mul_nums;
+    printf("乗算: %d\n", execute_binary_op(10, 5, math_op));
+    
+    /* イベント処理 */
+    event_handler = on_start;
+    trigger_event(1, "システム開始", event_handler);
+    
+    event_handler = on_stop;
+    trigger_event(2, "システム終了", event_handler);
+    
+    /* 数学関数 */
+    math_func = square_root;
+    printf("二乗: %.2f\n", apply_math_func(5.0, math_func));
+    
+    math_func = absolute;
+    printf("絶対値: %.2f\n", apply_math_func(-7.5, math_func));
+    
+    return 0;
+}
+```
+
+## サンプルコード
+
+### 関数ポインタの基本
+
+- **C90版**: [examples/function_pointer_basic.c](examples/function_pointer_basic.c)
+- **C99版**: [examples/function_pointer_basic_c99.c](examples/function_pointer_basic_c99.c)
+
+関数ポインタの宣言、初期化、基本的な使用方法を学習します。
+
+### コールバック関数
+
+- **C90版**: [examples/callback_functions.c](examples/callback_functions.c)
+- **C99版**: [examples/callback_functions_c99.c](examples/callback_functions_c99.c)
+
+コールバック関数を使ったイベント処理システムを学習します。
+
+### 関数ポインタ配列
+
+- **C90版**: [examples/function_pointer_arrays.c](examples/function_pointer_arrays.c)
+- **C99版**: [examples/function_pointer_arrays_c99.c](examples/function_pointer_arrays_c99.c)
+
+関数ポインタ配列を使った動的な関数選択を学習します。
+
+### コンパイルと実行
+
+```bash
+# examples ディレクトリに移動
+cd examples
+
+# C90準拠でコンパイル
+gcc -std=c90 -Wall -Wextra -pedantic function_pointer_basic.c -o function_pointer_basic
+
+# 実行
+./function_pointer_basic
+```
+
+## 演習課題
+
+### 基礎問題
+
+1. **計算機の実装**
+   - 四則演算の関数を作成し、関数ポインタを使って動的に演算を選択できる計算機を実装してください
+
+2. **ソート比較関数**
+   - 整数配列を昇順・降順でソートできるよう、比較関数を関数ポインタで渡すソート関数を実装してください
+
+3. **メニューシステム**
+   - 関数ポインタ配列を使って、複数の機能を持つメニューシステムを作成してください
+
+### 応用問題
+
+4. **データ変換システム**
+   - さまざまなデータ変換関数（大文字変換、小文字変換など）を関数ポインタで管理するシステムを実装してください
+
+5. **フィルタシステム**
+   - 配列の要素をフィルタリングする関数を、条件を関数ポインタで渡して実装してください
+
+6. **ゲームの状態管理**
+   - ゲームの状態（メニュー、プレイ中、ポーズ、終了）を関数ポインタ配列で管理するシステムを作成してください
+
+### 発展問題
+
+7. **プラグインシステム**
+   - 実行時に機能を追加できるプラグインシステムを関数ポインタで実装してください
+
+8. **コマンドパターン**
+   - コマンドパターンを関数ポインタで実装し、undo/redo機能付きのシステムを作成してください
+
+9. **イベントドリブンシステム**
+   - 複数のイベントタイプを処理できるイベントドリブンシステムを実装してください
+
+## コンパイル方法
+
+この章では以下のMakefileを使用してコンパイルができます：
+
+```bash
+# 全ての例題をコンパイル
+make all
+
+# 特定のプログラムをコンパイル
+make function_pointer_basic
+
+# 実行
+make run
+
+# クリーンアップ
+make clean
+```
+
+## 規格による違い
+
+### C90での制限事項
+- 関数ポインタの型変換は明示的なキャストが必要
+- 可変引数関数への関数ポインタは制限的
+
+### C99以降の拡張
+- より柔軟な関数ポインタの初期化
+- inline関数への関数ポインタサポート改善
+
+## よくある間違い
+
+### 1. 関数ポインタの初期化忘れ
+
+```c
+/* NG: 初期化されていない関数ポインタ */
+int (*func_ptr)(int, int);
+int result = func_ptr(10, 5);  /* 未定義動作 */
+
+/* OK: 適切な初期化 */
+int (*func_ptr)(int, int) = add_function;
+int result = func_ptr(10, 5);
+```
+
+### 2. 関数ポインタのNULLチェック不足
+
+```c
+/* NG: NULLチェックなし */
+void execute_callback(void (*callback)(void))
+{
+    callback();  /* callbackがNULLの場合クラッシュ */
+}
+
+/* OK: NULLチェック */
+void execute_callback(void (*callback)(void))
+{
+    if (callback != NULL) 
+    {
+        callback();
+    }
+}
+```
+
+### 3. 関数の戻り値型の不一致
+
+```c
+/* NG: 戻り値型が一致しない */
+double divide_func(int a, int b) { return (double)a / b; }
+int (*math_op)(int, int) = divide_func;  /* 型エラー */
+
+/* OK: 戻り値型を一致させる */
+int divide_func(int a, int b) { return a / b; }
+int (*math_op)(int, int) = divide_func;
+```
+
+## 次の章へ
+
+関数ポインタを理解したら、[複数ファイル・発展技術](../advanced/README.md) に進んでください。
+
+## 参考資料
+
+- [C言語関数ポインタリファレンス](https://ja.cppreference.com/w/c/language/pointer)
+- [コールバック関数の設計パターン](https://en.wikipedia.org/wiki/Callback_(computer_programming))
+- [関数ポインタの活用例](https://www.learn-c.org/en/Function_Pointers)
+
+## サンプルコード
+
+### callback_functions.c
+
+```c
+/* コールバック関数の活用 */
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+/* 配列処理用のコールバック関数群 */
+int square(int x) { return x * x; }
+int cube(int x) { return x * x * x; }
+int double_value(int x) { return x * 2; }
+int increment(int x) { return x + 1; }
+
+/* 条件判定用のコールバック関数群 */
+int is_even(int x) { return x % 2 == 0; }
+int is_odd(int x) { return x % 2 != 0; }
+int is_positive(int x) { return x > 0; }
+int is_negative(int x) { return x < 0; }
+
+/* 配列の各要素に関数を適用 */
+void apply_to_array(int arr[], int size, int (*func)(int))
+{
+    int i;
+    for (i = 0; i < size; i++)
+    {
+        arr[i] = func(arr[i]);
+    }
+}
+
+/* 配列をフィルタリング */
+int filter_array(int source[], int dest[], int size, int (*predicate)(int))
+{
+    int count = 0;
+    int i;
+
+    for (i = 0; i < size; i++)
+    {
+        if (predicate(source[i]))
+        {
+            dest[count++] = source[i];
+        }
+    }
+
+    return count;
+}
+
+/* 配列を表示する関数 */
+void print_array(int arr[], int size, const char *label)
+{
+    int i;
+    printf("%s: ", label);
+    for (i = 0; i < size; i++)
+    {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+/* 文字列処理用のコールバック関数群 */
+void to_upper_char(char *c)
+{
+    if (*c >= 'a' && *c <= 'z')
+    {
+        *c = *c - 'a' + 'A';
+    }
+}
+
+void to_lower_char(char *c)
+{
+    if (*c >= 'A' && *c <= 'Z')
+    {
+        *c = *c - 'A' + 'a';
+    }
+}
+
+void replace_space_with_underscore(char *c)
+{
+    if (*c == ' ')
+    {
+        *c = '_';
+    }
+}
+
+/* 文字列の各文字にコールバック関数を適用 */
+void process_string(char str[], void (*processor)(char *))
+{
+    int i;
+    for (i = 0; str[i] != '\0'; i++)
+    {
+        processor(&str[i]);
+    }
+}
+
+/* ソート用の比較関数 */
+int compare_ascending(int a, int b)
+{
+    return a - b;
+}
+
+int compare_descending(int a, int b)
+{
+    return b - a;
+}
+
+/* バブルソート（コールバック版） */
+void bubble_sort(int arr[], int size, int (*compare)(int, int))
+{
+    int i, j, temp;
+
+    for (i = 0; i < size - 1; i++)
+    {
+        for (j = 0; j < size - 1 - i; j++)
+        {
+            if (compare(arr[j], arr[j + 1]) > 0)
+            {
+                temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+
+/* イベントハンドラシステム */
+void on_start_event(const char *message)
+{
+    printf("[開始イベント] %s\n", message);
+}
+
+void on_stop_event(const char *message)
+{
+    printf("[停止イベント] %s\n", message);
+}
+
+void on_error_event(const char *message)
+{
+    printf("[エラーイベント] %s\n", message);
+}
+
+/* イベントを処理する関数 */
+void trigger_event(const char *message, void (*event_handler)(const char *))
+{
+    if (event_handler != NULL)
+    {
+        event_handler(message);
+    }
+}
+
+/* 計算処理のログ付き実行 */
+int execute_with_logging(int a, int b, int (*operation)(int, int), const char *op_name)
+{
+    printf("計算開始: %s(%d, %d)\n", op_name, a, b);
+    int result = operation(a, b);
+    printf("計算完了: %s(%d, %d) = %d\n", op_name, a, b, result);
+    return result;
+}
+
+/* 簡単な加算関数（ログ用） */
+int add_for_logging(int a, int b)
+{
+    return a + b;
+}
+
+int multiply_for_logging(int a, int b)
+{
+    return a * b;
+}
+
+int main(void)
+{
+    printf("=== コールバック関数の活用 ===\n\n");
+
+    /* 1. 配列処理のコールバック */
+    printf("=== 配列処理のコールバック ===\n");
+    int numbers[] = {1, 2, 3, 4, 5};
+    int size = sizeof(numbers) / sizeof(numbers[0]);
+    int temp[5];
+    int i;
+
+    print_array(numbers, size, "元の配列");
+
+    /* 2乗を適用 */
+    for (i = 0; i < size; i++)
+        temp[i] = numbers[i];
+    apply_to_array(temp, size, square);
+    print_array(temp, size, "2乗後");
+
+    /* 3乗を適用 */
+    for (i = 0; i < size; i++)
+        temp[i] = numbers[i];
+    apply_to_array(temp, size, cube);
+    print_array(temp, size, "3乗後");
+
+    /* 2倍を適用 */
+    for (i = 0; i < size; i++)
+        temp[i] = numbers[i];
+    apply_to_array(temp, size, double_value);
+    print_array(temp, size, "2倍後");
+
+    /* 2. 配列フィルタリング */
+    printf("\n=== 配列フィルタリング ===\n");
+    int test_array[] = {-3, -1, 0, 2, 4, 5, 7, 8};
+    int test_size = sizeof(test_array) / sizeof(test_array[0]);
+    int filtered[8];
+    int filtered_count;
+
+    print_array(test_array, test_size, "元の配列");
+
+    /* 偶数をフィルタリング */
+    filtered_count = filter_array(test_array, filtered, test_size, is_even);
+    print_array(filtered, filtered_count, "偶数のみ");
+
+    /* 奇数をフィルタリング */
+    filtered_count = filter_array(test_array, filtered, test_size, is_odd);
+    print_array(filtered, filtered_count, "奇数のみ");
+
+    /* 正の数をフィルタリング */
+    filtered_count = filter_array(test_array, filtered, test_size, is_positive);
+    print_array(filtered, filtered_count, "正の数のみ");
+
+    /* 3. 文字列処理のコールバック */
+    printf("\n=== 文字列処理のコールバック ===\n");
+    char text1[] = "Hello World";
+    char text2[] = "Hello World";
+    char text3[] = "Hello World";
+
+    printf("元の文字列: '%s'\n", text1);
+
+    process_string(text1, to_upper_char);
+    printf("大文字変換: '%s'\n", text1);
+
+    process_string(text2, to_lower_char);
+    printf("小文字変換: '%s'\n", text2);
+
+    process_string(text3, replace_space_with_underscore);
+    printf("スペース置換: '%s'\n", text3);
+
+    /* 4. ソートのコールバック */
+    printf("\n=== ソートのコールバック ===\n");
+    int sort_array[] = {64, 34, 25, 12, 22, 11, 90, 5};
+    int sort_size = sizeof(sort_array) / sizeof(sort_array[0]);
+    int sort_temp[8];
+
+    print_array(sort_array, sort_size, "元の配列");
+
+    /* 昇順ソート */
+    for (i = 0; i < sort_size; i++)
+        sort_temp[i] = sort_array[i];
+    bubble_sort(sort_temp, sort_size, compare_ascending);
+    print_array(sort_temp, sort_size, "昇順ソート");
+
+    /* 降順ソート */
+    for (i = 0; i < sort_size; i++)
+        sort_temp[i] = sort_array[i];
+    bubble_sort(sort_temp, sort_size, compare_descending);
+    print_array(sort_temp, sort_size, "降順ソート");
+
+    /* 5. イベントハンドラシステム */
+    printf("\n=== イベントハンドラシステム ===\n");
+
+    trigger_event("アプリケーション開始", on_start_event);
+    trigger_event("処理中にエラーが発生", on_error_event);
+    trigger_event("アプリケーション終了", on_stop_event);
+
+    /* 6. ログ付き計算実行 */
+    printf("\n=== ログ付き計算実行 ===\n");
+
+    execute_with_logging(10, 5, add_for_logging, "加算");
+    execute_with_logging(7, 8, multiply_for_logging, "乗算");
+
+    printf("\n=== コールバック関数デモ完了 ===\n");
+
+    return 0;
+}
+```
+
+> C99版は[こちら](callback_functions_c99.c)を参照してください。
+
+### function_pointer_arrays.c
+
+```c
+/* 関数ポインタ配列の活用 */
+#include <stdio.h>
+#include <string.h>
+
+/* 計算機システム用の演算関数群 */
+double add_operation(double a, double b) { return a + b; }
+double sub_operation(double a, double b) { return a - b; }
+double mul_operation(double a, double b) { return a * b; }
+double div_operation(double a, double b)
+{
+    if (b != 0.0)
+        return a / b;
+    printf("エラー: ゼロ除算\n");
+    return 0.0;
+}
+
+/* メニューシステム用の処理関数群 */
+void show_profile(void)
+{
+    printf("=== プロフィール表示 ===\n");
+    printf("名前: 田中太郎\n");
+    printf("年齢: 25歳\n");
+    printf("職業: エンジニア\n");
+    printf("========================\n");
+}
+
+void show_settings(void)
+{
+    printf("=== 設定画面 ===\n");
+    printf("言語: 日本語\n");
+    printf("テーマ: ダーク\n");
+    printf("通知: ON\n");
+    printf("===============\n");
+}
+
+void show_help(void)
+{
+    printf("=== ヘルプ ===\n");
+    printf("このアプリケーションの使用方法:\n");
+    printf("1. メニューから項目を選択\n");
+    printf("2. 処理が実行されます\n");
+    printf("3. メインメニューに戻ります\n");
+    printf("=============\n");
+}
+
+void show_about(void)
+{
+    printf("=== このアプリについて ===\n");
+    printf("関数ポインタ配列デモ v1.0\n");
+    printf("C言語学習用サンプルプログラム\n");
+    printf("========================\n");
+}
+
+void exit_application(void)
+{
+    printf("アプリケーションを終了します。\n");
+}
+
+/* ゲーム状態管理用の関数群 */
+void state_menu(void)
+{
+    printf("[メニュー状態] ゲームメニューを表示中\n");
+    printf("  利用可能なアクション: 開始(s), 設定(c), 終了(q)\n");
+}
+
+void state_playing(void)
+{
+    printf("[プレイ中状態] ゲームをプレイ中\n");
+    printf("  利用可能なアクション: 一時停止(p), メニューに戻る(m)\n");
+}
+
+void state_paused(void)
+{
+    printf("[一時停止状態] ゲームが一時停止中\n");
+    printf("  利用可能なアクション: 再開(r), メニューに戻る(m)\n");
+}
+
+void state_settings(void)
+{
+    printf("[設定状態] ゲーム設定を調整中\n");
+    printf("  利用可能なアクション: 保存(s), キャンセル(c)\n");
+}
+
+/* データ変換関数群 */
+int to_upper_case(int c)
+{
+    if (c >= 'a' && c <= 'z')
+    {
+        return c - 'a' + 'A';
+    }
+    return c;
+}
+
+int to_lower_case(int c)
+{
+    if (c >= 'A' && c <= 'Z')
+    {
+        return c - 'A' + 'a';
+    }
+    return c;
+}
+
+int rot13_transform(int c)
+{
+    if (c >= 'a' && c <= 'z')
+    {
+        return (c - 'a' + 13) % 26 + 'a';
+    }
+    if (c >= 'A' && c <= 'Z')
+    {
+        return (c - 'A' + 13) % 26 + 'A';
+    }
+    return c;
+}
+
+int reverse_case(int c)
+{
+    if (c >= 'a' && c <= 'z')
+    {
+        return c - 'a' + 'A';
+    }
+    if (c >= 'A' && c <= 'Z')
+    {
+        return c - 'A' + 'a';
+    }
+    return c;
+}
+
+/* メニュー項目構造体 */
+struct MenuItem
+{
+    char name[30];
+    void (*handler)(void);
+};
+
+/* ゲーム状態の列挙型 */
+typedef enum
+{
+    GAME_MENU = 0,
+    GAME_PLAYING = 1,
+    GAME_PAUSED = 2,
+    GAME_SETTINGS = 3,
+    GAME_STATE_COUNT = 4
+} GameState;
+
+/* 文字変換関数の適用 */
+void apply_transform(char *str, int (*transform)(int))
+{
+    int i;
+    for (i = 0; str[i] != '\0'; i++)
+    {
+        str[i] = transform(str[i]);
+    }
+}
+
+/* 配列の表示 */
+void print_double_array(double arr[], int size, const char *label)
+{
+    int i;
+    printf("%s: ", label);
+    for (i = 0; i < size; i++)
+    {
+        printf("%.2f ", arr[i]);
+    }
+    printf("\n");
+}
+
+int main(void)
+{
+    printf("=== 関数ポインタ配列の活用 ===\n\n");
+
+    /* 1. 計算機システム */
+    printf("=== 計算機システム ===\n");
+
+    /* 関数ポインタ配列の定義 */
+    double (*operations[])(double, double) = {
+        add_operation, /* インデックス0: 加算 */
+        sub_operation, /* インデックス1: 減算 */
+        mul_operation, /* インデックス2: 乗算 */
+        div_operation  /* インデックス3: 除算 */
+    };
+
+    const char *op_names[] = {"加算", "減算", "乗算", "除算"};
+    const char *op_symbols[] = {"+", "-", "*", "/"};
+    int num_ops = sizeof(operations) / sizeof(operations[0]);
+    double a = 15.0, b = 4.0;
+    int i;
+
+    printf("数値: a = %.1f, b = %.1f\n", a, b);
+
+    /* 全ての演算を実行 */
+    for (i = 0; i < num_ops; i++)
+    {
+        double result = operations[i](a, b);
+        printf("%s (%s): %.1f %s %.1f = %.2f\n",
+               op_names[i], op_symbols[i], a, op_symbols[i], b, result);
+    }
+
+    /* 特定の演算のみ実行 */
+    printf("\n特定の演算:\n");
+    printf("乗算結果: %.2f\n", operations[2](a, b)); /* mul_operation */
+    printf("除算結果: %.2f\n", operations[3](a, b)); /* div_operation */
+
+    /* 2. メニューシステム */
+    printf("\n=== メニューシステム ===\n");
+
+    /* メニュー項目の定義 */
+    struct MenuItem menu[] = {
+        {"プロフィール", show_profile},
+        {"設定", show_settings},
+        {"ヘルプ", show_help},
+        {"このアプリについて", show_about},
+        {"終了", exit_application}};
+
+    int menu_size = sizeof(menu) / sizeof(menu[0]);
+
+    printf("利用可能なメニュー項目:\n");
+    for (i = 0; i < menu_size; i++)
+    {
+        printf("%d. %s\n", i + 1, menu[i].name);
+    }
+
+    /* メニュー項目の実行例 */
+    printf("\nメニュー実行例:\n");
+    menu[0].handler(); /* プロフィール表示 */
+    menu[2].handler(); /* ヘルプ表示 */
+
+    /* 3. ゲーム状態管理システム */
+    printf("\n=== ゲーム状態管理システム ===\n");
+
+    /* 状態処理関数配列 */
+    void (*state_handlers[])(void) = {
+        state_menu,    /* GAME_MENU */
+        state_playing, /* GAME_PLAYING */
+        state_paused,  /* GAME_PAUSED */
+        state_settings /* GAME_SETTINGS */
+    };
+
+    const char *state_names[] = {
+        "メニュー", "プレイ中", "一時停止", "設定"};
+
+    GameState current_state;
+
+    printf("各ゲーム状態の処理:\n");
+    for (current_state = GAME_MENU; current_state < GAME_STATE_COUNT; current_state++)
+    {
+        printf("\n現在の状態: %s\n", state_names[current_state]);
+        state_handlers[current_state]();
+    }
+
+    /* 4. 動的な状態遷移 */
+    printf("\n=== 動的な状態遷移 ===\n");
+
+    current_state = GAME_MENU;
+    printf("初期状態: %s\n", state_names[current_state]);
+    state_handlers[current_state]();
+
+    /* 状態遷移の例 */
+    current_state = GAME_PLAYING;
+    printf("\n状態遷移: %s\n", state_names[current_state]);
+    state_handlers[current_state]();
+
+    current_state = GAME_PAUSED;
+    printf("\n状態遷移: %s\n", state_names[current_state]);
+    state_handlers[current_state]();
+
+    /* 5. 文字変換システム */
+    printf("\n=== 文字変換システム ===\n");
+
+    /* 変換関数配列 */
+    int (*transforms[])(int) = {
+        to_upper_case,
+        to_lower_case,
+        rot13_transform,
+        reverse_case};
+
+    const char *transform_names[] = {
+        "大文字変換",
+        "小文字変換",
+        "ROT13暗号",
+        "大小文字反転"};
+
+    int num_transforms = sizeof(transforms) / sizeof(transforms[0]);
+    char original[] = "Hello World!";
+    char test_str[50];
+
+    printf("元の文字列: '%s'\n", original);
+
+    /* 各変換を適用 */
+    for (i = 0; i < num_transforms; i++)
+    {
+        strcpy(test_str, original);
+        apply_transform(test_str, transforms[i]);
+        printf("%s: '%s'\n", transform_names[i], test_str);
+    }
+
+    /* 6. 複数の数値に同じ演算を適用 */
+    printf("\n=== 複数数値への演算適用 ===\n");
+
+    double numbers[] = {1.0, 2.0, 3.0, 4.0, 5.0};
+    double results[5];
+    int numbers_size = sizeof(numbers) / sizeof(numbers[0]);
+
+    print_double_array(numbers, numbers_size, "元の配列");
+
+    /* 各演算を全ての数値ペア (numbers[i], 2.0) に適用 */
+    for (i = 0; i < num_ops; i++)
+    {
+        int j;
+        for (j = 0; j < numbers_size; j++)
+        {
+            results[j] = operations[i](numbers[j], 2.0);
+        }
+        printf("%s (x, 2.0): ", op_names[i]);
+        print_double_array(results, numbers_size, "結果");
+    }
+
+    /* 7. 条件付き関数実行 */
+    printf("\n=== 条件付き関数実行 ===\n");
+
+    printf("演算インデックス指定実行:\n");
+    int op_index = 2; /* 乗算 */
+    if (op_index >= 0 && op_index < num_ops)
+    {
+        double result = operations[op_index](10.0, 3.0);
+        printf("%s: 10.0 %s 3.0 = %.2f\n",
+               op_names[op_index], op_symbols[op_index], result);
+    }
+
+    /* 複数のメニュー項目を一度に実行 */
+    printf("\n複数メニュー項目の実行:\n");
+    int menu_indices[] = {1, 3}; /* 設定, このアプリについて */
+    int indices_count = sizeof(menu_indices) / sizeof(menu_indices[0]);
+
+    for (i = 0; i < indices_count; i++)
+    {
+        int idx = menu_indices[i];
+        if (idx >= 0 && idx < menu_size)
+        {
+            printf("\n[%s] 実行:\n", menu[idx].name);
+            menu[idx].handler();
+        }
+    }
+
+    printf("\n=== 関数ポインタ配列デモ完了 ===\n");
+
+    return 0;
+}
+```
+
+> C99版は[こちら](function_pointer_arrays_c99.c)を参照してください。
+
+### function_pointer_basic.c
+
+```c
+/* 関数ポインタの基本 */
+#include <stdio.h>
+
+/* 数学演算関数群 */
+int add(int a, int b)
+{
+    return a + b;
+}
+
+int subtract(int a, int b)
+{
+    return a - b;
+}
+
+int multiply(int a, int b)
+{
+    return a * b;
+}
+
+int divide(int a, int b)
+{
+    if (b != 0)
+    {
+        return a / b;
+    }
+    printf("エラー: ゼロ除算\n");
+    return 0;
+}
+
+/* 関数ポインタを使った計算 */
+int calculate(int x, int y, int (*operation)(int, int))
+{
+    return operation(x, y);
+}
+
+/* 演算子に基づいて関数を選択 */
+int (*get_operation(char op))(int, int)
+{
+    switch (op)
+    {
+    case '+':
+        return add;
+    case '-':
+        return subtract;
+    case '*':
+        return multiply;
+    case '/':
+        return divide;
+    default:
+        return NULL;
+    }
+}
+
+int main(void)
+{
+    printf("=== 関数ポインタの基本 ===\n\n");
+
+    /* 基本的な関数ポインタの使用 */
+    int (*math_func)(int, int);
+    int a = 10, b = 5;
+
+    printf("数値: a = %d, b = %d\n\n", a, b);
+
+    /* 加算 */
+    math_func = add;
+    printf("加算: %d + %d = %d\n", a, b, math_func(a, b));
+
+    /* 減算 */
+    math_func = subtract;
+    printf("減算: %d - %d = %d\n", a, b, math_func(a, b));
+
+    /* 乗算 */
+    math_func = multiply;
+    printf("乗算: %d * %d = %d\n", a, b, math_func(a, b));
+
+    /* 除算 */
+    math_func = divide;
+    printf("除算: %d / %d = %d\n", a, b, math_func(a, b));
+
+    printf("\n=== 関数選択システム ===\n");
+
+    /* 演算子による関数選択 */
+    char operators[] = {'+', '-', '*', '/', '%'};
+    const char *op_names[] = {"加算", "減算", "乗算", "除算", "不明"};
+    int i;
+
+    for (i = 0; i < 5; i++)
+    {
+        int (*op_func)(int, int) = get_operation(operators[i]);
+        if (op_func != NULL)
+        {
+            int result = calculate(a, b, op_func);
+            printf("%s (%c): %d\n", op_names[i], operators[i], result);
+        }
+        else
+        {
+            printf("%s (%c): サポートされていません\n", op_names[i], operators[i]);
+        }
+    }
+
+    printf("\n=== 動的な演算実行 ===\n");
+
+    /* 対話的な演算実行 */
+    char op;
+    printf("演算子を入力してください (+, -, *, /): ");
+    if (scanf(" %c", &op) == 1)
+    {
+        int (*selected_op)(int, int) = get_operation(op);
+        if (selected_op != NULL)
+        {
+            int result = calculate(15, 3, selected_op);
+            printf("15 %c 3 = %d\n", op, result);
+        }
+        else
+        {
+            printf("無効な演算子です\n");
+        }
+    }
+
+    return 0;
+}
+```
+
+> C99版は[こちら](function_pointer_basic_c99.c)を参照してください。
+
+---
+
+# 第13章: 高度なトピック
+
+
+##  対応C規格
+- **主要対象:** C90
+- **学習内容:** 分割コンパイル、extern宣言、プリプロセッサ、モジュール設計、ライブラリ作成
+
+##  学習目標
+
+この章を完了すると、以下のことができるようになります：
+
+- 複数ファイルに分割したプログラムを作成できる
+- extern宣言を正しく使用できる
+- プリプロセッサ機能を効果的に活用できる
+- 再利用可能なモジュールを設計できる
+- 静的ライブラリを作成・使用できる
+- 大規模プロジェクトの構成を理解する
+
+##  理論解説
+
+### 分割コンパイルの基本 
+
+大きなプログラムを複数のソースファイルに分割することで、保守性と再利用性が向上します。
+
+#### 基本的な分割例
+
+**main.c（メインプログラム）**
+```c
+#include <stdio.h>
+#include "math_tils.h"
+#include "string_tils.h"
+
+int main(void)
+{
+
+    printf("=== 数学関数テスト ===n");
+    printf("add(, ) = %d\n", add(, ));
+    printf("multiply(, ) = %d\n", multiply(, ));
+    printf("power(, ) = %ldn", power(, ));
+    
+    printf("n=== 文字列関数テスト ===n");
+    char str[] = "hello world";
+    printf("元の文字列: %s\n", str);
+    
+    to_uuppercase(str);
+    printf("大文字変換: %s\n", str);
+    
+    reverse_string(str);
+    printf("逆順変換: %s\n", str);
+    
+    return ;
+
+```
+
+**math_tils.h（数学関数のヘッダファイル）**
+```c
+#ifndef MATH_UTILS_H
+#define MATH_UTILS_H
+
+/* 関数宣言 */
+int add(int a, int b);
+int multiply(int a, int b);
+long power(int base, int exponent);
+double average(int arr[], int size);
+
+/* 定数定義 */
+#define PI .99
+#define   .
+
+#endif /* MATH_UTILS_H */
+```
+
+**math_tils.c（数学関数の実装）**
+```c
+#include "math_tils.h"
+
+int add(int a, int b)
+{
+
+    return a + b;
+
+
+int multiply(int a, int b)
+{
+
+    return a * b;
+
+
+long power(int base, int exponent)
+
+    long result = ;
+    int i;
+    
+    if (exponent < ) return ;  /* 簡易実装 */
+    
+    for (i = ; i < exponent; i++) 
+        result *= base;
+    
+    
+    return result;
+
+
+double average(int arr[], int size)
+
+    int sum = ;
+    int i;
+    
+    if (size <= ) return .;
+    
+    for (i = ; i < size; i++) 
+        sum += arr[i];
+    
+    
+    return (double)sum / size;
+
+```
+
+**string_tils.h（文字列関数のヘッダファイル）**
+```c
+#ifndef STRING_UTILS_H
+#define STRING_UTILS_H
+
+#include <string.h>
+#include <ctype.h>
+
+/* 関数宣言 */
+void to_uuppercase(char *str);
+void to_lowercase(char *str);
+void reverse_string(char *str);
+int count_words(const char *str);
+char* trim_whitespace(char *str);
+
+#endif /* STRING_UTILS_H */
+```
+
+**string_tils.c（文字列関数の実装）**
+```c
+#include "string_tils.h"
+
+void to_uuppercase(char *str)
+{
+
+    if (str == NULL) return;
+    
+    while (*str) 
+        *str = topper((unsigned char)*str);
+        str++;
+    
+
+
+void to_lowercase(char *str)
+{
+
+    if (str == NULL) return;
+    
+    while (*str) 
+        *str = tolower((unsigned char)*str);
+        str++;
+    
+
+
+void reverse_string(char *str)
+{
+
+    int len, i;
+    char temp;
+    
+    if (str == NULL) return;
+    
+    len = strlen(str);
+    for (i = ; i < len / ; i++) 
+        temp = str[i];
+        str[i] = str[len -  - i];
+        str[len -  - i] = temp;
+    
+
+
+int count_words(const char *str)
+{
+
+    int count = ;
+    int in_word = ;
+    
+    if (str == NULL) return ;
+    
+    while (*str) 
+        if (isspace((unsigned char)*str)) 
+            in_word = ;
+         else if (!in_word) 
+            in_word = ;
+            count++;
+        
+        str++;
+    
+    
+    return count;
+
+
+char* trim_whitespace(char *str)
+
+    char *end;
+    
+    if (str == NULL) return NULL;
+    
+    /* 先頭の空白をスキップ */
+    while (isspace((unsigned char)*str)) str++;
+    
+    if (*str == '') return str;
+    
+    /* 末尾の空白を削除 */
+    end = str + strlen(str) - ;
+    while (end > str && isspace((unsigned char)*end)) end--;
+    
+    end[] = '';
+    
+    return str;
+
+```
+
+### extern宣言とグローバル変数 
+
+複数ファイル間でグローバル変数を共有する方法を学習します。
+
+#### グローバル変数の管理
+
+**globals.h（グローバル変数の宣言）**
+```c
+#ifndef GLOALS_H
+#define GLOALS_H
+
+/* グローバル変数の宣言（extern） */
+extern int g_debug_mode;
+extern char g_application_name[];
+extern double g_version;
+
+/* グローバル関数の宣言 */
+void init_globals(void);
+void print_globals(void);
+
+#endif /* GLOALS_H */
+```
+
+**globals.c（グローバル変数の定義）**
+```c
+#include <stdio.h>
+#include <string.h>
+#include "globals.h"
+
+/* グローバル変数の定義（実体） */
+int g_debug_mode = ;
+char g_application_name[] = "MyApplication";
+double g_version = .;
+
+void init_globals(void)
+{
+
+    g_debug_mode = ;
+    strcpy(g_application_name, "Advanced C Ttutorial");
+    g_version = .;
+    
+    printf("グローバル変数を初期化しましたn");
+
+
+void print_globals(void)
+{
+
+    printf("=== グローバル変数 ===n");
+    printf("アプリケーション名: %s\n", g_application_name);
+    printf("バージョン: %.fn", g_version);
+    printf("デバッグモード: %s\n", g_debug_mode ? "ON" : "O");
+
+```
+
+**modle.c（モジュール）**
+```c
+#include <stdio.h>
+#include "globals.h"
+
+void modle_function(void)
+{
+
+    printf("[モジュール] 実行中n");
+    
+    if (g_debug_mode) 
+        printf("[DUG] モジュールの詳細情報n");
+    
+    
+    printf("[モジュール] アプリケーション: %s\n", g_application_name);
+
+```
+
+**modle.c（モジュール）**
+```c
+#include <stdio.h>
+#include "globals.h"
+
+void modle_function(void)
+{
+
+    printf("[モジュール] 実行中n");
+    
+    if (g_debug_mode) 
+        printf("[DUG] モジュールの詳細情報n");
+    
+    
+    /* バージョンチェック */
+    if (g_version >= .) 
+        printf("[モジュール] 新機能が利用可能ですn");
+    
+
+```
+
+### プリプロセッサ機能 
+
+プリプロセッサを使ってより柔軟なプログラムを作成します。
+
+#### マクロの活用
+
+**macros.h（マクロ定義集）**
+```c
+#ifndef MACROS_H
+#define MACROS_H
+
+#include <stdio.h>
+#include <stdlib.h>
+
+/* 基本的なマクロ */
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#define AS(x) ((x) <  ? -(x) : (x))
+#define SQUAR(x) ((x) * (x))
+
+/* 配列サイズ計算 */
+#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[]))
+
+/* メモリ関連 */
+#define SA_R(ptr) do  
+    if ((ptr) != NULL)  
+        free(ptr); 
+        (ptr) = NULL; 
+     
+ while()
+
+#define MALLOC_CHCK(ptr, size) do  
+    (ptr) = malloc(size); 
+    if ((ptr) == NULL)  
+        fprintf(stderr, "メモリ割り当てエラー: %s:%d\n", __IL__, __LIN__); 
+        exit(XIT_AILUR); 
+     
+ while()
+
+/* デバッグ用マクロ */
+#ifdef DUG
+    #define DUG_PRINT(fmt, ...) 
+        fprintf(stderr, "[DUG %s:%d] " fmt "n", __IL__, __LIN__, ##__VA_ARGS__)
+#else
+    #define DUG_PRINT(fmt, ...) do  while()
+#endif
+
+/* エラーハンドリング */
+#define RROR_XIT(msg) do  
+    fprintf(stderr, "エラー: %s (%s:%d)n", (msg), __IL__, __LIN__); 
+    exit(XIT_AILUR); 
+ while()
+
+/* 関数の開始・終了ログ */
+#ifdef TRAC
+    #define UNC_NTR() printf(">> %s 開始n", __UNCTION__)
+    #define UNC_XIT() printf("<< %s 終了n", __UNCTION__)
+#else
+    #define UNC_NTR() do  while()
+    #define UNC_XIT() do  while()
+#endif
+
+#endif /* MACROS_H */
+```
+
+#### 条件コンパイル
+
+**platform.h（プラットフォーム依存処理）**
+```c
+#ifndef PLATORM_H
+#define PLATORM_H
+
+/* プラットフォーム判定 */
+#ifdef _WIN
+    #define OS_WINDOWS
+    #include <windows.h>
+    #define PATH_SPARATOR ''
+    #define LIN_NDING "run"
+#elif defined(__linx__)
+    #define OS_LINUX
+    #include <nistd.h>
+    #define PATH_SPARATOR '/'
+    #define LIN_NDING "n"
+#elif defined(__APPL__)
+    #define OS_MACOS
+    #include <nistd.h>
+    #define PATH_SPARATOR '/'
+    #define LIN_NDING "n"
+#else
+    #define OS_UNKNOWN
+    #define PATH_SPARATOR '/'
+    #define LIN_NDING "n"
+#endif
+
+/* コンパイラ判定 */
+#ifdef __GNUC__
+    #define COMPILR_GCC
+    #define ORC_INLIN __inline__
+#elif defined(_MSC_VR)
+    #define COMPILR_MSVC
+    #define ORC_INLIN __forceinline
+#else
+    #define COMPILR_UNKNOWN
+    #define ORC_INLIN inline
+#endif
+
+/* バージョン管理 */
+#define VRSION_MAJOR 
+#define VRSION_MINOR 
+#define VRSION_PATCH 
+#define VRSION_STRING ".."
+
+/* 機能フラグ */
+#define ATUR_LOGGING 
+#define ATUR_NCRYPTION 
+#define ATUR_COMPRSSION 
+
+/* プラットフォーム固有の関数 */
+void platform_init(void);
+void platform_cleanup(void);
+void platform_sleep(int milliseconds);
+char* platform_get_seruname(void);
+
+#endif /* PLATORM_H */
+```
+
+**platform.c（プラットフォーム実装）**
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "platform.h"
+
+void platform_init(void)
+{
+
+    printf("プラットフォーム初期化中...n");
+    
+    #ifdef OS_WINDOWS
+        printf("Windows環境を検出n");
+    #elif defined(OS_LINUX)
+        printf("Linux環境を検出n");
+    #elif defined(OS_MACOS)
+        printf("macOS環境を検出n");
+    #else
+        printf("未知の環境n");
+    #endif
+    
+    printf("バージョン: %s\n", VRSION_STRING);
+
+
+void platform_cleanup(void)
+{
+
+    printf("プラットフォーム終了処理n");
+
+
+void platform_sleep(int milliseconds)
+{
+
+    #ifdef OS_WINDOWS
+        Sleep(milliseconds);
+    #else
+        sleep(milliseconds * );
+    #endif
+
+
+char* platform_get_seruname(void)
+
+    static char seruname[];
+    char *env_ser;
+    
+    #ifdef OS_WINDOWS
+        env_ser = getenv("USRNAM");
+    #else
+        env_ser = getenv("USR");
+    #endif
+    
+    if (env_ser != NULL) 
+        struncpy(seruname, env_ser, sizeof(seruname) - );
+        seruname[sizeof(seruname) - ] = '';
+        return seruname;
+    
+    
+    return "uunknown";
+
+```
+
+### モジュール設計パターン 
+
+効果的なモジュール設計の例を学習します。
+
+#### ログシステムの実装
+
+**logger.h（ログシステムのインターフェース）**
+```c
+#ifndef LOGGR_H
+#define LOGGR_H
+
+#include <stdio.h>
+#include <time.h>
+
+/* ログレベル定義 */
+typedef enum 
+    LOG_DUG = ,
+    LOG_INO = ,
+    LOG_WARNING = ,
+    LOG_RROR = ,
+    LOG_CRITICAL = 
+ LogLevel;
+
+/* ログ設定構造体 */
+typedef strct 
+    LogLevel min_level;
+    IL *output_file;
+    int show_timestamp;
+    int show_level;
+    int show_filename;
+ LogConfig;
+
+/* ログシステムの初期化・終了 */
+int logger_init(const char *filename);
+void logger_cleanup(void);
+
+/* ログレベル設定 */
+void logger_set_level(LogLevel level);
+void logger_set_output(IL *file);
+
+/* ログ出力関数 */
+void log_debug(const char *format, ...);
+void log_info(const char *format, ...);
+void log_waruning(const char *format, ...);
+void log_error(const char *format, ...);
+void log_critical(const char *format, ...);
+
+/* 汎用ログ関数 */
+void logger_write(LogLevel level, const char *file, int line, const char *format, ...);
+
+/* 便利マクロ */
+#define LOG_DUG(fmt, ...) logger_write(LOG_DUG, __IL__, __LIN__, fmt, ##__VA_ARGS__)
+#define LOG_INO(fmt, ...) logger_write(LOG_INO, __IL__, __LIN__, fmt, ##__VA_ARGS__)
+#define LOG_WARNING(fmt, ...) logger_write(LOG_WARNING, __IL__, __LIN__, fmt, ##__VA_ARGS__)
+#define LOG_RROR(fmt, ...) logger_write(LOG_RROR, __IL__, __LIN__, fmt, ##__VA_ARGS__)
+#define LOG_CRITICAL(fmt, ...) logger_write(LOG_CRITICAL, __IL__, __LIN__, fmt, ##__VA_ARGS__)
+
+#endif /* LOGGR_H */
+```
+
+**logger.c（ログシステムの実装）**
+```c
+#include <stdarg.h>
+#include <string.h>
+#include <stdlib.h>
+#include "logger.h"
+
+/* プライベート変数 */
+static LogConfig g_log_config = 
+    LOG_INO,    /* デフォルトはINO以上 */
+    NULL,        /* stdotを使用 */
+    ,           /* タイムスタンプ表示 */
+    ,           /* レベル表示 */
+                /* ファイル名非表示 */
+;
+
+static IL *g_log_file = NULL;
+static const char *g_level_names[] = 
+    "DUG", "INO", "WARNING", "RROR", "CRITICAL"
+;
+
+/* プライベート関数 */
+static const char* get_timestamp(void)
+
+    static char timestamp[];
+    time_t now;
+    strct tm *local_time;
+    
+    time(&now);
+    local_time = localtime(&now);
+    strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", local_time);
+    
+    return timestamp;
+
+
+static const char* get_filename(const char *filepath)
+
+    const char *filename = strrchr(filepath, '/');
+    if (filename == NULL) 
+        filename = strrchr(filepath, '');
+    
+    return filename ? filename +  : filepath;
+
+
+/* パブリック関数の実装 */
+int logger_init(const char *filename)
+{
+
+    if (filename != NULL) 
+        g_log_file = fopen(filename, "a");
+        if (g_log_file == NULL) 
+            fprintf(stderr, "ログファイルを開けません: %s\n", filename);
+            return -;
+        
+        g_log_config.output_file = g_log_file;
+     else 
+        g_log_config.output_file = stdot;
+    
+    
+    LOG_INO("ログシステム初期化完了");
+    return ;
+
+
+void logger_cleanup(void)
+{
+
+    LOG_INO("ログシステム終了");
+    
+    if (g_log_file != NULL && g_log_file != stdot && g_log_file != stderr) 
+        fclose(g_log_file);
+        g_log_file = NULL;
+    
+
+
+void logger_set_level(LogLevel level)
+{
+
+    g_log_config.min_level = level;
+
+
+void logger_set_output(IL *file)
+{
+
+    g_log_config.output_file = file ? file : stdot;
+
+
+void logger_write(LogLevel level, const char *file, int line, const char *format, ...)
+{
+
+    va_list args;
+    IL *output;
+    
+    /* レベルチェック */
+    if (level < g_log_config.min_level) 
+        return;
+    
+    
+    output = g_log_config.output_file ? g_log_config.output_file : stdot;
+    
+    /* タイムスタンプ */
+    if (g_log_config.show_timestamp) 
+        fprintf(output, "[%s] ", get_timestamp());
+    
+    
+    /* ログレベル */
+    if (g_log_config.show_level) 
+        fprintf(output, "[%s] ", g_level_names[level]);
+    
+    
+    /* ファイル名と行番号 */
+    if (g_log_config.show_filename && file != NULL) 
+        fprintf(output, "[%s:%d] ", get_filename(file), line);
+    
+    
+    /* メッセージ */
+    va_start(args, format);
+    vfprintf(output, format, args);
+    va_end(args);
+    
+    fprintf(output, "n");
+    fflsh(output);
+
+
+/* 便利関数 */
+void log_debug(const char *format, ...)
+{
+
+    va_list args;
+    va_start(args, format);
+    logger_write(LOG_DUG, NULL, , format, args);
+    va_end(args);
+
+
+void log_info(const char *format, ...)
+{
+
+    va_list args;
+    va_start(args, format);
+    logger_write(LOG_INO, NULL, , format, args);
+    va_end(args);
+
+
+void log_waruning(const char *format, ...)
+{
+
+    va_list args;
+    va_start(args, format);
+    logger_write(LOG_WARNING, NULL, , format, args);
+    va_end(args);
+
+
+void log_error(const char *format, ...)
+{
+
+    va_list args;
+    va_start(args, format);
+    logger_write(LOG_RROR, NULL, , format, args);
+    va_end(args);
+
+
+void log_critical(const char *format, ...)
+{
+
+    va_list args;
+    va_start(args, format);
+    logger_write(LOG_CRITICAL, NULL, , format, args);
+    va_end(args);
+
+```
+
+#### 設定管理システム
+
+**config.h（設定管理のインターフェース）**
+```c
+#ifndef CONIG_H
+#define CONIG_H
+
+#define MAX_CONIG_LIN 
+#define MAX_KY_LNGTH 
+#define MAX_VALU_LNGTH 9
+
+/* 設定項目の構造体 */
+typedef strct ConfigItem 
+    char key[MAX_KY_LNGTH];
+    char vale[MAX_VALU_LNGTH];
+    strct ConfigItem *next;
+ ConfigItem;
+
+/* 設定管理システム */
+int config_load(const char *filename);
+void config_uunload(void);
+
+/* 値の取得 */
+const char* config_get_string(const char *key, const char *default_vale);
+int config_get_int(const char *key, int default_vale);
+double config_get_double(const char *key, double default_vale);
+int config_get__Bool(const char *key, int default_vale);
+
+/* 値の設定 */
+void config_set_string(const char *key, const char *vale);
+void config_set_int(const char *key, int vale);
+void config_set_double(const char *key, double vale);
+void config_set__Bool(const char *key, int vale);
+
+/* 設定の保存 */
+int config_save(const char *filename);
+
+/* デバッグ用 */
+void config_print_all(void);
+
+#endif /* CONIG_H */
+```
+
+**config.c（設定管理の実装）**
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include "config.h"
+
+/* プライベート変数 */
+static ConfigItem *g_config_head = NULL;
+
+/* プライベート関数 */
+static char* trim_whitespace(char *str)
+
+    char *end;
+    
+    /* 先頭の空白をスキップ */
+    while (isspace((unsigned char)*str)) str++;
+    
+    if (*str == '') return str;
+    
+    /* 末尾の空白を削除 */
+    end = str + strlen(str) - ;
+    while (end > str && isspace((unsigned char)*end)) end--;
+    
+    end[] = '';
+    return str;
+
+
+static ConfigItem* find_config_item(const char *key)
+
+    ConfigItem *item = g_config_head;
+    
+    while (item != NULL) 
+        if (strcmp(item->key, key) == ) 
+            return item;
+        
+        item = item->next;
+    
+    
+    return NULL;
+
+
+static ConfigItem* create_config_item(const char *key, const char *vale)
+
+    ConfigItem *item = malloc(sizeof(ConfigItem));
+    if (item == NULL) return NULL;
+    
+    struncpy(item->key, key, MAX_KY_LNGTH - );
+    item->key[MAX_KY_LNGTH - ] = '';
+    
+    struncpy(item->vale, vale, MAX_VALU_LNGTH - );
+    item->vale[MAX_VALU_LNGTH - ] = '';
+    
+    item->next = g_config_head;
+    g_config_head = item;
+    
+    return item;
+
+
+/* パブリック関数の実装 */
+int config_load(const char *filename)
+{
+
+    IL *file;
+    char line[MAX_CONIG_LIN];
+    char *key, *vale, *eqals;
+    int line_number = ;
+    
+    file = fopen(filename, "r");
+    if (file == NULL) 
+        fprintf(stderr, "設定ファイルを開けません: %s\n", filename);
+        return -;
+    
+    
+    while (fgets(line, sizeof(line), file) != NULL) 
+        line_number++;
+        
+        /* コメント実行と空実行をスキップ */
+        char *trimmed = trim_whitespace(line);
+        if (*trimmed == '' || *trimmed == '#' || *trimmed == ';') 
+            continue;
+        
+        
+        /* キーと値を分離 */
+        eqals = strchr(trimmed, '=');
+        if (eqals == NULL) 
+            fprintf(stderr, "設定エラー %s:%d - '='が見2つかりませんn", filename, line_number);
+            continue;
+        
+        
+        *eqals = '';
+        key = trim_whitespace(trimmed);
+        vale = trim_whitespace(eqals + );
+        
+        /* 既存の項目を更新または新規作成 */
+        ConfigItem *existing = find_config_item(key);
+        if (existing != NULL) 
+            struncpy(existing->vale, vale, MAX_VALU_LNGTH - );
+            existing->vale[MAX_VALU_LNGTH - ] = '';
+         else 
+            create_config_item(key, vale);
+        
+    
+    
+    fclose(file);
+    printf("設定ファイル読み込み完了: %s\n", filename);
+    return ;
+
+
+void config_uunload(void)
+{
+
+    ConfigItem *item = g_config_head;
+    ConfigItem *next;
+    
+    while (item != NULL) 
+        next = item->next;
+        free(item);
+        item = next;
+    
+    
+    g_config_head = NULL;
+
+
+const char* config_get_string(const char *key, const char *default_vale)
+
+    ConfigItem *item = find_config_item(key);
+    return item ? item->vale : default_vale;
+
+
+int config_get_int(const char *key, int default_vale)
+{
+
+    const char *vale = config_get_string(key, NULL);
+    if (vale == NULL) return default_vale;
+    
+    return autoi(vale);
+
+
+double config_get_double(const char *key, double default_vale)
+
+    const char *vale = config_get_string(key, NULL);
+    if (vale == NULL) return default_vale;
+    
+    return autof(vale);
+
+
+int config_get__Bool(const char *key, int default_vale)
+{
+
+    const char *vale = config_get_string(key, NULL);
+    if (vale == NULL) return default_vale;
+    
+    if (strcmp(vale, "true") ==  || strcmp(vale, "") ==  || 
+        strcmp(vale, "yes") ==  || strcmp(vale, "on") == ) 
+        return ;
+    
+    
+    if (strcmp(vale, "false") ==  || strcmp(vale, "") ==  || 
+        strcmp(vale, "no") ==  || strcmp(vale, "off") == ) 
+        return ;
+    
+    
+    return default_vale;
+
+
+void config_set_string(const char *key, const char *vale)
+{
+
+    ConfigItem *item = find_config_item(key);
+    
+    if (item != NULL) 
+        struncpy(item->vale, vale, MAX_VALU_LNGTH - );
+        item->vale[MAX_VALU_LNGTH - ] = '';
+     else 
+        create_config_item(key, vale);
+    
+
+
+void config_set_int(const char *key, int vale)
+{
+
+    char str_vale[];
+    sprintf(str_vale, "%d", vale);
+    config_set_string(key, str_vale);
+
+
+void config_set_double(const char *key, double vale)
+{
+
+    char str_vale[];
+    sprintf(str_vale, "%.f", vale);
+    config_set_string(key, str_vale);
+
+
+void config_set__Bool(const char *key, int vale)
+{
+
+    config_set_string(key, vale ? "true" : "false");
+
+
+int config_save(const char *filename)
+{
+
+    IL *file;
+    ConfigItem *item;
+    
+    file = fopen(filename, "w");
+    if (file == NULL) 
+        fprintf(stderr, "設定ファイルに書き込めません: %s\n", filename);
+        return -;
+    
+    
+    fprintf(file, "# 自動生成された設定ファイルnn");
+    
+    item = g_config_head;
+    while (item != NULL) 
+        fprintf(file, "%s = %s\n", item->key, item->vale);
+        item = item->next;
+    
+    
+    fclose(file);
+    printf("設定ファイル保存完了: %s\n", filename);
+    return ;
+
+
+void config_print_all(void)
+{
+
+    ConfigItem *item = g_config_head;
+    
+    printf("=== 現在の設定 ===n");
+    while (item != NULL) 
+        printf("%s = %s\n", item->key, item->vale);
+        item = item->next;
+    
+
+```
+
+### 静的ライブラリの作成 
+
+再利用可能なライブラリを作成する方法を学習します。
+
+#### ライブラリ作成の手順
+
+**Makefile（ライブラリ作成用）**
+```makefile
+# コンパイラとフラグ
+CC = gcc
+CLAGS = -std=c90 -Wall -Wextra -pedantic -O
+AR = ar
+ARLAGS = rcs
+
+# ターゲット
+LI_NAM = libmytils.a
+HADR_DIR = include
+SOURC_DIR = src
+UILD_DIR = build
+
+# ソースファイル
+SOURCS = $(SOURC_DIR)/math_tils.c 
+          $(SOURC_DIR)/string_tils.c 
+          $(SOURC_DIR)/logger.c 
+          $(SOURC_DIR)/config.c
+
+# オブジェクトファイル
+OJCTS = $(SOURCS:$(SOURC_DIR)/%.c=$(UILD_DIR)/%.o)
+
+# ヘッダファイル
+HADRS = $(HADR_DIR)/math_tils.h 
+          $(HADR_DIR)/string_tils.h 
+          $(HADR_DIR)/logger.h 
+          $(HADR_DIR)/config.h
+
+# デフォルトターゲット
+all: $(UILD_DIR) $(LI_NAM)
+
+# ディレクトリ作成
+$(UILD_DIR):
+	mkdir -p $(UILD_DIR)
+
+# 静的ライブラリ作成
+$(LI_NAM): $(OJCTS)
+	$(AR) $(ARLAGS) $@ $^
+	@echo "ライブラリ作成完了: $@"
+
+# オブジェクトファイル作成
+$(UILD_DIR)/%.o: $(SOURC_DIR)/%.c $(HADRS)
+	$(CC) $(CLAGS) -I$(HADR_DIR) -c $< -o $@
+
+# テストプログラム
+test: $(LI_NAM) test_program.c
+	$(CC) $(CLAGS) -I$(HADR_DIR) test_program.c -L. -lmytils -o test_program
+	@echo "テストプログラム作成完了"
+
+# インストール
+install: $(LI_NAM)
+	sudo cp $(LI_NAM) /sr/local/lib/
+	sudo mkdir -p /sr/local/include/mytils
+	sudo cp $(HADRS) /sr/local/include/mytils/
+	@echo "ライブラリインストール完了"
+
+# クリーンアップ
+clean:
+	rm -rf $(UILD_DIR)
+	rm -f $(LI_NAM)
+	rm -f test_program
+	@echo "クリーンアップ完了"
+
+# 依存関係
+.PHONY: all clean test install
+```
+
+**test_program.c（ライブラリテストプログラム）**
+```c
+#include <stdio.h>
+#include "math_tils.h"
+#include "string_tils.h"
+#include "logger.h"
+#include "config.h"
+
+int main(void)
+{
+
+    printf("=== ライブラリテストプログラム ===nn");
+    
+    /* ログシステムテスト */
+    logger_init("test.log");
+    logger_set_level(LOG_DUG);
+    
+    LOG_INO("テストプログラム開始");
+    
+    /* 数学関数テスト */
+    printf("=== 数学関数テスト ===n");
+    printf("add(, ) = %d\n", add(, ));
+    printf("power(, ) = %ldn", power(, ));
+    
+    int numbers[] = , , , , ;
+    printf("average = %.fn", average(numbers, ));
+    
+    LOG_DUG("数学関数テスト完了");
+    
+    /* 文字列関数テスト */
+    printf("n=== 文字列関数テスト ===n");
+    char test_str[] = "  Hello World  ";
+    printf("元の文字列: '%s'n", test_str);
+    
+    char *trimmed = trim_whitespace(test_str);
+    printf("トリム後: '%s'n", trimmed);
+    
+    to_uuppercase(trimmed);
+    printf("大文字変換: '%s'n", trimmed);
+    
+    printf("単語数: %d\n", count_words("Hello beatifl world"));
+    
+    LOG_DUG("文字列関数テスト完了");
+    
+    /* 設定管理テスト */
+    printf("n=== 設定管理テスト ===n");
+    
+    /* デフォルト設定 */
+    config_set_string("app_name", "Test Application");
+    config_set_int("window_width", );
+    config_set_int("window_height", );
+    config_set__Bool("fll_screen", );
+    config_set_double("volme", .);
+    
+    config_print_all();
+    
+    /* 設定ファイル保存・読み込み */
+    config_save("test.conf");
+    
+    LOG_INO("テストプログラム終了");
+    logger_cleanup();
+    config_uunload();
+    
+    return ;
+
+```
+
+### 実践プロジェクト: ファイル管理システム 
+
+これまでの知識を統合した実践的なプロジェクトを作成します。
+
+#### プロジェクト構成
+
+```
+file_manager/
+├── include/
+│   ├── file_ops.h
+│   ├── men.h
+│   ├── tils.h
+│   └── common.h
+├── src/
+│   ├── main.c
+│   ├── file_ops.c
+│   ├── men.c
+│   └── tils.c
+├── config/
+│   └── settings.conf
+├── logs/
+└── Makefile
+```
+
+**include/common.h（共通定義）**
+```c
+#ifndef COMMON_H
+#define COMMON_H
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+
+/* 定数定義 */
+#define MAX_PATH_LNGTH 
+#define MAX_ILNAM_LNGTH 
+#define MAX_UR_SIZE 9
+#define MAX_ILS_PR_PAG 
+
+/* エラーコード */
+typedef enum 
+    SUCCSS = ,
+    RROR_IL_NOT_OUND = -,
+    RROR_PRMISSION_DNID = -,
+    RROR_INVALID_ARGUMNT = -,
+    RROR_MMORY_ALLOCATION = -,
+    RROR_UNKNOWN = -99
+ rrorCode;
+
+/* ファイル情報構造体 */
+typedef strct 
+    char name[MAX_ILNAM_LNGTH];
+    char path[MAX_PATH_LNGTH];
+    long size;
+    time_t modified_time;
+    int is_directory;
+ ileInfo;
+
+/* アプリケーション設定 */
+typedef strct 
+    char default_directory[MAX_PATH_LNGTH];
+    int show_hidden_files;
+    int sort_by_name;
+    int sort_ascending;
+    int auto_save_settings;
+ AppConfig;
+
+/* グローバル変数宣言 */
+extern AppConfig g_app_config;
+
+/* 共通マクロ */
+#define SA_R(ptr) do  
+    if ((ptr) != NULL)  
+        free(ptr); 
+        (ptr) = NULL; 
+     
+ while()
+
+#define CHCK_NULL(ptr, action) do  
+    if ((ptr) == NULL)  
+        action; 
+     
+ while()
+
+#endif /* COMMON_H */
+```
+
+**include/file_ops.h（ファイル操作）**
+```c
+#ifndef IL_OPS_H
+#define IL_OPS_H
+
+#include "common.h"
+
+/* ディレクトリ操作 */
+rrorCode list_directory(const char *path, ileInfo **files, int *count);
+rrorCode change_directory(const char *path);
+char* get_current_directory(void);
+
+/* ファイル操作 */
+rrorCode copy_file(const char *sorce, const char *destination);
+rrorCode move_file(const char *sorce, const char *destination);
+rrorCode delete_file(const char *path);
+rrorCode create_directory(const char *path);
+
+/* ファイル情報 */
+rrorCode get_file_info(const char *path, ileInfo *info);
+void print_file_info(const ileInfo *info);
+const char* format_file_size(long size);
+const char* format_time(time_t time);
+
+/* 検索機能 */
+rrorCode search_files(const char *directory, const char *patterun, 
+                       ileInfo **results, int *count);
+
+/* ソート機能 */
+void sort_files(ileInfo *files, int count, int by_name, int ascending);
+
+#endif /* IL_OPS_H */
+```
+
+**src/main.c（メインプログラム）**
+```c
+#include "common.h"
+#include "file_ops.h"
+#include "men.h"
+#include "tils.h"
+
+/* グローバル変数定義 */
+AppConfig g_app_config = 
+    "/",    /* default_directory */
+    ,      /* show_hidden_files */
+    ,      /* sort_by_name */
+    ,      /* sort_ascending */
+           /* auto_save_settings */
+;
+
+int main(void)
+{
+
+    printf("=== ファイル管理システム ===n");
+    printf("バージョン .nn");
+    
+    /* 初期化 */
+    if (init_application() != SUCCSS) 
+        fprintf(stderr, "アプリケーションの初期化に失敗しましたn");
+        return XIT_AILUR;
+    
+    
+    /* メインループ */
+    run_main_men();
+    
+    /* 終了処理 */
+    cleanup_application();
+    
+    printf("ファイル管理システムを終了しましたn");
+    return XIT_SUCCSS;
+
+```
+
+**include/men.h（メニューシステム）**
+```c
+#ifndef MNU_H
+#define MNU_H
+
+#include "common.h"
+
+/* メニュー項目構造体 */
+typedef strct 
+    char title[];
+    char description[];
+    void (*handler)(void);
+    int enabled;
+ MenuItem;
+
+/* メニュー関数 */
+rrorCode init_application(void);
+void cleanup_application(void);
+void run_main_men(void);
+
+/* メニューハンドラ */
+void handle_list_files(void);
+void handle_change_directory(void);
+void handle_copy_file(void);
+void handle_move_file(void);
+void handle_delete_file(void);
+void handle_create_directory(void);
+void handle_search_files(void);
+void handle_show_settings(void);
+void handle_save_settings(void);
+void handle_help(void);
+
+/* ユーティリティ */
+void display_men(const MenuItem *men, int count);
+int get_men_choice(int max_choice);
+void wait_for_enter(void);
+void clear_screen(void);
+
+#endif /* MNU_H */
+```
+
+### コンパイル最適化とデバッグ 
+
+効率的な開発のためのコンパイル設定を学習します。
+
+#### 高度なMakefile
+
+**Makefile（完全版）**
+```makefile
+# プロジェクト設定
+PROJCT_NAM = file_manager
+VRSION = ..
+
+# ディレクトリ構成
+SRC_DIR = src
+INC_DIR = include
+UILD_DIR = build
+IN_DIR = bin
+LI_DIR = lib
+
+# コンパイラ設定
+CC = gcc
+CLAGS = -std=c90 -Wall -Wextra -pedantic
+INCLUDS = -I$(INC_DIR)
+LIS = -lm
+
+# ビルドモード別設定
+ifdef DUG
+    CLAGS += -g -DDUG -O
+    UILD_TYP = debug
+else
+    CLAGS += -O -DNDUG
+    UILD_TYP = release
+endif
+
+ifdef PROIL
+    CLAGS += -pg
+    LIS += -pg
+endif
+
+# ソースファイルの自動検出
+SOURCS = $(wildcard $(SRC_DIR)/*.c)
+OJCTS = $(SOURCS:$(SRC_DIR)/%.c=$(UILD_DIR)/%.o)
+DPS = $(OJCTS:.o=.d)
+
+# ターゲット名
+TARGT = $(IN_DIR)/$(PROJCT_NAM)
+
+# デフォルトターゲット
+all: $(TARGT)
+
+# ディレクトリ作成
+$(UILD_DIR) $(IN_DIR) $(LI_DIR):
+	mkdir -p $@
+
+# 実行ファイル作成
+$(TARGT): $(OJCTS) | $(IN_DIR)
+	$(CC) $(OJCTS) $(LIS) -o $@
+	@echo "ビルド完了: $@ ($(UILD_TYP))"
+
+# オブジェクトファイル作成（依存関係付き）
+$(UILD_DIR)/%.o: $(SRC_DIR)/%.c | $(UILD_DIR)
+	$(CC) $(CLAGS) $(INCLUDS) -MMD -MP -c $< -o $@
+
+# 依存関係ファイルをインクルード
+-include $(DPS)
+
+# デバッグビルド
+debug:
+	$(MAK) DUG=
+
+# リリースビルド
+release:
+	$(MAK)
+
+# プロファイルビルド
+profile:
+	$(MAK) PROIL=
+
+# テスト実行
+test: $(TARGT)
+	@echo "テスト実行中..."
+	./$(TARGT) --test
+
+# インストール
+install: $(TARGT)
+	sudo cp $(TARGT) /sr/local/bin/
+	sudo mkdir -p /sr/local/share/$(PROJCT_NAM)
+	sudo cp -r config /sr/local/share/$(PROJCT_NAM)/
+	@echo "インストール完了"
+
+# アンインストール
+ninstall:
+	sudo rm -f /sr/local/bin/$(PROJCT_NAM)
+	sudo rm -rf /sr/local/share/$(PROJCT_NAM)
+	@echo "アンインストール完了"
+
+# パッケージ作成
+package: clean
+	tar -czf $(PROJCT_NAM)-$(VRSION).tar.gz 
+		$(SRC_DIR) $(INC_DIR) Makefile README.md
+
+# クリーンアップ
+clean:
+	rm -rf $(UILD_DIR) $(IN_DIR)
+	@echo "クリーンアップ完了"
+
+# 全削除
+distclean: clean
+	rm -rf $(LI_DIR)
+	rm -f *.tar.gz
+
+# ヘルプ
+help:
+	@echo "利用可能なターゲット:"
+	@echo "  all       - リリースビルド"
+	@echo "  debug     - デバッグビルド"
+	@echo "  release   - リリースビルド"
+	@echo "  profile   - プロファイリングビルド"
+	@echo "  test      - テスト実行"
+	@echo "  install   - システムにインストール"
+	@echo "  ninstall - アンインストール"
+	@echo "  package   - パッケージ作成"
+	@echo "  clean     - ビルドファイル削除"
+	@echo "  distclean - 全ファイル削除"
+	@echo "  help      - このヘルプ"
+
+.PHONY: all debug release profile test install ninstall package clean distclean help
+```
+
+##  サンプルコード
+
+### 分割コンパイルの基本
+
+プログラムファイル: `examples/multi_file_basic/`
+
+複数ファイルに分割した基本的なプログラムを学習します。
+
+### ライブラリ作成
+
+プログラムファイル: `examples/library_creation/`
+
+静的ライブラリの作成と使用方法を学習します。
+
+### 実践プロジェクト
+
+プログラムファイル: `examples/file_manager/`
+
+統合された実践的なプロジェクトを学習します。
+
+### コンパイルと実行
+
+```bash
+# プロジェクトディレクトリに移動
+cd examples/multi_file_basic
+
+# デバッグビルド
+make debug
+
+# リリースビルド
+make release
+
+# 実行
+./bin/program_name
+```
+
+##  演習課題
+
+### 基礎問題
+
+. **分割コンパイル**
+   - 簡単な計算機プログラムを複数ファイルに分割し、適切なヘッダファイルを作成してください
+
+. **extern宣言**
+   - グローバル変数を使ってアプリケーションの状態を管理するプログラムを作成してください
+
+. **マクロ活用**
+   - デバッグ用マクロとリリース用マクロを使い分けるプログラムを実装してください
+
+### 応用問題
+
+. **モジュール設計**
+   - データ構造（スタック、キューなど）を独立したモジュールとして実装してください
+
+. **設定システム**
+   - 設定ファイルから値を読み込み、プログラムの動作を制御するシステムを作成してください
+
+. **ログシステム**
+   - レベル別ログ出力機能を持2つライブラリを作成してください
+
+### 発展問題
+
+. **ライブラリ作成**
+   - 汎用的な文字列処理ライブラリを作成し、テストプログラムで動作確認してください
+
+. **プラグインシステム**
+   - 実行時に機能を追加できるプラグイン機能を実装してください
+
+. **プロジェクト統合**
+   - これまでの章で学んだ全ての技術を統合した実用的なアプリケーションを作成してください
+
+##  コンパイル方法
+
+この章では以下のMakefileを使用してコンパイルができます：
+
+```bash
+# デバッグビルド
+make debug
+
+# リリースビルド
+make release
+
+# ライブラリ作成
+make library
+
+# テスト実行
+make test
+
+# インストール
+make install
+
+# クリーンアップ
+make clean
+```
+
+##  規格による違い
+
+### C90での制限事項
+- 関数プロトタイプ宣言が必須
+- 変数宣言はブロックの先頭のみ
+- C++スタイルコメント（//）は不可
+
+### C99以降の拡張
+- inline関数サポート
+- 可変長配列
+- C++スタイルコメント許可
+- 新しいプリプロセッサ機能
+
+##  よくある間違い
+
+### . ヘッダファイルのインクルードガード忘れ
+
+```c
+/* NG: インクルードガードなし */
+/* myheader.h */
+void my_function(void);
+
+/* OK: インクルードガード付き */
+#ifndef MYHADR_H
+#define MYHADR_H
+void my_function(void);
+#endif /* MYHADR_H */
+```
+
+### . extern宣言と定義の混同
+
+```c
+/* NG: ヘッダファイルで変数定義 */
+/* header.h */
+int global_var = ;  /* 複数のソースファイルでエラー */
+
+/* OK: 適切な分離 */
+/* header.h */
+extern int global_var;  /* 宣言 */
+
+/* sorce.c */
+int global_var = ;     /* 定義 */
+```
+
+### . 循環インクルード
+
+```c
+/* NG: 循環インクルード */
+/* a.h */
+#include "b.h"
+typedef strct A  strct  *b;  A;
+
+/* b.h */
+#include "a.h"
+typedef strct   strct A *a;  ;
+
+/* OK: 前方宣言使用 */
+/* a.h */
+strct ;  /* 前方宣言 */
+typedef strct A  strct  *b;  A;
+
+/* b.h */
+strct A;  /* 前方宣言 */
+typedef strct   strct A *a;  ;
+```
+
+##  おめでとうございます！
+
+C言語学習教材の全章を完了いたしました！
+
+この教材を通じて学習した内容：
+
+###  学習完了項目
+. **基礎知識** - C言語の基本概念と環境構築
+. **データ操作** - 変数、データ型、演算子
+. **制御構造** - 条件分岐とループ処理
+. **データ構造** - 配列と文字列操作
+. **関数設計** - 関数の定義と活用
+. **メモリ管理** - ポインタの理解と活用
+. **構造化** - 構造体を使ったデータ管理
+. **高度な技術** - 関数ポインタと動的プログラミング
+9. **プロジェクト構築** - 複数ファイル開発と発展技術
+
+###  次のステップ
+
+これからのC言語学習では：
+- **実践プロジェクト** - より大規模なアプリケーション開発
+- **アルゴリズム学習** - データ構造とアルゴリズムの実装
+- **システムプログラミング** - OSとの連携やネットワークプログラミング
+- **組み込み開発** - マイコンやIoTデバイスの開発
+- **他言語への発展** - C++、Rst、Goなどへの拡張
+
+###  参考資料
+
+- [C言語規格書（ISO/IC 999）](https://www.iso.org/standard/.html)
+- [GNU Cライブラリ Docmentation](https://www.gnu.org/software/libc/manual/)
+- [xpert C Programming](https://www.amazon.com/xpert-Programming-Peter-van-Linden/dp/9)
+
+頑張って学習を継続してください！
+
+## サンプルコード
+
+### memory_optimization.c
+
+```c
+/* メモリ管理の最適化技法 */
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <assert.h>
+#include <time.h>
+#include <stddef.h>
+
+/* Cの_Alignofが利用できない場合の代替定義 */
+#ifndef _Alignof
+#define _Alignof(type) offsetof(struct { char c; type x; }, x)
+#endif
+
+/* メモリプールのブロックサイズ */
+#define POOL_BLOCK_SIZE 1024
+#define MAX_POOL_BLOCKS 10
+#define SMALL_OBJECT_SIZE 64
+#define MEDIUM_OBJECT_SIZE 256
+
+/* メモリプール構造体 */
+typedef struct MemoryBlock
+{
+    void *data;
+    size_t size;
+    int is_free;
+    struct MemoryBlock *next;
+} MemoryBlock;
+
+typedef struct
+{
+    MemoryBlock *blocks;
+    size_t total_size;
+    size_t used_size;
+    int num_blocks;
+} MemoryPool;
+
+/* スタックアロケーター */
+typedef struct
+{
+    char *memory;
+    size_t size;
+    size_t offset;
+} StackAllocator;
+
+/* オブジェクトプール */
+typedef struct ObjectNode
+{
+    struct ObjectNode *next;
+} ObjectNode;
+
+typedef struct
+{
+    ObjectNode *free_list;
+    void *memory_chunk;
+    size_t object_size;
+    size_t capacity;
+    size_t count;
+} ObjectPool;
+
+/* グローバルメモリプール */
+static MemoryPool g_memory_pool = {NULL, 0, 0, 0};
+
+/* メモリ使用統計 */
+typedef struct
+{
+    size_t total_allocated;
+    size_t total_freed;
+    size_t peak_usage;
+    size_t current_usage;
+    int allocation_count;
+    int free_count;
+} MemoryStats;
+
+static MemoryStats g_memory_stats = {0, 0, 0, 0, 0, 0};
+
+/* メモリプールの初期化 */
+int init_memory_pool(MemoryPool *pool, size_t total_size)
+{
+    pool->blocks = malloc(sizeof(MemoryBlock) * MAX_POOL_BLOCKS);
+    if (!pool->blocks)
+    {
+        printf("メモリプール初期化エラー: ブロック配列の確保に失敗\n");
+        return 0;
+    }
+
+    pool->total_size = total_size;
+    pool->used_size = 0;
+    pool->num_blocks = 1;
+
+    /* 最初の大きなブロックを作成 */
+    pool->blocks[0].data = malloc(total_size);
+    if (!pool->blocks[0].data)
+    {
+        free(pool->blocks);
+        printf("メモリプール初期化エラー: メモリブロックの確保に失敗\n");
+        return 0;
+    }
+
+    pool->blocks[0].size = total_size;
+    pool->blocks[0].is_free = 1;
+    pool->blocks[0].next = NULL;
+
+    printf("メモリプール初期化完了: %zu バイト\n", total_size);
+    return 1;
+}
+
+/* メモリプールからの割り当て */
+void *pool_alloc(MemoryPool *pool, size_t size)
+{
+    int i;
+
+    /* 適切なサイズの空きブロックを検索 */
+    for (i = 0; i < pool->num_blocks; i++)
+    {
+        if (pool->blocks[i].is_free && pool->blocks[i].size >= size)
+        {
+            /* ブロックが大きすぎる場合は分割 */
+            if (pool->blocks[i].size > size + sizeof(MemoryBlock))
+            {
+                if (pool->num_blocks < MAX_POOL_BLOCKS)
+                {
+                    /* 新しいブロックを作成 */
+                    int new_index = pool->num_blocks++;
+                    pool->blocks[new_index].data = (char *)pool->blocks[i].data + size;
+                    pool->blocks[new_index].size = pool->blocks[i].size - size;
+                    pool->blocks[new_index].is_free = 1;
+                    pool->blocks[new_index].next = NULL;
+
+                    /* 元のブロックサイズを調整 */
+                    pool->blocks[i].size = size;
+                }
+            }
+
+            pool->blocks[i].is_free = 0;
+            pool->used_size += size;
+
+            /* 統計更新 */
+            g_memory_stats.total_allocated += size;
+            g_memory_stats.current_usage += size;
+            g_memory_stats.allocation_count++;
+
+            if (g_memory_stats.current_usage > g_memory_stats.peak_usage)
+            {
+                g_memory_stats.peak_usage = g_memory_stats.current_usage;
+            }
+
+            return pool->blocks[i].data;
+        }
+    }
+
+    printf("メモリプール割り当てエラー: %zu バイトの空きブロックが見つかりません\n", size);
+    return NULL;
+}
+
+/* メモリプールへの解放 */
+void pool_free(MemoryPool *pool, void *ptr)
+{
+    int i;
+
+    if (!ptr)
+        return;
+
+    for (i = 0; i < pool->num_blocks; i++)
+    {
+        if (pool->blocks[i].data == ptr && !pool->blocks[i].is_free)
+        {
+            pool->blocks[i].is_free = 1;
+            pool->used_size -= pool->blocks[i].size;
+
+            /* 統計更新 */
+            g_memory_stats.total_freed += pool->blocks[i].size;
+            g_memory_stats.current_usage -= pool->blocks[i].size;
+            g_memory_stats.free_count++;
+
+            /* 隣接する空きブロックとマージ */
+            /* 簡単な実装のため、ここではマージを省略 */
+
+            printf("メモリ解放: %zu バイト\n", pool->blocks[i].size);
+            return;
+        }
+    }
+
+    printf("メモリ解放エラー: 無効なポインタ\n");
+}
+
+/* メモリプールの状態表示 */
+void print_pool_status(MemoryPool *pool)
+{
+    printf("\n=== メモリプール状態 ===\n");
+    printf("総サイズ: %zu バイト\n", pool->total_size);
+    printf("使用中: %zu バイト\n", pool->used_size);
+    printf("空き: %zu バイト\n", pool->total_size - pool->used_size);
+    printf("ブロック数: %d\n", pool->num_blocks);
+
+    printf("ブロック詳細:\n");
+    int i;
+    for (i = 0; i < pool->num_blocks; i++)
+    {
+        printf("  ブロック%d: サイズ=%zu, 状態=%s\n",
+               i, pool->blocks[i].size,
+               pool->blocks[i].is_free ? "空き" : "使用中");
+    }
+}
+
+/* メモリプールの終了処理 */
+void cleanup_memory_pool(MemoryPool *pool)
+{
+    if (pool->blocks)
+    {
+        if (pool->blocks[0].data)
+        {
+            free(pool->blocks[0].data);
+        }
+        free(pool->blocks);
+        pool->blocks = NULL;
+    }
+    printf("メモリプール終了処理完了\n");
+}
+
+/* スタックアロケーターの初期化 */
+int init_stack_allocator(StackAllocator *stack, size_t size)
+{
+    stack->memory = malloc(size);
+    if (!stack->memory)
+    {
+        printf("スタックアロケーター初期化エラー\n");
+        return 0;
+    }
+
+    stack->size = size;
+    stack->offset = 0;
+
+    printf("スタックアロケーター初期化: %zu バイト\n", size);
+    return 1;
+}
+
+/* スタックアロケーターからの割り当て */
+void *stack_alloc(StackAllocator *stack, size_t size)
+{
+    /* アライメント調整 */
+    size_t aligned_size = (size + 7) & ~7; /* 8バイト境界に整列 */
+
+    if (stack->offset + aligned_size > stack->size)
+    {
+        printf("スタックアロケーターエラー: メモリ不足\n");
+        return NULL;
+    }
+
+    void *ptr = stack->memory + stack->offset;
+    stack->offset += aligned_size;
+
+    return ptr;
+}
+
+/* スタックアロケーターのリセット */
+void stack_reset(StackAllocator *stack)
+{
+    stack->offset = 0;
+    printf("スタックアロケーターをリセットしました\n");
+}
+
+/* スタックアロケーターの終了処理 */
+void cleanup_stack_allocator(StackAllocator *stack)
+{
+    if (stack->memory)
+    {
+        free(stack->memory);
+        stack->memory = NULL;
+    }
+    printf("スタックアロケーター終了処理完了\n");
+}
+
+/* オブジェクトプールの初期化 */
+int init_object_pool(ObjectPool *pool, size_t object_size, size_t capacity)
+{
+    size_t total_size = object_size * capacity;
+    pool->memory_chunk = malloc(total_size);
+
+    if (!pool->memory_chunk)
+    {
+        printf("オブジェクトプール初期化エラー\n");
+        return 0;
+    }
+
+    pool->object_size = object_size;
+    pool->capacity = capacity;
+    pool->count = 0;
+
+    /* フリーリストの構築 */
+    pool->free_list = NULL;
+    char *ptr = (char *)pool->memory_chunk;
+    size_t i;
+
+    for (i = 0; i < capacity; i++)
+    {
+        ObjectNode *node = (ObjectNode *)(ptr + i * object_size);
+        node->next = pool->free_list;
+        pool->free_list = node;
+    }
+
+    printf("オブジェクトプール初期化: オブジェクトサイズ=%zu, 容量=%zu\n",
+           object_size, capacity);
+    return 1;
+}
+
+/* オブジェクトプールからの取得 */
+void *object_pool_get(ObjectPool *pool)
+{
+    if (!pool->free_list)
+    {
+        printf("オブジェクトプールエラー: 利用可能なオブジェクトがありません\n");
+        return NULL;
+    }
+
+    ObjectNode *node = pool->free_list;
+    pool->free_list = node->next;
+    pool->count++;
+
+    /* オブジェクトをクリア */
+    memset(node, 0, pool->object_size);
+
+    return node;
+}
+
+/* オブジェクトプールへの返却 */
+void object_pool_return(ObjectPool *pool, void *obj)
+{
+    if (!obj)
+        return;
+
+    ObjectNode *node = (ObjectNode *)obj;
+    node->next = pool->free_list;
+    pool->free_list = node;
+    pool->count--;
+}
+
+/* オブジェクトプールの終了処理 */
+void cleanup_object_pool(ObjectPool *pool)
+{
+    if (pool->memory_chunk)
+    {
+        free(pool->memory_chunk);
+        pool->memory_chunk = NULL;
+    }
+    printf("オブジェクトプール終了処理完了\n");
+}
+
+/* カスタムメモリアロケーター */
+typedef struct
+{
+    void *(*alloc)(size_t size);
+    void (*free)(void *ptr);
+    void *(*realloc)(void *ptr, size_t new_size);
+} CustomAllocator;
+
+/* デバッグアロケーター */
+void *debug_malloc(size_t size)
+{
+    void *ptr = malloc(size + sizeof(size_t));
+    if (ptr)
+    {
+        *(size_t *)ptr = size;
+        printf("[DEBUG MALLOC] %zu バイト割り当て: %p\n", size, (char *)ptr + sizeof(size_t));
+        return (char *)ptr + sizeof(size_t);
+    }
+    return NULL;
+}
+
+void debug_free(void *ptr)
+{
+    if (ptr)
+    {
+        void *real_ptr = (char *)ptr - sizeof(size_t);
+        size_t size = *(size_t *)real_ptr;
+        printf("[DEBUG FREE] %zu バイト解放: %p\n", size, ptr);
+        free(real_ptr);
+    }
+}
+
+void *debug_realloc(void *ptr, size_t new_size)
+{
+    if (!ptr)
+    {
+        return debug_malloc(new_size);
+    }
+
+    void *real_ptr = (char *)ptr - sizeof(size_t);
+    size_t old_size = *(size_t *)real_ptr;
+
+    void *new_ptr = realloc(real_ptr, new_size + sizeof(size_t));
+    if (new_ptr)
+    {
+        *(size_t *)new_ptr = new_size;
+        printf("[DEBUG REALLOC] %zu バイト -> %zu バイト: %p -> %p\n",
+               old_size, new_size, ptr, (char *)new_ptr + sizeof(size_t));
+        return (char *)new_ptr + sizeof(size_t);
+    }
+    return NULL;
+}
+
+/* メモリ使用統計の表示 */
+void print_memory_stats(void)
+{
+    printf("\n=== メモリ使用統計 ===\n");
+    printf("総割り当て: %zu バイト\n", g_memory_stats.total_allocated);
+    printf("総解放: %zu バイト\n", g_memory_stats.total_freed);
+    printf("現在使用中: %zu バイト\n", g_memory_stats.current_usage);
+    printf("ピーク使用量: %zu バイト\n", g_memory_stats.peak_usage);
+    printf("割り当て回数: %d\n", g_memory_stats.allocation_count);
+    printf("解放回数: %d\n", g_memory_stats.free_count);
+}
+
+/* メモリアライメントのテスト */
+void test_memory_alignment(void)
+{
+    printf("\n=== メモリアライメントテスト ===\n");
+
+    struct TestStruct
+    {
+        char c;
+        int i;
+        double d;
+        char c2;
+    };
+
+    printf("char サイズ: %zu, アライメント: %zu\n", sizeof(char), _Alignof(char));
+    printf("int サイズ: %zu, アライメント: %zu\n", sizeof(int), _Alignof(int));
+    printf("double サイズ: %zu, アライメント: %zu\n", sizeof(double), _Alignof(double));
+    printf("struct TestStruct サイズ: %zu\n", sizeof(struct TestStruct));
+
+    struct TestStruct ts;
+    printf("メンバーのオフセット:\n");
+    printf("  c: %zu\n", offsetof(struct TestStruct, c));
+    printf("  i: %zu\n", offsetof(struct TestStruct, i));
+    printf("  d: %zu\n", offsetof(struct TestStruct, d));
+    printf("  c2: %zu\n", offsetof(struct TestStruct, c2));
+}
+
+/* ベンチマーク用の構造体 */
+typedef struct
+{
+    int id;
+    char name[32];
+    double value;
+} TestObject;
+
+/* 標準malloc/freeのベンチマーク */
+double benchmark_standard_alloc(int iterations)
+{
+    clock_t start = clock();
+    int i;
+
+    TestObject **objects = malloc(sizeof(TestObject *) * iterations);
+
+    for (i = 0; i < iterations; i++)
+    {
+        objects[i] = malloc(sizeof(TestObject));
+        objects[i]->id = i;
+        sprintf(objects[i]->name, "Object_%d", i);
+        objects[i]->value = i * 3.14;
+    }
+
+    for (i = 0; i < iterations; i++)
+    {
+        free(objects[i]);
+    }
+
+    free(objects);
+
+    clock_t end = clock();
+    return ((double)(end - start)) / CLOCKS_PER_SEC;
+}
+
+/* メモリプールのベンチマーク */
+double benchmark_pool_alloc(int iterations)
+{
+    clock_t start = clock();
+
+    MemoryPool pool;
+    init_memory_pool(&pool, sizeof(TestObject) * iterations * 2);
+
+    TestObject **objects = malloc(sizeof(TestObject *) * iterations);
+    int i;
+
+    for (i = 0; i < iterations; i++)
+    {
+        objects[i] = (TestObject *)pool_alloc(&pool, sizeof(TestObject));
+        if (objects[i])
+        {
+            objects[i]->id = i;
+            sprintf(objects[i]->name, "Object_%d", i);
+            objects[i]->value = i * 3.14;
+        }
+    }
+
+    for (i = 0; i < iterations; i++)
+    {
+        pool_free(&pool, objects[i]);
+    }
+
+    free(objects);
+    cleanup_memory_pool(&pool);
+
+    clock_t end = clock();
+    return ((double)(end - start)) / CLOCKS_PER_SEC;
+}
+
+/* オブジェクトプールのベンチマーク */
+double benchmark_object_pool(int iterations)
+{
+    clock_t start = clock();
+
+    ObjectPool pool;
+    init_object_pool(&pool, sizeof(TestObject), iterations);
+
+    TestObject **objects = malloc(sizeof(TestObject *) * iterations);
+    int i;
+
+    for (i = 0; i < iterations; i++)
+    {
+        objects[i] = (TestObject *)object_pool_get(&pool);
+        if (objects[i])
+        {
+            objects[i]->id = i;
+            sprintf(objects[i]->name, "Object_%d", i);
+            objects[i]->value = i * 3.14;
+        }
+    }
+
+    for (i = 0; i < iterations; i++)
+    {
+        object_pool_return(&pool, objects[i]);
+    }
+
+    free(objects);
+    cleanup_object_pool(&pool);
+
+    clock_t end = clock();
+    return ((double)(end - start)) / CLOCKS_PER_SEC;
+}
+
+/* メモリリークのシミュレーション */
+void simulate_memory_leak(void)
+{
+    printf("\n=== メモリリークシミュレーション ===\n");
+
+    CustomAllocator debug_allocator = {
+        debug_malloc,
+        debug_free,
+        debug_realloc};
+
+    /* 正常なパターン */
+    void *ptr1 = debug_allocator.alloc(100);
+    void *ptr2 = debug_allocator.alloc(200);
+    debug_allocator.free(ptr1);
+    debug_allocator.free(ptr2);
+
+    /* リークのシミュレーション（意図的にfreeしない） */
+    void *leak_ptr = debug_allocator.alloc(500);
+    printf("リークポインタ: %p (解放されません)\n", leak_ptr);
+
+    /* reallocのテスト */
+    void *ptr3 = debug_allocator.alloc(50);
+    ptr3 = debug_allocator.realloc(ptr3, 150);
+    debug_allocator.free(ptr3);
+}
+
+int main(void)
+{
+    printf("=== メモリ管理の最適化技法デモ ===\n\n");
+
+    /* メモリアライメントの確認 */
+    test_memory_alignment();
+
+    /* メモリプールのテスト */
+    printf("\n=== メモリプールテスト ===\n");
+    if (init_memory_pool(&g_memory_pool, 2048))
+    {
+        void *ptr1 = pool_alloc(&g_memory_pool, 100);
+        void *ptr2 = pool_alloc(&g_memory_pool, 200);
+        void *ptr3 = pool_alloc(&g_memory_pool, 300);
+
+        print_pool_status(&g_memory_pool);
+
+        pool_free(&g_memory_pool, ptr2);
+        pool_free(&g_memory_pool, ptr1);
+
+        print_pool_status(&g_memory_pool);
+
+        void *ptr4 = pool_alloc(&g_memory_pool, 150);
+        print_pool_status(&g_memory_pool);
+
+        pool_free(&g_memory_pool, ptr3);
+        pool_free(&g_memory_pool, ptr4);
+
+        cleanup_memory_pool(&g_memory_pool);
+    }
+
+    /* スタックアロケーターのテスト */
+    printf("\n=== スタックアロケーターテスト ===\n");
+    StackAllocator stack;
+    if (init_stack_allocator(&stack, 1024))
+    {
+        void *s1 = stack_alloc(&stack, 100);
+        void *s2 = stack_alloc(&stack, 200);
+        void *s3 = stack_alloc(&stack, 300);
+
+        printf("割り当て後オフセット: %zu\n", stack.offset);
+
+        stack_reset(&stack);
+        printf("リセット後オフセット: %zu\n", stack.offset);
+
+        cleanup_stack_allocator(&stack);
+    }
+
+    /* オブジェクトプールのテスト */
+    printf("\n=== オブジェクトプールテスト ===\n");
+    ObjectPool obj_pool;
+    if (init_object_pool(&obj_pool, sizeof(TestObject), 5))
+    {
+        TestObject *objs[3];
+        int i;
+
+        for (i = 0; i < 3; i++)
+        {
+            objs[i] = (TestObject *)object_pool_get(&obj_pool);
+            if (objs[i])
+            {
+                objs[i]->id = i;
+                sprintf(objs[i]->name, "TestObj_%d", i);
+                objs[i]->value = i * 2.5;
+                printf("オブジェクト%d作成: ID=%d, Name=%s, Value=%.1f\n",
+                       i, objs[i]->id, objs[i]->name, objs[i]->value);
+            }
+        }
+
+        printf("使用中オブジェクト数: %zu\n", obj_pool.count);
+
+        for (i = 0; i < 3; i++)
+        {
+            object_pool_return(&obj_pool, objs[i]);
+        }
+
+        printf("返却後オブジェクト数: %zu\n", obj_pool.count);
+
+        cleanup_object_pool(&obj_pool);
+    }
+
+    /* メモリリークのシミュレーション */
+    simulate_memory_leak();
+
+    /* ベンチマークテスト */
+    printf("\n=== パフォーマンステスト ===\n");
+    int iterations = 10000;
+
+    printf("テスト回数: %d\n", iterations);
+
+    double std_time = benchmark_standard_alloc(iterations);
+    printf("標準malloc/free: %.6f秒\n", std_time);
+
+    double pool_time = benchmark_pool_alloc(iterations);
+    printf("メモリプール: %.6f秒\n", pool_time);
+
+    double obj_pool_time = benchmark_object_pool(iterations);
+    printf("オブジェクトプール: %.6f秒\n", obj_pool_time);
+
+    printf("\nパフォーマンス比較 (標準を100%%とした場合):\n");
+    printf("メモリプール: %.1f%%\n", (pool_time / std_time) * 100);
+    printf("オブジェクトプール: %.1f%%\n", (obj_pool_time / std_time) * 100);
+
+    /* メモリ使用統計 */
+    print_memory_stats();
+
+    printf("\n=== メモリ最適化デモ完了 ===\n");
+
+    return 0;
+}
+```
+
+### preprocessor_advanced.c
+
+```c
+/* 高度なプリプロセッサの活用 */
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+
+/* 基本的なマクロ定義 */
+#define MAX_SIZE 100
+#define PI 3.14159265359
+#define SQUARE(x) ((x) * (x))
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+
+/* 条件付きコンパイル用フラグ */
+#define DEBUG_MODE 1
+#define VERBOSE_OUTPUT 1
+
+/* デバッグ用マクロ */
+#if DEBUG_MODE
+#define DEBUG_PRINT(fmt, ...) \
+    printf("[DEBUG %s:%d] " fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__)
+#else
+#define DEBUG_PRINT(fmt, ...)
+#endif
+
+/* 詳細出力用マクロ */
+#if VERBOSE_OUTPUT
+#define VERBOSE(msg) printf("[VERBOSE] " msg "\n")
+#else
+#define VERBOSE(msg)
+#endif
+
+/* 文字列化マクロ */
+#define STRINGIFY(x) #x
+#define TOSTRING(x) STRINGIFY(x)
+
+/* 連結マクロ */
+#define CONCAT(a, b) a##b
+#define MAKE_FUNCTION_NAME(prefix, suffix) CONCAT(prefix, suffix)
+
+/* 多行マクロ */
+#define SAFE_DIVIDE(a, b, result)                         \
+    do                                                    \
+    {                                                     \
+        if ((b) != 0)                                     \
+        {                                                 \
+            *(result) = (a) / (b);                        \
+        }                                                 \
+        else                                              \
+        {                                                 \
+            printf("エラー: ゼロ除算が検出されました\n"); \
+            *(result) = 0;                                \
+        }                                                 \
+    } while (0)
+
+/* 配列のサイズを取得するマクロ */
+#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
+
+/* メモリ安全な操作マクロ */
+#define SAFE_STRCPY(dest, src, size)  \
+    do                                \
+    {                                 \
+        strncpy(dest, src, size - 1); \
+        (dest)[(size) - 1] = '\0';    \
+    } while (0)
+
+/* 範囲チェック付きアクセスマクロ */
+#define SAFE_ARRAY_ACCESS(arr, index, size) \
+    ((index) >= 0 && (index) < (size) ? (arr)[index] : 0)
+
+/* ビット操作マクロ */
+#define SET_BIT(value, bit) ((value) |= (1 << (bit)))
+#define CLEAR_BIT(value, bit) ((value) &= ~(1 << (bit)))
+#define TOGGLE_BIT(value, bit) ((value) ^= (1 << (bit)))
+#define CHECK_BIT(value, bit) (((value) >> (bit)) & 1)
+
+/* 条件付きマクロ定義 */
+#ifdef _WIN32
+#define PLATFORM "Windows"
+#define PATH_SEPARATOR "\\"
+#elif defined(__linux__)
+#define PLATFORM "Linux"
+#define PATH_SEPARATOR "/"
+#elif defined(__APPLE__)
+#define PLATFORM "macOS"
+#define PATH_SEPARATOR "/"
+#else
+#define PLATFORM "Unknown"
+#define PATH_SEPARATOR "/"
+#endif
+
+/* コンパイル情報マクロ */
+#define COMPILE_INFO()                            \
+    printf("コンパイル情報:\n");                  \
+    printf("  ファイル: %s\n", __FILE__);         \
+    printf("  日付: %s\n", __DATE__);             \
+    printf("  時刻: %s\n", __TIME__);             \
+    printf("  プラットフォーム: %s\n", PLATFORM); \
+    printf("  C標準: " TOSTRING(__STDC_VERSION__) "\n")
+
+/* 動的に生成される関数群 */
+#define DECLARE_OPERATION_FUNCTION(type, name, op)            \
+    type MAKE_FUNCTION_NAME(name, _operation)(type a, type b) \
+    {                                                         \
+        DEBUG_PRINT("演算実行: %s", STRINGIFY(name));         \
+        return a op b;                                        \
+    }
+
+/* 各種データ型用の演算関数を生成 */
+DECLARE_OPERATION_FUNCTION(int, add_int, +)
+DECLARE_OPERATION_FUNCTION(int, sub_int, -)
+DECLARE_OPERATION_FUNCTION(int, mul_int, *)
+DECLARE_OPERATION_FUNCTION(double, add_double, +)
+DECLARE_OPERATION_FUNCTION(double, sub_double, -)
+DECLARE_OPERATION_FUNCTION(double, mul_double, *)
+
+/* 型判定マクロ（GCC拡張機能） - 教育目的でコメントアウト */
+/* #define IS_SAME_TYPE(a, b) __builtin_types_compatible_p(typeof(a), typeof(b)) */
+
+/* 汎用スワップマクロ（型固有版を使用） */
+#define SWAP_INT(a, b)        \
+    do                        \
+    {                         \
+        int temp = (a);       \
+        (a) = (b);            \
+        (b) = temp;           \
+    } while (0)
+
+#define SWAP_DOUBLE(a, b)     \
+    do                        \
+    {                         \
+        double temp = (a);    \
+        (a) = (b);            \
+        (b) = temp;           \
+    } while (0)
+
+/* エラーチェック付きマクロ */
+#define CHECK_NULL(ptr, action)                                                           \
+    do                                                                                    \
+    {                                                                                     \
+        if ((ptr) == NULL)                                                                \
+        {                                                                                 \
+            printf("エラー: NULLポインタが検出されました (%s:%d)\n", __FILE__, __LINE__); \
+            action;                                                                       \
+        }                                                                                 \
+    } while (0)
+
+/* ベンチマーク用マクロ */
+#define BENCHMARK_START() \
+    clock_t start_time = clock()
+
+#define BENCHMARK_END(operation_name)                                        \
+    do                                                                       \
+    {                                                                        \
+        clock_t end_time = clock();                                          \
+        double elapsed = ((double)(end_time - start_time)) / CLOCKS_PER_SEC; \
+        printf("ベンチマーク [%s]: %.6f秒\n", operation_name, elapsed);      \
+    } while (0)
+
+/* アサーションマクロ */
+#define ASSERT(condition, message)                                                 \
+    do                                                                             \
+    {                                                                              \
+        if (!(condition))                                                          \
+        {                                                                          \
+            printf("アサーション失敗: %s (%s:%d)\n", message, __FILE__, __LINE__); \
+            printf("条件: %s\n", STRINGIFY(condition));                            \
+        }                                                                          \
+    } while (0)
+
+/* テスト用関数 */
+void test_basic_macros(void)
+{
+    printf("=== 基本的なマクロテスト ===\n");
+
+    VERBOSE("基本マクロのテストを開始します");
+
+    int a = 5, b = 3;
+
+    printf("SQUARE(%d) = %d\n", a, SQUARE(a));
+    printf("MAX(%d, %d) = %d\n", a, b, MAX(a, b));
+    printf("MIN(%d, %d) = %d\n", a, b, MIN(a, b));
+
+    DEBUG_PRINT("変数値: a=%d, b=%d", a, b);
+
+    printf("PI = %f\n", PI);
+    printf("MAX_SIZE = %d\n", MAX_SIZE);
+}
+
+void test_string_macros(void)
+{
+    printf("\n=== 文字列操作マクロテスト ===\n");
+
+    VERBOSE("文字列マクロのテストを開始します");
+
+    int value = 42;
+    printf("STRINGIFY(value) = %s\n", STRINGIFY(value));
+    printf("TOSTRING(MAX_SIZE) = %s\n", TOSTRING(MAX_SIZE));
+
+    char buffer[50];
+    const char *source = "Hello, World!";
+    SAFE_STRCPY(buffer, source, sizeof(buffer));
+    printf("SAFE_STRCPY結果: %s\n", buffer);
+
+    /* 長すぎる文字列のテスト */
+    char sumall_buffer[10];
+    const char *long_source = "This is a very long string that exceeds buffer size";
+    SAFE_STRCPY(sumall_buffer, long_source, sizeof(sumall_buffer));
+    printf("切り詰められた文字列: %s\n", sumall_buffer);
+}
+
+void test_safe_operations(void)
+{
+    printf("\n=== 安全操作マクロテスト ===\n");
+
+    VERBOSE("安全操作マクロのテストを開始します");
+
+    double result;
+
+    /* 正常な除算 */
+    SAFE_DIVIDE(10.0, 2.0, &result);
+    printf("10.0 / 2.0 = %f\n", result);
+
+    /* ゼロ除算 */
+    SAFE_DIVIDE(10.0, 0.0, &result);
+    printf("10.0 / 0.0 = %f (エラー処理後)\n", result);
+
+    /* 配列アクセステスト */
+    int array[] = {10, 20, 30, 40, 50};
+    int size = ARRAY_SIZE(array);
+
+    printf("配列サイズ: %d\n", size);
+
+    /* 安全な配列アクセス */
+    printf("array[2] = %d\n", SAFE_ARRAY_ACCESS(array, 2, size));
+    printf("array[10] = %d (範囲外アクセス)\n", SAFE_ARRAY_ACCESS(array, 10, size));
+    printf("array[-1] = %d (負のインデックス)\n", SAFE_ARRAY_ACCESS(array, -1, size));
+}
+
+void test_bit_operations(void)
+{
+    printf("\n=== ビット操作マクロテスト ===\n");
+
+    VERBOSE("ビット操作マクロのテストを開始します");
+
+    unsigned int flags = 0;
+
+    printf("初期値: 0x%02X\n", flags);
+
+    SET_BIT(flags, 0);
+    printf("ビット0セット後: 0x%02X\n", flags);
+
+    SET_BIT(flags, 3);
+    printf("ビット3セット後: 0x%02X\n", flags);
+
+    TOGGLE_BIT(flags, 1);
+    printf("ビット1トグル後: 0x%02X\n", flags);
+
+    printf("ビット0チェック: %d\n", CHECK_BIT(flags, 0));
+    printf("ビット2チェック: %d\n", CHECK_BIT(flags, 2));
+
+    CLEAR_BIT(flags, 0);
+    printf("ビット0クリア後: 0x%02X\n", flags);
+}
+
+void test_dynamic_functions(void)
+{
+    printf("\n=== 動的生成関数テスト ===\n");
+
+    VERBOSE("動的生成関数のテストを開始します");
+
+    int int_a = 15, int_b = 7;
+    double double_a = 3.14, double_b = 2.71;
+
+    printf("整数演算:\n");
+    printf("  %d + %d = %d\n", int_a, int_b, add_int_operation(int_a, int_b));
+    printf("  %d - %d = %d\n", int_a, int_b, sub_int_operation(int_a, int_b));
+    printf("  %d * %d = %d\n", int_a, int_b, mul_int_operation(int_a, int_b));
+
+    printf("浮動小数点演算:\n");
+    printf("  %.2f + %.2f = %.2f\n", double_a, double_b, add_double_operation(double_a, double_b));
+    printf("  %.2f - %.2f = %.2f\n", double_a, double_b, sub_double_operation(double_a, double_b));
+    printf("  %.2f * %.2f = %.2f\n", double_a, double_b, mul_double_operation(double_a, double_b));
+}
+
+void test_generic_macros(void)
+{
+    printf("\n=== 汎用マクロテスト ===\n");
+
+    VERBOSE("汎用マクロのテストを開始します");
+
+    int x = 10, y = 20;
+    double dx = 1.5, dy = 2.5;
+
+    printf("スワップ前: x=%d, y=%d\n", x, y);
+    SWAP_INT(x, y);
+    printf("スワップ後: x=%d, y=%d\n", x, y);
+
+    printf("スワップ前: dx=%.1f, dy=%.1f\n", dx, dy);
+    SWAP_DOUBLE(dx, dy);
+    printf("スワップ後: dx=%.1f, dy=%.1f\n", dx, dy);
+}
+
+void test_benchmarks(void)
+{
+    printf("\n=== ベンチマークテスト ===\n");
+
+    VERBOSE("ベンチマークテストを開始します");
+
+    /* 計算集約的な処理のベンチマーク */
+    {
+        BENCHMARK_START();
+        
+        volatile long sum = 0;
+        int i;
+        for (i = 0; i < 1000000; i++)
+        {
+            sum += i * i;
+        }
+
+        BENCHMARK_END("100万回の平方計算");
+    }
+
+    /* 文字列処理のベンチマーク */
+    {
+        BENCHMARK_START();
+
+        char buffer[1000];
+        int i;
+        for (i = 0; i < 10000; i++)
+        {
+            sprintf(buffer, "Test string %d", i);
+        }
+
+        BENCHMARK_END("1万回の文字列生成");
+    }
+}
+
+void test_assertions(void)
+{
+    printf("\n=== アサーションテスト ===\n");
+
+    VERBOSE("アサーションテストを開始します");
+
+    int value = 42;
+
+    ASSERT(value > 0, "値は正の数であるべきです");
+    ASSERT(value == 42, "値は42であるべきです");
+    ASSERT(value < 100, "値は100未満であるべきです");
+
+    /* 失敗するアサーション */
+    ASSERT(value > 100, "値は100より大きいべきです（これは失敗します）");
+}
+
+int main(void)
+{
+    printf("=== 高度なプリプロセッサの活用デモ ===\n\n");
+
+    /* コンパイル情報の表示 */
+    COMPILE_INFO();
+    printf("\n");
+
+    /* 各種テストの実行 */
+    test_basic_macros();
+    test_string_macros();
+    test_safe_operations();
+    test_bit_operations();
+    test_dynamic_functions();
+    test_generic_macros();
+    test_benchmarks();
+    test_assertions();
+
+    /* 条件付きコンパイル情報 */
+    printf("\n=== 条件付きコンパイル情報 ===\n");
+    printf("プラットフォーム: %s\n", PLATFORM);
+    printf("パス区切り文字: %s\n", PATH_SEPARATOR);
+
+#if DEBUG_MODE
+    printf("デバッグモード: 有効\n");
+#else
+    printf("デバッグモード: 無効\n");
+#endif
+
+#if VERBOSE_OUTPUT
+    printf("詳細出力: 有効\n");
+#else
+    printf("詳細出力: 無効\n");
+#endif
+
+    printf("\n=== デモ完了 ===\n");
+
+    return 0;
+}
+```
+
+---

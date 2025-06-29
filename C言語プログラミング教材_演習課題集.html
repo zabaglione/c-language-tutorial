@@ -1,0 +1,2462 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<style>
+/* PDFスタイルシート */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+
+body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'メイリオ', sans-serif;
+    line-height: 1.8;
+    color: #333;
+    max-width: 210mm;
+    margin: 0 auto;
+    padding: 20mm;
+    background-color: white;
+}
+
+/* ページ設定 */
+@page {
+    size: A4;
+    margin: 20mm;
+}
+
+/* 見出しスタイル */
+h1 {
+    color: #0066cc;
+    border-bottom: 3px solid #0066cc;
+    padding-bottom: 10px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    page-break-before: always;
+}
+
+h1:first-of-type {
+    page-break-before: avoid;
+}
+
+h2 {
+    color: #0066cc;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 8px;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+h3 {
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* コードブロック */
+pre {
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    overflow-x: auto;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.9em;
+    line-height: 1.4;
+    page-break-inside: avoid;
+}
+
+code {
+    background-color: #f5f5f5;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.9em;
+}
+
+pre code {
+    background-color: transparent;
+    padding: 0;
+}
+
+/* テーブル */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+/* リスト */
+ul, ol {
+    margin: 10px 0;
+    padding-left: 30px;
+}
+
+li {
+    margin: 5px 0;
+}
+
+/* 引用 */
+blockquote {
+    border-left: 4px solid #0066cc;
+    padding-left: 15px;
+    margin: 15px 0;
+    color: #666;
+}
+
+/* リンク */
+a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* 目次 */
+#TOC {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 5px;
+}
+
+#TOC ul {
+    list-style-type: none;
+    padding-left: 20px;
+}
+
+#TOC > ul {
+    padding-left: 0;
+}
+
+#TOC li {
+    margin: 5px 0;
+}
+
+#TOC a {
+    color: #333;
+    text-decoration: none;
+}
+
+#TOC a:hover {
+    color: #0066cc;
+}
+
+/* 印刷時の設定 */
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    
+    h1 {
+        page-break-before: always;
+    }
+    
+    h1:first-of-type {
+        page-break-before: avoid;
+    }
+    
+    pre, table, blockquote {
+        page-break-inside: avoid;
+    }
+    
+    a {
+        color: #000;
+    }
+}
+</style>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="プログラミング学習教材" />
+  <title>C言語プログラミング演習課題集</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="create_pdf_style.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">C言語プログラミング演習課題集</h1>
+<p class="author">プログラミング学習教材</p>
+<p class="date">2024年</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#c言語プログラミング演習課題集"
+id="toc-c言語プログラミング演習課題集">C言語プログラミング演習課題集</a>
+<ul>
+<li><a href="#目次" id="toc-目次">目次</a></li>
+</ul></li>
+<li><a href="#第1章-c言語入門---演習課題"
+id="toc-第1章-c言語入門---演習課題">第1章: C言語入門 - 演習課題</a>
+<ul>
+<li><a href="#演習の目的" id="toc-演習の目的">演習の目的</a></li>
+<li><a href="#演習課題" id="toc-演習課題">演習課題</a></li>
+<li><a href="#提出形式" id="toc-提出形式">提出形式</a></li>
+<li><a href="#評価基準" id="toc-評価基準">評価基準</a></li>
+<li><a href="#参考資料" id="toc-参考資料">参考資料</a></li>
+<li><a href="#次の段階" id="toc-次の段階">次の段階</a></li>
+<li><a href="#演習課題が完了したら基本文法hello-world-に進んでください"
+id="toc-演習課題が完了したら基本文法hello-world-に進んでください">演習課題が完了したら、基本文法・Hello
+World に進んでください。</a></li>
+</ul></li>
+<li><a href="#第2章-基本構文---演習課題"
+id="toc-第2章-基本構文---演習課題">第2章: 基本構文 - 演習課題</a>
+<ul>
+<li><a href="#基礎課題" id="toc-基礎課題">基礎課題</a></li>
+<li><a href="#応用課題" id="toc-応用課題">応用課題</a></li>
+<li><a href="#挑戦課題" id="toc-挑戦課題">挑戦課題</a></li>
+<li><a href="#提出について" id="toc-提出について">提出について</a></li>
+</ul></li>
+<li><a href="#第3章-データ型と変数---演習課題"
+id="toc-第3章-データ型と変数---演習課題">第3章: データ型と変数 -
+演習課題</a>
+<ul>
+<li><a href="#基礎問題-2" id="toc-基礎問題-2">基礎問題</a></li>
+<li><a href="#応用問題-2" id="toc-応用問題-2">応用問題</a></li>
+<li><a href="#チャレンジ問題"
+id="toc-チャレンジ問題">チャレンジ問題</a></li>
+<li><a href="#提出方法" id="toc-提出方法">提出方法</a></li>
+<li><a href="#コンパイル例" id="toc-コンパイル例">コンパイル例</a></li>
+<li><a href="#ヒント" id="toc-ヒント">ヒント</a></li>
+</ul></li>
+<li><a href="#第4章-演算子---演習課題"
+id="toc-第4章-演算子---演習課題">第4章: 演算子 - 演習課題</a>
+<ul>
+<li><a href="#基礎問題-3" id="toc-基礎問題-3">基礎問題</a></li>
+<li><a href="#応用問題-3" id="toc-応用問題-3">応用問題</a></li>
+<li><a href="#提出方法-1" id="toc-提出方法-1">提出方法</a></li>
+<li><a href="#コンパイル例-1"
+id="toc-コンパイル例-1">コンパイル例</a></li>
+<li><a href="#ヒント-1" id="toc-ヒント-1">ヒント</a></li>
+</ul></li>
+<li><a href="#第5章-条件分岐---演習課題"
+id="toc-第5章-条件分岐---演習課題">第5章: 条件分岐 - 演習課題</a>
+<ul>
+<li><a href="#演習の目的-1" id="toc-演習の目的-1">演習の目的</a></li>
+<li><a href="#演習問題" id="toc-演習問題">演習問題</a></li>
+<li><a href="#チャレンジ問題-1"
+id="toc-チャレンジ問題-1">チャレンジ問題</a></li>
+<li><a href="#提出方法-2" id="toc-提出方法-2">提出方法</a></li>
+<li><a href="#期限" id="toc-期限">期限</a></li>
+<li><a href="#演習問題は次の章に進む前に完了させましょう"
+id="toc-演習問題は次の章に進む前に完了させましょう">演習問題は次の章に進む前に完了させましょう。</a></li>
+</ul></li>
+<li><a href="#第6章-繰り返し処理---演習課題"
+id="toc-第6章-繰り返し処理---演習課題">第6章: 繰り返し処理 -
+演習課題</a>
+<ul>
+<li><a href="#演習の目的-2" id="toc-演習の目的-2">演習の目的</a></li>
+<li><a href="#演習問題-1" id="toc-演習問題-1">演習問題</a></li>
+<li><a href="#提出方法-3" id="toc-提出方法-3">提出方法</a></li>
+<li><a href="#期限-1" id="toc-期限-1">期限</a></li>
+<li><a href="#演習問題は次の章に進む前に完了させましょう-1"
+id="toc-演習問題は次の章に進む前に完了させましょう-1">演習問題は次の章に進む前に完了させましょう。</a></li>
+</ul></li>
+<li><a href="#第7章-配列---演習課題"
+id="toc-第7章-配列---演習課題">第7章: 配列 - 演習課題</a>
+<ul>
+<li><a href="#演習の目的-3" id="toc-演習の目的-3">演習の目的</a></li>
+<li><a href="#演習問題-2" id="toc-演習問題-2">演習問題</a></li>
+<li><a href="#チャレンジ問題-2"
+id="toc-チャレンジ問題-2">チャレンジ問題</a></li>
+<li><a href="#提出方法-4" id="toc-提出方法-4">提出方法</a></li>
+<li><a href="#期限-2" id="toc-期限-2">期限</a></li>
+</ul></li>
+<li><a href="#第8章-文字列処理---演習課題"
+id="toc-第8章-文字列処理---演習課題">第8章: 文字列処理 - 演習課題</a>
+<ul>
+<li><a href="#演習の概要" id="toc-演習の概要">演習の概要</a></li>
+<li><a href="#演習問題一覧" id="toc-演習問題一覧">演習問題一覧</a></li>
+<li><a href="#提出要件" id="toc-提出要件">提出要件</a></li>
+<li><a href="#評価基準-1" id="toc-評価基準-1">評価基準</a></li>
+<li><a href="#学習の進め方" id="toc-学習の進め方">学習の進め方</a></li>
+<li><a href="#トラブルシューティング"
+id="toc-トラブルシューティング">トラブルシューティング</a></li>
+<li><a href="#参考資料-1" id="toc-参考資料-1">参考資料</a></li>
+<li><a
+href="#これらの演習を通じてc言語における文字列操作の基礎から応用まで体系的に学習することができます各演習に丁寧に取り組み安全で効率的なコードの作成技術を身につけてください"
+id="toc-これらの演習を通じてc言語における文字列操作の基礎から応用まで体系的に学習することができます各演習に丁寧に取り組み安全で効率的なコードの作成技術を身につけてください">これらの演習を通じて、C言語における文字列操作の基礎から応用まで、体系的に学習することができます。各演習に丁寧に取り組み、安全で効率的なコードの作成技術を身につけてください。</a></li>
+</ul></li>
+<li><a href="#第9章-関数---演習課題"
+id="toc-第9章-関数---演習課題">第9章: 関数 - 演習課題</a>
+<ul>
+<li><a href="#基本課題" id="toc-基本課題">基本課題</a></li>
+<li><a href="#中級課題" id="toc-中級課題">中級課題</a></li>
+<li><a href="#上級課題" id="toc-上級課題">上級課題</a></li>
+<li><a href="#挑戦課題-1" id="toc-挑戦課題-1">挑戦課題</a></li>
+<li><a href="#提出要件-1" id="toc-提出要件-1">提出要件</a></li>
+<li><a href="#評価ポイント-1"
+id="toc-評価ポイント-1">評価ポイント</a></li>
+<li><a href="#難易度別の推奨学習順序"
+id="toc-難易度別の推奨学習順序">難易度別の推奨学習順序</a></li>
+<li><a href="#学習のヒント-1"
+id="toc-学習のヒント-1">学習のヒント</a></li>
+<li><a href="#参考資料-2" id="toc-参考資料-2">参考資料</a></li>
+<li><a href="#実装例の構成" id="toc-実装例の構成">実装例の構成</a></li>
+<li><a href="#発展的な学習内容"
+id="toc-発展的な学習内容">発展的な学習内容</a></li>
+</ul></li>
+<li><a href="#第10章-ポインタ---演習課題"
+id="toc-第10章-ポインタ---演習課題">第10章: ポインタ - 演習課題</a>
+<ul>
+<li><a href="#基礎問題-4" id="toc-基礎問題-4">基礎問題</a></li>
+<li><a href="#応用問題-4" id="toc-応用問題-4">応用問題</a></li>
+<li><a href="#発展問題" id="toc-発展問題">発展問題</a></li>
+<li><a href="#チャレンジ問題-3"
+id="toc-チャレンジ問題-3">チャレンジ問題</a></li>
+<li><a href="#提出方法-5" id="toc-提出方法-5">提出方法</a></li>
+<li><a href="#コンパイル例-2"
+id="toc-コンパイル例-2">コンパイル例</a></li>
+<li><a href="#ヒント-2" id="toc-ヒント-2">ヒント</a></li>
+</ul></li>
+<li><a href="#第11章-構造体---演習課題"
+id="toc-第11章-構造体---演習課題">第11章: 構造体 - 演習課題</a>
+<ul>
+<li><a href="#基礎問題-5" id="toc-基礎問題-5">基礎問題</a></li>
+<li><a href="#応用問題-5" id="toc-応用問題-5">応用問題</a></li>
+<li><a href="#発展問題-1" id="toc-発展問題-1">発展問題</a></li>
+<li><a href="#提出方法-6" id="toc-提出方法-6">提出方法</a></li>
+<li><a href="#コンパイル例-3"
+id="toc-コンパイル例-3">コンパイル例</a></li>
+<li><a href="#ヒント-3" id="toc-ヒント-3">ヒント</a></li>
+</ul></li>
+<li><a href="#第12章-関数ポインタ---演習課題"
+id="toc-第12章-関数ポインタ---演習課題">第12章: 関数ポインタ -
+演習課題</a>
+<ul>
+<li><a href="#演習の目的-4" id="toc-演習の目的-4">演習の目的</a></li>
+<li><a href="#演習問題-3" id="toc-演習問題-3">演習問題</a></li>
+<li><a href="#チャレンジ問題-4"
+id="toc-チャレンジ問題-4">チャレンジ問題</a></li>
+<li><a href="#提出方法-7" id="toc-提出方法-7">提出方法</a></li>
+<li><a href="#コンパイル例-4"
+id="toc-コンパイル例-4">コンパイル例</a></li>
+<li><a href="#学習のポイント-1"
+id="toc-学習のポイント-1">学習のポイント</a></li>
+<li><a href="#注意事項" id="toc-注意事項">注意事項</a></li>
+<li><a href="#実用的な応用" id="toc-実用的な応用">実用的な応用</a></li>
+<li><a href="#次のステップ" id="toc-次のステップ">次のステップ</a></li>
+</ul></li>
+<li><a href="#第13章-高度なトピック---演習課題"
+id="toc-第13章-高度なトピック---演習課題">第13章: 高度なトピック -
+演習課題</a>
+<ul>
+<li><a href="#基礎課題-1" id="toc-基礎課題-1">基礎課題</a></li>
+<li><a href="#応用課題-1" id="toc-応用課題-1">応用課題</a></li>
+<li><a href="#挑戦課題-2" id="toc-挑戦課題-2">挑戦課題</a></li>
+<li><a href="#評価基準-2" id="toc-評価基準-2">評価基準</a></li>
+<li><a href="#提出方法-8" id="toc-提出方法-8">提出方法</a></li>
+<li><a href="#学習のポイント-2"
+id="toc-学習のポイント-2">学習のポイント</a></li>
+<li><a href="#参考資料-3" id="toc-参考資料-3">参考資料</a></li>
+<li><a href="#よくある間違いとその対策"
+id="toc-よくある間違いとその対策">よくある間違いとその対策</a></li>
+<li><a
+href="#これらの課題を通じてc言語の高度な機能を習得しパフォーマンスを意識したプログラミングスキルを身につけてください"
+id="toc-これらの課題を通じてc言語の高度な機能を習得しパフォーマンスを意識したプログラミングスキルを身につけてください">これらの課題を通じて、C言語の高度な機能を習得し、パフォーマンスを意識したプログラミングスキルを身につけてください。</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1
+id="c言語プログラミング演習課題集">C言語プログラミング演習課題集</h1>
+<h2 id="目次">目次</h2>
+<ol type="1">
+<li><a href="#第1章-c言語入門---演習課題">第1章: C言語入門 -
+演習課題</a></li>
+<li><a href="#第2章-基本構文---演習課題">第2章: 基本構文 -
+演習課題</a></li>
+<li><a href="#第3章-データ型と変数---演習課題">第3章: データ型と変数 -
+演習課題</a></li>
+<li><a href="#第4章-演算子---演習課題">第4章: 演算子 - 演習課題</a></li>
+<li><a href="#第5章-条件分岐---演習課題">第5章: 条件分岐 -
+演習課題</a></li>
+<li><a href="#第6章-繰り返し処理---演習課題">第6章: 繰り返し処理 -
+演習課題</a></li>
+<li><a href="#第7章-配列---演習課題">第7章: 配列 - 演習課題</a></li>
+<li><a href="#第8章-文字列処理---演習課題">第8章: 文字列処理 -
+演習課題</a></li>
+<li><a href="#第9章-関数---演習課題">第9章: 関数 - 演習課題</a></li>
+<li><a href="#第10章-ポインタ---演習課題">第10章: ポインタ -
+演習課題</a></li>
+<li><a href="#第11章-構造体---演習課題">第11章: 構造体 -
+演習課題</a></li>
+<li><a href="#第12章-関数ポインタ---演習課題">第12章: 関数ポインタ -
+演習課題</a></li>
+<li><a href="#第13章-高度なトピック---演習課題">第13章: 高度なトピック -
+演習課題</a></li>
+</ol>
+<hr />
+<h1 id="第1章-c言語入門---演習課題">第1章: C言語入門 - 演習課題</h1>
+<h2 id="演習の目的">演習の目的</h2>
+<p>この演習を通して、C言語の開発環境が正しく構築されているかを確認し、基本的なコンパイル手順を習得します。</p>
+<h2 id="演習課題">演習課題</h2>
+<h3 id="基礎問題">基礎問題</h3>
+<h4 id="問題1-環境構築確認">問題1: 環境構築確認</h4>
+<p>サンプルプログラム <code>examples/environment_check.c</code>
+を使用して、以下の作業を実行してください。</p>
+<ol type="1">
+<li><p><strong>C90準拠でコンパイル・実行</strong></p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> c90</span></code></pre></div></li>
+<li><p><strong>C99準拠でコンパイル・実行</strong></p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> c99</span></code></pre></div></li>
+<li><p><strong>C11準拠でコンパイル・実行</strong></p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> c11</span></code></pre></div></li>
+<li><p><strong>C17準拠でコンパイル・実行</strong></p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> c17</span></code></pre></div></li>
+<li><p><strong>実行結果の確認</strong></p>
+<ul>
+<li>各規格でコンパイルしたプログラムの出力結果を比較してください</li>
+<li>規格による違いがあるかを確認してください</li>
+</ul></li>
+</ol>
+<h4 id="問題2-コンパイラ情報の確認">問題2: コンパイラ情報の確認</h4>
+<p>以下のコマンドを実行して、開発環境の情報を調べてください。</p>
+<ol type="1">
+<li><p><strong>コンパイラバージョンの確認</strong></p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gcc</span> <span class="at">--version</span></span></code></pre></div></li>
+<li><p><strong>対応規格の確認</strong></p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gcc</span> <span class="at">-std</span><span class="op">=</span>c90 <span class="at">--help</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gcc</span> <span class="at">-std</span><span class="op">=</span>c99 <span class="at">--help</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">gcc</span> <span class="at">-std</span><span class="op">=</span>c11 <span class="at">--help</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">gcc</span> <span class="at">-std</span><span class="op">=</span>c17 <span class="at">--help</span></span></code></pre></div></li>
+<li><p><strong>プリプロセッサマクロの確認</strong></p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="kw">|</span> <span class="fu">gcc</span> <span class="at">-dM</span> <span class="at">-E</span> <span class="at">-</span></span></code></pre></div></li>
+</ol>
+<h4 id="問題3-基本的なプログラム作成">問題3: 基本的なプログラム作成</h4>
+<p><code>solutions/ex1_3_hello_name.c</code>
+というファイルを作成し、以下の機能を実装してください。</p>
+<p><strong>要求仕様:</strong> - ユーザーに名前の入力を求める -
+入力された名前を使って挨拶メッセージを表示する - C90準拠で記述する</p>
+<p><strong>実行例:</strong></p>
+<pre><code>あなたの名前を入力してください: 田中
+こんにちは、田中さん！</code></pre>
+<h3 id="応用問題">応用問題</h3>
+<h4 id="問題4-規格比較レポート">問題4: 規格比較レポート</h4>
+<p>C90とC99の主な違いについて調べ、以下の点についてまとめてください。</p>
+<ol type="1">
+<li><strong>新しく追加されたデータ型</strong></li>
+<li><strong>新しく追加された機能</strong></li>
+<li><strong>プログラムの書き方で変わった点</strong></li>
+<li><strong>組込み開発でC90が使われ続ける理由</strong></li>
+</ol>
+<p>回答は <code>exercises/standards_comparison.md</code>
+に記述してください。</p>
+<h4 id="問題5-コンパイル手順の詳細調査">問題5:
+コンパイル手順の詳細調査</h4>
+<p>以下のコンパイラオプションを使用して、コンパイル過程を段階的に確認してください。</p>
+<ol type="1">
+<li><p><strong>プリプロセッサ出力の確認</strong></p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gcc</span> <span class="at">-E</span> examples/environment_check.c <span class="op">&gt;</span> preprocessed.i</span></code></pre></div></li>
+<li><p><strong>アセンブリコード生成</strong></p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gcc</span> <span class="at">-S</span> examples/environment_check.c</span></code></pre></div></li>
+<li><p><strong>オブジェクトファイル生成</strong></p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gcc</span> <span class="at">-c</span> examples/environment_check.c</span></code></pre></div></li>
+<li><p><strong>実行ファイル生成</strong></p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gcc</span> environment_check.o <span class="at">-o</span> environment_check</span></code></pre></div></li>
+</ol>
+<p>各段階で生成されるファイルの内容を確認し、<code>exercises/compilation_report.md</code>
+にまとめてください。</p>
+<h4 id="問題6-環境固有情報の調査">問題6: 環境固有情報の調査</h4>
+<p>以下の情報を調べて、<code>solutions/ex1_6_system_info.c</code>
+プログラムを作成してください。</p>
+<p><strong>表示する情報:</strong> - 使用しているOS -
+コンパイラの種類とバージョン - CPUアーキテクチャ（32bit/64bit） -
+エンディアン（ビッグエンディアン/リトルエンディアン） -
+各データ型のサイズ</p>
+<h2 id="提出形式">提出形式</h2>
+<p>各問題の回答は以下のファイルに記述してください：</p>
+<ul>
+<li><strong>問題3</strong>:
+<code>solutions/ex1_3_hello_name.c</code></li>
+<li><strong>問題4</strong>:
+<code>exercises/standards_comparison.md</code></li>
+<li><strong>問題5</strong>:
+<code>exercises/compilation_report.md</code></li>
+<li><strong>問題6</strong>:
+<code>solutions/ex1_6_system_info.c</code></li>
+</ul>
+<h2 id="評価基準">評価基準</h2>
+<h3 id="基礎問題-1">基礎問題</h3>
+<ul class="task-list">
+<li><label><input
+type="checkbox" />環境確認プログラムが正常にコンパイル・実行できる</label></li>
+<li><label><input
+type="checkbox" />各規格でのコンパイルができる</label></li>
+<li><label><input
+type="checkbox" />ex1_3_hello_name.cが要求仕様を満たしている</label></li>
+<li><label><input type="checkbox" />C90準拠で記述されている</label></li>
+</ul>
+<h3 id="応用問題-1">応用問題</h3>
+<ul class="task-list">
+<li><label><input
+type="checkbox" />規格比較が正確に記述されている</label></li>
+<li><label><input
+type="checkbox" />コンパイル手順が理解できている</label></li>
+<li><label><input
+type="checkbox" />環境固有情報の取得ができている</label></li>
+<li><label><input
+type="checkbox" />レポートが詳細で分かりやすい</label></li>
+</ul>
+<h2 id="参考資料">参考資料</h2>
+<ul>
+<li><a
+href="https://gcc.gnu.org/documentation.html">GCC公式ドキュメント</a></li>
+<li><a
+href="https://www.iso.org/standard/74528.html">C言語規格書</a></li>
+<li><a href="https://www.gnu.org/software/make/manual/">GNU Make
+マニュアル</a></li>
+</ul>
+<h2 id="次の段階">次の段階</h2>
+<h2
+id="演習課題が完了したら基本文法hello-world-に進んでください">演習課題が完了したら、<a
+href="../../basics-syntax/README.md">基本文法・Hello World</a>
+に進んでください。</h2>
+<h1 id="第2章-基本構文---演習課題">第2章: 基本構文 - 演習課題</h1>
+<h2 id="基礎課題">基礎課題</h2>
+<h3 id="課題2-1-基本的な出力">課題2-1: 基本的な出力</h3>
+<p>プログラムを作成して以下を出力してください：</p>
+<pre><code>こんにちは、C言語の世界へ！
+私の名前は [あなたの名前] です。
+今日からプログラミングを始めます。</code></pre>
+<p><strong>要求事項:</strong> - <code>printf</code>関数を使用すること -
+適切なエスケープシーケンスを使用すること -
+[あなたの名前]の部分は実際の名前に置き換えること</p>
+<p><strong>ファイル名:</strong> <code>ex2_1_hello_intro.c</code></p>
+<hr />
+<h3 id="課題2-2-変数と基本データ型">課題2-2: 変数と基本データ型</h3>
+<p>以下の変数を定義し、値を代入して出力するプログラムを作成してください：</p>
+<p><strong>変数一覧:</strong> - 整数型: 年齢（例：25） - 浮動小数点型:
+身長（例：170.5） - 文字型: 血液型（例：‘A’） - 整数型:
+好きな数字（例：7）</p>
+<p><strong>出力例:</strong></p>
+<pre><code>=== 自己紹介データ ===
+年齢: 25歳
+身長: 170.5cm
+血液型: A型
+好きな数字: 7
+================</code></pre>
+<p><strong>要求事項:</strong> - 適切なデータ型を選択すること -
+<code>printf</code>の書式指定子を正しく使用すること -
+コメントで各変数の説明を記述すること</p>
+<p><strong>ファイル名:</strong> <code>ex2_2_personal_data.c</code></p>
+<hr />
+<h3 id="課題2-3-入力と出力">課題2-3: 入力と出力</h3>
+<p>ユーザーから名前と年齢を入力してもらい、それを使って計算結果を表示するプログラムを作成してください。</p>
+<p><strong>機能:</strong> 1. 名前を入力してもらう 2.
+年齢を入力してもらう 3. 10年後の年齢を計算する 4. 結果を表示する</p>
+<p><strong>出力例:</strong></p>
+<pre><code>お名前を入力してください: 田中太郎
+年齢を入力してください: 25
+
+こんにちは、田中太郎さん！
+現在の年齢: 25歳
+10年後の年齢: 35歳
+プログラミングの学習、頑張ってください！</code></pre>
+<p><strong>要求事項:</strong> - <code>scanf</code>関数を使用すること -
+適切なバッファサイズを設定すること - 計算結果を変数に保存すること</p>
+<p><strong>ファイル名:</strong> <code>ex2_3_age_calculator.c</code></p>
+<hr />
+<h2 id="応用課題">応用課題</h2>
+<h3 id="課題2-4-書式指定子の練習">課題2-4: 書式指定子の練習</h3>
+<p>様々な書式指定子を使って、数値を異なる形式で表示するプログラムを作成してください。</p>
+<p><strong>表示する数値:</strong> <code>123</code>,
+<code>3.14159</code>, <code>255</code></p>
+<p><strong>出力例:</strong></p>
+<pre><code>=== 書式指定子のデモ ===
+整数 123 の表示:
+  10進数: 123
+  16進数: 7b
+  8進数: 173
+  フィールド幅5: |  123|
+  ゼロ埋め: |00123|
+
+実数 3.14159 の表示:
+  デフォルト: 3.14159
+  小数点以下2桁: 3.14
+  指数表記: 3.14159e+00
+  フィールド幅10.2: |      3.14|
+
+文字コード 255:
+  文字として: ÿ
+  16進数: ff
+  10進数: 255
+====================</code></pre>
+<p><strong>要求事項:</strong> - 各種書式指定子を使用すること（%d, %x,
+%o, %f, %e, %c など） - フィールド幅とゼロ埋めを実演すること -
+適切なコメントを記述すること</p>
+<p><strong>ファイル名:</strong> <code>ex2_4_format_demo.c</code></p>
+<hr />
+<h3 id="課題2-5-簡単な計算機">課題2-5: 簡単な計算機</h3>
+<p>四則演算を実行する簡単な計算機プログラムを作成してください。</p>
+<p><strong>機能:</strong> 1. 2つの数値を入力してもらう 2. 四則演算（+,
+-, *, /）の結果を表示する 3.
+割り算では整数除算と実数除算の両方を表示する</p>
+<p><strong>出力例:</strong></p>
+<pre><code>簡単な計算機プログラム
+===================
+第1の数値を入力してください: 7
+第2の数値を入力してください: 2
+
+計算結果:
+  7 + 2 = 9
+  7 - 2 = 5
+  7 * 2 = 14
+  7 / 2 = 3 (整数除算)
+  7 / 2 = 3.50 (実数除算)</code></pre>
+<p><strong>要求事項:</strong> - 整数除算と実数除算を区別すること -
+ゼロ除算のチェックは不要（基礎課題のため） -
+適切な変数名を使用すること</p>
+<p><strong>ファイル名:</strong>
+<code>ex2_5_simple_calculator.c</code></p>
+<hr />
+<h2 id="挑戦課題">挑戦課題</h2>
+<h3 id="課題2-6-文字とasciiコード">課題2-6: 文字とASCIIコード</h3>
+<p>文字とASCIIコードの関係を学ぶプログラムを作成してください。</p>
+<p><strong>機能:</strong> 1. ユーザーから文字を入力してもらう 2.
+その文字のASCIIコードを表示する 3. ASCIIコード表の一部を表示する</p>
+<p><strong>出力例:</strong></p>
+<pre><code>文字を1つ入力してください: A
+入力された文字: A
+ASCIIコード: 65
+
+ASCII表（32-126）の一部:
+ 32:    33: !  34: &quot;  35: #  36: $  37: %  38: &amp;  39: &#39;
+ 40: (  41: )  42: *  43: +  44: ,  45: -  46: .  47: /
+ 48: 0  49: 1  50: 2  51: 3  52: 4  53: 5  54: 6  55: 7
+ 56: 8  57: 9  58: :  59: ;  60: &lt;  61: =  62: &gt;  63: ?
+ 64: @  65: A  66: B  67: C  68: D  69: E  70: F  71: G</code></pre>
+<p><strong>要求事項:</strong> -
+<code>getchar()</code>または<code>scanf(" %c", &amp;ch)</code>を使用すること
+- ループを使ってASCII表を表示すること -
+適切な書式で表を整列させること</p>
+<p><strong>ファイル名:</strong> <code>ex2_6_ascii_explorer.c</code></p>
+<hr />
+<h2 id="提出について">提出について</h2>
+<h3 id="ファイル構成">ファイル構成</h3>
+<pre><code>solutions/
+├── ex2_1_hello_intro.c
+├── ex2_2_personal_data.c
+├── ex2_3_age_calculator.c
+├── ex2_4_format_demo.c
+├── ex2_5_simple_calculator.c
+└── ex2_6_ascii_explorer.c</code></pre>
+<h3 id="コンパイルと実行">コンパイルと実行</h3>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># コンパイル例</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gcc</span> <span class="at">-o</span> hello_intro ex2_1_hello_intro.c</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">gcc</span> <span class="at">-o</span> personal_data ex2_2_personal_data.c</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">gcc</span> <span class="at">-o</span> age_calculator ex2_3_age_calculator.c</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 実行例</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="ex">./hello_intro</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="ex">./personal_data</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="ex">./age_calculator</span></span></code></pre></div>
+<h3 id="評価ポイント">評価ポイント</h3>
+<ol type="1">
+<li><strong>基本文法</strong>: 正しいC言語の文法で記述されているか</li>
+<li><strong>コーディング規約</strong>:
+適切なインデント、変数名、コメントが使用されているか</li>
+<li><strong>機能性</strong>: 要求された機能が正しく実装されているか</li>
+<li><strong>入出力</strong>: printf/scanfが適切に使用されているか</li>
+<li><strong>書式指定</strong>: 適切な書式指定子が使用されているか</li>
+</ol>
+<h3 id="学習のポイント">学習のポイント</h3>
+<ul>
+<li>C言語の基本的な入出力方法</li>
+<li>変数の宣言と初期化</li>
+<li>基本データ型の理解</li>
+<li>書式指定子の使い方</li>
+<li>コメントの書き方</li>
+<li>プログラムの基本構造</li>
+</ul>
+<p>頑張って取り組んでください！</p>
+<hr />
+<h1 id="第3章-データ型と変数---演習課題">第3章: データ型と変数 -
+演習課題</h1>
+<h2 id="基礎問題-2">基礎問題</h2>
+<h3 id="演習3-1.-変数宣言と初期化">演習3-1. 変数宣言と初期化</h3>
+<p>さまざまなデータ型の変数を宣言し、初期化して値を表示するプログラムを作成してください。</p>
+<p><strong>要件:</strong> - 各基本データ型（char, short, int, long,
+float, double）の変数を宣言 - 適切な値で初期化 -
+printf関数で型に応じた書式指定子を使用して出力 -
+符号付き・符号なしの両方を含める</p>
+<p><strong>期待される出力例:</strong></p>
+<pre><code>char型: 文字 = &#39;A&#39;, 値 = 65
+unsigned char型: 値 = 255
+short型: 値 = -1000
+unsigned short型: 値 = 65535
+int型: 値 = -123456
+unsigned int型: 値 = 4294967295
+float型: 値 = 3.14159
+double型: 値 = 3.141592653589793</code></pre>
+<h3 id="演習3-2.-四則演算計算機">演習3-2. 四則演算計算機</h3>
+<p>2つの数値を変数に格納し、四則演算（加算、減算、乗算、除算）の結果を表示するプログラムを作成してください。</p>
+<p><strong>要件:</strong> - 整数型と浮動小数点型の両方で実装 -
+除算では整数除算と実数除算の違いを表示 - 各演算結果を見やすく表示</p>
+<h3 id="演習3-3.-データ型サイズの確認">演習3-3.
+データ型サイズの確認</h3>
+<p>sizeof演算子を使って、各データ型のサイズを表示するプログラムを作成してください。</p>
+<p><strong>要件:</strong> - 基本データ型すべてのサイズを表示 -
+配列のサイズも確認 - ポインタのサイズも確認 -
+サイズをバイト単位で表示</p>
+<h2 id="応用問題-2">応用問題</h2>
+<h3 id="演習3-4.-型変換の理解">演習3-4. 型変換の理解</h3>
+<p>整数除算と実数除算の違い、および暗黙的・明示的型変換を確認するプログラムを作成してください。</p>
+<p><strong>要件:</strong> -
+同じ数値で整数除算と実数除算を実行し、結果を比較 -
+暗黙的型変換が発生する例を実装 -
+明示的型変換（キャスト）を使用した例を実装 -
+精度の損失が発生する例を示す</p>
+<h3 id="演習3-5.-スコープの実験">演習3-5. スコープの実験</h3>
+<p>グローバル変数、ローカル変数、静的変数を使い分けるプログラムを作成してください。</p>
+<p><strong>要件:</strong> - 同じ名前の変数を異なるスコープで宣言 -
+スコープの隠蔽（シャドウイング）を実演 -
+静的変数を使ったカウンター関数を実装 -
+各変数の値の変化を追跡して表示</p>
+<h3 id="演習3-6.-定数の活用">演習3-6. 定数の活用</h3>
+<p>constと#defineを使って定数を定義し、円の面積と円周を計算するプログラムを作成してください。</p>
+<p><strong>要件:</strong> - 円周率をconstと#defineの両方で定義 -
+半径を入力として受け取る - 面積と円周を計算して表示 -
+定数を変更しようとした場合のエラーを確認（コメントで説明）</p>
+<h2 id="チャレンジ問題">チャレンジ問題</h2>
+<h3 id="温度変換プログラム">温度変換プログラム</h3>
+<p>摂氏・華氏・ケルビンの温度単位を相互変換するプログラムを作成してください。</p>
+<p><strong>要件:</strong> - 変換式で使用する定数を適切に定義 -
+浮動小数点演算の精度に注意 - ユーザーフレンドリーな入出力 - 変換公式： -
+華氏 = 摂氏 × 9/5 + 32 - ケルビン = 摂氏 + 273.15</p>
+<h2 id="提出方法">提出方法</h2>
+<ol type="1">
+<li>各問題に対して別々のCファイルを作成</li>
+<li>ファイル名は <code>ex3_1_variables.c</code>,
+<code>ex3_2_calculator.c</code> のように命名</li>
+<li>各プログラムの冒頭にコメントで問題番号と簡単な説明を記載</li>
+<li>C90規格でコンパイルできることを確認</li>
+</ol>
+<h2 id="コンパイル例">コンパイル例</h2>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gcc</span> <span class="at">-std</span><span class="op">=</span>c90 <span class="at">-Wall</span> <span class="at">-Wextra</span> <span class="at">-pedantic</span> ex_variables.c <span class="at">-o</span> ex_variables</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./ex_variables</span></span></code></pre></div>
+<h2 id="ヒント">ヒント</h2>
+<ul>
+<li>printf関数の書式指定子を正しく使用する
+<ul>
+<li>%d: int</li>
+<li>%u: unsigned int</li>
+<li>%ld: long</li>
+<li>%f: float/double</li>
+<li>%c: char</li>
+</ul></li>
+<li>初期化されていない変数の使用に注意</li>
+<li>型の範囲を超えないよう注意</li>
+<li><h2
+id="sizeof演算子の戻り値はsize_t型luで出力">sizeof演算子の戻り値はsize_t型（%luで出力）</h2></li>
+</ul>
+<h1 id="第4章-演算子---演習課題">第4章: 演算子 - 演習課題</h1>
+<h2 id="基礎問題-3">基礎問題</h2>
+<h3 id="演習4-1-四則演算計算機">演習4-1: 四則演算計算機</h3>
+<p>2つの整数を入力として受け取り、すべての算術演算（加算、減算、乗算、除算、剰余）の結果を表示するプログラムを作成してください。</p>
+<p><strong>要件:</strong> - ユーザーから2つの整数を入力 -
+各演算の結果を見やすく表示 - ゼロ除算のチェックを含める</p>
+<p><strong>期待される出力例:</strong></p>
+<pre><code>2つの整数を入力してください: 10 3
+10 + 3 = 13
+10 - 3 = 7
+10 * 3 = 30
+10 / 3 = 3
+10 % 3 = 1</code></pre>
+<h3 id="演習4-2-比較と論理演算">演習4-2: 比較と論理演算</h3>
+<p>2つの整数を入力として受け取り、関係演算子と論理演算子を使って最大値と最小値を求めるプログラムを作成してください。</p>
+<p><strong>要件:</strong> - 2つの整数を入力 -
+if文を使わず、条件演算子（三項演算子）のみで実装 -
+最大値と最小値を表示</p>
+<h3 id="演習4-3-インクリメントデクリメント">演習4-3:
+インクリメント・デクリメント</h3>
+<p>前置と後置のインクリメント・デクリメント演算子の違いを確認するプログラムを作成してください。</p>
+<p><strong>要件:</strong> - 変数に対して前置・後置の両方を使用 -
+各操作後の値を表示 - 式の中での動作も確認</p>
+<h2 id="応用問題-3">応用問題</h2>
+<h3 id="演習4-4-ビット操作">演習4-4: ビット操作</h3>
+<p>整数を入力として受け取り、その数値の各ビットを表示し、特定のビット操作を実行するプログラムを作成してください。</p>
+<p><strong>要件:</strong> - 2進数表示 - 指定したビット位置のON/OFF確認 -
+特定ビットの設定・クリア・トグル機能</p>
+<h3 id="演習4-5-条件演算子の活用">演習4-5: 条件演算子の活用</h3>
+<p>3つの数値を入力として受け取り、条件演算子（三項演算子）のみを使って昇順に並び替えるプログラムを作成してください。</p>
+<p><strong>要件:</strong> - if文、switch文を使用しない -
+条件演算子のネストを活用 - 並び替えた結果を表示</p>
+<h3 id="演習4-6-演算子優先順位">演習4-6: 演算子優先順位</h3>
+<p>複雑な式を含むプログラムを作成し、演算子の優先順位による計算結果の違いを確認してください。</p>
+<p><strong>要件:</strong> - 同じ数値で異なる式を評価 -
+括弧の有無による結果の違いを表示 - 少なくとも3種類以上の演算子を使用</p>
+<h2 id="提出方法-1">提出方法</h2>
+<ol type="1">
+<li>各問題に対して別々のCファイルを作成</li>
+<li>ファイル名は <code>ex4_1_calculator.c</code>,
+<code>ex4_2_comparison.c</code> のように命名</li>
+<li>各プログラムの冒頭にコメントで問題番号と簡単な説明を記載</li>
+<li>C90規格でコンパイルできることを確認</li>
+</ol>
+<h2 id="コンパイル例-1">コンパイル例</h2>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gcc</span> <span class="at">-std</span><span class="op">=</span>c90 <span class="at">-Wall</span> <span class="at">-Wextra</span> <span class="at">-pedantic</span> ex4_1_calculator.c <span class="at">-o</span> ex4_1_calculator</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./ex4_1_calculator</span></span></code></pre></div>
+<h2 id="ヒント-1">ヒント</h2>
+<ul>
+<li>演算子の優先順位に注意</li>
+<li>ゼロ除算やオーバーフローに対する考慮</li>
+<li>可読性を意識したコードを心がける</li>
+<li><h2 id="適切なコメントを追加する">適切なコメントを追加する</h2></li>
+</ul>
+<h1 id="第5章-条件分岐---演習課題">第5章: 条件分岐 - 演習課題</h1>
+<h2 id="演習の目的-1">演習の目的</h2>
+<ul>
+<li>if文、switch文の理解を深める</li>
+<li>条件演算子の適切な使い方を習得する</li>
+<li>複雑な条件分岐の設計力を養う</li>
+</ul>
+<h2 id="演習問題">演習問題</h2>
+<h3 id="演習4-1-年齢による料金計算">演習4-1: 年齢による料金計算</h3>
+<p>映画館の料金システムを実装してください。</p>
+<p><strong>要件:</strong> - 3歳未満: 無料 - 3歳以上12歳以下:
+子供料金（800円） - 13歳以上18歳以下: 学生料金（1200円） -
+19歳以上65歳以下: 大人料金（1800円） - 66歳以上:
+シニア料金（1200円）</p>
+<p><strong>実装のヒント:</strong> - if-else if文を使用 -
+境界値に注意</p>
+<h3 id="演習4-2-電卓プログラム">演習4-2: 電卓プログラム</h3>
+<p>四則演算ができる簡単な電卓を作成してください。</p>
+<p><strong>要件:</strong> - ユーザーから2つの数値と演算子（+, -, *,
+/）を入力 - switch文を使って演算を実行 -
+ゼロ除算のエラー処理を含める</p>
+<p><strong>実装のヒント:</strong> - 演算子は char 型で受け取る -
+除算の場合は分母が0でないかチェック</p>
+<h3 id="演習4-3-bmi判定プログラム">演習4-3: BMI判定プログラム</h3>
+<p>身長と体重からBMIを計算し、判定するプログラムを作成してください。</p>
+<p><strong>要件:</strong> - BMI = 体重(kg) / (身長(m) × 身長(m)) -
+BMI判定基準: - 18.5未満: 低体重 - 18.5以上25未満: 標準体重 -
+25以上30未満: 肥満度1 - 30以上: 肥満度2</p>
+<p><strong>実装のヒント:</strong> -
+身長はセンチメートルで入力してメートルに変換 - 浮動小数点数を使用</p>
+<h3 id="演習4-4-うるう年判定">演習4-4: うるう年判定</h3>
+<p>西暦年を入力してうるう年かどうか判定するプログラムを作成してください。</p>
+<p><strong>うるう年の条件:</strong> 1. 4で割り切れる年はうるう年 2.
+ただし、100で割り切れる年は平年 3.
+ただし、400で割り切れる年はうるう年</p>
+<p><strong>実装のヒント:</strong> - 複数の条件を論理演算子で組み合わせる
+- 条件の順序に注意</p>
+<h3 id="演習4-5-成績評価システム">演習4-5: 成績評価システム</h3>
+<p>複数の科目の点数から総合評価を出すプログラムを作成してください。</p>
+<p><strong>要件:</strong> - 3科目（国語、数学、英語）の点数を入力 -
+平均点を計算 - 平均点による評価（A〜F） -
+全科目60点以上の場合のみ「合格」、それ以外は「不合格」 -
+条件演算子を使って簡潔に表示</p>
+<p><strong>実装のヒント:</strong> - 平均点の計算は整数演算に注意 -
+複数の条件を組み合わせる</p>
+<h2 id="チャレンジ問題-1">チャレンジ問題</h2>
+<h3 id="チャレンジ4-6-じゃんけんゲーム">チャレンジ4-6:
+じゃんけんゲーム</h3>
+<p>コンピュータとじゃんけんをするプログラムを作成してください。</p>
+<p><strong>要件:</strong> -
+ユーザーの手を数値で入力（1:グー、2:チョキ、3:パー） -
+コンピュータの手はランダムに決定 - 勝敗を判定して表示 -
+不正な入力のチェック</p>
+<p><strong>追加要件:</strong> - 3回勝負で最終的な勝者を決定 -
+各1回の結果を記録して最後に表示</p>
+<h2 id="提出方法-2">提出方法</h2>
+<ol type="1">
+<li>各演習問題ごとに独立したCファイルを作成</li>
+<li>ファイル名は <code>ex4_1.c</code>, <code>ex4_2.c</code>
+のような形式で</li>
+<li>コメントで問題番号と簡単な説明を記載</li>
+<li>コンパイル・実行確認を必ず実行う</li>
+</ol>
+<h2 id="期限">期限</h2>
+<h2
+id="演習問題は次の章に進む前に完了させましょう">演習問題は次の章に進む前に完了させましょう。</h2>
+<h1 id="第6章-繰り返し処理---演習課題">第6章: 繰り返し処理 -
+演習課題</h1>
+<h2 id="演習の目的-2">演習の目的</h2>
+<ul>
+<li>for文、while文、do-while文の使い分けを理解する</li>
+<li>break文とcontinue文を適切に使えるようになる</li>
+<li>ネストしたループを活用した問題解決能力を養う</li>
+</ul>
+<h2 id="演習問題-1">演習問題</h2>
+<h3 id="演習5-1-フィボナッチ数列">演習5-1: フィボナッチ数列</h3>
+<p>最初のN個のフィボナッチ数を表示するプログラムを作成してください。</p>
+<p><strong>要件:</strong> - ユーザーから表示する個数Nを入力 -
+フィボナッチ数列: 0, 1, 1, 2, 3, 5, 8, 13, … - for文を使用して実装</p>
+<p><strong>実装のヒント:</strong> - 最初の2つの数は0と1 -
+3番目以降は前の2つの数の和</p>
+<h3 id="演習5-2-数当てゲーム改良版">演習5-2: 数当てゲーム（改良版）</h3>
+<p>1から100までの数当てゲームを作成してください。</p>
+<p><strong>要件:</strong> - プログラムがランダムに1～100の数を決定 -
+ユーザーが予想を入力 - 「もっと大きい」「もっと小さい」のヒントを出す -
+10回以内に当てられなければゲームオーバー - do-while文を使用</p>
+<p><strong>実装のヒント:</strong> - <code>rand() % 100 + 1</code>
+でランダムな数を生成 - 試行回数をカウント</p>
+<h3 id="演習5-3-素数リスト">演習5-3: 素数リスト</h3>
+<p>指定された範囲内のすべての素数を表示するプログラムを作成してください。</p>
+<p><strong>要件:</strong> - ユーザーから範囲（開始値と終了値）を入力 -
+その範囲内の素数をすべて表示 - 素数の個数も表示 -
+ネストしたループとbreak文を活用</p>
+<p><strong>実装のヒント:</strong> - 2からsqrt(n)まで割り切れるか確認 -
+効率化のため、偶数は2以外スキップ</p>
+<h3 id="演習5-4-図形の描画">演習5-4: 図形の描画</h3>
+<p>アスタリスク(*)を使って様々な図形を描画するプログラムを作成してください。</p>
+<p><strong>要件:</strong> 以下の4つの図形を描画する機能を実装: 1. 正方形
+2. 直角三角形 3. 逆直角三角形 4. ダイヤモンド</p>
+<p><strong>例（サイズ5の場合）:</strong></p>
+<p>正方形:</p>
+<pre><code>*****
+*****
+*****
+*****
+*****</code></pre>
+<p>直角三角形:</p>
+<pre><code>*
+**
+***
+****
+*****</code></pre>
+<p>逆直角三角形:</p>
+<pre><code>*****
+****
+***
+**
+*</code></pre>
+<p>ダイヤモンド:</p>
+<pre><code>  *
+ ***
+*****
+ ***
+  *</code></pre>
+<p><strong>実装のヒント:</strong> - ネストしたループを使用 -
+空白文字とアスタリスクの配置に注意</p>
+<h3 id="演習5-5-掛け算表">演習5-5: 掛け算表</h3>
+<p>9×9の掛け算表を表示するプログラムを作成してください。</p>
+<p><strong>要件:</strong> - ネストしたfor文を使用 - 見やすい表形式で出力
+- 列と行のヘッダーを含める</p>
+<p><strong>実装のヒント:</strong> - printf()の書式指定子で桁揃えを行う -
+%3d などを使用して桁数を統一</p>
+<h3 id="演習5-6-階乗計算">演習5-6: 階乗計算</h3>
+<p>ユーザーから入力された数の階乗を計算するプログラムを作成してください。</p>
+<p><strong>要件:</strong> - ユーザーから正の整数を入力 -
+その数の階乗を計算して表示 - while文を使用して実装 -
+オーバーフローに注意</p>
+<p><strong>実装のヒント:</strong> - n! = n × (n-1) × (n-2) × … × 1 -
+long long型の使用を検討</p>
+<h2 id="提出方法-3">提出方法</h2>
+<ol type="1">
+<li>各演習問題ごとに独立したCファイルを作成</li>
+<li>ファイル名は <code>ex5_1.c</code>, <code>ex5_2.c</code>
+のような形式で</li>
+<li>コメントで問題番号と簡単な説明を記載</li>
+<li>コンパイル・実行確認を必ず実行</li>
+</ol>
+<h2 id="期限-1">期限</h2>
+<h2
+id="演習問題は次の章に進む前に完了させましょう-1">演習問題は次の章に進む前に完了させましょう。</h2>
+<h1 id="第7章-配列---演習課題">第7章: 配列 - 演習課題</h1>
+<h2 id="演習の目的-3">演習の目的</h2>
+<ul>
+<li>1次元配列と多次元配列の理解を深める</li>
+<li>文字列配列の扱い方を習得する</li>
+<li>配列を使った実践的な問題解決能力を養う</li>
+</ul>
+<h2 id="演習問題-2">演習問題</h2>
+<h3 id="演習6-1-配列の基本操作">演習6-1: 配列の基本操作</h3>
+<p>整数配列に対する各種操作を実行するプログラムを作成してください。</p>
+<p><strong>要件:</strong> - 5個の整数を入力して配列に格納 -
+以下の操作を実装: - 配列の全要素を表示 - 最大値と最小値を見つける -
+平均値を計算 - 配列を逆順に並べ替える -
+指定した値が配列内に存在するか検索</p>
+<p><strong>実装のヒント:</strong> - 配列のサイズは#defineで定義 -
+逆順は別の配列にコピーまたはその場で交換</p>
+<h3 id="演習6-2-成績管理システム">演習6-2: 成績管理システム</h3>
+<p>複数の学生の複数科目の成績を管理するプログラムを作成してください。</p>
+<p><strong>要件:</strong> -
+5人の学生、4科目（国語、数学、英語、理科）の成績を2次元配列で管理 -
+各学生の合計点と平均点を計算 - 各科目の平均点を計算 -
+最高得点の学生と科目を表示 - 成績表を見やすく表示</p>
+<p><strong>実装のヒント:</strong> - 2次元配列 grades[][] を使用 -
+行が学生、列が科目</p>
+<h3 id="演習6-3-文字列配列の操作">演習6-3: 文字列配列の操作</h3>
+<p>都道府県名を管理するプログラムを作成してください。</p>
+<p><strong>要件:</strong> - 10個の都道府県名を文字列配列に格納 -
+以下の機能を実装: - 全都道府県名をアルファベット順に表示 -
+文字数が最も長い都道府県名を見つける -
+指定した文字で始まる都道府県名を検索 -
+都道府県名に「県」が含まれるものをカウント</p>
+<p><strong>実装のヒント:</strong> - char prefecture[][] またはchar
+*prefecture[] を使用 - strcmp()関数で文字列比較</p>
+<h3 id="演習6-4-行列演算">演習6-4: 行列演算</h3>
+<p>2次元配列を使って行列演算を実行するプログラムを作成してください。</p>
+<p><strong>要件:</strong> - 3x3の行列を2つ入力 - 以下の演算を実装: -
+行列の加算 - 行列の減算 - 行列の乗算 - 転置行列の計算</p>
+<p><strong>実装のヒント:</strong> - 行列の乗算: result[i][j] = Σ(a[i][k]
+* b[k][j]) - 各演算結果を見やすく表示</p>
+<h3 id="演習6-5-簡易辞書プログラム">演習6-5: 簡易辞書プログラム</h3>
+<p>英単語と日本語訳のペアを管理する辞書プログラムを作成してください。</p>
+<p><strong>要件:</strong> - 英単語と日本語訳のペアを10個程度登録 -
+以下の機能を実装: - 英単語を入力すると日本語訳を表示 -
+日本語を入力すると英単語を表示 - 登録されている全単語を一覧表示 -
+単語の追加機能（配列に空きがある場合）</p>
+<p><strong>実装のヒント:</strong> -
+2つの文字列配列（英語用と日本語用）を使用 -
+または構造体の配列を使用（先取り）</p>
+<h2 id="チャレンジ問題-2">チャレンジ問題</h2>
+<h3 id="チャレンジ6-1-ソートアルゴリズムの実装">チャレンジ6-1:
+ソートアルゴリズムの実装</h3>
+<p>配列のソートアルゴリズムを複数実装して比較してください。</p>
+<p><strong>要件:</strong> - 以下のソートアルゴリズムを実装: -
+バブルソート - 選択ソート - 挿入ソート - 各アルゴリズムの実行時間を測定
+- ランダムな配列、ソート済み配列、逆順配列で性能比較</p>
+<p><strong>追加要件:</strong> - 比較回数と交換回数をカウント -
+結果をグラフィカルに表示（*を使った簡易グラフ）</p>
+<h3 id="チャレンジ6-2-ライフゲームconways-game-of-life">チャレンジ6-2:
+ライフゲーム（Conway’s Game of Life）</h3>
+<p>セル・オートマトンの一種であるライフゲームを実装してください。</p>
+<p><strong>要件:</strong> - 20x20のグリッドで実装 -
+初期パターンを設定可能 - 以下のルールを実装: -
+生きているセルの周囲に2-3個の生きたセルがあれば生存 -
+死んでいるセルの周囲にちょうど3個の生きたセルがあれば誕生 -
+それ以外は死亡 - 世代を進めるごとに画面をクリアして表示</p>
+<p><strong>実装のヒント:</strong> - 2つの2次元配列を使用（現在と次世代）
+- 境界条件の処理に注意</p>
+<h2 id="提出方法-4">提出方法</h2>
+<ol type="1">
+<li>各演習問題ごとに独立したCファイルを作成</li>
+<li>ファイル名は <code>ex6_1.c</code>, <code>ex6_2.c</code>
+のような形式で</li>
+<li>配列のサイズや境界チェックに特に注意</li>
+<li>メモリアクセスエラーが起きないよう十分にテスト</li>
+</ol>
+<h2 id="期限-2">期限</h2>
+<p>配列は多くのプログラムの基礎となるデータ構造です。
+しっかりと理解してから次の章へ進みましょう。 —</p>
+<h1 id="第8章-文字列処理---演習課題">第8章: 文字列処理 - 演習課題</h1>
+<p>この章では、C言語における文字列操作の基本から応用まで、段階的に学習できる演習問題を提供しています。</p>
+<h2 id="演習の概要">演習の概要</h2>
+<p>文字列処理は、プログラミングにおいて最も基本的かつ重要な技術の一つです。この演習では、以下の3つの段階で文字列操作を習得します。</p>
+<h3 id="学習目標">学習目標</h3>
+<ol type="1">
+<li><strong>基本的な文字列操作の理解</strong>
+<ul>
+<li>null終端文字列の概念</li>
+<li>ポインタと配列の関係</li>
+<li>メモリ安全な文字列操作</li>
+</ul></li>
+<li><strong>文字列配列の管理</strong>
+<ul>
+<li>二次元配列の操作</li>
+<li>動的な要素の追加・削除</li>
+<li>ソートと検索アルゴリズム</li>
+</ul></li>
+<li><strong>高度な文字列処理</strong>
+<ul>
+<li>パターンマッチング</li>
+<li>アルゴリズムの最適化</li>
+<li>実用的な応用例</li>
+</ul></li>
+</ol>
+<h2 id="演習問題一覧">演習問題一覧</h2>
+<h3 id="演習8-1-基本的な文字列操作">演習8-1: 基本的な文字列操作</h3>
+<p><strong>難易度</strong>: 初級<br />
+<strong>所要時間</strong>: 2-3時間</p>
+<p>標準ライブラリの関数を使わずに、基本的な文字列操作関数を実装します。</p>
+<p><strong>実装する関数</strong>: 1. <code>my_strlen()</code> -
+文字列の長さを計算 2. <code>my_strcpy()</code> - 文字列をコピー 3.
+<code>my_strcmp()</code> - 文字列を比較 4. <code>my_strcat()</code> -
+文字列を連結 5. <code>my_strchr()</code> - 文字を検索 6.
+<code>my_strrchr()</code> - 文字を後方検索 7. <code>count_char()</code>
+- 特定文字をカウント</p>
+<p><strong>学習ポイント</strong>: - null終端文字列の仕組み -
+ポインタ演算の基礎 - バッファオーバーフロー対策 - エラーハンドリング</p>
+<h3 id="演習8-2-文字列配列の管理">演習8-2: 文字列配列の管理</h3>
+<p><strong>難易度</strong>: 中級<br />
+<strong>所要時間</strong>: 3-4時間</p>
+<p>学生名を格納する文字列配列の管理システムを実装します。</p>
+<p><strong>実装する機能</strong>: 1. <strong>配列管理機能</strong> -
+学生名の追加・削除 - 重複チェック - 配列の動的管理</p>
+<ol start="2" type="1">
+<li><strong>検索とソート機能</strong>
+<ul>
+<li>名前による検索</li>
+<li>アルファベット順ソート</li>
+<li>一覧表示機能</li>
+</ul></li>
+</ol>
+<p><strong>学習ポイント</strong>: - 二次元配列の操作 -
+配列要素の挿入・削除 - バブルソートアルゴリズム - 線形検索の実装</p>
+<h3 id="演習8-3-高度な文字列検索">演習8-3: 高度な文字列検索</h3>
+<p><strong>難易度</strong>: 上級<br />
+<strong>所要時間</strong>: 4-6時間</p>
+<p>標準ライブラリを使わずに、高度な文字列検索機能を実装します。</p>
+<p><strong>実装する機能</strong>: 1. <strong>検索機能</strong> -
+大小文字を区別しない検索 - 単語境界での検索 - 部分文字列検索</p>
+<ol start="2" type="1">
+<li><strong>パターンマッチング</strong>
+<ul>
+<li>ワイルドカード検索（*、?）</li>
+<li>複数パターンの同時検索</li>
+<li>検索結果の詳細情報</li>
+</ul></li>
+</ol>
+<p><strong>学習ポイント</strong>: - 高度な文字列マッチングアルゴリズム -
+メモリ効率的な実装 - 動的プログラミング - パフォーマンス最適化</p>
+<h2 id="提出要件">提出要件</h2>
+<p>各演習について、以下の要件を満たしてください：</p>
+<h3 id="必須要件">必須要件</h3>
+<ol type="1">
+<li><strong>ソースコード</strong>
+<ul>
+<li>適切なコメント（日本語）</li>
+<li>関数の詳細な説明</li>
+<li>エラーハンドリング</li>
+</ul></li>
+<li><strong>テストプログラム</strong>
+<ul>
+<li>各関数の動作確認</li>
+<li>境界値テスト</li>
+<li>エラーケースのテスト</li>
+</ul></li>
+<li><strong>実行例</strong>
+<ul>
+<li>正常ケースの実行結果</li>
+<li>エラーケースの実行結果</li>
+</ul></li>
+</ol>
+<h3 id="推奨要件">推奨要件</h3>
+<ol type="1">
+<li><strong>コーディングスタイル</strong>
+<ul>
+<li>一貫したインデント</li>
+<li>意味のある変数名</li>
+<li>適切な関数分割</li>
+</ul></li>
+<li><strong>安全性</strong>
+<ul>
+<li>バッファオーバーフロー対策</li>
+<li>NULLポインタチェック</li>
+<li>メモリリークの防止</li>
+</ul></li>
+</ol>
+<h2 id="評価基準-1">評価基準</h2>
+<h3 id="正確性-40">正確性 (40%)</h3>
+<ul>
+<li>仕様通りに動作するか</li>
+<li>エラーケースが適切に処理されるか</li>
+<li>テストケースが網羅的か</li>
+</ul>
+<h3 id="安全性-30">安全性 (30%)</h3>
+<ul>
+<li>バッファオーバーフローがないか</li>
+<li>メモリ管理が適切か</li>
+<li>入力検証が十分か</li>
+</ul>
+<h3 id="効率性-20">効率性 (20%)</h3>
+<ul>
+<li>アルゴリズムの計算量が適切か</li>
+<li>不要な処理がないか</li>
+<li>メモリ使用量が最適か</li>
+</ul>
+<h3 id="可読性-10">可読性 (10%)</h3>
+<ul>
+<li>コードが理解しやすいか</li>
+<li>コメントが適切か</li>
+<li>命名規則が一貫しているか</li>
+</ul>
+<h2 id="学習の進め方">学習の進め方</h2>
+<h3 id="推奨手順">推奨手順</h3>
+<ol type="1">
+<li><strong>基礎の理解</strong>
+<ul>
+<li>文字列の基本概念を復習</li>
+<li>ポインタと配列の関係を確認</li>
+<li>null終端文字列の仕組みを理解</li>
+</ul></li>
+<li><strong>段階的実装</strong>
+<ul>
+<li>演習1から順番に取り組む</li>
+<li>小さな関数から実装開始</li>
+<li>テストケースを先に作成</li>
+</ul></li>
+<li><strong>デバッグとテスト</strong>
+<ul>
+<li>コンパイル時の警告を確認</li>
+<li>実行時エラーをチェック</li>
+<li>メモリ使用状況を監視</li>
+</ul></li>
+<li><strong>最適化と改善</strong>
+<ul>
+<li>パフォーマンスを測定</li>
+<li>コードの可読性を向上</li>
+<li>エラーハンドリングを強化</li>
+</ul></li>
+</ol>
+<h3 id="学習のヒント">学習のヒント</h3>
+<ol type="1">
+<li><strong>安全第一</strong>
+<ul>
+<li>配列の境界を常に確認</li>
+<li>NULLポインタをチェック</li>
+<li>バッファサイズを適切に管理</li>
+</ul></li>
+<li><strong>テスト駆動</strong>
+<ul>
+<li>関数作成前にテストケースを考える</li>
+<li>エッジケースを忘れずに</li>
+<li>段階的に機能を拡張</li>
+</ul></li>
+<li><strong>効率性の考慮</strong>
+<ul>
+<li>不要な文字列コピーを避ける</li>
+<li>ポインタ操作を活用</li>
+<li>メモリ使用量を最適化</li>
+</ul></li>
+</ol>
+<h2 id="トラブルシューティング">トラブルシューティング</h2>
+<h3 id="よくある問題">よくある問題</h3>
+<ol type="1">
+<li><strong>セグメンテーション違反</strong>
+<ul>
+<li>配列の境界越え</li>
+<li>null終端の忘れ</li>
+<li>未初期化ポインタ</li>
+</ul></li>
+<li><strong>予期しない出力</strong>
+<ul>
+<li>null終端文字の扱い</li>
+<li>文字コードの問題</li>
+<li>バッファの不足</li>
+</ul></li>
+<li><strong>メモリリーク</strong>
+<ul>
+<li>動的メモリの解放忘れ</li>
+<li>重複した確保</li>
+<li>例外時の処理不備</li>
+</ul></li>
+</ol>
+<h3 id="デバッグ方法">デバッグ方法</h3>
+<ol type="1">
+<li><strong>printfデバッグ</strong>
+<ul>
+<li>変数の値を確認</li>
+<li>関数の呼び出し順序を追跡</li>
+<li>配列の内容を表示</li>
+</ul></li>
+<li><strong>gdbの使用</strong>
+<ul>
+<li>ブレークポイントの設定</li>
+<li>ステップ実行</li>
+<li>変数の監視</li>
+</ul></li>
+<li><strong>静的解析ツール</strong>
+<ul>
+<li>コンパイラの警告</li>
+<li>lintツールの使用</li>
+<li>メモリチェッカー</li>
+</ul></li>
+</ol>
+<h2 id="参考資料-1">参考資料</h2>
+<h3 id="必読資料">必読資料</h3>
+<ul>
+<li><a href="../README.md">文字列操作の基礎</a></li>
+<li><a href="../examples/">実装例とサンプルコード</a></li>
+<li><a href="../solutions/">解答例</a></li>
+</ul>
+<h3 id="推奨図書">推奨図書</h3>
+<ul>
+<li>『プログラミング言語C 第2版』（K&amp;R）</li>
+<li>『Cプログラミング専門課程』</li>
+<li>『セキュアプログラミング講座』</li>
+</ul>
+<h3 id="オンラインリソース">オンラインリソース</h3>
+<ul>
+<li>C言語標準ライブラリリファレンス</li>
+<li>文字列処理アルゴリズム</li>
+<li>セキュアコーディング標準</li>
+</ul>
+<hr />
+<h2
+id="これらの演習を通じてc言語における文字列操作の基礎から応用まで体系的に学習することができます各演習に丁寧に取り組み安全で効率的なコードの作成技術を身につけてください">これらの演習を通じて、C言語における文字列操作の基礎から応用まで、体系的に学習することができます。各演習に丁寧に取り組み、安全で効率的なコードの作成技術を身につけてください。</h2>
+<h1 id="第9章-関数---演習課題">第9章: 関数 - 演習課題</h1>
+<h2 id="基本課題">基本課題</h2>
+<h3 id="課題9-1-基本的な関数作成">課題9-1: 基本的な関数作成</h3>
+<p>以下の関数を作成してください：</p>
+<ol type="1">
+<li><strong>数学関数</strong>
+<ul>
+<li>2つの整数の最大値を返す関数 <code>int max(int a, int b)</code></li>
+<li>3つの整数の最小値を返す関数
+<code>int min(int a, int b, int c)</code></li>
+<li>数値が偶数かどうかを判定する関数
+<code>int is_even(int n)</code></li>
+<li>数値が素数かどうかを判定する関数
+<code>int is_prime(int n)</code></li>
+</ul></li>
+<li><strong>文字・文字列関数</strong>
+<ul>
+<li>文字が英字かどうかを判定する関数
+<code>int is_letter(char c)</code></li>
+<li>文字列の長さを計算する関数
+<code>int my_strlen(const char str[])</code></li>
+<li>文字列内の特定文字を数える関数
+<code>int count_char(const char str[], char ch)</code></li>
+</ul></li>
+<li><strong>表示関数</strong>
+<ul>
+<li>指定した長さの線を描く関数
+<code>void draw_line(int length, char ch)</code></li>
+<li>数値を指定した桁数で表示する関数
+<code>void print_number_padded(int num, int width)</code></li>
+</ul></li>
+</ol>
+<h3 id="課題9-2-配列操作関数">課題9-2: 配列操作関数</h3>
+<p>以下の配列操作関数を作成してください：</p>
+<ol type="1">
+<li><strong>基本操作</strong>
+<ul>
+<li>配列の要素の合計を計算する関数
+<code>int array_sum(int arr[], int size)</code></li>
+<li>配列の平均値を計算する関数
+<code>double array_average(int arr[], int size)</code></li>
+<li>配列内の最大値のインデックスを返す関数
+<code>int find_max_index(int arr[], int size)</code></li>
+</ul></li>
+<li><strong>検索・ソート</strong>
+<ul>
+<li>線形検索関数
+<code>int linear_search(int arr[], int size, int target)</code></li>
+<li>配列を昇順にソートする関数
+<code>void sort_array(int arr[], int size)</code></li>
+<li>配列の要素を逆順にする関数
+<code>void reverse_array(int arr[], int size)</code></li>
+</ul></li>
+<li><strong>配列統計</strong>
+<ul>
+<li>配列の最大値と最小値を同時に求める関数
+<code>void find_min_max(int arr[], int size, int *min, int *max)</code></li>
+<li>配列内の重複する要素の数を数える関数
+<code>int count_duplicates(int arr[], int size)</code></li>
+</ul></li>
+</ol>
+<h3 id="課題9-3-文字列処理関数">課題9-3: 文字列処理関数</h3>
+<p>以下の文字列処理関数を作成してください：</p>
+<ol type="1">
+<li><strong>基本処理</strong>
+<ul>
+<li>文字列をコピーする関数
+<code>void my_strcpy(char dest[], const char src[])</code></li>
+<li>文字列を連結する関数
+<code>void my_strcat(char dest[], const char src[])</code></li>
+<li>文字列を比較する関数
+<code>int my_strcmp(const char str1[], const char str2[])</code></li>
+</ul></li>
+<li><strong>変換処理</strong>
+<ul>
+<li>文字列を大文字に変換する関数
+<code>void to_uppercase(char str[])</code></li>
+<li>文字列を小文字に変換する関数
+<code>void to_lowercase(char str[])</code></li>
+<li>文字列を逆順にする関数
+<code>void reverse_string(char str[])</code></li>
+</ul></li>
+<li><strong>解析処理</strong>
+<ul>
+<li>文字列内の単語数を数える関数
+<code>int count_words(const char str[])</code></li>
+<li>文字列が回文かどうかを判定する関数
+<code>int is_palindrome(const char str[])</code></li>
+<li>文字列内の母音の数を数える関数
+<code>int count_vowels(const char str[])</code></li>
+</ul></li>
+</ol>
+<h2 id="中級課題">中級課題</h2>
+<h3 id="課題9-4-複数戻り値を持つ関数">課題9-4: 複数戻り値を持つ関数</h3>
+<p>以下の関数を作成してください：</p>
+<ol type="1">
+<li><strong>時間計算</strong>
+<ul>
+<li>秒数を時分秒に変換する関数
+<code>void seconds_to_hms(int total_seconds, int *hours, int *minutes, int *seconds)</code></li>
+<li>日数から年月日に変換する関数（365日/年として）
+<code>void days_to_ymd(int total_days, int *years, int *months, int *days)</code></li>
+</ul></li>
+<li><strong>座標計算</strong>
+<ul>
+<li>2点間の距離と中点を計算する関数
+<code>void calculate_line_info(double x1, double y1, double x2, double y2, double *distance, double *mid_x, double *mid_y)</code></li>
+<li>円の面積と周囲の長さを計算する関数
+<code>void calculate_circle_info(double radius, double *area, double *circumference)</code></li>
+</ul></li>
+<li><strong>統計計算</strong>
+<ul>
+<li>配列の統計情報を計算する関数
+<code>void calculate_statistics(int arr[], int size, int *min, int *max, double *mean, double *median)</code></li>
+<li>成績から評価を計算する関数
+<code>void calculate_grade_info(int scores[], int count, double *average, char *grade, int *pass_count)</code></li>
+</ul></li>
+</ol>
+<h3 id="課題9-5-エラーハンドリング付き関数">課題9-5:
+エラーハンドリング付き関数</h3>
+<p>安全性を考慮した以下の関数を作成してください：</p>
+<ol type="1">
+<li><strong>安全な基本操作</strong>
+<ul>
+<li>安全な除算関数
+<code>int safe_divide(double a, double b, double *result)</code></li>
+<li>安全な配列アクセス関数
+<code>int safe_array_get(int arr[], int size, int index, int *value)</code></li>
+<li>安全な文字列コピー関数
+<code>int safe_strcpy(char dest[], int dest_size, const char src[])</code></li>
+</ul></li>
+<li><strong>範囲チェック付き関数</strong>
+<ul>
+<li>範囲指定付きランダム数生成関数
+<code>int random_range(int min, int max, int *result)</code></li>
+<li>配列の範囲チェック付き設定関数
+<code>int safe_array_set(int arr[], int size, int index, int value)</code></li>
+</ul></li>
+<li><strong>バリデーション関数</strong>
+<ul>
+<li>文字列が数値として有効かチェックする関数
+<code>int is_valid_number(const char str[])</code></li>
+<li>メールアドレスの基本形式をチェックする関数
+<code>int is_valid_email(const char email[])</code></li>
+</ul></li>
+</ol>
+<h3 id="課題9-6-構造体を使った関数">課題9-6: 構造体を使った関数</h3>
+<p>以下の構造体を使った関数を作成してください：</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">struct</span> <span class="op">{</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> x<span class="op">;</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> y<span class="op">;</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> Point<span class="op">;</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">struct</span> <span class="op">{</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> id<span class="op">;</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">char</span> name<span class="op">[</span><span class="dv">50</span><span class="op">];</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> age<span class="op">;</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> score<span class="op">;</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> Student<span class="op">;</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">struct</span> <span class="op">{</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> year<span class="op">;</span></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> month<span class="op">;</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> day<span class="op">;</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> Date<span class="op">;</span></span></code></pre></div>
+<ol type="1">
+<li><strong>座標操作</strong>
+<ul>
+<li>2点間の距離を計算する関数
+<code>double point_distance(Point p1, Point p2)</code></li>
+<li>点を移動する関数
+<code>Point move_point(Point p, double dx, double dy)</code></li>
+<li>複数の点の重心を計算する関数
+<code>Point calculate_centroid(Point points[], int count)</code></li>
+</ul></li>
+<li><strong>学生情報処理</strong>
+<ul>
+<li>学生情報を表示する関数
+<code>void print_student(Student s)</code></li>
+<li>学生の成績を更新する関数
+<code>void update_score(Student *s, double new_score)</code></li>
+<li>学生配列から最高得点者を見つける関数
+<code>Student find_best_student(Student students[], int count)</code></li>
+</ul></li>
+<li><strong>日付操作</strong>
+<ul>
+<li>日付を表示する関数 <code>void print_date(Date d)</code></li>
+<li>日付の妥当性をチェックする関数
+<code>int is_valid_date(Date d)</code></li>
+<li>2つの日付の差を計算する関数
+<code>int date_difference(Date d1, Date d2)</code></li>
+</ul></li>
+</ol>
+<h2 id="上級課題">上級課題</h2>
+<h3 id="課題9-7-再帰関数">課題9-7: 再帰関数</h3>
+<p>以下の再帰関数を作成してください：</p>
+<ol type="1">
+<li><strong>数学的再帰</strong>
+<ul>
+<li>階乗を計算する再帰関数
+<code>long factorial_recursive(int n)</code></li>
+<li>フィボナッチ数列を計算する再帰関数
+<code>int fibonacci_recursive(int n)</code></li>
+<li>ユークリッドの互除法による最大公約数を求める再帰関数
+<code>int gcd_recursive(int a, int b)</code></li>
+</ul></li>
+<li><strong>文字列再帰</strong>
+<ul>
+<li>文字列が回文かどうか再帰的に判定する関数
+<code>int is_palindrome_recursive(const char str[], int start, int end)</code></li>
+<li>文字列を再帰的に逆順にする関数
+<code>void reverse_string_recursive(char str[], int start, int end)</code></li>
+</ul></li>
+<li><strong>配列再帰</strong>
+<ul>
+<li>配列の合計を再帰的に計算する関数
+<code>int array_sum_recursive(int arr[], int size)</code></li>
+<li>配列の最大値を再帰的に見つける関数
+<code>int find_max_recursive(int arr[], int size)</code></li>
+</ul></li>
+</ol>
+<h3 id="課題9-8-高度な文字列処理">課題9-8: 高度な文字列処理</h3>
+<p>以下の高度な文字列処理関数を作成してください：</p>
+<ol type="1">
+<li><strong>文字列解析</strong>
+<ul>
+<li>文字列をトークンに分割する関数
+<code>int tokenize(char str[], char tokens[][50], char delimiter)</code></li>
+<li>文字列内の括弧の対応をチェックする関数
+<code>int check_brackets(const char str[])</code></li>
+<li>文字列から数値を抽出する関数
+<code>int extract_numbers(const char str[], int numbers[], int max_count)</code></li>
+</ul></li>
+<li><strong>パターンマッチング</strong>
+<ul>
+<li>簡単なワイルドカード（*、?）パターンマッチング関数
+<code>int wildcard_match(const char str[], const char pattern[])</code></li>
+<li>文字列の置換関数
+<code>int string_replace(char str[], const char old_substr[], const char new_substr[])</code></li>
+</ul></li>
+<li><strong>文字列フォーマット</strong>
+<ul>
+<li>文字列を指定幅で中央揃えする関数
+<code>void center_string(char result[], const char str[], int width)</code></li>
+<li>CSV形式の文字列を解析する関数
+<code>int parse_csv_line(const char line[], char fields[][100], int max_fields)</code></li>
+</ul></li>
+</ol>
+<h3 id="課題9-9-ソートアルゴリズム関数">課題9-9:
+ソートアルゴリズム関数</h3>
+<p>以下のソートアルゴリズムを関数として実装してください：</p>
+<ol type="1">
+<li><strong>基本ソート</strong>
+<ul>
+<li>バブルソート <code>void bubble_sort(int arr[], int size)</code></li>
+<li>選択ソート
+<code>void selection_sort(int arr[], int size)</code></li>
+<li>挿入ソート
+<code>void insertion_sort(int arr[], int size)</code></li>
+</ul></li>
+<li><strong>高速ソート</strong>
+<ul>
+<li>マージソート
+<code>void merge_sort(int arr[], int left, int right)</code></li>
+<li>クイックソート
+<code>void quick_sort(int arr[], int left, int right)</code></li>
+</ul></li>
+<li><strong>特殊ソート</strong>
+<ul>
+<li>文字列配列のソート
+<code>void sort_strings(char strings[][100], int count)</code></li>
+<li>構造体配列のソート（複数キー対応）<code>void sort_students(Student students[], int count, int sort_by)</code></li>
+</ul></li>
+</ol>
+<h2 id="挑戦課題-1">挑戦課題</h2>
+<h3 id="課題9-10-関数ポインター">課題9-10: 関数ポインター</h3>
+<p>以下の関数ポインターを使った課題に取り組んでください：</p>
+<ol type="1">
+<li><strong>計算機関数</strong>
+<ul>
+<li>四則演算を関数ポインターで切り替える計算機
+<code>double calculator(double a, double b, double (*operation)(double, double))</code></li>
+<li>配列に対する処理を関数ポインターで指定する関数
+<code>void process_array(int arr[], int size, void (*processor)(int*))</code></li>
+</ul></li>
+<li><strong>ソート関数の汎用化</strong>
+<ul>
+<li>比較関数を引数に取る汎用ソート関数
+<code>void generic_sort(void *arr, int size, int elem_size, int (*compare)(const void*, const void*))</code></li>
+</ul></li>
+<li><strong>コールバック関数</strong>
+<ul>
+<li>イベント処理システム
+<code>void register_callback(int event_type, void (*callback)(int))</code></li>
+</ul></li>
+</ol>
+<h3 id="課題9-11-メモリ効率を考慮した関数">課題9-11:
+メモリ効率を考慮した関数</h3>
+<p>メモリ使用量を最適化した関数を作成してください：</p>
+<ol type="1">
+<li><strong>動的メモリ管理</strong>
+<ul>
+<li>動的配列を管理する関数群</li>
+<li>文字列プールを管理する関数群</li>
+<li>メモリリークを検出する関数</li>
+</ul></li>
+<li><strong>効率的なアルゴリズム</strong>
+<ul>
+<li>インプレース（元の配列内で処理）ソート関数</li>
+<li>メモリ使用量を抑えた文字列処理関数</li>
+<li>キャッシュ効率を考慮した配列処理関数</li>
+</ul></li>
+</ol>
+<h3 id="課題9-12-総合プロジェクト">課題9-12: 総合プロジェクト</h3>
+<p>複数の関数を組み合わせた総合的なプロジェクトを作成してください：</p>
+<ol type="1">
+<li><strong>学生管理システム</strong>
+<ul>
+<li>学生情報の登録、検索、更新、削除機能</li>
+<li>成績統計の計算機能</li>
+<li>データのファイル保存・読み込み機能</li>
+</ul></li>
+<li><strong>テキスト解析ツール</strong>
+<ul>
+<li>ファイルの読み込みと解析</li>
+<li>単語頻度の統計</li>
+<li>文字列パターンの検索</li>
+</ul></li>
+<li><strong>数値計算ライブラリ</strong>
+<ul>
+<li>行列演算機能</li>
+<li>統計計算機能</li>
+<li>数値積分・微分機能</li>
+</ul></li>
+</ol>
+<h2 id="提出要件-1">提出要件</h2>
+<p>各課題について、以下を提出してください：</p>
+<ol type="1">
+<li><strong>ソースコード</strong>
+<ul>
+<li>関数の実装（.cファイル）</li>
+<li>ヘッダファイル（.hファイル）</li>
+<li>テスト用のmain関数</li>
+</ul></li>
+<li><strong>ドキュメント</strong>
+<ul>
+<li>各関数の仕様説明</li>
+<li>使用例とサンプル出力</li>
+<li>エラーケースの説明</li>
+</ul></li>
+<li><strong>テストケース</strong>
+<ul>
+<li>正常ケースのテスト</li>
+<li>境界値のテスト</li>
+<li>エラーケースのテスト</li>
+</ul></li>
+</ol>
+<h2 id="評価ポイント-1">評価ポイント</h2>
+<ul>
+<li><strong>正確性</strong>: 仕様通りに動作するか</li>
+<li><strong>安全性</strong>: エラーハンドリングが適切か</li>
+<li><strong>効率性</strong>: アルゴリズムの計算量は適切か</li>
+<li><strong>可読性</strong>: コードが理解しやすいか</li>
+<li><strong>再利用性</strong>: 他のプログラムでも使えるか</li>
+</ul>
+<h2 id="難易度別の推奨学習順序">難易度別の推奨学習順序</h2>
+<h3 id="初学者向け基本課題から開始">初学者向け（基本課題から開始）</h3>
+<ol type="1">
+<li>課題9-1: 基本的な関数作成</li>
+<li>課題9-2: 配列操作関数</li>
+<li>課題9-3: 文字列処理関数</li>
+</ol>
+<h3 id="中級者向け中級課題に挑戦">中級者向け（中級課題に挑戦）</h3>
+<ol start="4" type="1">
+<li>課題9-4: 複数戻り値を持つ関数</li>
+<li>課題9-5: エラーハンドリング付き関数</li>
+<li>課題9-6: 構造体を使った関数</li>
+</ol>
+<h3 id="上級者向け上級挑戦課題">上級者向け（上級・挑戦課題）</h3>
+<ol start="7" type="1">
+<li>課題9-7: 再帰関数</li>
+<li>課題9-8: 高度な文字列処理</li>
+<li>課題9-9: ソートアルゴリズム関数</li>
+<li>課題9-10: 関数ポインター</li>
+<li>課題9-11: メモリ効率を考慮した関数</li>
+<li>課題9-12: 総合プロジェクト</li>
+</ol>
+<h2 id="学習のヒント-1">学習のヒント</h2>
+<ol type="1">
+<li><strong>段階的実装</strong>
+<ul>
+<li>最初は基本機能のみ実装</li>
+<li>動作確認後に機能を追加</li>
+<li>テストを頻繁に実行</li>
+</ul></li>
+<li><strong>エラーハンドリング</strong>
+<ul>
+<li>NULLポインターのチェック</li>
+<li>配列の境界チェック</li>
+<li>無効な引数の処理</li>
+</ul></li>
+<li><strong>関数設計の原則</strong>
+<ul>
+<li>単一責任の原則</li>
+<li>適切な関数名と引数名</li>
+<li>const修飾子の活用</li>
+</ul></li>
+<li><strong>テスト駆動開発</strong>
+<ul>
+<li>関数作成前にテストケースを考える</li>
+<li>境界値のテスト</li>
+<li>エラーケースのテスト</li>
+</ul></li>
+<li><strong>コードレビュー</strong>
+<ul>
+<li>他の人に読んでもらう</li>
+<li>改善点を見つける</li>
+<li>ベストプラクティスを学ぶ</li>
+</ul></li>
+</ol>
+<h2 id="参考資料-2">参考資料</h2>
+<ul>
+<li>C言語関数リファレンス</li>
+<li>アルゴリズムとデータ構造の教科書</li>
+<li>セキュアプログラミングガイド</li>
+<li>関数型プログラミングの考え方</li>
+</ul>
+<h2 id="実装例の構成">実装例の構成</h2>
+<p>各課題の実装では以下の構成を推奨します：</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ヘッダーファイル（functions.h）</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co">// - 関数プロトタイプ</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co">// - 定数定義</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co">// - 構造体定義</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="co">// 実装ファイル（functions.c）</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="co">// - 関数の実装</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="co">// - 静的関数（内部使用）</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="co">// - エラーハンドリング</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="co">// テストファイル（test.c）</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a><span class="co">// - main関数</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a><span class="co">// - 各関数のテスト</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="co">// - 結果の検証</span></span></code></pre></div>
+<h2 id="発展的な学習内容">発展的な学習内容</h2>
+<ol type="1">
+<li><strong>可変長引数</strong>
+<ul>
+<li>va_list、va_start、va_endの使用</li>
+<li>printfライクな関数の作成</li>
+</ul></li>
+<li><strong>関数ポインター</strong>
+<ul>
+<li>コールバック関数の実装</li>
+<li>関数テーブルの作成</li>
+</ul></li>
+<li><strong>マクロ関数</strong>
+<ul>
+<li>関数ライクマクロの作成</li>
+<li>条件付きコンパイル</li>
+</ul></li>
+<li><strong>インライン関数</strong>
+<ul>
+<li>パフォーマンスの最適化</li>
+<li>適切な使用場面</li>
+</ul></li>
+</ol>
+<p>このチュートリアルを通じて、C言語の関数について体系的に学習し、実践的なプログラミングスキルを身に付けてください。</p>
+<hr />
+<h1 id="第10章-ポインタ---演習課題">第10章: ポインタ - 演習課題</h1>
+<h2 id="基礎問題-4">基礎問題</h2>
+<h3 id="演習10-1-ポインタの基本操作">演習10-1: ポインタの基本操作</h3>
+<p>2つの整数変数の値をポインタを使って交換するプログラムを作成してください。</p>
+<p><strong>要件:</strong> - 2つの整数変数を宣言・初期化 -
+ポインタを使った値の交換関数を実装 - 交換前後の値とアドレスを表示 -
+直接的な値の交換とポインタ経由の交換を比較</p>
+<p><strong>期待される出力例:</strong></p>
+<pre><code>交換前: a =  (アドレス: xffffbffac), b =  (アドレス: xffffbffa)
+ポインタを使った交換実行...
+交換後: a =  (アドレス: xffffbffac), b =  (アドレス: xffffbffa)</code></pre>
+<h3 id="演習10-2-配列とポインタ">演習10-2: 配列とポインタ</h3>
+<p>ポインタ演算を使って配列の要素を逆順に表示するプログラムを作成してください。</p>
+<p><strong>要件:</strong> - 整数配列を宣言・初期化 -
+ポインタ演算で配列の最後から最初に向かってアクセス -
+インデックス記法とポインタ記法の両方で表示 -
+配列のサイズを動的に計算</p>
+<h3 id="演習10-3-文字列操作">演習10-3: 文字列操作</h3>
+<p>ポインタを使って文字列の長さを計算し、文字列を逆順にするプログラムを作成してください。</p>
+<p><strong>要件:</strong> -
+文字列の長さ計算関数（strlen相当）をポインタで実装 -
+文字列を逆順にする関数をポインタで実装 - 元の文字列と逆順文字列を表示 -
+文字列リテラルと文字配列の違いを考慮</p>
+<h2 id="応用問題-4">応用問題</h2>
+<h3 id="演習10-4-配列操作関数">演習10-4: 配列操作関数</h3>
+<p>ポインタを使って配列の最大値、最小値、平均値を計算する関数群を作成してください。</p>
+<p><strong>要件:</strong> - 最大値を見つけてそのポインタを返す関数 -
+最小値を見つけてそのポインタを返す関数 -
+平均値を計算する関数（戻り値はdouble） -
+各関数の結果を使ってレポートを作成</p>
+<p><strong>実装する関数:</strong></p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span><span class="op">*</span> find_max<span class="op">(</span><span class="dt">int</span> <span class="op">*</span>arr<span class="op">,</span> <span class="dt">int</span> size<span class="op">);</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span><span class="op">*</span> find_min<span class="op">(</span><span class="dt">int</span> <span class="op">*</span>arr<span class="op">,</span> <span class="dt">int</span> size<span class="op">);</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> calculate_average<span class="op">(</span><span class="dt">int</span> <span class="op">*</span>arr<span class="op">,</span> <span class="dt">int</span> size<span class="op">);</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> print_statistics<span class="op">(</span><span class="dt">int</span> <span class="op">*</span>arr<span class="op">,</span> <span class="dt">int</span> size<span class="op">);</span></span></code></pre></div>
+<h3 id="演習10-5-文字列処理">演習10-5: 文字列処理</h3>
+<p>ポインタを使って文字列の検索、置換、分割を実行する関数群を作成してください。</p>
+<p><strong>要件:</strong> - 文字列内で特定の文字を検索する関数 -
+文字列内の文字を置換する関数 - 文字列を特定の文字で分割する関数 -
+大文字・小文字を無視した比較機能</p>
+<h3 id="演習10-6-データ変換">演習10-6: データ変換</h3>
+<p>ポインタを使って配列のデータ型変換を実行するプログラムを作成してください。</p>
+<p><strong>要件:</strong> - int配列をfloat配列に変換 -
+文字列を数値配列に変換 - バイト配列を整数として解釈 -
+エラーハンドリングの実装</p>
+<h2 id="発展問題">発展問題</h2>
+<h3 id="演習10-7-メモリ操作">演習10-7: メモリ操作</h3>
+<p>ポインタを使って任意のデータ型の配列をコピーする汎用関数を作成してください。</p>
+<p><strong>要件:</strong> - void*ポインタを使った汎用コピー関数 -
+バイト単位でのメモリコピー - 型安全性の考慮 -
+コピー対象の境界チェック</p>
+<p><strong>関数プロトタイプ:</strong></p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span><span class="op">*</span> generic_copy<span class="op">(</span><span class="dt">void</span> <span class="op">*</span>dest<span class="op">,</span> <span class="dt">const</span> <span class="dt">void</span> <span class="op">*</span>src<span class="op">,</span> <span class="dt">size_t</span> size<span class="op">);</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> compare_memory<span class="op">(</span><span class="dt">const</span> <span class="dt">void</span> <span class="op">*</span>ptr<span class="op">,</span> <span class="dt">const</span> <span class="dt">void</span> <span class="op">*</span>ptr<span class="op">,</span> <span class="dt">size_t</span> size<span class="op">);</span></span></code></pre></div>
+<h3 id="演習10-8-アルゴリズム実装">演習10-8: アルゴリズム実装</h3>
+<p>ポインタを使って各種ソートアルゴリズムを実装してください。</p>
+<p><strong>要件:</strong> - バブルソート（ポインタ版） -
+選択ソート（ポインタ版） - 挿入ソート（ポインタ版） -
+汎用的な比較関数の使用</p>
+<h3 id="演習10-9-データ構造">演習10-9: データ構造</h3>
+<p>ポインタを使って簡単なリンクリスト構造を実装してください。</p>
+<p><strong>要件:</strong> - ノード構造体の定義 -
+リストへの要素追加・削除 - リストの走査・検索 - メモリリークの防止</p>
+<p><strong>構造体例:</strong></p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">struct</span> Node <span class="op">{</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> data<span class="op">;</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">struct</span> Node <span class="op">*</span>next<span class="op">;</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> Node<span class="op">;</span></span></code></pre></div>
+<h2 id="チャレンジ問題-3">チャレンジ問題</h2>
+<h3 id="演習10-10-動的配列シミュレータ">演習10-10:
+動的配列シミュレータ</h3>
+<p>malloc/freeを使わずに、静的配列とポインタを使って動的配列のような動作を実現してください。</p>
+<p><strong>要件:</strong> -
+固定サイズの大きな配列をメモリプールとして使用 -
+要素の追加・削除・挿入機能 - メモリの断片化管理 -
+ガベージコレクション機能</p>
+<h2 id="提出方法-5">提出方法</h2>
+<ol type="1">
+<li>各問題に対して別々のCファイルを作成</li>
+<li>ファイル名は <code>ex_pointer_swap.c</code>,
+<code>ex_array_reverse.c</code> のように命名</li>
+<li>各プログラムの冒頭にコメントで問題番号と簡単な説明を記載</li>
+<li>C90規格でコンパイルできることを確認</li>
+</ol>
+<h2 id="コンパイル例-2">コンパイル例</h2>
+<div class="sourceCode" id="cb35"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gcc</span> <span class="at">-std</span><span class="op">=</span>c90 <span class="at">-Wall</span> <span class="at">-Wextra</span> <span class="at">-pedantic</span> ex_pointer_swap.c <span class="at">-o</span> ex_pointer_swap</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./ex_pointer_swap</span></span></code></pre></div>
+<h2 id="ヒント-2">ヒント</h2>
+<h3 id="ポインタの基本">ポインタの基本</h3>
+<ul>
+<li>宣言: <code>int *ptr;</code></li>
+<li>アドレス取得: <code>ptr = &amp;variable;</code></li>
+<li>値の取得: <code>value = *ptr;</code></li>
+<li>演算: <code>ptr + 1</code> は次の要素を指す</li>
+</ul>
+<h3 id="安全なプログラミング">安全なプログラミング</h3>
+<ul>
+<li>NULLポインタのチェック: <code>if (ptr != NULL)</code></li>
+<li>配列の境界チェック</li>
+<li>初期化されていないポインタの使用を避ける</li>
+</ul>
+<h3 id="デバッグのコツ">デバッグのコツ</h3>
+<ul>
+<li>アドレスと値を分けて表示</li>
+<li>ポインタ演算の結果を段階的に確認</li>
+<li>コンパイラの警告に注意を払う</li>
+</ul>
+<h3 id="よくある間違い">よくある間違い</h3>
+<ul>
+<li><code>*ptr++</code> と <code>(*ptr)++</code> の違い</li>
+<li>ローカル変数のアドレスを返すこと</li>
+<li>配列の範囲外アクセス</li>
+<li><h2 id="nullポインタの参照">NULLポインタの参照</h2></li>
+</ul>
+<h1 id="第11章-構造体---演習課題">第11章: 構造体 - 演習課題</h1>
+<h2 id="基礎問題-5">基礎問題</h2>
+<h3 id="演習11-1-学生情報管理">演習11-1: 学生情報管理</h3>
+<p>学生の情報（ID、名前、年齢、成績）を格納する構造体を定義し、ポインタを使って情報を表示・更新するプログラムを作成してください。</p>
+<p><strong>要件:</strong> - 学生情報を表す構造体を定義 -
+学生情報を入力する関数を作成 -
+学生情報を表示する関数を作成（ポインタ引数） -
+成績を更新する関数を作成（ポインタ引数）</p>
+<p><strong>期待される動作例:</strong></p>
+<pre><code>学生情報を入力してください:
+ID: 1001
+名前: 田中太郎
+年齢: 20
+成績: 85.5
+
+=== 学生情報 ===
+ID: 1001
+名前: 田中太郎
+年齢: 20歳
+成績: 85.5点
+
+新しい成績を入力してください: 90.0
+成績を更新しました。
+
+=== 更新後の学生情報 ===
+ID: 1001
+名前: 田中太郎
+年齢: 20歳
+成績: 90.0点</code></pre>
+<h3 id="演習11-2-座標計算">演習11-2: 座標計算</h3>
+<p>2D座標を表す構造体を定義し、2点間の距離を計算する関数をポインタを使って実装してください。</p>
+<p><strong>要件:</strong> - 座標を表す構造体（x, y）を定義 -
+2点間の距離を計算する関数を作成（ポインタ引数） -
+座標を移動する関数を作成（ポインタで更新） - math.hのsqrt関数を使用</p>
+<p><strong>期待される動作例:</strong></p>
+<pre><code>点1の座標を入力 (x y): 0 0
+点2の座標を入力 (x y): 3 4
+
+点1: (0, 0)
+点2: (3, 4)
+2点間の距離: 5.00
+
+点1を移動します。
+移動量を入力 (dx dy): 1 1
+
+移動後の点1: (1, 1)
+新しい距離: 3.61</code></pre>
+<h3 id="演習11-3-商品管理">演習11-3: 商品管理</h3>
+<p>商品情報（コード、名前、価格、在庫）の構造体を作成し、構造体配列で複数商品を管理するプログラムを作成してください。</p>
+<p><strong>要件:</strong> - 商品情報を表す構造体を定義 -
+最大10個の商品を管理できる配列を用意 - 商品を追加する関数を作成 -
+全商品を表示する関数を作成 -
+在庫を更新する関数を作成（商品コードで検索）</p>
+<p><strong>期待される動作例:</strong></p>
+<pre><code>=== 商品管理システム ===
+1. 商品追加
+2. 商品一覧表示
+3. 在庫更新
+0. 終了
+選択: 1
+
+商品コード: 101
+商品名: ノートPC
+価格: 98000
+在庫数: 5
+商品を追加しました。
+
+選択: 2
+=== 商品一覧 ===
+コード: 101
+商品名: ノートPC
+価格: 98000円
+在庫: 5個</code></pre>
+<h2 id="応用問題-5">応用問題</h2>
+<h3 id="演習11-4-従業員データベース">演習11-4: 従業員データベース</h3>
+<p>従業員情報と部署情報をネストした構造体で管理し、部署別の給与統計を算出するプログラムを作成してください。</p>
+<p><strong>要件:</strong> - 部署情報を表す構造体（部署名、部署コード） -
+従業員情報を表す構造体（ID、名前、部署情報、給与） -
+部署別の平均給与を計算する関数 - 最高給与の従業員を検索する関数 -
+構造体ポインタ配列を使用</p>
+<h3 id="演習11-5-図書管理システム">演習11-5: 図書管理システム</h3>
+<p>本の情報（タイトル、著者、出版年、貸出状況）を管理し、検索・貸出・返却機能を実装してください。</p>
+<p><strong>要件:</strong> - 書籍情報を表す構造体を定義 -
+貸出状況を管理（貸出中フラグ、借りた人のID） - タイトルで検索する関数 -
+貸出処理を行う関数 - 返却処理を行う関数 -
+貸出中の本一覧を表示する関数</p>
+<h3 id="演習11-6-成績管理システム">演習11-6: 成績管理システム</h3>
+<p>学生と科目の構造体を使って、学生別・科目別の成績統計を管理するプログラムを作成してください。</p>
+<p><strong>要件:</strong> -
+科目情報を表す構造体（科目名、科目コード、単位数） -
+成績情報を表す構造体（学生ID、科目コード、点数、評価） -
+学生別の平均点を計算する関数 - 科目別の平均点を計算する関数 -
+GPA計算機能（A=4.0, B=3.0, C=2.0, D=1.0, F=0.0）</p>
+<h2 id="発展問題-1">発展問題</h2>
+<h3 id="演習11-7-動的配列システム">演習11-7: 動的配列システム</h3>
+<p>構造体ポインタ配列を動的に拡張できるシステムを実装してください。</p>
+<p><strong>要件:</strong> - 初期容量を持つ構造体ポインタ配列 -
+容量が不足したら自動的に拡張する機能 - メモリ管理を適切に行う -
+要素の追加・削除機能</p>
+<h3 id="演習11-8-データソート">演習11-8: データソート</h3>
+<p>構造体ポインタ配列を複数の条件（名前、年齢、成績など）でソートできるプログラムを作成してください。</p>
+<p><strong>要件:</strong> - 複数のソート基準を選択可能 -
+昇順・降順の切り替え機能 - ソート用の比較関数を複数実装 -
+qsort関数を使用</p>
+<h3 id="演習11-9-階層データ構造">演習11-9: 階層データ構造</h3>
+<p>会社組織（部署→チーム→従業員）のような階層構造を構造体とポインタで表現してください。</p>
+<p><strong>要件:</strong> - 部署、チーム、従業員の構造体を定義 -
+階層関係をポインタで表現 - 組織図を表示する関数 -
+特定の部署・チームの人数を集計する関数</p>
+<h2 id="提出方法-6">提出方法</h2>
+<ol type="1">
+<li>各問題に対して別々のCファイルを作成</li>
+<li>ファイル名は <code>ex11_1_student.c</code>,
+<code>ex11_2_coordinate.c</code> のように命名</li>
+<li>各プログラムの冒頭にコメントで問題番号と簡単な説明を記載</li>
+<li>C90規格でコンパイルできることを確認</li>
+</ol>
+<h2 id="コンパイル例-3">コンパイル例</h2>
+<div class="sourceCode" id="cb39"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gcc</span> <span class="at">-std</span><span class="op">=</span>c90 <span class="at">-Wall</span> <span class="at">-Wextra</span> <span class="at">-pedantic</span> ex11_1_student.c <span class="at">-o</span> ex11_1_student</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./ex11_1_student</span></span></code></pre></div>
+<h2 id="ヒント-3">ヒント</h2>
+<ul>
+<li>構造体のサイズに注意（パディング）</li>
+<li>ポインタ経由でのメンバーアクセスには-&gt;演算子を使用</li>
+<li>構造体の比較は直接できないため、メンバーごとに比較</li>
+<li>文字列のコピーにはstrcpy関数を使用</li>
+<li><h2
+id="構造体を関数に渡す際は効率のためポインタを使用することを推奨">構造体を関数に渡す際は、効率のためポインタを使用することを推奨</h2></li>
+</ul>
+<h1 id="第12章-関数ポインタ---演習課題">第12章: 関数ポインタ -
+演習課題</h1>
+<h2 id="演習の目的-4">演習の目的</h2>
+<ul>
+<li>関数ポインタの基本概念を理解する</li>
+<li>コールバック関数の実装方法を習得する</li>
+<li>関数ポインタ配列を活用した動的関数選択を学ぶ</li>
+<li>実行時関数切り替えシステムの設計を理解する</li>
+</ul>
+<h2 id="演習問題-3">演習問題</h2>
+<h3 id="演習12-1-関数ポインタの基本操作">演習12-1:
+関数ポインタの基本操作</h3>
+<p>関数ポインタを使って複数の関数を動的に呼び出すプログラムを作成してください。</p>
+<p><strong>要件:</strong> -
+2つの整数を受け取り、結果を返す関数を複数定義する -
+関数ポインタを使ってこれらの関数を呼び出す -
+関数ポインタ配列を使った実装も含める</p>
+<p><strong>実装すべき関数:</strong> -
+<code>int maximum(int a, int b)</code> - 大きい方の値を返す -
+<code>int minimum(int a, int b)</code> - 小さい方の値を返す<br />
+- <code>int power(int a, int b)</code> -
+aのb乗を返す（簡単な実装で可）</p>
+<p><strong>ファイル名:</strong>
+<code>ex12_1_basic_function_pointer.c</code></p>
+<h3 id="演習12-2-関数選択システム">演習12-2: 関数選択システム</h3>
+<p>文字に基づいて関数を選択し実行するシステムを実装してください。</p>
+<p><strong>要件:</strong> - 文字（‘+’, ‘-’,
+’*‘,’/’など）に基づいて関数を選択 - 選択された関数を実行して結果を表示 -
+無効な文字が指定された場合のエラーハンドリング -
+構造体を使った関数ポインタ管理</p>
+<p><strong>ファイル名:</strong>
+<code>ex12_2_function_selector.c</code></p>
+<h3 id="演習12-3-配列処理のコールバック">演習12-3:
+配列処理のコールバック</h3>
+<p>コールバック関数を使って配列の各要素に異なる処理を適用するプログラムを作成してください。</p>
+<p><strong>要件:</strong> - 整数配列を処理する関数を複数定義 -
+コールバック関数として配列処理関数に渡す - 処理前後の配列の状態を表示 -
+動的な処理選択機能</p>
+<p><strong>実装すべき処理:</strong> - 各要素を倍にする -
+各要素から1を引く - 各要素の符号を反転する</p>
+<p><strong>ファイル名:</strong> <code>ex12_3_array_callback.c</code></p>
+<h3 id="演習12-4-関数ポインタ配列を使った計算機">演習12-4:
+関数ポインタ配列を使った計算機</h3>
+<p>関数ポインタ配列を使用した計算機プログラムを作成してください。</p>
+<p><strong>要件:</strong> - 関数ポインタの配列を定義 -
+インデックスを指定して演算を選択 - 複数の演算を連続で実行可能 -
+演算履歴を表示する機能 - 統計情報の収集と表示</p>
+<p><strong>実装すべき演算:</strong> - 加算、減算、乗算、除算 -
+ゼロ除算のエラーハンドリング</p>
+<p><strong>ファイル名:</strong>
+<code>ex12_4_calculator_function_array.c</code></p>
+<h2 id="チャレンジ問題-4">チャレンジ問題</h2>
+<h3 id="チャレンジ12-5-ソートアルゴリズム選択システム">チャレンジ12-5:
+ソートアルゴリズム選択システム</h3>
+<p>異なるソートアルゴリズムを関数ポインタで切り替えるシステムを作成してください。</p>
+<p><strong>要件:</strong> - バブルソート、選択ソート、挿入ソートを実装 -
+比較関数も関数ポインタで指定（昇順/降順） - ソート前後の配列状態を表示 -
+アルゴリズムの性能比較機能</p>
+<p><strong>ファイル名:</strong>
+<code>ex12_5_sort_algorithms.c</code></p>
+<h3 id="チャレンジ12-6-イベント駆動システム">チャレンジ12-6:
+イベント駆動システム</h3>
+<p>コールバック関数を使ったイベント駆動システムを実装してください。</p>
+<p><strong>要件:</strong> -
+複数種類のイベント（開始、停止、エラー、警告） -
+イベントタイプごとに異なるハンドラーを登録 -
+イベント発生時に適切なハンドラーを呼び出し - イベントの優先度機能</p>
+<p><strong>ファイル名:</strong> <code>ex12_6_event_system.c</code></p>
+<h2 id="提出方法-7">提出方法</h2>
+<ol type="1">
+<li>各演習問題ごとに独立したCファイルを作成</li>
+<li>ファイル名は <code>ex12_1.c</code>, <code>ex12_2.c</code>
+のような形式で</li>
+<li>コメントで問題番号と簡単な説明を記載</li>
+<li>C90規格でコンパイルできることを確認</li>
+<li>C99版も作成し、<code>_c99.c</code> サフィックスを付ける</li>
+</ol>
+<h2 id="コンパイル例-4">コンパイル例</h2>
+<h3 id="c90準拠">C90準拠</h3>
+<div class="sourceCode" id="cb40"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gcc</span> <span class="at">-std</span><span class="op">=</span>c90 <span class="at">-Wall</span> <span class="at">-Wextra</span> <span class="at">-pedantic</span> ex12_1_basic_function_pointer.c <span class="at">-o</span> ex12_1_basic_function_pointer</span></code></pre></div>
+<h3 id="c99準拠">C99準拠</h3>
+<div class="sourceCode" id="cb41"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gcc</span> <span class="at">-std</span><span class="op">=</span>c99 <span class="at">-Wall</span> <span class="at">-Wextra</span> <span class="at">-pedantic</span> ex12_1_basic_function_pointer_c99.c <span class="at">-o</span> ex12_1_basic_function_pointer_c99</span></code></pre></div>
+<h2 id="学習のポイント-1">学習のポイント</h2>
+<h3 id="関数ポインタの基本">関数ポインタの基本</h3>
+<ol type="1">
+<li><strong>宣言</strong>: <code>int (*func_ptr)(int, int);</code></li>
+<li><strong>初期化</strong>: <code>func_ptr = function_name;</code></li>
+<li><strong>呼び出し</strong>:
+<code>result = func_ptr(a, b);</code></li>
+<li><strong>配列</strong>:
+<code>int (*operations[])(int, int) = {add, sub, mul};</code></li>
+</ol>
+<h3 id="コールバック関数">コールバック関数</h3>
+<ol type="1">
+<li><strong>概念</strong>: 関数を引数として渡す仕組み</li>
+<li><strong>活用</strong>: 動的な処理選択、カスタマイズ可能な処理</li>
+<li><strong>設計</strong>: 関数ポインタを引数に取る関数の実装</li>
+</ol>
+<h3 id="実用的なテクニック">実用的なテクニック</h3>
+<ol type="1">
+<li><strong>関数テーブル</strong>: 構造体による関数ポインタ管理</li>
+<li><strong>エラーハンドリング</strong>: 無効な関数ポインタの検出</li>
+<li><strong>状態管理</strong>: 関数ポインタによる状態遷移</li>
+<li><strong>性能</strong>: 関数ポインタ使用時のオーバーヘッド考慮</li>
+</ol>
+<h2 id="注意事項">注意事項</h2>
+<ul>
+<li>関数ポインタは初期化前に使用しない</li>
+<li>型の一致を厳密に確認する</li>
+<li>NULL ポインタチェックを忘れずに</li>
+<li>デバッグ時は関数名の確認が困難な場合がある</li>
+</ul>
+<h2 id="実用的な応用">実用的な応用</h2>
+<p>これらの技術は以下のような場面で使用されます：</p>
+<ul>
+<li><strong>GUI フレームワーク</strong>: イベントハンドラ</li>
+<li><strong>組み込みシステム</strong>: 割り込みハンドラ</li>
+<li><strong>ゲーム開発</strong>: 状態管理、AI 行動パターン</li>
+<li><strong>システムプログラミング</strong>: プラグインシステム</li>
+</ul>
+<h2 id="次のステップ">次のステップ</h2>
+<p>この章をマスターしたら、次の章に進みましょう： - <a
+href="../advanced/">第13章: 高度なプログラミング技法</a> -
+関数ポインタを活用したより複雑なシステム設計 -
+マルチスレッドプログラミングでの関数ポインタ活用 —</p>
+<h1 id="第13章-高度なトピック---演習課題">第13章: 高度なトピック -
+演習課題</h1>
+<h2 id="基礎課題-1">基礎課題</h2>
+<h3 id="演習13-1-プリプロセッサマクロの基本">演習13-1:
+プリプロセッサマクロの基本</h3>
+<p>以下の仕様を満たすプログラムを作成してください：</p>
+<p><strong>仕様：</strong> -
+数学的な定数をマクロで定義する（PI、E、黄金比など） -
+基本的な計算マクロを定義する（面積、体積など） -
+条件付きコンパイルでデバッグ機能を切り替える -
+文字列化マクロと連結マクロを活用する</p>
+<p><strong>実装すべき機能：</strong> - 円の面積・周長計算 -
+球の体積・表面積計算 - デバッグ情報の出力（条件付き） -
+マクロによる型安全な最大値・最小値関数</p>
+<p><strong>ファイル名：</strong> <code>ex13_1_macro_basics.c</code></p>
+<h3 id="演習13-2-安全なメモリ操作マクロ">演習13-2:
+安全なメモリ操作マクロ</h3>
+<p>メモリ操作の安全性を向上させるマクロ群を作成してください：</p>
+<p><strong>仕様：</strong> - NULL チェック付きメモリ割り当て -
+配列境界チェック付きアクセス - 自動的なメモリ解放 -
+メモリリーク検出機能</p>
+<p><strong>実装すべきマクロ：</strong> - <code>SAFE_MALLOC(size)</code>
+- NULLチェック付きmalloc - <code>SAFE_FREE(ptr)</code> -
+NULLクリア付きfree - <code>ARRAY_BOUNDS_CHECK(arr, index, size)</code> -
+境界チェック - <code>MEMORY_LEAK_TRACKER</code> - 簡単なリーク検出</p>
+<p><strong>ファイル名：</strong> <code>ex13_2_safe_memory.c</code></p>
+<h3 id="演習13-3-基本的なメモリプール">演習13-3:
+基本的なメモリプール</h3>
+<p>固定サイズオブジェクト用の簡単なメモリプールを実装してください：</p>
+<p><strong>仕様：</strong> -
+事前に確保されたメモリ領域からオブジェクトを割り当て -
+フリーリストによる高速な割り当て・解放 - プールの使用状況を表示する機能
+- 初期化・終了処理</p>
+<p><strong>実装すべき機能：</strong> - プールの初期化と終了処理 -
+オブジェクトの取得と返却 - 使用状況の表示 - エラーハンドリング</p>
+<p><strong>ファイル名：</strong> <code>ex13_3_memory_pool.c</code></p>
+<h2 id="応用課題-1">応用課題</h2>
+<h3 id="演習13-4-汎用的なプリプロセッサライブラリ">演習13-4:
+汎用的なプリプロセッサライブラリ</h3>
+<p>さまざまな用途に使える汎用的なマクロライブラリを作成してください：</p>
+<p><strong>仕様：</strong> - 型判定マクロ（コンパイル時） -
+汎用的なスワップマクロ - ループ展開マクロ - アサーション機能付きマクロ -
+ベンチマーク計測マクロ</p>
+<p><strong>実装すべき機能：</strong> - <code>TYPE_CHECK(a, b)</code> -
+型の一致確認 - <code>GENERIC_SWAP(a, b)</code> - 任意の型のスワップ -
+<code>REPEAT(n, code)</code> - コードの繰り返し展開 -
+<code>BENCHMARK_BLOCK(name)</code> - ブロックの実行時間測定 -
+<code>STATIC_ASSERT(condition, message)</code> -
+コンパイル時アサーション</p>
+<p><strong>ファイル名：</strong>
+<code>ex13_4_generic_macros.c</code></p>
+<h3 id="演習13-5-高性能メモリアロケーター">演習13-5:
+高性能メモリアロケーター</h3>
+<p>パフォーマンスを重視したカスタムメモリアロケーターを実装してください：</p>
+<p><strong>仕様：</strong> -
+サイズ別メモリプール（小・中・大オブジェクト） -
+メモリの断片化を最小限に抑える仕組み - アロケーション統計情報の収集 -
+スレッドセーフ対応（簡易版）</p>
+<p><strong>実装すべき機能：</strong> - 複数サイズのメモリプール管理 -
+First Fit / Best Fit アルゴリズム - メモリ使用統計とレポート機能 -
+デバッグモードでの詳細トレース</p>
+<p><strong>ファイル名：</strong> <code>ex13_5_allocator.c</code></p>
+<h3 id="演習13-6-キャッシュフレンドリーなデータ構造">演習13-6:
+キャッシュフレンドリーなデータ構造</h3>
+<p>CPU キャッシュ効率を考慮したデータ構造を実装してください：</p>
+<p><strong>仕様：</strong> - 配列ベースの動的配列（vector 風） -
+キャッシュラインを意識したメモリレイアウト -
+プリフェッチを活用した高速アクセス - メモリプールとの連携</p>
+<p><strong>実装すべき機能：</strong> - 動的な要素追加・削除 -
+キャッシュ効率的な反復処理 - バルク操作（一括挿入・削除） -
+パフォーマンス測定機能</p>
+<p><strong>ファイル名：</strong> <code>ex13_6_cache_vector.c</code></p>
+<h2 id="挑戦課題-2">挑戦課題</h2>
+<h3 id="演習13-7-プリプロセッサベースのdsl">演習13-7:
+プリプロセッサベースのDSL</h3>
+<p>プリプロセッサを使ってドメイン固有言語（DSL）を作成してください：</p>
+<p><strong>仕様：</strong> - 状態機械を記述するDSL -
+イベント駆動システムの記述 - 自動的なコード生成 -
+コンパイル時検証機能</p>
+<p><strong>実装例：</strong></p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>STATE_MACHINE<span class="op">(</span>TrafficLight<span class="op">)</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    STATE<span class="op">(</span>Red<span class="op">)</span>    TIMEOUT<span class="op">()</span> <span class="op">-&gt;</span> Yellow</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    STATE<span class="op">(</span>Yellow<span class="op">)</span> TIMEOUT<span class="op">()</span> <span class="op">-&gt;</span> Green  </span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    STATE<span class="op">(</span>Green<span class="op">)</span>  TIMEOUT<span class="op">()</span> <span class="op">-&gt;</span> Red</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>END_STATE_MACHINE</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>EVENT_HANDLER<span class="op">(</span>ButtonPress<span class="op">)</span> </span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// イベント処理コード</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>END_EVENT_HANDLER</span></code></pre></div>
+<p><strong>ファイル名：</strong> <code>ex13_7_dsl.c</code></p>
+<h3 id="演習13-8-動的メモリ管理フレームワーク">演習13-8:
+動的メモリ管理フレームワーク</h3>
+<p>ガベージコレクション機能付きのメモリ管理フレームワークを実装してください：</p>
+<p><strong>仕様：</strong> - 参照カウント式ガベージコレクション -
+循環参照の検出と解決 - 弱参照（weak reference）のサポート -
+メモリプレッシャー対応</p>
+<p><strong>実装すべき機能：</strong> - オブジェクトの自動管理 -
+参照カウントの増減 - 循環参照のマーク&amp;スイープ -
+メモリ不足時の自動解放</p>
+<p><strong>ファイル名：</strong> <code>ex13_8_gc_framework.c</code></p>
+<h3 id="演習13-9-リアルタイムメモリアロケーター">演習13-9:
+リアルタイムメモリアロケーター</h3>
+<p>リアルタイムシステム向けの決定的メモリアロケーターを実装してください：</p>
+<p><strong>仕様：</strong> - O(1) での割り当て・解放保証 -
+メモリ断片化の完全排除 - 予測可能なメモリ使用量 -
+割り込み処理からの安全な使用</p>
+<p><strong>実装すべき機能：</strong> - 固定時間でのメモリ操作 -
+事前確保によるメモリプール - 優先度別メモリ管理 -
+リアルタイム統計情報</p>
+<p><strong>ファイル名：</strong> <code>ex13_9_realtime.c</code></p>
+<h2 id="評価基準-2">評価基準</h2>
+<h3 id="基礎課題各10点">基礎課題（各10点）</h3>
+<ul>
+<li>正しく動作する：5点</li>
+<li>コードの可読性：3点</li>
+<li>エラーハンドリング：2点</li>
+</ul>
+<h3 id="応用課題各15点">応用課題（各15点）</h3>
+<ul>
+<li>機能の完全性：5点</li>
+<li>パフォーマンス：4点</li>
+<li>設計の優秀さ：3点</li>
+<li>拡張性：3点</li>
+</ul>
+<h3 id="挑戦課題各20点">挑戦課題（各20点）</h3>
+<ul>
+<li>実装の完成度：8点</li>
+<li>創意工夫：5点</li>
+<li>技術的難易度：4点</li>
+<li>実用性：3点</li>
+</ul>
+<h2 id="提出方法-8">提出方法</h2>
+<ol type="1">
+<li>各課題を指定されたファイル名で作成</li>
+<li>コンパイル用のMakefileを作成</li>
+<li>実行例とパフォーマンス結果を含むREADME.mdを作成</li>
+<li>すべてのファイルを<code>solutions/</code>フォルダーに配置</li>
+</ol>
+<h2 id="学習のポイント-2">学習のポイント</h2>
+<h3 id="プリプロセッサの活用">プリプロセッサの活用</h3>
+<ul>
+<li>マクロの安全な使用方法</li>
+<li>条件付きコンパイルの効果的な活用</li>
+<li>コード生成の自動化</li>
+<li>デバッグ支援機能</li>
+</ul>
+<h3 id="メモリ管理の最適化">メモリ管理の最適化</h3>
+<ul>
+<li>メモリプールの設計と実装</li>
+<li>キャッシュ効率を考慮したデータ構造</li>
+<li>パフォーマンス測定と改善</li>
+<li>メモリリークの検出と防止</li>
+</ul>
+<h3 id="高度なc言語技法">高度なC言語技法</h3>
+<ul>
+<li>型安全なプログラミング</li>
+<li>コンパイル時計算の活用</li>
+<li>ハードウェア特性を考慮した実装</li>
+<li>システムプログラミング技法</li>
+</ul>
+<h2 id="参考資料-3">参考資料</h2>
+<h3 id="プリプロセッサ高度技法">プリプロセッサ高度技法</h3>
+<div class="sourceCode" id="cb43"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co">// X-マクロパターン</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#define COLORS </span><span class="op">\</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="pp">    X</span><span class="op">(</span>RED<span class="op">,</span><span class="pp"> </span><span class="st">&quot;赤&quot;</span><span class="op">)</span><span class="pp"> </span><span class="op">\</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="pp">    X</span><span class="op">(</span><span class="pp">GREEN</span><span class="op">,</span><span class="pp"> </span><span class="st">&quot;緑&quot;</span><span class="op">)</span><span class="pp"> </span><span class="op">\</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="pp">    X</span><span class="op">(</span><span class="pp">BLUE</span><span class="op">,</span><span class="pp"> </span><span class="st">&quot;青&quot;</span><span class="op">)</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">enum</span> <span class="op">{</span></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a><span class="pp">#define X</span><span class="op">(</span><span class="pp">name</span><span class="op">,</span><span class="pp"> desc</span><span class="op">)</span><span class="pp"> COLOR_</span><span class="op">##</span><span class="pp">name</span><span class="op">,</span></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>    COLORS</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a><span class="pp">#undef X</span></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>    COLOR_COUNT</span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> Color<span class="op">;</span></span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a><span class="dt">const</span> <span class="dt">char</span><span class="op">*</span> color_names<span class="op">[]</span> <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a><span class="pp">#define X</span><span class="op">(</span><span class="pp">name</span><span class="op">,</span><span class="pp"> desc</span><span class="op">)</span><span class="pp"> desc</span><span class="op">,</span></span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>    COLORS</span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a><span class="pp">#undef X</span></span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+<h3 id="メモリアライメント最適化">メモリアライメント最適化</h3>
+<div class="sourceCode" id="cb44"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">// キャッシュライン境界でのアライメント</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#define CACHE_LINE_SIZE </span><span class="dv">64</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#define CACHE_ALIGNED __attribute__</span><span class="op">((</span><span class="pp">aligned</span><span class="op">(</span><span class="pp">CACHE_LINE_SIZE</span><span class="op">)))</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">struct</span> CACHE_ALIGNED <span class="op">{</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> frequently_accessed_data<span class="op">;</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">char</span> padding<span class="op">[</span>CACHE_LINE_SIZE <span class="op">-</span> <span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span><span class="op">)];</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> CacheOptimizedStruct<span class="op">;</span></span></code></pre></div>
+<h3 id="高性能メモリ操作">高性能メモリ操作</h3>
+<div class="sourceCode" id="cb45"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co">// SIMD命令を使った高速メモリコピー</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;immintrin.h&gt;</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> fast_memcpy<span class="op">(</span><span class="dt">void</span><span class="op">*</span> dst<span class="op">,</span> <span class="dt">const</span> <span class="dt">void</span><span class="op">*</span> src<span class="op">,</span> <span class="dt">size_t</span> size<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// AVXを使った実装例</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>size <span class="op">&gt;=</span> <span class="dv">32</span> <span class="op">&amp;&amp;</span> <span class="op">((</span><span class="dt">intptr_t</span><span class="op">)</span>dst <span class="op">&amp;</span> <span class="dv">31</span><span class="op">)</span> <span class="op">==</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> <span class="op">((</span><span class="dt">intptr_t</span><span class="op">)</span>src <span class="op">&amp;</span> <span class="dv">31</span><span class="op">)</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 32バイト境界でアラインされている場合の最適化</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="よくある間違いとその対策">よくある間違いとその対策</h2>
+<h3 id="マクロの副作用">1. マクロの副作用</h3>
+<p><strong>間違い：</strong></p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#define SQUARE</span><span class="op">(</span><span class="pp">x</span><span class="op">)</span><span class="pp"> x </span><span class="op">*</span><span class="pp"> x</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> a <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> result <span class="op">=</span> SQUARE<span class="op">(++</span>a<span class="op">);</span>  <span class="co">// a が2回インクリメントされる</span></span></code></pre></div>
+<p><strong>正解：</strong></p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#define SQUARE</span><span class="op">(</span><span class="pp">x</span><span class="op">)</span><span class="pp"> </span><span class="op">({</span><span class="pp"> </span><span class="op">\</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="pp">    </span><span class="kw">typeof</span><span class="op">(</span><span class="pp">x</span><span class="op">)</span><span class="pp"> _temp </span><span class="op">=</span><span class="pp"> </span><span class="op">(</span><span class="pp">x</span><span class="op">);</span><span class="pp"> </span><span class="op">\</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="pp">    _temp </span><span class="op">*</span><span class="pp"> _temp</span><span class="op">;</span><span class="pp"> </span><span class="op">\</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="op">})</span></span></code></pre></div>
+<h3 id="メモリアライメントの無視">2. メモリアライメントの無視</h3>
+<p><strong>間違い：</strong></p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="dt">char</span> buffer<span class="op">[</span><span class="dv">100</span><span class="op">];</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span><span class="op">*</span> ptr <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">*)&amp;</span>buffer<span class="op">[</span><span class="dv">1</span><span class="op">];</span>  <span class="co">// 不正なアライメント</span></span></code></pre></div>
+<p><strong>正解：</strong></p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdalign.h&gt;</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="kw">alignas</span><span class="op">(</span><span class="dt">int</span><span class="op">)</span> <span class="dt">char</span> buffer<span class="op">[</span><span class="dv">100</span><span class="op">];</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span><span class="op">*</span> ptr <span class="op">=</span> <span class="op">(</span><span class="dt">int</span><span class="op">*)</span>buffer<span class="op">;</span></span></code></pre></div>
+<h3 id="キャッシュ効率の無視">3. キャッシュ効率の無視</h3>
+<p><strong>間違い：</strong></p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 列優先アクセス（キャッシュミスが多発）</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> cols<span class="op">;</span> j<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> rows<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>        matrix<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> value<span class="op">;</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>正解：</strong></p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 行優先アクセス（キャッシュフレンドリー）</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> rows<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> cols<span class="op">;</span> j<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>        matrix<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> value<span class="op">;</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2
+id="これらの課題を通じてc言語の高度な機能を習得しパフォーマンスを意識したプログラミングスキルを身につけてください">これらの課題を通じて、C言語の高度な機能を習得し、パフォーマンスを意識したプログラミングスキルを身につけてください。</h2>
+</body>
+</html>

@@ -1,0 +1,55 @@
+# コンパイル済みファイル
+*.o
+*.out
+*.exe
+a.out
+
+# ビルドディレクトリ
+build/
+bin/
+
+# エディタ・IDE関連
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# 一時ファイル
+*.tmp
+*.log
+*.bak
+
+# 生成されたファイル（必要に応じてコミット）
+# *.pdf
+# *.html
+
+# デバッグファイル
+*.dSYM/
+core
+*.core
+
+# 実行ファイル（拡張子なし）
+*/examples/ex*_*
+*/solutions/ex*_*
+!*/examples/ex*_*.c
+!*/solutions/ex*_*.c
+*/examples/*_demo
+*/examples/*_basic
+*/examples/*_advanced
+*/examples/*_arrays
+*/examples/*_functions
+*/examples/*_operations
+*/examples/*_pointers
+*/examples/*_processing
+!*/examples/*_demo.c
+!*/examples/*_basic.c
+!*/examples/*_advanced.c
+!*/examples/*_arrays.c
+!*/examples/*_functions.c
+!*/examples/*_operations.c
+!*/examples/*_pointers.c
+!*/examples/*_processing.c
+*/examples/environment_check
+!*/examples/environment_check.c

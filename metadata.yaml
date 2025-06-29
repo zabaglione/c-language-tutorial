@@ -1,0 +1,19 @@
+---
+title: "C言語学習教材"
+subtitle: "基礎から応用まで体系的に学ぶ"
+author: ""
+date: "2024年6月28日"
+lang: ja
+documentclass: book
+geometry: margin=2.5cm
+fontsize: 11pt
+mainfont: "Hiragino Kaku Gothic ProN"
+monofont: "Source Code Pro"
+toc: true
+toc-depth: 3
+numbersections: true
+colorlinks: true
+linkcolor: blue
+urlcolor: blue
+citecolor: blue
+---
