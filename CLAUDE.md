@@ -6,11 +6,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a comprehensive C programming tutorial written in Japanese (C言語学習教材). The project teaches C programming from basics to advanced topics through 13 structured chapters, supporting multiple C standards (C90, C99, C11, C17).
 
+The project is organized into:
+- `src/` - Source code (tutorial chapters)
+- `scripts/` - Support scripts for PDF/HTML generation
+- `output/` - Generated PDFs and HTML files
+- `docs/` - Documentation and reports
+
 ## Common Development Commands
 
 ### Building and Running Code
 
 ```bash
+# Navigate to a chapter
+cd src/[chapter-name]
+
 # Build all examples in a chapter
 make all
 
@@ -63,29 +72,43 @@ gcc -Wall -Wextra -pedantic -O2 -DNDEBUG source.c -o output
 
 ### Directory Organization
 
-The project follows a chapter-based structure where each chapter contains:
+Each chapter in `src/` contains:
 - `README.md` - Theory and explanations in Japanese
 - `examples/` - Demonstration code with detailed comments
 - `exercises/` - Practice problems for learners
 - `solutions/` - Complete solutions to exercises
 - `Makefile` - Build configuration supporting multiple C standards
 
-### Key Architectural Patterns
+### Chapter Structure
 
-1. **Educational Code Style**
-   - All code includes Japanese comments explaining concepts
-   - Examples progress from simple to complex within each chapter
-   - Each example is self-contained and compilable independently
+| Chapter | Directory | Topic | Target Standards |
+|---------|-----------|-------|-----------------|
+| 1 | introduction | 導入・環境構築 | All standards |
+| 2 | basics-syntax | 基本文法・Hello World | C90 |
+| 3 | data-types | データ型と変数 | C90/C99 |
+| 4 | operators | 演算子 | C90 |
+| 5 | control-if | 制御構造（条件分岐） | C90 |
+| 6 | control-loop | 制御構造（ループ） | C90/C99 |
+| 7 | arrays | 配列 | C90/C99 |
+| 8 | strings | 文字列処理 | C90 |
+| 9 | functions | 関数 | C90/C99 |
+| 10 | pointers | ポインタ基礎 | C90 |
+| 11 | structures | 構造体とポインタ | C90/C11 |
+| 12 | function-pointers | 関数ポインタ | C90 |
+| 13 | advanced | 複数ファイル・発展技術 | C90/C99/C11/C17 |
 
-2. **Build System Design**
-   - Makefiles use pattern rules for automatic source discovery
-   - Support for multiple C standards to demonstrate language evolution
-   - Consistent targets across all chapters (all, clean, run, help)
+### Build System Features
 
-3. **Content Progression**
-   - Foundation: introduction, basics-syntax, data-types, operators, control-if, control-loop
-   - Intermediate: arrays, strings, functions, pointers
-   - Advanced: structures, function-pointers, advanced
+1. **Automatic Source Discovery**: Makefiles use wildcard patterns to find all `.c` files
+2. **Standard Switching**: `make STANDARD=c99` to compile with different C standards
+3. **Dual Version Support**: Most chapters include both C90 and C99 versions (`*_c99.c` files)
+4. **Consistent Targets**:
+   - `make all` - Build all programs
+   - `make examples` - Build example programs
+   - `make solutions` - Build exercise solutions
+   - `make run-all` - Run all programs
+   - `make run-<program>` - Run specific program
+   - `make test-standards` - Test with multiple C standards
 
 ### Important Conventions
 
@@ -93,7 +116,10 @@ The project follows a chapter-based structure where each chapter contains:
 
 2. **Compiler Flags**: Always use `-Wall -Wextra -pedantic` for educational builds to catch potential issues.
 
-3. **C Standard Flexibility**: Examples may use different C standard features. Check the Makefile for the default standard used in each chapter.
+3. **C Standard Versions**:
+   - Base files follow C90 standard
+   - C99 versions have `_c99` suffix
+   - Some chapters (function-pointers) organize binaries in a `bin/` directory
 
 4. **No External Dependencies**: This is a pure C tutorial with no external libraries beyond the standard library.
 
@@ -192,5 +218,41 @@ chapter-name/
 2. C99版も同様にテスト
 3. 実行して期待される出力が得られることを確認
 4. Makefileのすべてのターゲットが動作することを確認
+
+## Additional Resources
+
+### Generated Documentation
+
+The repository includes several generated documentation files:
+- `C言語学習教材.pdf` - Complete tutorial in PDF format
+- `C言語プログラミング教材_メインテキスト.pdf` - Main textbook
+- `C言語プログラミング教材_演習課題集.pdf` - Exercise workbook
+- Various HTML versions for web viewing
+
+### Shell Scripts
+
+Several utility scripts exist in the root directory for documentation generation:
+- `combine_chapters.sh` - Combines all chapters into a single document
+- `create_pdf.sh` - Generates PDF documentation
+- `create_main_textbook.sh` - Creates the main textbook
+- `create_exercises.sh` - Creates the exercise workbook
+
+These scripts are used for maintaining the documentation but are not part of the regular development workflow.
+
+## Learning Path Recommendations
+
+For learners using this tutorial:
+
+1. **Standard Path**: introduction → basics-syntax → data-types → operators → control-if → control-loop → arrays → strings → functions → pointers → structures → function-pointers → advanced
+
+2. **Focus on Fundamentals**: Spend extra time on pointers (chapter 10) and structures (chapter 11) as these are critical concepts
+
+3. **Practice with Different Standards**: Try compiling examples with different C standards to understand language evolution
+
+## Notes on Special Chapters
+
+- **introduction**: Contains `test-standards` target for testing compiler compatibility
+- **function-pointers**: Uses a `bin/` directory for build outputs instead of in-place compilation
+- **advanced**: Covers advanced topics including C11/C17 features like `_Generic` and `_Static_assert`
 
 これらのガイドラインに従うことで、学習者にとって一貫性のある、理解しやすい教材を提供できます。
