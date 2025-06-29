@@ -395,7 +395,9 @@ int main(void)
     
     /* コンパイル時検証 */
     STATIC_ASSERT(sizeof(int) >= 4, "int must be at least 4 bytes");
-    STATIC_ASSERT(ARRAY_SIZE((int[]){1,2,3}) == 3, "Array size calculation error");
+    /* 配列サイズの検証は別途実行時に行う */
+    int test_array[] = {1, 2, 3};
+    assert(ARRAY_SIZE(test_array) == 3);
     
     printf("=== デモ完了 ===\n");
     return 0;

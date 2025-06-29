@@ -77,10 +77,12 @@ int main(void)
     printf("\n");
     
     i = 0;
-    printf("array[i++] = %d, i = %d\n", array[i++], i);
+    int temp_val = array[i++];
+    printf("array[i++] = %d, i = %d\n", temp_val, i);
     
     i = 0;
-    printf("array[++i] = %d, i = %d\n", array[++i], i);
+    temp_val = array[++i];
+    printf("array[++i] = %d, i = %d\n", temp_val, i);
     
     /* 実用的な例：ループでの使用 */
     printf("\n=== ループでの実用例 ===\n");

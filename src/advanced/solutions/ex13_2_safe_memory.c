@@ -282,7 +282,8 @@ void safe_free_impl(void *ptr, const char *file, int line)
     
     remove_memory_tracker(ptr, file, line);
     free(ptr);
-    printf("[MEMORY INFO:%s:%d] free成功: %p\n", file, line, ptr);
+    /* 注意: デバッグ目的でポインタ値を表示。実際のコードでは解放後のポインタアクセスは避ける */
+    printf("[MEMORY INFO:%s:%d] free成功: アドレス %p を解放しました\n", file, line, (void*)ptr);
 }
 
 /* メモリリークレポート */

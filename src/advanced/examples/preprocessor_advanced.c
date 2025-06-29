@@ -232,8 +232,9 @@ void test_safe_operations(void)
 
     /* 安全な配列アクセス */
     printf("array[2] = %d\n", SAFE_ARRAY_ACCESS(array, 2, size));
-    printf("array[10] = %d (範囲外アクセス)\n", SAFE_ARRAY_ACCESS(array, 10, size));
-    printf("array[-1] = %d (負のインデックス)\n", SAFE_ARRAY_ACCESS(array, -1, size));
+    /* 範囲外アクセスの例（実際にはマクロで保護される） */
+    printf("array[10] = %d (範囲外アクセス、マクロで保護)\n", SAFE_ARRAY_ACCESS(array, 10, size));
+    printf("array[-1] = %d (負のインデックス、マクロで保護)\n", SAFE_ARRAY_ACCESS(array, -1, size));
 }
 
 void test_bit_operations(void)
@@ -310,11 +311,11 @@ void test_benchmarks(void)
     {
         BENCHMARK_START();
         
-        volatile long sum = 0;
+        volatile long long sum = 0;  /* オーバーフロー防止のため long long を使用 */
         int i;
         for (i = 0; i < 1000000; i++)
         {
-            sum += i * i;
+            sum += (long long)i * i;  /* キャストしてオーバーフローを防ぐ */
         }
 
         BENCHMARK_END("100万回の平方計算");
