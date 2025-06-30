@@ -39,8 +39,9 @@ int main(void)
     int i;
     
     /* 1から10まで出力 */
-    for (i = 1; i <= 10; i++) 
+    for (i = 1; i <= 10; i++) {
         printf("%d ", i);
+    }
     
     printf("\n");
     
@@ -51,15 +52,17 @@ int main(void)
 #### for文の詳細動作
 
 ```c
-for (i = ; i < ; i++) 
+for (i = 0; i < 5; i++) {
     printf("i = %d\n", i);
+}
 
 
 /* 上記は以下と同等 */
-i = ;              /* 初期化（1回のみ実行） */
-while (i < )      /* 条件チェック */
+i = 0;              /* 初期化（1回のみ実行） */
+while (i < 5) {     /* 条件チェック */
     printf("i = %d\n", i);  /* ループ本体 */
     i++;            /* 更新式 */
+}
 
 ```
 
@@ -67,18 +70,21 @@ while (i < )      /* 条件チェック */
 
 ```c
 /* 逆順ループ */
-for (i = ; i >= ; i--) 
+for (i = 10; i >= 1; i--) {
     printf("%d ", i);
+}
 
 
-/* 2つず2つ増加 */
-for (i = ; i <= ; i += ) 
+/* 2つずつ増加 */
+for (i = 0; i <= 20; i += 2) {
     printf("%d ", i);
+}
 
 
 /* 複数変数の制御 */
-for (i = , j = ; i < j; i++, j--) 
+for (i = 0, j = 10; i < j; i++, j--) {
     printf("i=%d, j=%d\n", i, j);
+}
 
 ```
 
@@ -102,14 +108,15 @@ while (条件式)
 int main(void)
 {
 
-    int count = ;
+    int count = 1;
     
-    while (count <= ) 
+    while (count <= 5) {
         printf("count = %d\n", count);
         count++;
+    }
     
     
-    return ;
+    return 0;
 
 ```
 
@@ -118,14 +125,15 @@ int main(void)
 ```c
 /* ユーザー入力の処理 */
 int number;
-printf("正の数を入力してください（で終了）: ");
+printf("正の数を入力してください（0で終了）: ");
 
-while (scanf("%d", &number) ==  && number > ) 
+while (scanf("%d", &number) == 1 && number > 0) {
     printf("入力された数: %d\n", number);
-    printf("次の数を入力してください（で終了）: ");
+    printf("次の数を入力してください（0で終了）: ");
+}
 
 
-printf("プログラムを終了します。n");
+printf("プログラムを終了します。\n");
 ```
 
 ### do-while文 
@@ -150,31 +158,31 @@ int main(void)
 
     int choice;
     
-    do 
-        printf("nメニュー:n");
-        printf(". オプションn");
-        printf(". オプションn");
-        printf(". 終了n");
+    do {
+        printf("\nメニュー:\n");
+        printf("1. オプション1\n");
+        printf("2. オプション2\n");
+        printf("3. 終了\n");
         printf("選択してください: ");
         scanf("%d", &choice);
         
-        switch (choice) 
-            case :
-                printf("オプションが選択されましたn");
+        switch (choice) {
+            case 1:
+                printf("オプション1が選択されました\n");
                 break;
-            case :
-                printf("オプションが選択されましたn");
+            case 2:
+                printf("オプション2が選択されました\n");
                 break;
-            case :
-                printf("プログラムを終了しますn");
+            case 3:
+                printf("プログラムを終了します\n");
                 break;
             default:
-                printf("無効な選択ですn");
+                printf("無効な選択です\n");
                 break;
-        
-     while (choice != );
+        }
+    } while (choice != 3);
     
-    return ;
+    return 0;
 
 ```
 
@@ -194,17 +202,17 @@ int main(void)
 
     int i;
     
-    for (i = ; i <= ; i++) 
-        if (i == ) 
-            break;  /* i が  のときループを抜ける */
-        
+    for (i = 1; i <= 10; i++) {
+        if (i == 5) {
+            break;  /* i が 5 のときループを抜ける */
+        }
         printf("%d ", i);
+    }
+    printf("\nループを抜けました\n");
     
-    printf("nループを抜けましたn");
-    
-    return ;
+    return 0;
 
-/* 出力:      */
+/* 出力: 1 2 3 4 */
 ```
 
 #### continue文
@@ -219,17 +227,17 @@ int main(void)
 
     int i;
     
-    for (i = ; i <= ; i++) 
-        if (i %  == ) 
+    for (i = 1; i <= 10; i++) {
+        if (i % 2 == 0) {
             continue;  /* 偶数の場合はスキップ */
-        
+        }
         printf("%d ", i);
+    }
+    printf("\n");
     
-    printf("n");
-    
-    return ;
+    return 0;
 
-/* 出力:     9 */
+/* 出力: 1 3 5 7 9 */
 ```
 
 ### ネストしたループ 
@@ -247,14 +255,14 @@ int main(void)
     int i, j;
     
     /* 九九表の作成 */
-    for (i = ; i <= 9; i++) 
-        for (j = ; j <= 9; j++) 
-            printf("%d ", i * j);
-        
-        printf("n");
+    for (i = 1; i <= 9; i++) {
+        for (j = 1; j <= 9; j++) {
+            printf("%3d ", i * j);
+        }
+        printf("\n");
+    }
     
-    
-    return ;
+    return 0;
 
 ```
 
@@ -269,14 +277,14 @@ int main(void)
     int i, j;
     
     /* 星印の三角形 */
-    for (i = ; i <= ; i++) 
-        for (j = ; j <= i; j++) 
+    for (i = 1; i <= 5; i++) {
+        for (j = 1; j <= i; j++) {
             printf("* ");
-        
-        printf("n");
+        }
+        printf("\n");
+    }
     
-    
-    return ;
+    return 0;
 
 /*
 出力:
@@ -299,19 +307,19 @@ int main(void)
 {
 
     int i, j;
-    int fond = ;
+    int found = 0;
     
-    for (i = ; i <=  && !fond; i++) 
-        for (j = ; j <= ; j++) 
-            if (i * j == ) 
-                printf("発見: %d * %d = n", i, j);
-                fond = ;
+    for (i = 1; i <= 10 && !found; i++) {
+        for (j = 1; j <= 10; j++) {
+            if (i * j == 36) {
+                printf("発見: %d * %d = 36\n", i, j);
+                found = 1;
                 break;  /* 内側のループを抜ける */
-            
-        
+            }
+        }
+    }
     
-    
-    return ;
+    return 0;
 
 ```
 
@@ -325,18 +333,18 @@ int main(void)
 
     int i, j;
     
-    for (i = ; i <= ; i++) 
-        for (j = ; j <= ; j++) 
-            if (i * j == ) 
-                printf("発見: %d * %d = n", i, j);
+    for (i = 1; i <= 10; i++) {
+        for (j = 1; j <= 10; j++) {
+            if (i * j == 36) {
+                printf("発見: %d * %d = 36\n", i, j);
                 goto exit_loops;  /* 両方のループを抜ける */
-            
-        
-    
+            }
+        }
+    }
     
 exit_loops:
-    printf("ループ終了n");
-    return ;
+    printf("ループ終了\n");
+    return 0;
 
 ```
 
@@ -347,23 +355,31 @@ exit_loops:
 #### 無限ループの作成方法
 
 ```c
-/* 方法: for文 */
-for (;;) 
+/* 方法1: for文 */
+for (;;) {
     /* 無限ループ */
-    if (条件) break;
+    if (条件) {
+        break;
+    }
+}
 
 
-/* 方法: while文 */
-while () 
+/* 方法2: while文 */
+while (1) {
     /* 無限ループ */
-    if (条件) break;
+    if (条件) {
+        break;
+    }
+}
 
 
-/* 方法: do-while文 */
-do 
+/* 方法3: do-while文 */
+do {
     /* 無限ループ */
-    if (条件) break;
- while ();
+    if (条件) {
+        break;
+    }
+} while (1);
 ```
 
 #### 無限ループの実用例
@@ -376,27 +392,27 @@ int main(void)
 
     int choice;
     
-    while ()   /* 無限ループ */
-        printf("n=== 計算機 ===n");
-        printf(". 足し算n");
-        printf(". 引き算n");
-        printf(". 終了n");
+    while (1) {  /* 無限ループ */
+        printf("\n=== 計算機 ===\n");
+        printf("1. 足し算\n");
+        printf("2. 引き算\n");
+        printf("3. 終了\n");
         printf("選択: ");
         
-        if (scanf("%d", &choice) != ) 
-            printf("入力エラーn");
+        if (scanf("%d", &choice) != 1) {
+            printf("入力エラー\n");
             break;
+        }
         
-        
-        if (choice == ) 
-            printf("終了しますn");
+        if (choice == 3) {
+            printf("終了します\n");
             break;
-        
+        }
         
         /* 計算処理... */
+    }
     
-    
-    return ;
+    return 0;
 
 ```
 
@@ -406,14 +422,16 @@ int main(void)
 
 ```c
 /* NG: 毎回strlen()を呼び出し */
-for (i = ; i < strlen(str); i++) 
+for (i = 0; i < strlen(str); i++) {
     /* 処理 */
+}
 
 
 /* OK: 長さを事前に計算 */
 len = strlen(str);
-for (i = ; i < len; i++) 
+for (i = 0; i < len; i++) {
     /* 処理 */
+}
 
 ```
 
@@ -425,13 +443,13 @@ int main(void)
 
     int i;  /* C90では関数の先頭で宣言 */
     
-    for (i = ; i < ; i++) 
+    for (i = 0; i < 10; i++) {
         /* iはループ外でも有効 */
+    }
     
+    printf("最終的なi = %d\n", i);  /* 10が出力 */
     
-    printf("最終的なi = %d\n", i);  /* が出力 */
-    
-    return ;
+    return 0;
 
 ```
 
@@ -472,24 +490,24 @@ gcc -std=c90 -Wall -Wextra -pedantic loop_basic.c -o loop_basic
 
 ### 基礎問題
 
-. **数列の出力**
-   - からまでの数を出力するプログラムを種類のループで作成してください
+1. **数列の出力**
+   - 1から20までの数を出力するプログラムを3種類のループで作成してください
 
-. **偶数・奇数の判定**
-   - からまでの数で、偶数のみを出力するプログラムを作成してください
+2. **偶数・奇数の判定**
+   - 1から50までの数で、偶数のみを出力するプログラムを作成してください
 
-. **階乗の計算**
+3. **階乗の計算**
    - 入力された数の階乗を計算するプログラムを作成してください
 
 ### 応用問題
 
-. **素数判定**
+4. **素数判定**
    - 入力された数が素数かどうかを判定するプログラムを作成してください
 
-. **フィボナッチ数列**
+5. **フィボナッチ数列**
    - n項目までのフィボナッチ数列を出力するプログラムを作成してください
 
-. **パターン出力**
+6. **パターン出力**
    - 以下のようなパターンを出力するプログラムを作成してください：
    ```
    *
@@ -505,13 +523,13 @@ gcc -std=c90 -Wall -Wextra -pedantic loop_basic.c -o loop_basic
 
 ### 発展問題
 
-. **成績管理システム**
+7. **成績管理システム**
    - 複数の学生の成績を入力し、平均・最高・最低点を計算するプログラム
 
-. **簡易ゲーム**
-   - 数当てゲームを作成してください（-の範囲で乱数を生成）
+8. **簡易ゲーム**
+   - 数当てゲームを作成してください（1-100の範囲で乱数を生成）
 
-. **データ検索**
+9. **データ検索**
    - 配列の中から特定の値を検索するプログラムを作成してください
 
 ##  コンパイル方法
@@ -541,53 +559,53 @@ make clean
 ### C99以降の拡張
 - for文内での変数宣言が可能
   ```c
-  for (int i = ; i < ; i++)   /* C99以降 */
+  for (int i = 0; i < 10; i++)   /* C99以降 */
       /* 処理 */
   
   ```
 
 ##  よくある間違い
 
-### . 無限ループの作成
+### 1. 無限ループの作成
 
 ```c
 /* NG: 終了条件の記述ミス */
-for (i = ; i > ; i++)   /* 最初から条件が偽 */
+for (i = 0; i > 10; i++)   /* 最初から条件が偽 */
     /* 実行されない */
 
 
 /* NG: 更新式の記述ミス */
-for (i = ; i < ; i--)   /* 負の方向に進む */
+for (i = 0; i < 10; i--)   /* 負の方向に進む */
     /* 無限ループ */
 
 ```
 
-### . セミコロンの位置
+### 2. セミコロンの位置
 
 ```c
 /* NG: for文の後にセミコロン */
-for (i = ; i < ; i++);  /* 空文が実行される */
+for (i = 0; i < 10; i++);  /* 空文が実行される */
 
     printf("%d\n", i);     /* ループ外で実行 */
 
 
 /* OK: 正しい記述 */
-for (i = ; i < ; i++) 
+for (i = 0; i < 10; i++) 
     printf("%d\n", i);
 
 ```
 
-### . ループ変数の範囲外アクセス
+### 3. ループ変数の範囲外アクセス
 
 ```c
 /* NG: 配列の範囲を超える */
-int arr[];
-for (i = ; i <= ; i++)   /* i=で範囲外 */
+int arr[10];
+for (i = 0; i <= 10; i++)   /* i=10で範囲外 */
     arr[i] = i;
 
 
 /* OK: 正しい範囲 */
-for (i = ; i < ; i++) 
+for (i = 0; i < 10; i++) 
     arr[i] = i;
 
 ```

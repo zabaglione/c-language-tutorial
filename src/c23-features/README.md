@@ -1,10 +1,10 @@
 # 第14章: C23の新機能
 
-## 📋 対応C規格
+## 対応C規格
 - **主要対象:** C23
 - **学習内容:** bool型、typeof演算子、nullptr、2進数リテラル、その他の新機能
 
-## 🎯 学習目標
+## 学習目標
 
 この章を完了すると、以下のことができるようになります：
 
@@ -14,7 +14,7 @@
 - 2進数リテラルを活用できる
 - C23の新機能を実践的に活用できる
 
-## 📚 理論解説
+## 理論解説
 
 ### C23とは
 
@@ -85,49 +85,7 @@ int flags = 0b11111111;  /* 10進数の255 */
 - 属性構文（`[[deprecated]]`など）
 - プリプロセッサの拡張（`#elifdef`、`#elifndef`）
 
-## 🔍 サンプルコード
-
-### [bool型の基本](examples/bool_basics.c)
-
-```c
-bool is_ready = true;
-bool has_error = false;
-
-if (is_ready && !has_error) {
-    printf("システム正常\n");
-}
-```
-
-### [数値リテラル](examples/numeric_literals.c)
-
-```c
-int binary = 0b1010;        /* 2進数 */
-int octal = 052;            /* 8進数 */
-int decimal = 42;           /* 10進数 */
-int hex = 0x2A;             /* 16進数 */
-```
-
-### [typeof演算子](examples/typeof_demo.c)
-
-```c
-#define MAX(a, b) ({ \
-    typeof(a) _a = (a); \
-    typeof(b) _b = (b); \
-    _a > _b ? _a : _b; \
-})
-```
-
-### [nullptr定数](examples/nullptr_demo.c)
-
-```c
-void process_data(int *data) {
-    if (data != nullptr) {
-        /* データ処理 */
-    }
-}
-```
-
-## 💻 演習問題
+## 演習問題
 
 ### 演習14-1: bool型の活用
 [exercises/README.md](exercises/README.md)を参照
@@ -138,7 +96,7 @@ void process_data(int *data) {
 ### 演習14-3: typeof演算子の応用
 [exercises/README.md](exercises/README.md)を参照
 
-## 🚀 コンパイル方法
+## コンパイル方法
 
 この章はC23専用です。以下のコマンドでコンパイルしてください：
 
@@ -160,13 +118,13 @@ C23は新しい規格のため、コンパイラサポートは発展途上で�
 - **Clang**: 16以降で部分サポート（`-std=c23`）
 - **MSVC**: 未対応（2024年現在）
 
-## ⚠️ 注意事項
+## 注意事項
 
 1. **コンパイラ依存**: すべてのC23機能がサポートされているとは限りません
 2. **移植性**: 古いコンパイラでは動作しません
 3. **学習順序**: C90/C99の基礎を理解してから学習することを推奨
 
-## 📖 参考資料
+## 参考資料
 
 - [C23規格ドラフト](https://www.open-std.org/jtc1/sc22/wg14/www/docs/n3096.pdf)
 - [C23新機能の概要](https://en.cppreference.com/w/c/23)
