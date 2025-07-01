@@ -12,7 +12,7 @@ C言語の基礎から応用まで、体系的に学習できる教材です。�
 - **C17**: C11の不具合修正版
 - **C23**: bool型標準化、typeof演算子、nullptr、2進数リテラルなど（オプション章）
 
-## 📁 プロジェクト構成
+## プロジェクト構成
 
 ```
 c-language-tutorial/
@@ -34,15 +34,24 @@ c-language-tutorial/
 │   ├── advanced/         # 第15章: 複数ファイル・発展技術
 │   └── c23-features/     # 第16章: C23の新機能（オプション）
 ├── scripts/              # 支援スクリプト
-│   ├── combine_chapters.sh
-│   ├── create_pdf.sh
-│   └── ...
-├── output/               # 生成されたPDF・HTML
-│   ├── C言語学習教材.pdf
-│   ├── C言語プログラミング教材_メインテキスト.pdf
-│   ├── C言語プログラミング教材_演習課題集.pdf
-│   └── ...
-├── docs/                 # ドキュメント・レポート
+│   ├── create_main_textbook_basic.sh     # 基礎編テキスト生成
+│   ├── create_main_textbook_intermediate.sh # 応用編テキスト生成
+│   ├── create_main_textbook_advanced.sh  # 上級編テキスト生成
+│   ├── create_exercises_basic.sh         # 基礎編演習問題集生成
+│   ├── create_exercises_intermediate.sh  # 応用編演習問題集生成
+│   ├── create_exercises_advanced.sh      # 上級編演習問題集生成
+│   ├── test_all_builds.py               # 全章ビルドテスト
+│   └── run_cppcheck.sh                  # 静的解析
+├── output/               # 生成されたWord文書
+│   └── word/
+│       ├── C言語プログラミング教材_メインテキスト_基礎編.docx
+│       ├── C言語プログラミング教材_メインテキスト_応用編.docx
+│       ├── C言語プログラミング教材_メインテキスト_上級編.docx
+│       ├── C言語プログラミング教材_演習問題集_基礎編.docx
+│       ├── C言語プログラミング教材_演習問題集_応用編.docx
+│       └── C言語プログラミング教材_演習問題集_上級編.docx
+├── docs/                 # 中間ドキュメント（Markdown）
+├── templates/            # Word文書テンプレート
 ├── README.md
 ├── CLAUDE.md
 └── .gitignore
@@ -145,12 +154,29 @@ gcc -Wall -Wextra -pedantic -std=c90 ファイル名.c -o 実行ファイル名
 
 ## 生成済みドキュメント
 
-output/ディレクトリに以下のドキュメントが含まれています：
+output/word/ディレクトリに以下のWord文書が含まれています：
 
-- **C言語学習教材.pdf** - 全章を含む完全版教材
-- **C言語プログラミング教材_メインテキスト.pdf** - 理論説明中心のテキスト
-- **C言語プログラミング教材_演習課題集.pdf** - 演習問題集
-- HTML版も同様に提供
+### メインテキスト（3分冊）
+- **C言語プログラミング教材_メインテキスト_基礎編.docx** - 第1章〜第6章（導入〜ループ）
+- **C言語プログラミング教材_メインテキスト_応用編.docx** - 第7章〜第11章（配列〜関数）
+- **C言語プログラミング教材_メインテキスト_上級編.docx** - 第12章〜第16章（ビット操作〜C23）
+
+### 演習問題集（3分冊）
+- **C言語プログラミング教材_演習問題集_基礎編.docx** - 第1章〜第6章の演習問題
+- **C言語プログラミング教材_演習問題集_応用編.docx** - 第7章〜第11章の演習問題
+- **C言語プログラミング教材_演習問題集_上級編.docx** - 第12章〜第16章の演習問題
+
+### 文書生成方法
+```bash
+cd scripts
+# すべての文書を一括生成
+./create_main_textbook_basic.sh && ./create_main_textbook_intermediate.sh && ./create_main_textbook_advanced.sh
+./create_exercises_basic.sh && ./create_exercises_intermediate.sh && ./create_exercises_advanced.sh
+
+# 個別生成
+./create_main_textbook_basic.sh      # 基礎編テキスト
+./create_exercises_basic.sh          # 基礎編演習問題集
+```
 
 ##  学習目標
 
