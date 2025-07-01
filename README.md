@@ -23,14 +23,15 @@ c-language-tutorial/
 │   ├── operators/        # 第4章: 演算子
 │   ├── control-if/       # 第5章: 制御構造（条件分岐）
 │   ├── control-loop/     # 第6章: 制御構造（ループ）
-│   ├── arrays/           # 第7章: 配列
-│   ├── strings/          # 第8章: 文字列処理
-│   ├── functions/        # 第9章: 関数
-│   ├── pointers/         # 第10章: ポインタ基礎
-│   ├── structures/       # 第11章: 構造体とポインタ
-│   ├── function-pointers/# 第12章: 関数ポインタ
-│   ├── advanced/         # 第13章: 複数ファイル・発展技術
-│   └── c23-features/     # 第14章: C23の新機能（オプション）
+│   ├── arrays-basics/    # 第7章: 配列（基本編）
+│   ├── pointers/         # 第8章: ポインタ基礎
+│   ├── arrays-pointers/  # 第9章: 配列とポインタ
+│   ├── strings/          # 第10章: 文字列処理
+│   ├── functions/        # 第11章: 関数
+│   ├── structures/       # 第12章: 構造体とポインタ
+│   ├── function-pointers/# 第13章: 関数ポインタ
+│   ├── advanced/         # 第14章: 複数ファイル・発展技術
+│   └── c23-features/     # 第15章: C23の新機能（オプション）
 ├── scripts/              # 支援スクリプト
 │   ├── combine_chapters.sh
 │   ├── create_pdf.sh
@@ -61,30 +62,31 @@ c-language-tutorial/
 | 6 | [制御構造（ループ）](src/control-loop/README.md) | for文、while文、do-while文、break/continue | C90/C99 |
 
 ### 🟡 中級レベル（応用編）
-配列、文字列、関数、ポインタ
+配列、ポインタ、文字列、関数
 
 | 章 | タイトル | 主要な学習内容 | 対象規格 |
 |---|---------|---------------|---------|
-| 7 | [配列](src/arrays/README.md) | 配列宣言、初期化、多次元配列、文字列配列 | C90/C99 |
-| 8 | [文字列処理](src/strings/README.md) | 文字配列、文字列関数、文字列配列操作 | C90 |
-| 9 | [関数](src/functions/README.md) | 関数定義、引数、戻り値、再帰関数 | C90/C99 |
-| 10 | [ポインタ基礎](src/pointers/README.md) | アドレス、間接参照、配列とポインタ | C90 |
+| 7 | [配列（基本編）](src/arrays-basics/README.md) | 配列宣言、初期化、多次元配列、基本操作 | C90/C99 |
+| 8 | [ポインタ基礎](src/pointers/README.md) | アドレス、間接参照、ポインタ演算 | C90 |
+| 9 | [配列とポインタ](src/arrays-pointers/README.md) | 配列とポインタの関係、関数への配列渡し | C90 |
+| 10 | [文字列処理](src/strings/README.md) | 文字配列、文字列関数、文字列操作 | C90 |
+| 11 | [関数](src/functions/README.md) | 関数定義、引数、戻り値、再帰関数 | C90/C99 |
 
 ### 🔴 発展レベル（上級編）
 構造体、ファイル処理、応用技術
 
 | 章 | タイトル | 主要な学習内容 | 対象規格 |
 |---|---------|---------------|---------|
-| 11 | [構造体とポインタ](src/structures/README.md) | 構造体定義、構造体ポインタ | C90/C11 |
-| 12 | [関数ポインタ](src/function-pointers/README.md) | 関数ポインタ、コールバック関数 | C90 |
-| 13 | [複数ファイル・発展技術](src/advanced/README.md) | 分割コンパイル、extern宣言、プリプロセッサ | C90/C99/C11/C17 |
+| 12 | [構造体とポインタ](src/structures/README.md) | 構造体定義、構造体ポインタ | C90/C11 |
+| 13 | [関数ポインタ](src/function-pointers/README.md) | 関数ポインタ、コールバック関数 | C90 |
+| 14 | [複数ファイル・発展技術](src/advanced/README.md) | 分割コンパイル、extern宣言、プリプロセッサ | C90/C99/C11/C17 |
 
 ### 🟣 オプション（最新規格）
 C23対応コンパイラが利用可能な場合
 
 | 章 | タイトル | 主要な学習内容 | 対象規格 |
 |---|---------|---------------|---------|
-| 14 | [C23の新機能](src/c23-features/README.md) | bool型、typeof、nullptr、2進数リテラル | C23 |
+| 15 | [C23の新機能](src/c23-features/README.md) | bool型、typeof、nullptr、2進数リテラル | C23 |
 
 ##  開発環境
 

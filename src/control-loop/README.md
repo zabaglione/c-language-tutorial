@@ -519,7 +519,7 @@ for (i = 0; i < 10; i++) {
 ```
 **覚え方：** 配列のサイズがNなら、インデックスは0からN-1まで！
 ##  次の章へ
-ループ処理を理解したら、[配列](../arrays/README.md) に進んでください。
+ループ処理を理解したら、[配列（基本編）](../arrays-basics/README.md) に進んでください。
 ##  参考資料
 - [for文詳細](https://ja.cppreference.com/w/c/language/for)
 - [while文詳細](https://ja.cppreference.com/w/c/language/while)

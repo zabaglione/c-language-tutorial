@@ -1160,7 +1160,7 @@ make clean
 ```
 
 ## 次の章へ
-[ポインタ基礎](../pointers/README.md)
+[構造体とポインタ](../structures/README.md)
 
 ## 参考資料
 - [C90規格書](https://www.iso.org/standard/17782.html)

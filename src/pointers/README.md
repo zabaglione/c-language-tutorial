@@ -461,11 +461,8 @@ make clean
 3. **キャッシュ効率**: メモリアクセスパターンの最適化
 
 ## 次の章へ
-[第11章: 構造体とポインタ](../structures/README.md)
+[配列とポインタ](../arrays-pointers/README.md)
 
 ## 参考資料
-- examples/ - 実装例（C90、C99両対応）
-- exercises/ - 演習問題
-- solutions/ - 解答例
 - [C標準ライブラリリファレンス](https://en.cppreference.com/w/c)
 - [セキュアコーディング標準](https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=87152177)
