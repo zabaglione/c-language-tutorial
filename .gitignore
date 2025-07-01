@@ -12,6 +12,10 @@ test/
 **/test/
 **/bin/
 
+# 個別のtestファイル
+test
+**/test
+
 # エディタ・IDE関連
 .vscode/
 .idea/
