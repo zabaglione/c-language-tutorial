@@ -126,29 +126,92 @@ strcat(str1, str2);  /* str1が "Hello World" になる */
    char *strstr(const char *haystack, const char *needle);
    ```
 
-### 文字列配列の操作
+### 文字列配列の詳細操作
 
-#### 2次元文字配列
+#### 2次元文字配列（char配列）
 ```c
 char names[5][20];  /* 5つの名前、各最大20文字 */
+char fruits[5][20] = {
+    "Apple",
+    "Banana", 
+    "Orange",
+    "Grape",
+    "Strawberry"
+};
 ```
 
 **特徴:**
-- 固定サイズのメモリ領域
-- 各文字列は固定長
+- 固定サイズのメモリ領域を確保
+- 各文字列は固定長で格納される
 - メモリ使用量が予測可能
 - 文字列の変更が可能
+- サイズ = 行数 × 列数 × sizeof(char)
 
-#### 文字列ポインタ配列
+#### 文字列ポインタ配列（char*配列）
 ```c
 char *fruits[] = {"Apple", "Banana", "Orange"};
+char *months[] = {
+    "January", "February", "March", "April",
+    "May", "June", "July", "August",
+    "September", "October", "November", "December"
+};
 ```
 
 **特徴:**
-- 文字列リテラルへのポインタ
-- メモリ効率が良い
-- 文字列長は可変
-- 文字列リテラルは変更不可
+- 文字列リテラルへのポインタを格納
+- メモリ効率が良い（無駄な領域なし）
+- 文字列の長さは可変
+- 文字列リテラルの変更は不可
+- サイズ = ポインタ数 × sizeof(char*)
+
+#### char配列 vs char*配列の使い分け
+
+**char配列を選ぶべき場合:**
+- 文字列を変更する必要がある
+- メモリ使用量を予測したい
+- 全ての文字列が同程度の長さ
+
+**char*配列を選ぶべき場合:**
+- 文字列を変更しない（読み取り専用）
+- メモリ効率を重視する
+- 文字列の長さがバラバラ
+
+#### 文字列配列の操作例
+
+##### 配列の検索
+```c
+int search_string(char arr[][20], int size, char *target) {
+    int i;
+    for (i = 0; i < size; i++) {
+        if (strcmp(arr[i], target) == 0) {
+            return i;  /* 見つかった位置 */
+        }
+    }
+    return -1;  /* 見つからなかった */
+}
+```
+
+##### 文字列配列のソート（選択ソート）
+```c
+void sort_strings(char arr[][20], int size) {
+    int i, j, min_idx;
+    char temp[20];
+    
+    for (i = 0; i < size - 1; i++) {
+        min_idx = i;
+        for (j = i + 1; j < size; j++) {
+            if (strcmp(arr[j], arr[min_idx]) < 0) {
+                min_idx = j;
+            }
+        }
+        if (min_idx != i) {
+            strcpy(temp, arr[i]);
+            strcpy(arr[i], arr[min_idx]);
+            strcpy(arr[min_idx], temp);
+        }
+    }
+}
+```
 
 ### 文字列の検索と置換
 
@@ -275,9 +338,13 @@ strcpy(str, "Hello");  /* 未初期化ポインタ */
 - [string_functions.c](examples/string_functions.c) - C90準拠版
 - [string_functions_c99.c](examples/string_functions_c99.c) - C99準拠版
 
-### 文字列配列の実践
-- [string_arrays.c](examples/string_arrays.c) - C90準拠版
-- [string_arrays_c99.c](examples/string_arrays_c99.c) - C99準拠版
+### 文字列配列の実践と詳細操作
+- [string_array_operations.c](examples/string_array_operations.c) - C90準拠版
+- [string_array_operations_c99.c](examples/string_array_operations_c99.c) - C99準拠版
+
+### 文字列配列の完全活用例
+- [string_arrays.c](examples/string_arrays.c) - C90準拠版（配列章から移行）
+- [string_arrays_c99.c](examples/string_arrays_c99.c) - C99準拠版（配列章から移行）
 
 ## コンパイル方法
 

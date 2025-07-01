@@ -1,14 +1,14 @@
 # 配列
 ##  対応C規格
 - **主要対象:** C90
-- **学習内容:** 次元配列、多次元配列、文字列配列、配列の初期化、配列とポインタの関係
+- **学習内容:** 一次元配列、多次元配列、配列の初期化、配列とポインタの関係
 
 ##  学習目標
 この章を完了すると、以下のことができるようになります：
-- 次元配列の宣言・初期化・使用ができる
+- 一次元配列の宣言・初期化・使用ができる
 - 多次元配列を理解して活用できる
-- 文字列配列の扱い方を完全に理解する
-- char配列とchar*配列の違いを把握する
+- 数値配列の操作（検索、ソート、統計計算）ができる
+- 配列とポインタの関係を理解できる
 - 配列を使った実践的なプログラムを作成できる
 
 ##  概要と詳細
@@ -38,7 +38,7 @@
 ### 配列の基本概念 
 配列は同じデータ型の要素を連続したメモリ領域に格納するデータ構造です。
 
-#### 次元配列の宣言
+#### 1次元配列の宣言
 ```c
 データ型 配列名[要素数];
 ```
@@ -80,49 +80,46 @@ int value = numbers[2];  /* 3番目の要素の値を取得 */
 - 要素数がnの配列の有効な添字は0からn-1まで
 - 範囲外アクセスは未定義動作を引き起こします
 
-### 文字配列（文字列） 
-C言語では文字列をchar配列として扱います。
+### 配列の応用操作
+数値配列では以下のような操作が頻繁に行われます：
 
-#### 文字列の宣言と初期化
+#### 配列の検索
 ```c
-char message[20];           /* サイズ20の文字配列 */
-char greeting[] = "Hello";  /* 自動的にサイズが決定される */
+int search_value(int arr[], int size, int target) {
+    int i;
+    for (i = 0; i < size; i++) {
+        if (arr[i] == target) {
+            return i;  /* 見つかった位置を返す */
+        }
+    }
+    return -1;  /* 見つからなかった */
+}
 ```
 
-#### 文字列の操作
-文字列操作には`<string.h>`ライブラリの関数を使用します：
-- `strcpy()` - 文字列のコピー
-- `strlen()` - 文字列の長さを取得
-- `strcmp()` - 文字列の比較
-- `strcat()` - 文字列の連結
-
-### 文字列配列の扱い 
-複数の文字列を管理するには文字列配列を使用します。
-
-#### char配列での文字列配列
+#### 配列の統計計算
 ```c
-char fruits[5][20];  /* 5つの文字列、各最大20文字 */
+/* 最大値を見つける */
+int find_max(int arr[], int size) {
+    int max = arr[0];
+    int i;
+    for (i = 1; i < size; i++) {
+        if (arr[i] > max) {
+            max = arr[i];
+        }
+    }
+    return max;
+}
+
+/* 平均値を計算する */
+double calculate_average(int arr[], int size) {
+    int sum = 0;
+    int i;
+    for (i = 0; i < size; i++) {
+        sum += arr[i];
+    }
+    return (double)sum / size;
+}
 ```
-
-#### char*配列での文字列配列
-```c
-char *fruits[] = {"Apple", "Banana", "Orange"};  /* ポインタ配列 */
-```
-
-### char配列 vs char*配列の違い 
-この2つの違いを理解することは非常に重要です：
-
-#### char配列（2次元配列）
-- 固定サイズのメモリ領域を確保
-- 各文字列は固定長で格納される
-- メモリ使用量は予測可能
-- 文字列の変更が可能
-
-#### char*配列（ポインタ配列）
-- 文字列リテラルへのポインタを格納
-- メモリ効率が良い
-- 文字列の長さは可変
-- 文字列リテラルの変更は不可
 
 ### 多次元配列 
 配列の配列を作ることで、表やマトリックスのような構造を表現できます。
@@ -171,13 +168,9 @@ int arr[5] = {1, 2, 3, 4, 5};
 - [array_basics.c](examples/array_basics.c) - C90準拠版
 - [array_basics_c99.c](examples/array_basics_c99.c) - C99準拠版
 
-### 文字列配列の実例
-- [string_arrays.c](examples/string_arrays.c) - C90準拠版
-- [string_arrays_c99.c](examples/string_arrays_c99.c) - C99準拠版
-
 ### 多次元配列の活用
-- [multidim_arrays.c](examples/multidim_arrays.c) - C90準拠版
-- [multidim_arrays_c99.c](examples/multidim_arrays_c99.c) - C99準拠版
+- [multidimensional_arrays.c](examples/multidimensional_arrays.c) - C90準拠版
+- [multidimensional_arrays_c99.c](examples/multidimensional_arrays_c99.c) - C99準拠版
 
 ## コンパイル方法
 
@@ -313,7 +306,7 @@ int arr[n];  /* 可変長配列はC99から */
 - **解答例との比較**: solutions/の正解コードと比較して違いを確認
 
 ##  次の章へ
-[第8章: 文字列処理](../strings/README.md)
+[第8章: 文字列処理](../strings/README.md) - 文字列配列の詳細はこちら
 
 ##  参考資料
 - examples/ - 実装例（C90、C99両対応）

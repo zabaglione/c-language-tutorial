@@ -105,6 +105,14 @@ run-advanced-string-processing-c99: $(BUILD_DIR)/examples/advanced_string_proces
 	@echo "=== Advanced String Processing (C99) ==="
 	@$(BUILD_DIR)/examples/advanced_string_processing_c99
 
+run-string-arrays: $(BUILD_DIR)/examples/string_arrays
+	@echo "=== String Arrays (C90) - 配列章から移行 ==="
+	@$(BUILD_DIR)/examples/string_arrays
+
+run-string-arrays-c99: $(BUILD_DIR)/examples/string_arrays_c99
+	@echo "=== String Arrays (C99) - 配列章から移行 ==="
+	@$(BUILD_DIR)/examples/string_arrays_c99
+
 # Individual solution targets
 run-ex8-1: $(BUILD_DIR)/solutions/ex8_1_string_operations
 	@echo "=== 演習8-1: 基本的な文字列操作 ==="
@@ -191,6 +199,8 @@ help:
 	@echo "  run-string-array-operations-c99 - Run string_array_operations_c99.c"
 	@echo "  run-advanced-string-processing - Run advanced_string_processing.c"
 	@echo "  run-advanced-string-processing-c99 - Run advanced_string_processing_c99.c"
+	@echo "  run-string-arrays         - Run string_arrays.c (配列章から移行)"
+	@echo "  run-string-arrays-c99     - Run string_arrays_c99.c (配列章から移行)"
 	@echo "  run-ex8-1                 - Run exercise 8-1 solution (基本的な文字列操作)"
 	@echo "  run-ex8-1-c99             - Run exercise 8-1 solution (C99)"
 	@echo "  run-ex8-2                 - Run exercise 8-2 solution (文字列配列の操作)"
@@ -218,5 +228,6 @@ help:
 .PHONY: all directories examples solutions debug release run-examples run-solutions run-all \
         run-string-basic run-string-basic-c99 run-string-array-operations run-string-array-operations-c99 \
         run-advanced-string-processing run-advanced-string-processing-c99 \
+        run-string-arrays run-string-arrays-c99 \
         run-ex8-1 run-ex8-1-c99 run-ex8-2 run-ex8-2-c99 run-ex8-3 run-ex8-3-c99 \
         test-standards check clean rebuild install uninstall help

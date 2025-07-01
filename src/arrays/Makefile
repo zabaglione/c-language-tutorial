@@ -38,30 +38,28 @@ $(SOLUTIONS_DIR)/%: $(SOLUTIONS_DIR)/%.c
 # 個別ターゲット（例題）
 array_basics: $(EXAMPLES_DIR)/array_basics
 multidimensional_arrays: $(EXAMPLES_DIR)/multidimensional_arrays
-string_arrays: $(EXAMPLES_DIR)/string_arrays
 
 # C99版のターゲット（例題）
 array_basics_c99: $(EXAMPLES_DIR)/array_basics_c99
 multidimensional_arrays_c99: $(EXAMPLES_DIR)/multidimensional_arrays_c99
-string_arrays_c99: $(EXAMPLES_DIR)/string_arrays_c99
 
 # 個別ターゲット（解答例）
-ex6_1: $(SOLUTIONS_DIR)/ex6_1
-ex6_2: $(SOLUTIONS_DIR)/ex6_2
-ex6_3: $(SOLUTIONS_DIR)/ex6_3
-ex6_4: $(SOLUTIONS_DIR)/ex6_4
-ex6_5: $(SOLUTIONS_DIR)/ex6_5
-challenge1: $(SOLUTIONS_DIR)/challenge1
-challenge2: $(SOLUTIONS_DIR)/challenge2
+ex7_1: $(SOLUTIONS_DIR)/ex7_1
+ex7_2: $(SOLUTIONS_DIR)/ex7_2
+ex7_3: $(SOLUTIONS_DIR)/ex7_3
+ex7_4: $(SOLUTIONS_DIR)/ex7_4
+ex7_5: $(SOLUTIONS_DIR)/ex7_5
+ex7_challenge1: $(SOLUTIONS_DIR)/ex7_challenge1
+ex7_challenge2: $(SOLUTIONS_DIR)/ex7_challenge2
 
 # C99版のターゲット（解答例）
-ex6_1_c99: $(SOLUTIONS_DIR)/ex6_1_c99
-ex6_2_c99: $(SOLUTIONS_DIR)/ex6_2_c99
-ex6_3_c99: $(SOLUTIONS_DIR)/ex6_3_c99
-ex6_4_c99: $(SOLUTIONS_DIR)/ex6_4_c99
-ex6_5_c99: $(SOLUTIONS_DIR)/ex6_5_c99
-challenge1_c99: $(SOLUTIONS_DIR)/challenge1_c99
-challenge2_c99: $(SOLUTIONS_DIR)/challenge2_c99
+ex7_1_c99: $(SOLUTIONS_DIR)/ex7_1_c99
+ex7_2_c99: $(SOLUTIONS_DIR)/ex7_2_c99
+ex7_3_c99: $(SOLUTIONS_DIR)/ex7_3_c99
+ex7_4_c99: $(SOLUTIONS_DIR)/ex7_4_c99
+ex7_5_c99: $(SOLUTIONS_DIR)/ex7_5_c99
+ex7_challenge1_c99: $(SOLUTIONS_DIR)/ex7_challenge1_c99
+ex7_challenge2_c99: $(SOLUTIONS_DIR)/ex7_challenge2_c99
 
 # 実行ターゲット
 run-examples: examples
@@ -71,17 +69,14 @@ run-examples: examples
 	@echo ""
 	@echo "--- 多次元配列 ---"
 	@./$(EXAMPLES_DIR)/multidimensional_arrays
-	@echo ""
-	@echo "--- 文字列配列 ---"
-	@./$(EXAMPLES_DIR)/string_arrays
 
 run-solutions: solutions
 	@echo "=== 解答例の実行 ==="
-	@echo "--- 演習6-1: 数値の統計 ---"
-	@echo "1 2 3 4 5" | ./$(SOLUTIONS_DIR)/ex6_1
+	@echo "--- 演習7-1: 数値の統計 ---"
+	@echo "1 2 3 4 5" | ./$(SOLUTIONS_DIR)/ex7_1
 	@echo ""
-	@echo "--- 演習6-2: 配列の検索 ---"
-	@echo "10 1 2 3 4 5 6 7 8 9 10 3" | ./$(SOLUTIONS_DIR)/ex6_2
+	@echo "--- 演習7-2: 配列の検索 ---"
+	@echo "10 1 2 3 4 5 6 7 8 9 10 3" | ./$(SOLUTIONS_DIR)/ex7_2
 
 run-all: run-examples run-solutions
 
@@ -121,9 +116,8 @@ help:
 	@echo "  solutions                - 解答例をコンパイル"
 	@echo "  array_basics             - 配列基本プログラムをコンパイル"
 	@echo "  multidimensional_arrays  - 多次元配列プログラムをコンパイル"
-	@echo "  string_arrays            - 文字列配列プログラムをコンパイル"
-	@echo "  ex6_1, ex6_2, ...        - 個別の解答例をコンパイル"
-	@echo "  challenge1, challenge2   - チャレンジ問題をコンパイル"
+	@echo "  ex7_1, ex7_2, ...        - 個別の解答例をコンパイル"
+	@echo "  ex7_challenge1, ex7_challenge2 - チャレンジ問題をコンパイル"
 	@echo "  *_c99                    - C99版をコンパイル"
 	@echo "  run-examples             - 例題を実行"
 	@echo "  run-solutions            - 解答例を実行"
