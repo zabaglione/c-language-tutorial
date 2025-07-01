@@ -14,11 +14,49 @@
 - 関数ポインタ配列を活用できる
 - 動的な関数選択システムを作成できる
 
-##  理論解説
+##  概要と詳細
+
+### 関数ポインタとは？
+
+関数ポインタは、関数のアドレスを格納する特殊なポインタです。これまでのポインタは変数のアドレスを扱いましたが、関数ポインタは関数のアドレスを扱います。
+
+#### 日常生活での関数ポインタ
+
+関数ポインタを理解するために、リモコンの例を考えてみましょう：
+
+**テレビのリモコン**
+- ボタン1 → チャンネル1を表示する機能
+- ボタン2 → チャンネル2を表示する機能
+- ボタン3 → 音量を上げる機能
+
+各ボタンは「どの機能を実行するか」を記憶しています。これが関数ポインタの概念です！
+
+### なぜ関数ポインタが必要なのか？
+
+1. **動的な関数選択**
+   - 実行時に呼び出す関数を選べる
+   - 条件によって処理を切り替えられる
+
+2. **コールバック関数**
+   - 処理の完了時に特定の関数を呼び出す
+   - イベント駆動型プログラミングの基礎
+
+3. **関数のテーブル化**
+   - メニューシステムの実装
+   - コマンドパターンの実現
 
 ### 関数ポインタの基本概念 
 
 関数ポインタは関数のアドレスを格納するポインタです。これにより、実行時に呼び出す関数を動的に決定できます。
+
+#### 覚え方のコツ
+
+```
+通常のポインタ：    int *ptr;        // intを指すポインタ
+関数ポインタ：      int (*ptr)();    // intを返す関数を指すポインタ
+```
+
+**重要**：関数ポインタでは括弧 `()` が必須です！
 
 #### 関数ポインタの宣言
 
@@ -28,19 +66,16 @@
 /* 通常の関数 */
 int add(int a, int b)
 {
-
     return a + b;
-
+}
 
 int subtract(int a, int b)
 {
-
     return a - b;
-
+}
 
 int main(void)
 {
-
     /* 関数ポインタの宣言 */
     int (*operation)(int, int);
     
@@ -48,14 +83,14 @@ int main(void)
     operation = add;  /* または &add */
     
     /* 関数ポインタを通じて関数を呼び出し */
-    printf("addition: %d\n", operation(, ));
+    printf("addition: %d\n", operation(10, 5));
     
     /* 別の関数を指すように変更 */
     operation = subtract;
-    printf("subtraction: %d\n", operation(, ));
+    printf("subtraction: %d\n", operation(10, 5));
     
-    return ;
-
+    return 0;
+}
 ```
 
 #### 関数ポインタの基本文法
@@ -66,51 +101,54 @@ int main(void)
 /* さまざまな関数 */
 void greet(void)
 {
-
-    printf("こんにちは！n");
-
+    printf("こんにちは！\n");
+}
 
 int multiply(int x, int y)
 {
-
     return x * y;
-
+}
 
 double divide(double a, double b)
-
-    if (b != .) 
+{
+    if (b != 0.0) {
         return a / b;
-    
-    return .;
-
+    }
+    return 0.0;
+}
 
 int main(void)
 {
-
     /* さまざまな関数ポインタの宣言 */
-    void (*greeting_fnc)(void);           /* 引数なし、戻り値なし */
-    int (*math_fnc)(int, int);            /* int引数2つ、int戻り値 */
-    double (*calc_fnc)(double, double);   /* double引数2つ、double戻り値 */
+    void (*greeting_func)(void);           /* 引数なし、戻り値なし */
+    int (*math_func)(int, int);            /* int引数2つ、int戻り値 */
+    double (*calc_func)(double, double);   /* double引数2つ、double戻り値 */
     
     /* 関数ポインタの初期化 */
-    greeting_fnc = greet;
-    math_fnc = multiply;
-    calc_fnc = divide;
+    greeting_func = greet;
+    math_func = multiply;
+    calc_func = divide;
     
     /* 関数ポインタを使った呼び出し */
-    greeting_fnc();                       /* greet()を呼び出し */
-    printf("乗算: %d\n", math_fnc(, )); /* multiply(, )を呼び出し */
-    printf("除算: %.fn", calc_fnc(., .)); /* divide(., .)を呼び出し */
+    greeting_func();                       /* greet()を呼び出し */
+    printf("乗算: %d\n", math_func(6, 7)); /* multiply(6, 7)を呼び出し */
+    printf("除算: %.2f\n", calc_func(10.0, 3.0)); /* divide(10.0, 3.0)を呼び出し */
     
     /* 2つの異なる呼び出し方法 */
-    printf("直接呼び出し: %d\n", (*math_fnc)(, ));  /* (*ptr)(args) */
-    printf("間接呼び出し: %d\n", math_fnc(, ));     /* ptr(args) */
+    printf("直接呼び出し: %d\n", (*math_func)(8, 4));  /* (*ptr)(args) */
+    printf("間接呼び出し: %d\n", math_func(8, 4));     /* ptr(args) */
     
-    return ;
-
+    return 0;
+}
 ```
 
 ### 関数ポインタの実践的な使用 
+
+関数ポインタを実際のプログラムでどのように活用するか見ていきましょう。
+
+#### なぜ実践が重要か？
+
+関数ポインタは概念だけでは理解しにくいため、実際の使用例を通じて学ぶのが効果的です。
 
 #### 計算機システム
 
@@ -118,37 +156,36 @@ int main(void)
 #include <stdio.h>
 
 /* 演算関数群 */
-double add_op(double a, double b)  return a + b; 
-double sb_op(double a, double b)  return a - b; 
-double ml_op(double a, double b)  return a * b; 
+double add_op(double a, double b) { return a + b; }
+double sub_op(double a, double b) { return a - b; }
+double mul_op(double a, double b) { return a * b; }
 double div_op(double a, double b) 
-
-    if (b != .) return a / b;
-    printf("エラー: ゼロ除算n");
-    return .;
-
+{
+    if (b != 0.0) return a / b;
+    printf("エラー: ゼロ除算\n");
+    return 0.0;
+}
 
 /* 演算を実行する関数 */
 double calculate(double a, double b, double (*operation)(double, double))
-
+{
     return operation(a, b);
-
+}
 
 /* 演算子に基づいて関数を選択 */
 double (*get_operation(char op))(double, double)
-
-    switch (op) 
+{
+    switch (op) {
         case '+': return add_op;
-        case '-': return sb_op;
-        case '*': return ml_op;
+        case '-': return sub_op;
+        case '*': return mul_op;
         case '/': return div_op;
         default:  return NULL;
-    
-
+    }
+}
 
 int main(void)
 {
-
     double num1 = 20.0, num2 = 5.0;
     char operators[] = {'+', '-', '*', '/'};
     const char* op_names[] = {"加算", "減算", "乗算", "除算"};
@@ -168,7 +205,7 @@ int main(void)
     }
     
     return 0;
-
+}
 ```
 
 #### 動的メニューシステム
@@ -179,86 +216,91 @@ int main(void)
 /* メニュー項目の処理関数 */
 void show_profile(void)
 {
-
-    printf("=== プロフィール表示 ===n");
-    printf("名前: 田中太郎n");
-    printf("年齢: 歳n");
-    printf("職業: エンジニアnn");
-
+    printf("=== プロフィール表示 ===\n");
+    printf("名前: 田中太郎\n");
+    printf("年齢: 25歳\n");
+    printf("職業: エンジニア\n\n");
+}
 
 void show_settings(void)
 {
-
-    printf("=== 設定画面 ===n");
-    printf("言語: 日本語n");
-    printf("テーマ: ダークn");
-    printf("通知: ONnn");
-
+    printf("=== 設定画面 ===\n");
+    printf("言語: 日本語\n");
+    printf("テーマ: ダーク\n");
+    printf("通知: ON\n\n");
+}
 
 void show_help(void)
 {
-
-    printf("=== ヘルプ ===n");
-    printf("このアプリケーションの使用方法:n");
-    printf(". メニューから項目を選択n");
-    printf(". 処理が実行されますnn");
-
+    printf("=== ヘルプ ===\n");
+    printf("このアプリケーションの使用方法:\n");
+    printf("1. メニューから項目を選択\n");
+    printf("2. 処理が実行されます\n\n");
+}
 
 void exit_app(void)
 {
-
-    printf("アプリケーションを終了します。n");
-
+    printf("アプリケーションを終了します。\n");
+}
 
 /* メニュー項目の構造体 */
-strct MenuItem 
-    char name[];
+struct MenuItem {
+    char name[30];
     void (*handler)(void);  /* 関数ポインタ */
-;
+};
 
 int main(void)
 {
-
     /* メニュー項目の定義 */
-    strct MenuItem men[] = 
-        "プロフィール", show_profile,
-        "設定", show_settings,
-        "ヘルプ", show_help,
-        "終了", exit_app
-    ;
+    struct MenuItem menu[] = {
+        {"プロフィール", show_profile},
+        {"設定", show_settings},
+        {"ヘルプ", show_help},
+        {"終了", exit_app}
+    };
     
-    int men_size = sizeof(men) / sizeof(men[]);
+    int menu_size = sizeof(menu) / sizeof(menu[0]);
     int choice;
     int i;
     
-    do 
-        printf("=== メインメニュー ===n");
-        for (i = ; i < men_size; i++) 
-            printf("%d. %s\n", i + , men[i].name);
+    do {
+        printf("=== メインメニュー ===\n");
+        for (i = 0; i < menu_size; i++) {
+            printf("%d. %s\n", i + 1, menu[i].name);
+        }
+        printf("選択してください (1-%d): ", menu_size);
         
-        printf("選択してください (-%d): ", men_size);
-        
-        if (scanf("%d", &choice) ==  && choice >=  && choice <= men_size) 
-            printf("n");
-            men[choice - ].handler();  /* 関数ポインタを使って実行 */
+        if (scanf("%d", &choice) == 1 && choice >= 1 && choice <= menu_size) {
+            printf("\n");
+            menu[choice - 1].handler();  /* 関数ポインタを使って実行 */
             
-            if (choice == men_size)   /* 終了が選択された場合 */
+            if (choice == menu_size) {  /* 終了が選択された場合 */
                 break;
-            
-         else 
-            printf("無効な選択です。nn");
+            }
+        } else {
+            printf("無効な選択です。\n\n");
             /* 入力バッファをクリア */
-            while (getchar() != 'n');
-        
-     while ();
+            while (getchar() != '\n');
+        }
+    } while (1);
     
-    return ;
-
+    return 0;
+}
 ```
 
 ### コールバック関数 
 
 コールバック関数は他の関数に引数として渡される関数です。
+
+#### コールバックの日常例
+
+レストランでの注文を考えてみましょう：
+
+1. 注文を受ける（関数呼び出し）
+2. 料理を作る（処理）
+3. **完成したら呼ぶ**（コールバック）
+
+「完成したら何をするか」を事前に決めておくのがコールバックです！
 
 #### 配列処理のコールバック
 
@@ -266,64 +308,62 @@ int main(void)
 #include <stdio.h>
 
 /* 配列の各要素に適用する関数群 */
-int square(int x)  return x * x; 
-int cube(int x)  return x * x * x; 
-int double_vale(int x)  return x * ; 
-int increment(int x)  return x + ; 
+int square(int x) { return x * x; }
+int cube(int x) { return x * x * x; }
+int double_value(int x) { return x * 2; }
+int increment(int x) { return x + 1; }
 
 /* 配列の各要素に関数を適用 */
-void apply_to_array(int arr[], int size, int (*fnc)(int))
-
+void apply_to_array(int arr[], int size, int (*func)(int))
+{
     int i;
-    for (i = ; i < size; i++) 
-        arr[i] = fnc(arr[i]);
-    
-
+    for (i = 0; i < size; i++) {
+        arr[i] = func(arr[i]);
+    }
+}
 
 /* 配列を表示する関数 */
 void print_array(int arr[], int size, const char* label)
 {
-
     int i;
     printf("%s: ", label);
-    for (i = ; i < size; i++) 
+    for (i = 0; i < size; i++) {
         printf("%d ", arr[i]);
-    
-    printf("n");
-
+    }
+    printf("\n");
+}
 
 int main(void)
 {
-
-    int numbers[] = , , , , ;
-    int size = sizeof(numbers) / sizeof(numbers[]);
-    int temp[];
+    int numbers[] = {1, 2, 3, 4, 5};
+    int size = sizeof(numbers) / sizeof(numbers[0]);
+    int temp[5];
     int i;
     
     print_array(numbers, size, "元の配列");
     
-    /* 乗を適用 */
-    for (i = ; i < size; i++) temp[i] = numbers[i];
+    /* 2乗を適用 */
+    for (i = 0; i < size; i++) temp[i] = numbers[i];
     apply_to_array(temp, size, square);
-    print_array(temp, size, "乗後");
+    print_array(temp, size, "2乗後");
     
-    /* 乗を適用 */
-    for (i = ; i < size; i++) temp[i] = numbers[i];
+    /* 3乗を適用 */
+    for (i = 0; i < size; i++) temp[i] = numbers[i];
     apply_to_array(temp, size, cube);
-    print_array(temp, size, "乗後");
+    print_array(temp, size, "3乗後");
     
-    /* 倍を適用 */
-    for (i = ; i < size; i++) temp[i] = numbers[i];
-    apply_to_array(temp, size, double_vale);
-    print_array(temp, size, "倍後");
+    /* 2倍を適用 */
+    for (i = 0; i < size; i++) temp[i] = numbers[i];
+    apply_to_array(temp, size, double_value);
+    print_array(temp, size, "2倍後");
     
     /* インクリメントを適用 */
-    for (i = ; i < size; i++) temp[i] = numbers[i];
+    for (i = 0; i < size; i++) temp[i] = numbers[i];
     apply_to_array(temp, size, increment);
     print_array(temp, size, "インクリメント後");
     
-    return ;
-
+    return 0;
+}
 ```
 
 #### ソートのコールバック（比較関数）
@@ -331,93 +371,104 @@ int main(void)
 ```c
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 /* 比較関数の型定義 */
-typedef int (*compare_fnc_t)(const void *a, const void *b);
+typedef int (*compare_func_t)(const void *a, const void *b);
 
 /* 整数の比較関数 */
 int compare_int_asc(const void *a, const void *b)
 {
-
     int ia = *(const int*)a;
     int ib = *(const int*)b;
     return (ia > ib) - (ia < ib);  /* 昇順 */
-
+}
 
 int compare_int_desc(const void *a, const void *b)
 {
-
     int ia = *(const int*)a;
     int ib = *(const int*)b;
     return (ib > ia) - (ib < ia);  /* 降順 */
-
+}
 
 /* 簡単なバブルソート（コールバック版） */
-void bbble_sort(void *base, size_t num, size_t size, 
+void bubble_sort(void *base, size_t num, size_t size, 
                  int (*compare)(const void *, const void *))
-
+{
     char *arr = (char*)base;
     char *temp = malloc(size);
     size_t i, j;
     
     if (temp == NULL) return;
     
-    for (i = ; i < num - ; i++) 
-        for (j = ; j < num -  - i; j++) 
-            void *elem = arr + j * size;
-            void *elem = arr + (j + ) * size;
+    for (i = 0; i < num - 1; i++) {
+        for (j = 0; j < num - 1 - i; j++) {
+            void *elem1 = arr + j * size;
+            void *elem2 = arr + (j + 1) * size;
             
-            if (compare(elem, elem) > ) 
+            if (compare(elem1, elem2) > 0) {
                 /* 要素を交換 */
-                memcpy(temp, elem, size);
-                memcpy(elem, elem, size);
-                memcpy(elem, temp, size);
-            
-        
-    
+                memcpy(temp, elem1, size);
+                memcpy(elem1, elem2, size);
+                memcpy(elem2, temp, size);
+            }
+        }
+    }
     
     free(temp);
-
+}
 
 /* 配列を表示 */
 void print_int_array(int arr[], int size, const char* label)
 {
-
     int i;
     printf("%s: ", label);
-    for (i = ; i < size; i++) 
+    for (i = 0; i < size; i++) {
         printf("%d ", arr[i]);
-    
-    printf("n");
-
+    }
+    printf("\n");
+}
 
 int main(void)
 {
-
-    int numbers[] = , , , , , , 9, ;
-    int size = sizeof(numbers) / sizeof(numbers[]);
-    int temp[];
+    int numbers[] = {42, 17, 56, 8, 23, 91, 3, 65};
+    int size = sizeof(numbers) / sizeof(numbers[0]);
+    int temp[8];
     int i;
     
     print_int_array(numbers, size, "元の配列");
     
     /* 昇順ソート */
-    for (i = ; i < size; i++) temp[i] = numbers[i];
-    bbble_sort(temp, size, sizeof(int), compare_int_asc);
+    for (i = 0; i < size; i++) temp[i] = numbers[i];
+    bubble_sort(temp, size, sizeof(int), compare_int_asc);
     print_int_array(temp, size, "昇順ソート");
     
     /* 降順ソート */
-    for (i = ; i < size; i++) temp[i] = numbers[i];
-    bbble_sort(temp, size, sizeof(int), compare_int_desc);
+    for (i = 0; i < size; i++) temp[i] = numbers[i];
+    bubble_sort(temp, size, sizeof(int), compare_int_desc);
     print_int_array(temp, size, "降順ソート");
     
-    return ;
-
+    return 0;
+}
 ```
 
 ### 関数ポインタ配列 
 
 関数ポインタの配列を使って、複数の関数を効率的に管理できます。
+
+#### なぜ配列にするのか？
+
+```c
+/* 個別に管理（大変！） */
+int (*func1)() = add;
+int (*func2)() = sub;
+int (*func3)() = mul;
+
+/* 配列で管理（スッキリ！） */
+int (*funcs[3])() = {add, sub, mul};
+```
+
+インデックスで関数を選択できるので、メニューシステムなどに最適です！
 
 #### 演算関数配列
 
@@ -472,6 +523,7 @@ int main(void)
 
 ```c
 #include <stdio.h>
+#include <string.h>
 
 /* 状態の定義 */
 typedef enum 
@@ -604,7 +656,11 @@ int main(void)
 
 ### 高度な関数ポインタ活用
 
+より実践的な関数ポインタの活用方法を見ていきましょう。
+
 #### プラグインシステム
+
+プラグインシステムは、プログラムの機能を後から追加できる仕組みです。関数ポインタはこの実現に最適です！
 
 ```c
 #include <stdio.h>
@@ -717,6 +773,7 @@ int main(void)
 
 ```c
 #include <stdio.h>
+#include <string.h>
 
 /* イベントタイプ */
 typedef enum 
@@ -842,6 +899,19 @@ int main(void)
 
 複雑な関数ポインタの型を簡潔に書くためにtypedefを使用します。
 
+#### typedefを使うメリット
+
+```c
+/* typedefなし（読みにくい！） */
+void sort(int arr[], int size, int (*compare)(int, int));
+
+/* typedefあり（スッキリ！） */
+typedef int (*CompareFunc)(int, int);
+void sort(int arr[], int size, CompareFunc compare);
+```
+
+特に複雑な関数ポインタでは、typedefの効果が絶大です！
+
 ```c
 #include <stdio.h>
 
@@ -921,26 +991,23 @@ int main(void)
 
 ## サンプルコード
 
-### 関数ポインタの基本
+### 基本的な関数ポインタ
 
-- **C90版**: [examples/function_pointer_basic.c](examples/function_pointer_basic.c)
-- **C99版**: [examples/function_pointer_basic_c99.c](examples/function_pointer_basic_c99.c)
+プログラムファイル: `examples/function_pointer_basics.c`
 
-関数ポインタの宣言、初期化、基本的な使用方法を学習します。
+関数ポインタの宣言、初期化、呼び出しの基本を学習します。
 
-### コールバック関数
+### コールバック関数の実装
 
-- **C90版**: [examples/callback_functions.c](examples/callback_functions.c)
-- **C99版**: [examples/callback_functions_c99.c](examples/callback_functions_c99.c)
+プログラムファイル: `examples/callback_functions.c`
 
-コールバック関数を使ったイベント処理システムを学習します。
+コールバック関数を使った配列処理やイベント処理を学習します。
 
-### 関数ポインタ配列
+### 関数ポインタ配列の活用
 
-- **C90版**: [examples/function_pointer_arrays.c](examples/function_pointer_arrays.c)
-- **C99版**: [examples/function_pointer_arrays_c99.c](examples/function_pointer_arrays_c99.c)
+プログラムファイル: `examples/function_pointer_arrays.c`
 
-関数ポインタ配列を使った動的な関数選択を学習します。
+関数ポインタ配列を使った動的な関数選択システムを学習します。
 
 ### コンパイルと実行
 
@@ -949,46 +1016,46 @@ int main(void)
 cd examples
 
 # C90準拠でコンパイル
-gcc -std=c90 -Wall -Wextra -pedantic function_pointer_basic.c -o function_pointer_basic
+gcc -std=c90 -Wall -Wextra -pedantic function_pointer_basics.c -o function_pointer_basics
 
 # 実行
-./function_pointer_basic
+./function_pointer_basics
 ```
 
 ## 演習課題
 
 ### 基礎問題
 
-1. **計算機の実装**
-   - 四則演算の関数を作成し、関数ポインタを使って動的に演算を選択できる計算機を実装してください
+1. **簡単な計算機**
+   - 関数ポインタを使って四則演算ができる計算機を作成してください
 
-2. **ソート比較関数**
-   - 整数配列を昇順・降順でソートできるよう、比較関数を関数ポインタで渡すソート関数を実装してください
+2. **文字列処理関数**
+   - 文字列を大文字・小文字・反転する関数を作成し、関数ポインタで切り替えるプログラムを作成してください
 
-3. **メニューシステム**
-   - 関数ポインタ配列を使って、複数の機能を持つメニューシステムを作成してください
+3. **配列フィルタ**
+   - 配列から条件に合う要素だけを抽出する関数を、コールバック関数を使って実装してください
 
 ### 応用問題
 
-4. **データ変換システム**
-   - さまざまなデータ変換関数（大文字変換、小文字変換など）を関数ポインタで管理するシステムを実装してください
+4. **ソート関数**
+   - 比較関数を関数ポインタで受け取る汎用ソート関数を実装してください
 
-5. **フィルタシステム**
-   - 配列の要素をフィルタリングする関数を、条件を関数ポインタで渡して実装してください
+5. **コマンドシステム**
+   - コマンドとそれに対応する処理関数をマッピングするシステムを作成してください
 
-6. **ゲームの状態管理**
-   - ゲームの状態（メニュー、プレイ中、ポーズ、終了）を関数ポインタ配列で管理するシステムを作成してください
+6. **イベントディスパッチャ**
+   - 複数のイベントタイプとハンドラを管理するイベントシステムを実装してください
 
 ### 発展問題
 
-7. **プラグインシステム**
-   - 実行時に機能を追加できるプラグインシステムを関数ポインタで実装してください
+7. **プラグインアーキテクチャ**
+   - 動的にプラグインを追加・削除できるシステムを作成してください
 
-8. **コマンドパターン**
-   - コマンドパターンを関数ポインタで実装し、undo/redo機能付きのシステムを作成してください
+8. **有限状態機械**
+   - 関数ポインタ配列を使った本格的な状態機械を実装してください
 
-9. **イベントドリブンシステム**
-   - 複数のイベントタイプを処理できるイベントドリブンシステムを実装してください
+9. **多層コールバックシステム**
+   - コールバック関数が別のコールバックを呼ぶような多層システムを作成してください
 
 ## コンパイル方法
 
@@ -999,9 +1066,9 @@ gcc -std=c90 -Wall -Wextra -pedantic function_pointer_basic.c -o function_pointe
 make all
 
 # 特定のプログラムをコンパイル
-make function_pointer_basic
+make function_pointer_basics
 
-# 実行
+# bin/ディレクトリ内の実行ファイルを実行
 make run
 
 # クリーンアップ
@@ -1011,64 +1078,67 @@ make clean
 ## 規格による違い
 
 ### C90での制限事項
-- 関数ポインタの型変換は明示的なキャストが必要
-- 可変引数関数への関数ポインタは制限的
+- 関数ポインタの初期化は静的初期化のみ
+- インライン関数との組み合わせは不可
+- 可変引数関数ポインタは制限的
 
 ### C99以降の拡張
-- より柔軟な関数ポインタの初期化
-- inline関数への関数ポインタサポート改善
+- インライン関数ポインタのサポート
+- 複合リテラルでの関数ポインタ初期化
+- より柔軟な初期化構文
 
 ## よくある間違い
 
-### 1. 関数ポインタの初期化忘れ
+### 1. 括弧の位置
 
 ```c
-/* NG: 初期化されていない関数ポインタ */
-int (*func_ptr)(int, int);
-int result = func_ptr(10, 5);  /* 未定義動作 */
+/* NG: 関数を返すポインタになってしまう */
+int *func(int, int);    /* これは関数宣言 */
 
-/* OK: 適切な初期化 */
-int (*func_ptr)(int, int) = add_function;
-int result = func_ptr(10, 5);
+/* OK: 関数へのポインタ */
+int (*func)(int, int);  /* 括弧が重要！ */
 ```
 
-### 2. 関数ポインタのNULLチェック不足
+### 2. 型の不一致
 
 ```c
-/* NG: NULLチェックなし */
-void execute_callback(void (*callback)(void))
-{
-    callback();  /* callbackがNULLの場合クラッシュ */
-}
+/* NG: 引数の型が違う */
+void func(int x) { }
+void (*ptr)(double) = func;  /* エラー！ */
+
+/* OK: 型を一致させる */
+void (*ptr)(int) = func;      /* OK */
+```
+
+### 3. NULLチェック忘れ
+
+```c
+/* NG: NULLポインタの呼び出し */
+void (*func_ptr)(void) = NULL;
+func_ptr();  /* セグメンテーション違反 */
 
 /* OK: NULLチェック */
-void execute_callback(void (*callback)(void))
-{
-    if (callback != NULL) 
-    {
-        callback();
-    }
+if (func_ptr != NULL) {
+    func_ptr();
 }
 ```
 
-### 3. 関数の戻り値型の不一致
+### 4. 配列の初期化エラー
 
 ```c
-/* NG: 戻り値型が一致しない */
-double divide_func(int a, int b) { return (double)a / b; }
-int (*math_op)(int, int) = divide_func;  /* 型エラー */
+/* NG: サイズ不一致 */
+void (*funcs[3])(void) = {func1, func2};  /* 3番目が未初期化 */
 
-/* OK: 戻り値型を一致させる */
-int divide_func(int a, int b) { return a / b; }
-int (*math_op)(int, int) = divide_func;
+/* OK: 完全な初期化またはサイズ自動決定 */
+void (*funcs[])(void) = {func1, func2};  /* サイズ2の配列 */
 ```
 
 ## 次の章へ
 
-関数ポインタを理解したら、[複数ファイル・発展技術](../advanced/README.md) に進んでください。
+関数ポインタを理解したら、[高度なトピック](../advanced/README.md) に進んでください。
 
 ## 参考資料
 
-- [C言語関数ポインタリファレンス](https://ja.cppreference.com/w/c/language/pointer)
-- [コールバック関数の設計パターン](https://en.wikipedia.org/wiki/Callback_(computer_programming))
-- [関数ポインタの活用例](https://www.learn-c.org/en/Function_Pointers)
+- [C言語関数ポインタリファレンス](https://ja.cppreference.com/w/c/language/pointer#.E9.96.A2.E6.95.B0.E3.83.9D.E3.82.A4.E3.83.B3.E3.82.BF)
+- [コールバック関数の詳細](https://ja.cppreference.com/w/c/algorithm/qsort)
+- [関数ポインタの高度な使用法](https://ja.cppreference.com/w/c/language/function_definition)
