@@ -9,6 +9,7 @@
 - 複雑な式を正しく記述できる
 - インクリメント・デクリメント演算子を適切に使える
 - ビット演算の基本を理解する
+- 短絡評価の基本的な動作を理解する
 ## 概要と詳細
 ### 演算子の世界へようこそ
 プログラミングでは、数学の計算だけでなく、データの比較、条件判断、ビット操作など、様々な「演算」を行います。演算子は、これらの操作を行うための「道具」です。
@@ -84,11 +85,13 @@ score += 100;    /* 敵を倒した：100点追加 */
 score += 50;     /* アイテムゲット：50点追加 */
 score -= 30;     /* ダメージを受けた：30点減少 */
 printf("現在のスコア: %d\n", score);  /* 120 */
+
 /* 在庫管理 */
 int stock = 100;
 stock -= 15;     /* 15個販売 */
 stock += 50;     /* 50個入荷 */
 printf("在庫数: %d\n", stock);  /* 135 */
+
 /* レベルアップシステム */
 int experience = 80;
 experience += 40;    /* 経験値40獲得 */
@@ -172,15 +175,18 @@ if (--stock >= 0) {  /* 先に1減らして0に、その後で判定 */
 /* 間違い例1：意図しない動作 */
 int n = 5;
 int result = n++ + n++;  /* 未定義動作！使ってはいけない */
+
 /* 正しい書き方 */
 int n = 5;
 int result = n + (n + 1);  /* 明確に意図を表現 */
 n += 2;
+
 /* 間違い例2：条件文での使用 */
 int count = 10;
 if (count-- > 0) {  /* 10 > 0 を判定してからcountを9に */
     /* この時点でcountは9 */
 }
+
 /* より明確な書き方 */
 int count = 10;
 if (count > 0) {
@@ -225,6 +231,7 @@ int input = 1234;
 if (password == input) {
     printf("ログイン成功\n");
 }
+
 /* 在庫管理 */
 int stock = 5;
 if (stock > 0) {
@@ -232,6 +239,7 @@ if (stock > 0) {
 } else {
     printf("在庫切れ\n");
 }
+
 /* 年齢制限チェック */
 int age = 16;
 if (age >= 18) {
@@ -243,10 +251,12 @@ if (age >= 18) {
 #### よくある間違い：= と == の混同
 ```c
 int x = 5;
+
 /* 間違い：代入になってしまう */
 if (x = 10) {    /* xに10を代入し、10（真）として評価 */
     printf("この部分は必ず実行される\n");
 }
+
 /* 正しい：比較 */
 if (x == 10) {   /* xが10と等しいか比較 */
     printf("xは10です\n");
@@ -288,16 +298,19 @@ int hour = 14;
 if (hour >= 9 && hour <= 17) {
     printf("営業中です\n");
 }
+
 /* 休日判定 */
 int day = 6;  /* 1=月曜...7=日曜 */
 if (day == 6 || day == 7) {
     printf("週末です\n");
 }
+
 /* 割引条件（学生でない一般客） */
 int is_student = 0;
 if (!is_student) {
     printf("一般料金です\n");
 }
+
 /* 複雑な条件：優待条件 */
 int age = 65;
 int is_member = 1;
@@ -367,200 +380,7 @@ int value = user_input || get_default_value();
 /* user_input が 0 の場合のみ get_default_value() が呼ばれる */
 ```
 
-##### 短絡評価を活用した実用的なテクニック
-
-**1. 配列とポインタの安全な操作**
-
-```c
-/* 配列の境界チェック */
-int array[10];
-int index = 15;
-if (index >= 0 && index < 10 && array[index] > 0) {
-    /* index が範囲外なので、array[index] へのアクセスは行われない */
-    printf("有効な値: %d\n", array[index]);
-}
-
-/* 多次元配列の安全なアクセス */
-int matrix[5][5];
-int row = 3, col = 7;
-if (row >= 0 && row < 5 && col >= 0 && col < 5 && matrix[row][col] != 0) {
-    /* 行と列の両方が範囲内の場合のみアクセス */
-    process_element(matrix[row][col]);
-}
-
-/* 動的配列（ポインタ）の安全な操作 */
-int *data = malloc(size * sizeof(int));
-if (data && size > 0 && initialize_array(data, size)) {
-    /* メモリ確保成功、かつ初期化成功の場合のみ使用 */
-    use_array(data, size);
-}
-```
-
-**2. 文字列処理の安全性確保**
-
-```c
-/* 文字列の安全なチェック */
-char *str = get_string();  /* NULL を返す可能性がある */
-if (str && strlen(str) > 0 && str[0] == 'A') {
-    /* str が NULL の場合、strlen や str[0] は評価されない */
-    printf("文字列は 'A' で始まります\n");
-}
-
-/* 文字列の詳細な検証 */
-char *input = get_user_input();
-if (input && *input && strlen(input) < MAX_LENGTH && is_valid_format(input)) {
-    /* NULL でない、空でない、長さ制限内、フォーマット正しい */
-    process_input(input);
-}
-
-/* 文字列の部分アクセス */
-char *filename = "document.txt";
-int len = strlen(filename);
-if (len > 4 && filename[len-4] == '.' && strcmp(&filename[len-3], "txt") == 0) {
-    /* 拡張子が .txt であることを安全に確認 */
-    printf("テキストファイルです\n");
-}
-```
-
-**3. ファイル操作の段階的チェック**
-
-```c
-/* ファイル操作の連鎖的エラーチェック */
-FILE *fp = fopen("data.txt", "r");
-if (fp && read_header(fp) && validate_data(fp)) {
-    /* 各段階でエラーがあれば、後続の処理はスキップされる */
-    process_file(fp);
-    fclose(fp);
-}
-
-/* より詳細なファイル処理 */
-char *config_file = "settings.conf";
-FILE *cfg = NULL;
-if ((cfg = fopen(config_file, "r")) &&
-    check_file_version(cfg) &&
-    load_settings(cfg) &&
-    validate_settings()) {
-    /* すべての段階が成功した場合のみ適用 */
-    apply_settings();
-    printf("設定を正常に読み込みました\n");
-}
-if (cfg) fclose(cfg);
-```
-
-**4. リソース管理とエラーハンドリング**
-
-```c
-/* メモリとファイルの複合的な管理 */
-void process_data_file(const char *filename)
-{
-    FILE *fp = NULL;
-    char *buffer = NULL;
-    int *data = NULL;
-    
-    /* リソースの段階的確保 */
-    if ((fp = fopen(filename, "rb")) &&
-        (buffer = malloc(BUFFER_SIZE)) &&
-        (data = malloc(sizeof(int) * MAX_ITEMS)) &&
-        read_file_to_buffer(fp, buffer, BUFFER_SIZE) &&
-        parse_buffer_to_data(buffer, data, MAX_ITEMS)) {
-        
-        /* すべてのリソースが正常に確保され、処理が成功 */
-        analyze_data(data, MAX_ITEMS);
-        
-    } else {
-        /* どこかでエラーが発生した */
-        printf("エラー: データ処理に失敗しました\n");
-    }
-    
-    /* クリーンアップ（NULL チェック不要） */
-    free(data);
-    free(buffer);
-    if (fp) fclose(fp);
-}
-```
-
-**5. ユーザー入力の段階的検証**
-
-```c
-/* コマンドライン引数の検証 */
-int main(int argc, char *argv[])
-{
-    /* 引数の数と内容を段階的にチェック */
-    if (argc > 1 && 
-        argv[1] && 
-        strlen(argv[1]) > 0 && 
-        is_valid_command(argv[1])) {
-        
-        /* 追加の引数もチェック */
-        if (argc > 2 && 
-            argv[2] && 
-            is_valid_parameter(argv[1], argv[2])) {
-            execute_command(argv[1], argv[2]);
-        } else {
-            execute_command(argv[1], NULL);
-        }
-    } else {
-        print_usage();
-    }
-    
-    return 0;
-}
-
-/* 数値入力の検証 */
-char input_buffer[100];
-int value;
-if (fgets(input_buffer, sizeof(input_buffer), stdin) &&
-    sscanf(input_buffer, "%d", &value) == 1 &&
-    value >= MIN_VALUE &&
-    value <= MAX_VALUE) {
-    /* 入力成功、変換成功、範囲内 */
-    process_value(value);
-} else {
-    printf("エラー: 有効な値を入力してください\n");
-}
-```
-
-**6. 条件付き処理の最適化**
-
-```c
-/* キャッシュを使った高速化 */
-typedef struct {
-    int is_cached;
-    int cache_value;
-} Cache;
-
-int get_expensive_value(Cache *cache, int param)
-{
-    /* キャッシュがあればそれを使用、なければ計算 */
-    if (cache && cache->is_cached && cache->cache_value) {
-        return cache->cache_value;
-    }
-    
-    /* 高コストな計算 */
-    int result = expensive_calculation(param);
-    
-    /* キャッシュに保存 */
-    if (cache) {
-        cache->is_cached = 1;
-        cache->cache_value = result;
-    }
-    
-    return result;
-}
-
-/* 権限チェックの最適化 */
-int can_access_resource(User *user, Resource *resource)
-{
-    /* 管理者は常にアクセス可能（高速パス） */
-    return (user && user->is_admin) ||
-           /* 一般ユーザーは詳細な権限チェック */
-           (user && 
-            resource && 
-            user->level >= resource->required_level &&
-            has_permission(user, resource->type) &&
-            !is_blocked(user, resource));
-}
-```
+**より高度なテクニック**：短絡評価を使った安全なプログラミングパターンについては、[高度な演算子テクニック](../advanced/README.md#短絡評価による安全なプログラミング)の章を参照してください。
 
 ##### 注意点：副作用のある式
 短絡評価により、期待した副作用（変数の更新など）が発生しない場合があります。
@@ -581,31 +401,309 @@ if (x > 0 && y > 0) {
     /* 意図が明確 */
 }
 ```
+
 #### 論理演算子の優先順位
+
+論理演算子を使用する際、最も重要なのは演算子の優先順位を理解することです。C言語では、AND演算子（`&&`）がOR演算子（`||`）よりも優先順位が高いという規則があります。この規則を理解していないと、意図しない動作を引き起こす可能性があります。
+
+##### 基本的な優先順位規則
+
 ```c
 /* 括弧なしの場合（&&が||より優先） */
-if (a || b && c)    /* a || (b && c) として評価 */
-/* 明確にするために括弧を使う */
+if (a || b && c)    /* a || (b && c) として評価される */
+
+/* 上記は以下と同じ意味 */
+if (a || (b && c))  /* 明示的に括弧で示した場合 */
+
+/* もし OR を先に評価したい場合は括弧が必要 */
 if ((a || b) && c)  /* 意図を明確に表現 */
 ```
+
+##### なぜ && が || より優先されるのか
+
+この優先順位は、数学の掛け算が足し算より優先されるのと同じ考え方です：
+- AND（`&&`）は論理的な「掛け算」（両方が真である必要がある）
+- OR（`||`）は論理的な「足し算」（どちらかが真であればよい）
+
+##### よくある間違いと正しい書き方
+
+```c
+/* 例1: ユーザーの権限チェック */
+int is_admin = 0;
+int is_moderator = 1;
+int can_edit = 1;
+
+/* 間違いやすい例 */
+if (is_admin || is_moderator && can_edit) {
+    /* 実際の評価: is_admin || (is_moderator && can_edit) */
+    /* 管理者、またはモデレーターかつ編集権限がある場合 */
+    printf("アクセス許可\n");
+}
+
+/* 意図が異なる場合の正しい書き方 */
+if ((is_admin || is_moderator) && can_edit) {
+    /* 管理者またはモデレーターで、かつ編集権限がある場合 */
+    printf("アクセス許可\n");
+}
+```
+
+```c
+/* 例2: 数値の範囲チェック */
+int x = 5, y = 15, z = 25;
+
+/* 複雑な条件での優先順位 */
+if (x < 10 || y > 20 && z < 30) {
+    /* 評価順序: (x < 10) || ((y > 20) && (z < 30)) */
+    /* x < 10 が真なので、全体が真 */
+}
+
+/* より明確な書き方（推奨） */
+if ((x < 10) || (y > 20 && z < 30)) {
+    /* 意図が一目で分かる */
+}
+```
+
+##### 3つ以上の論理演算子を組み合わせる場合
+
+```c
+/* 複雑な条件式の例 */
+int a = 1, b = 0, c = 1, d = 0;
+
+/* 括弧なしの場合 */
+if (a || b && c || d)
+    /* 評価順序: a || (b && c) || d */
+    /* 左から右へ: (a || (b && c)) || d */
+
+/* 推奨される書き方1：意図を明確にする */
+if (a || (b && c) || d) {
+    /* && の優先順位を明示 */
+}
+
+/* 推奨される書き方2：複雑な条件を分割 */
+int condition1 = a || d;           /* 単純な OR 条件 */
+int condition2 = b && c;           /* AND 条件 */
+if (condition1 || condition2) {    /* 最終的な判定 */
+    /* 各条件の意味が明確 */
+}
+```
+
+##### 否定演算子（!）との組み合わせ
+
+否定演算子は論理演算子よりも優先順位が高いことに注意が必要です：
+
+```c
+/* 否定演算子の優先順位 */
+if (!a && b)        /* (!a) && b として評価 */
+if (!(a && b))      /* 全体を否定したい場合は括弧が必要 */
+
+/* 実用例：ログイン状態のチェック */
+int is_logged_in = 0;
+int is_guest = 1;
+
+if (!is_logged_in && !is_guest) {
+    /* ログインしていない、かつゲストでもない */
+    printf("アクセス拒否\n");
+}
+
+if (!(is_logged_in || is_guest)) {
+    /* ログインしているか、ゲストである、のどちらでもない */
+    /* 上記と同じ意味だが、ド・モルガンの法則を使用 */
+    printf("アクセス拒否\n");
+}
+```
+
+##### 可読性を高めるためのベストプラクティス
+
+1. **常に括弧を使用する**
+   ```c
+   /* 良い例：意図が明確 */
+   if ((a > 0) && (b < 10)) { }
+   if ((x == 1) || (y == 2) || (z == 3)) { }
+   ```
+
+2. **複雑な条件は変数に分割する**
+   ```c
+   /* 複雑な条件 */
+   int has_permission = (user->level >= 5) && (user->status == ACTIVE);
+   int is_special_user = (user->type == ADMIN) || (user->type == MODERATOR);
+   
+   if (has_permission || is_special_user) {
+       /* 条件の意味が明確 */
+   }
+   ```
+
+3. **段階的な条件チェック**
+   ```c
+   /* ネストした if 文で意図を明確にする */
+   if (file != NULL) {
+       if (file->size > 0 && file->size < MAX_SIZE) {
+           if (has_read_permission(file) || is_owner(file)) {
+               /* 各段階の条件が明確 */
+           }
+       }
+   }
+   ```
+
+##### 演算子優先順位の完全な順序
+
+論理演算に関連する演算子の優先順位（高い順）：
+1. `!` `~` `++` `--` （単項演算子）
+2. `*` `/` `%` （算術演算子）
+3. `+` `-` （算術演算子）
+4. `<` `<=` `>` `>=` （関係演算子）
+5. `==` `!=` （等価演算子）
+6. `&&` （論理AND）
+7. `||` （論理OR）
+8. `?:` （条件演算子）
+9. `=` `+=` `-=` など（代入演算子）
+
+この優先順位を覚えることも重要ですが、実際のコードでは括弧を使って意図を明確にすることがより重要です。
 ### ビット演算子
-ビットレベルで値を操作する演算子です。
+
+ビット演算子は、数値をビット（0と1）のレベルで直接操作する演算子です。ハードウェアに近い低レベルプログラミング、フラグ管理、暗号化、データ圧縮など、様々な場面で使用されます。
+
+#### なぜビット演算が必要なのか？
+
+1. **効率的なメモリ使用**：複数のフラグを1つの変数に格納できる
+2. **高速な計算**：ビット演算は CPU レベルで最も高速な演算の1つ
+3. **ハードウェア制御**：組み込みシステムでレジスタを直接操作
+4. **暗号化・圧縮**：ビットレベルでのデータ変換
+
+#### ビット演算子の種類と動作
+
 | 演算子 | 意味 | 例 | 説明 |
 |--------|------|----|----- |
 | `&` | ビットAND | `a & b` | 対応するビットが両方1の場合1 |
-| `|` | ビットOR | `a | b` | 対応するビットのいずれかが1の場合1 |
+| `\|` | ビットOR | `a \| b` | 対応するビットのいずれかが1の場合1 |
 | `^` | ビットXOR | `a ^ b` | 対応するビットが異なる場合1 |
-| `~` | ビット反転 | `~a` | 各ビットを反転 |
-| `<<` | 左シフト | `a << 2` | ビットを左に2つシフト |
-| `>>` | 右シフト | `a >> 1` | ビットを右に1つシフト |
+| `~` | ビット反転 | `~a` | 各ビットを反転（0→1、1→0） |
+| `<<` | 左シフト | `a << 2` | ビットを左に2つシフト（2倍を2回） |
+| `>>` | 右シフト | `a >> 1` | ビットを右に1つシフト（2で割る） |
+
+#### 基本的な動作の理解
+
 ```c
-unsigned char a = 5;    /* 00000101 */
-unsigned char b = 3;    /* 00000011 */
+unsigned char a = 5;    /* 00000101 (2進数) */
+unsigned char b = 3;    /* 00000011 (2進数) */
+
+/* ビットAND：両方が1の位置だけ1になる */
 printf("a & b = %d\n", a & b);  /* 1 (00000001) */
+/*
+   00000101  (5)
+ & 00000011  (3)
+   --------
+   00000001  (1)
+*/
+
+/* ビットOR：どちらかが1の位置が1になる */
 printf("a | b = %d\n", a | b);  /* 7 (00000111) */
+/*
+   00000101  (5)
+ | 00000011  (3)
+   --------
+   00000111  (7)
+*/
+
+/* ビットXOR：異なる位置が1になる */
 printf("a ^ b = %d\n", a ^ b);  /* 6 (00000110) */
-printf("~a = %d\n", ~a);        /* 250 (11111010) */
+/*
+   00000101  (5)
+ ^ 00000011  (3)
+   --------
+   00000110  (6)
+*/
+
+/* ビット反転：全ビットを反転 */
+printf("~a = %d\n", (unsigned char)~a);  /* 250 (11111010) */
+/*
+   00000101  (5)
+   --------
+   11111010  (250)
+*/
 ```
+
+#### ビットシフト演算子の詳細
+
+ビットシフトは、ビットを左右に移動させる演算です。これは効率的な乗算・除算にも使えます。
+
+```c
+unsigned int x = 10;  /* 00001010 */
+
+/* 左シフト：2のn乗を掛ける */
+printf("x << 1 = %d\n", x << 1);  /* 20 (10 * 2) */
+printf("x << 2 = %d\n", x << 2);  /* 40 (10 * 4) */
+printf("x << 3 = %d\n", x << 3);  /* 80 (10 * 8) */
+
+/* 右シフト：2のn乗で割る */
+unsigned int y = 80;  /* 01010000 */
+printf("y >> 1 = %d\n", y >> 1);  /* 40 (80 / 2) */
+printf("y >> 2 = %d\n", y >> 2);  /* 20 (80 / 4) */
+printf("y >> 3 = %d\n", y >> 3);  /* 10 (80 / 8) */
+
+/* 注意：符号付き整数の右シフトは実装依存 */
+int negative = -16;  /* 11110000 (2の補数表現) */
+printf("負の数の右シフト: %d\n", negative >> 1);  /* 実装依存 */
+```
+
+#### 実用的なビット演算テクニック
+
+**1. 簡単なフラグ管理**
+
+```c
+/* フラグの定義 */
+#define FLAG_READ     0x01  /* 00000001 */
+#define FLAG_WRITE    0x02  /* 00000010 */
+
+unsigned char permissions = 0;
+
+/* フラグを立てる（ビットOR） */
+permissions |= FLAG_READ;    /* 読み取り権限を付与 */
+
+/* フラグの確認（ビットAND） */
+if (permissions & FLAG_READ) {
+    printf("読み取り可能\n");
+}
+
+/* フラグをクリアする（ビットAND + NOT） */
+permissions &= ~FLAG_READ;  /* 読み取り権限を削除 */
+```
+
+**2. 偶数・奇数の判定**
+
+```c
+int number = 15;
+
+/* 最下位ビットで判定（& 1） */
+if (number & 1) {
+    printf("%d は奇数\n", number);  /* 最下位ビットが1 */
+} else {
+    printf("%d は偶数\n", number);  /* 最下位ビットが0 */
+}
+```
+
+**より高度なテクニック**：フラグ管理システム、ビットカウント、マスク操作などの高度なビット演算については、[高度な演算子テクニック](../advanced/README.md#ビット演算の高度な活用)の章を参照してください。
+
+#### ビット演算の注意点
+
+1. **符号付き整数のシフト**
+   ```c
+   /* 負の数の右シフトは実装依存 */
+   int negative = -8;
+   int result = negative >> 1;  /* 結果は環境による */
+   
+   /* unsigned を使うと予測可能 */
+   unsigned int positive = 8;
+   unsigned int result2 = positive >> 1;  /* 必ず 4 */
+   ```
+
+2. **演算子の優先順位**
+   ```c
+   /* ビット演算子は比較演算子より優先順位が低い */
+   if (flags & FLAG_READ == FLAG_READ)  /* 間違い！ */
+   /* 正しくは */
+   if ((flags & FLAG_READ) == FLAG_READ)
+   ```
+
 **C99版での詳細:** [bitwise_demo_c99.c](examples/bitwise_demo_c99.c)
 ### 条件演算子（三項演算子）
 条件に基づいて値を選択する演算子です。
@@ -639,11 +737,11 @@ printf("配列のサイズ: %lu バイト\n", (unsigned long)sizeof(arr));
 | 7 | `==` `!=` | 左から右 |
 | 8 | `&` | 左から右 |
 | 9 | `^` | 左から右 |
-| 10 | `|` | 左から右 |
+| 10 | `\|` | 左から右 |
 | 11 | `&&` | 左から右 |
-| 12 | `||` | 左から右 |
+| 12 | `\|\|` | 左から右 |
 | 13 | `?:` | 右から左 |
-| 14 | `=` `+=` `-=` `*=` `/=` `%=` `&=` `^=` `|=` `<<=` `>>=` | 右から左 |
+| 14 | `=` `+=` `-=` `*=` `/=` `%=` `&=` `^=` `\|=` `<<=` `>>=` | 右から左 |
 | 15 | `,` | 左から右 |
 #### 優先順位の例
 ```c
@@ -712,5 +810,3 @@ if ((flags & MASK) == 1)    /* 正しい評価順序 */
 - [C言語演算子リファレンス](https://ja.cppreference.com/w/c/language/operator_precedence)
 - [ビット演算詳細](https://ja.cppreference.com/w/c/language/operator_arithmetic)
 - [演算子優先順位表](https://ja.cppreference.com/w/c/language/operator_precedence)
-## サンプルコード
-### bitwise_demo.c

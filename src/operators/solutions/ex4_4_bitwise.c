@@ -139,36 +139,8 @@ int main(void)
         printf("%uは偶数です (最下位ビットが0)\n", num);
     }
     
-    /* 2のべき乗の判定 */
-    if (num > 0 && (num & (num - 1)) == 0) {
-        printf("%uは2のべき乗です\n", num);
-    } else {
-        printf("%uは2のべき乗ではありません\n", num);
-    }
-    
-    /* ビットカウント（立っているビットの数） */
-    {
-        unsigned int temp = num;
-        int count = 0;
-        while (temp) {
-            count += temp & 1;
-            temp >>= 1;
-        }
-        printf("立っているビットの数: %d個\n", count);
-    }
-    
-    /* 上位ビットと下位ビットの交換 */
-    {
-        unsigned int upper = (num & 0xF0) >> 4;
-        unsigned int lower = (num & 0x0F) << 4;
-        result = upper | lower;
-        printf("\n上位4ビットと下位4ビットの交換:\n");
-        printf("元: ");
-        print_bits(num, 8);
-        printf("\n結果: ");
-        print_bits(result, 8);
-        printf(" (%u)\n", result);
-    }
+    /* より高度なビット演算テクニック（2の累乗判定、ビットカウントなど）については、
+       高度な演算子テクニックの章を参照してください */
     
     return 0;
 }

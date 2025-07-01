@@ -30,22 +30,8 @@ static inline uint8_t toggle_bit(uint8_t value, int position)
     return value ^ (1u << position);
 }
 
-// C99: inline関数によるビットカウント
-static inline int count_bits(uint8_t value)
-{
-    int count = 0;
-    while (value) {
-        count += value & 1;
-        value >>= 1;
-    }
-    return count;
-}
-
-// C99: bool型を返す2のべき乗判定
-static inline bool is_power_of_two(unsigned int n)
-{
-    return n > 0 && (n & (n - 1)) == 0;
-}
+// より高度なビット演算関数（ビットカウント、2の累乗判定など）については、
+// 高度な演算子テクニックの章を参照してください
 
 // ビットを表示する関数（改良版）
 void print_bits_detailed(uint8_t value)
@@ -183,39 +169,12 @@ int main(void)
     // 実用的な例（拡張版）
     printf("\n=== 実用的なビット操作例 (C99拡張) ===\n");
     
-    // ビットパターンの解析
-    typedef struct {
-        uint8_t value;
-        bool is_even;
-        bool is_power_of_two;
-        int bit_count;
-        uint8_t reversed;
-    } BitAnalysis;
+    // 偶数・奇数の判定
+    bool is_even = !test_bit(num, 0);
+    printf("偶数/奇数: %s\n", is_even ? "偶数" : "奇数");
     
-    // ビット反転関数
-    uint8_t reverse_bits = 0;
-    for (int i = 0; i < 8; i++) {
-        if (test_bit(num, i)) {
-            reverse_bits |= (1u << (7 - i));
-        }
-    }
-    
-    BitAnalysis analysis = {
-        .value = num,
-        .is_even = !test_bit(num, 0),
-        .is_power_of_two = is_power_of_two(num),
-        .bit_count = count_bits(num),
-        .reversed = reverse_bits
-    };
-    
-    printf("ビット解析結果:\n");
-    printf("  値: %u\n", analysis.value);
-    printf("  偶数/奇数: %s\n", analysis.is_even ? "偶数" : "奇数");
-    printf("  2のべき乗: %s\n", analysis.is_power_of_two ? "はい" : "いいえ");
-    printf("  1のビット数: %d個\n", analysis.bit_count);
-    printf("  ビット反転: ");
-    print_bits_detailed(analysis.reversed);
-    printf("\n");
+    // より高度なビット演算テクニック（ビット反転、ビットカウントなど）については、
+    // 高度な演算子テクニックの章を参照してください
     
     // C99: ビットフィールドのシミュレーション
     printf("\n=== ビットフィールドのシミュレーション ===\n");

@@ -1,7 +1,7 @@
 # 複数ファイル・発展技術
 ##  対応C規格
 - **主要対象:** C90/C99/C11/C17
-- **学習内容:** 分割コンパイル、extern宣言、プリプロセッサ、モジュール設計、ライブラリ作成
+- **学習内容:** 分割コンパイル、extern宣言、プリプロセッサ、モジュール設計、ライブラリ作成、高度な演算子テクニック
 
 ##  学習目標
 この章を完了すると、以下のことができるようになります。
@@ -11,6 +11,8 @@
 - 再利用可能なモジュールを設計できる
 - 静的ライブラリを作成・使用できる
 - 大規模プロジェクトの構成を理解する
+- 短絡評価を使った安全なプログラミングができる
+- ビット演算の高度なテクニックを活用できる
 
 ##  概要と詳細
 
@@ -598,6 +600,223 @@ make install
 - _Generic
 - _Alignas/_Alignof
 - _Thread_local
+
+### 高度な演算子テクニック
+
+プログラムの安全性と効率性を向上させる、演算子の高度な活用方法を学びます。これらのテクニックは、実際の開発現場で頻繁に使われる重要な技術です。
+
+#### 短絡評価による安全なプログラミング
+
+短絡評価（ショートサーキット）は、論理演算子（`&&`、`||`）の特性を活用して、安全で効率的なコードを書くための重要なテクニックです。
+
+##### 配列とポインタの安全な操作
+
+C言語では配列の境界チェックが自動的に行われないため、プログラマが明示的にチェックする必要があります。
+
+```c
+/* 配列の境界チェック */
+int array[10];
+int index = 15;
+if (index >= 0 && index < 10 && array[index] > 0) {
+    /* index が範囲外なので、array[index] へのアクセスは行われない */
+    printf("有効な値: %d\n", array[index]);
+}
+
+/* 多次元配列の安全なアクセス */
+int matrix[5][5];
+int row = 3, col = 7;
+if (row >= 0 && row < 5 && col >= 0 && col < 5 && matrix[row][col] != 0) {
+    /* 行と列の両方が範囲内の場合のみアクセス */
+    process_element(matrix[row][col]);
+}
+
+/* 動的配列（ポインタ）の安全な操作 */
+int *data = malloc(size * sizeof(int));
+if (data && size > 0 && initialize_array(data, size)) {
+    /* メモリ確保成功、かつ初期化成功の場合のみ使用 */
+    use_array(data, size);
+}
+free(data);  /* free()はNULLに対して安全 */
+```
+
+##### 文字列処理の安全性確保
+
+```c
+/* 文字列の安全なチェック */
+char *str = get_string();  /* NULL を返す可能性がある */
+if (str && strlen(str) > 0 && str[0] == 'A') {
+    /* str が NULL の場合、strlen や str[0] は評価されない */
+    printf("文字列は 'A' で始まります\n");
+}
+
+/* 文字列の詳細な検証 */
+char *input = get_user_input();
+if (input && *input && strlen(input) < MAX_LENGTH && is_valid_format(input)) {
+    /* NULL でない、空でない、長さ制限内、フォーマット正しい */
+    process_input(input);
+}
+```
+
+##### ファイル操作とリソース管理
+
+```c
+/* ファイル操作の連鎖的エラーチェック */
+FILE *fp = fopen("data.txt", "r");
+if (fp && read_header(fp) && validate_data(fp)) {
+    /* 各段階でエラーがあれば、後続の処理はスキップされる */
+    process_file(fp);
+    fclose(fp);
+}
+
+/* 複数リソースの管理 */
+void process_data_file(const char *filename)
+{
+    FILE *fp = NULL;
+    char *buffer = NULL;
+    int *data = NULL;
+    
+    /* リソースの段階的確保 */
+    if ((fp = fopen(filename, "rb")) &&
+        (buffer = malloc(BUFFER_SIZE)) &&
+        (data = malloc(sizeof(int) * MAX_ITEMS)) &&
+        read_file_to_buffer(fp, buffer, BUFFER_SIZE) &&
+        parse_buffer_to_data(buffer, data, MAX_ITEMS)) {
+        
+        /* すべてのリソースが正常に確保され、処理が成功 */
+        analyze_data(data, MAX_ITEMS);
+        
+    } else {
+        /* どこかでエラーが発生した */
+        printf("エラー: データ処理に失敗しました\n");
+    }
+    
+    /* クリーンアップ（NULL チェック不要） */
+    free(data);
+    free(buffer);
+    if (fp) fclose(fp);
+}
+```
+
+#### ビット演算の高度な活用
+
+ビット演算は、メモリ効率的なプログラミングや高速な計算を実現するための強力なツールです。
+
+##### フラグ管理システム
+
+```c
+/* フラグの定義（各ビットに意味を持たせる） */
+#define FLAG_READ     0x01  /* 00000001 */
+#define FLAG_WRITE    0x02  /* 00000010 */
+#define FLAG_EXECUTE  0x04  /* 00000100 */
+#define FLAG_DELETE   0x08  /* 00001000 */
+
+unsigned char permissions = 0;
+
+/* フラグを立てる（ビットOR） */
+permissions |= FLAG_READ;    /* 読み取り権限を付与 */
+permissions |= FLAG_WRITE;   /* 書き込み権限を付与 */
+
+/* 複数のフラグを同時に立てる */
+permissions |= (FLAG_READ | FLAG_EXECUTE);
+
+/* フラグをクリアする（ビットAND + NOT） */
+permissions &= ~FLAG_WRITE;  /* 書き込み権限を削除 */
+
+/* フラグの確認（ビットAND） */
+if (permissions & FLAG_READ) {
+    printf("読み取り可能\n");
+}
+
+/* 複数フラグの同時確認 */
+if ((permissions & (FLAG_READ | FLAG_WRITE)) == (FLAG_READ | FLAG_WRITE)) {
+    printf("読み書き両方可能\n");
+}
+
+/* フラグを反転する（ビットXOR） */
+permissions ^= FLAG_EXECUTE;  /* 実行権限を反転 */
+```
+
+##### 高度なビット演算アルゴリズム
+
+```c
+/* 2の累乗判定（Brian Kernighanのアルゴリズム） */
+int is_power_of_two(unsigned int n) {
+    /* n が 0 でなく、n & (n-1) が 0 なら2の累乗 */
+    return n && !(n & (n - 1));
+}
+
+/* ビットカウント（1の数を数える） */
+int count_bits_fast(unsigned int n) {
+    int count = 0;
+    while (n) {
+        n &= (n - 1);  /* 最下位の1を消す */
+        count++;
+    }
+    return count;
+}
+
+/* ビットマスクを使ったRGB色操作 */
+unsigned int color = 0xFF5733;  /* RGB: FF(赤) 57(緑) 33(青) */
+
+/* 各色成分を抽出 */
+unsigned char red   = (color >> 16) & 0xFF;  /* 上位8ビット */
+unsigned char green = (color >> 8) & 0xFF;   /* 中位8ビット */
+unsigned char blue  = color & 0xFF;          /* 下位8ビット */
+
+/* 色成分を組み合わせる */
+unsigned int new_color = (red << 16) | (green << 8) | blue;
+
+/* ビットフィールドを使ったデータ圧縮 */
+struct DatePacked {
+    unsigned int year : 12;   /* 12ビット (0-4095) */
+    unsigned int month : 4;   /* 4ビット (0-15) */
+    unsigned int day : 5;     /* 5ビット (0-31) */
+    unsigned int hour : 5;    /* 5ビット (0-31) */
+    unsigned int minute : 6;  /* 6ビット (0-63) */
+};  /* 合計32ビット */
+```
+
+##### パフォーマンス最適化テクニック
+
+```c
+/* 条件付き処理の最適化 */
+typedef struct {
+    int is_cached;
+    int cache_value;
+} Cache;
+
+int get_expensive_value(Cache *cache, int param)
+{
+    /* キャッシュがあればそれを使用、なければ計算 */
+    if (cache && cache->is_cached && cache->cache_value) {
+        return cache->cache_value;
+    }
+    
+    /* 高コストな計算 */
+    int result = expensive_calculation(param);
+    
+    /* キャッシュに保存 */
+    if (cache) {
+        cache->is_cached = 1;
+        cache->cache_value = result;
+    }
+    
+    return result;
+}
+
+/* 権限チェックの最適化 */
+int can_access_resource(User *user, Resource *resource)
+{
+    /* 管理者は常にアクセス可能（高速パス） */
+    return (user && user->is_admin) ||
+           /* 一般ユーザーは詳細な権限チェック */
+           (user && 
+            resource && 
+            user->level >= resource->required_level &&
+            has_permission(user, resource->type) &&
+            !is_blocked(user, resource));
+}
+```
 
 ## 次の章へ
 これでC言語の主要トピックは完了です。さらに学習を続けたい場合は。

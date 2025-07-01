@@ -499,5 +499,3 @@ if ((a == 1) || (b == 2 && c == 3))
 - [if文詳細](https://ja.cppreference.com/w/c/language/if)
 - [switch文詳細](https://ja.cppreference.com/w/c/language/switch)
 - [条件演算子](https://ja.cppreference.com/w/c/language/operator_other)
-## サンプルコード
-### conditional_operator.c
