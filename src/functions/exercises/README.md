@@ -3,7 +3,7 @@
 ## 基本課題
 
 ### 課題9-1: 基本的な関数作成
-以下の関数を作成してください：
+以下の関数を作成してください。
 
 1. **数学関数**
    - 2つの整数の最大値を返す関数 `int max(int a, int b)`
@@ -21,7 +21,7 @@
    - 数値を指定した桁数で表示する関数 `void print_number_padded(int num, int width)`
 
 ### 課題9-2: 配列操作関数
-以下の配列操作関数を作成してください：
+以下の配列操作関数を作成してください。
 
 1. **基本操作**
    - 配列の要素の合計を計算する関数 `int array_sum(int arr[], int size)`
@@ -38,7 +38,7 @@
    - 配列内の重複する要素の数を数える関数 `int count_duplicates(int arr[], int size)`
 
 ### 課題9-3: 文字列処理関数
-以下の文字列処理関数を作成してください：
+以下の文字列処理関数を作成してください。
 
 1. **基本処理**
    - 文字列をコピーする関数 `void my_strcpy(char dest[], const char src[])`
@@ -58,7 +58,7 @@
 ## 中級課題
 
 ### 課題9-4: 複数戻り値を持つ関数
-以下の関数を作成してください：
+以下の関数を作成してください。
 
 1. **時間計算**
    - 秒数を時分秒に変換する関数 `void seconds_to_hms(int total_seconds, int *hours, int *minutes, int *seconds)`
@@ -73,7 +73,7 @@
    - 成績から評価を計算する関数 `void calculate_grade_info(int scores[], int count, double *average, char *grade, int *pass_count)`
 
 ### 課題9-5: エラーハンドリング付き関数
-安全性を考慮した以下の関数を作成してください：
+安全性を考慮した以下の関数を作成してください。
 
 1. **安全な基本操作**
    - 安全な除算関数 `int safe_divide(double a, double b, double *result)`
@@ -89,7 +89,7 @@
    - メールアドレスの基本形式をチェックする関数 `int is_valid_email(const char email[])`
 
 ### 課題9-6: 構造体を使った関数
-以下の構造体を使った関数を作成してください：
+以下の構造体を使った関数を作成してください。
 
 ```c
 typedef struct {
@@ -129,7 +129,7 @@ typedef struct {
 ## 上級課題
 
 ### 課題9-7: 再帰関数
-以下の再帰関数を作成してください：
+以下の再帰関数を作成してください。
 
 1. **数学的再帰**
    - 階乗を計算する再帰関数 `long factorial_recursive(int n)`
@@ -145,7 +145,7 @@ typedef struct {
    - 配列の最大値を再帰的に見つける関数 `int find_max_recursive(int arr[], int size)`
 
 ### 課題9-8: 高度な文字列処理
-以下の高度な文字列処理関数を作成してください：
+以下の高度な文字列処理関数を作成してください。
 
 1. **文字列解析**
    - 文字列をトークンに分割する関数 `int tokenize(char str[], char tokens[][50], char delimiter)`
@@ -161,7 +161,7 @@ typedef struct {
    - CSV形式の文字列を解析する関数 `int parse_csv_line(const char line[], char fields[][100], int max_fields)`
 
 ### 課題9-9: ソートアルゴリズム関数
-以下のソートアルゴリズムを関数として実装してください：
+以下のソートアルゴリズムを関数として実装してください。
 
 1. **基本ソート**
    - バブルソート `void bubble_sort(int arr[], int size)`
@@ -179,7 +179,7 @@ typedef struct {
 ## 挑戦課題
 
 ### 課題9-10: 関数ポインター
-以下の関数ポインターを使った課題に取り組んでください：
+以下の関数ポインターを使った課題に取り組んでください。
 
 1. **計算機関数**
    - 四則演算を関数ポインターで切り替える計算機 `double calculator(double a, double b, double (*operation)(double, double))`
@@ -192,7 +192,7 @@ typedef struct {
    - イベント処理システム `void register_callback(int event_type, void (*callback)(int))`
 
 ### 課題9-11: メモリ効率を考慮した関数
-メモリ使用量を最適化した関数を作成してください：
+メモリ使用量を最適化した関数を作成してください。
 
 1. **動的メモリ管理**
    - 動的配列を管理する関数群
@@ -205,7 +205,7 @@ typedef struct {
    - キャッシュ効率を考慮した配列処理関数
 
 ### 課題9-12: 総合プロジェクト
-複数の関数を組み合わせた総合的なプロジェクトを作成してください：
+複数の関数を組み合わせた総合的なプロジェクトを作成してください。
 
 1. **学生管理システム**
    - 学生情報の登録、検索、更新、削除機能
@@ -224,7 +224,7 @@ typedef struct {
 
 ## 提出要件
 
-各課題について、以下を提出してください：
+各課題について、以下を提出してください。
 
 1. **ソースコード**
    - 関数の実装（.cファイル）
@@ -305,7 +305,7 @@ typedef struct {
 
 ## 実装例の構成
 
-各課題の実装では以下の構成を推奨します：
+各課題の実装では以下の構成を推奨します。
 
 ```c
 // ヘッダーファイル（functions.h）
