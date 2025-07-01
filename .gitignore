@@ -4,9 +4,13 @@
 *.exe
 a.out
 
-# ビルドディレクトリ
+# ビルド・テスト・実行ディレクトリ
 build/
 bin/
+test/
+**/build/
+**/test/
+**/bin/
 
 # エディタ・IDE関連
 .vscode/
