@@ -1,9 +1,8 @@
 /*
- * 演習 6-3: 文字列配列の操作（C99版）
+ * 演習 7-3: 文字列配列の操作（C90準拠版）
  * 
  * 都道府県名を管理し、各種操作（ソート、検索、
  * 文字数カウント等）を行うプログラム
- * C99特有の機能：変数の混在宣言、forループ内変数宣言を使用
  */
 #include <stdio.h>
 #include <string.h>
@@ -21,10 +20,11 @@ char prefectures[NUM_PREFECTURES][MAX_NAME_LENGTH] = {
 void sort_prefectures(char arr[][MAX_NAME_LENGTH], int size)
 {
     char temp[MAX_NAME_LENGTH];
+    int i, j;
     
     /* バブルソート */
-    for (int i = 0; i < size - 1; i++) {  /* C99：forループ内変数宣言 */
-        for (int j = 0; j < size - 1 - i; j++) {  /* C99：forループ内変数宣言 */
+    for (i = 0; i < size - 1; i++) {
+        for (j = 0; j < size - 1 - i; j++) {
             if (strcmp(arr[j], arr[j + 1]) > 0) {
                 strcpy(temp, arr[j]);
                 strcpy(arr[j], arr[j + 1]);
@@ -37,8 +37,10 @@ void sort_prefectures(char arr[][MAX_NAME_LENGTH], int size)
 /* 全都道府県名を表示する関数 */
 void display_all_prefectures(char arr[][MAX_NAME_LENGTH], int size)
 {
+    int i;
+    
     printf("=== 都道府県一覧 ===\n");
-    for (int i = 0; i < size; i++) {  /* C99：forループ内変数宣言 */
+    for (i = 0; i < size; i++) {
         printf("%2d. %s\n", i + 1, arr[i]);
     }
     printf("\n");
@@ -47,11 +49,12 @@ void display_all_prefectures(char arr[][MAX_NAME_LENGTH], int size)
 /* 最も文字数が長い都道府県名を見つける関数 */
 void find_longest_name(char arr[][MAX_NAME_LENGTH], int size)
 {
+    int i;
     int max_length = 0;
     int max_index = 0;
     
-    for (int i = 0; i < size; i++) {  /* C99：forループ内変数宣言 */
-        int length = strlen(arr[i]);  /* C99：必要な時に変数宣言 */
+    for (i = 0; i < size; i++) {
+        int length = strlen(arr[i]);
         if (length > max_length) {
             max_length = length;
             max_index = i;
@@ -66,11 +69,12 @@ void find_longest_name(char arr[][MAX_NAME_LENGTH], int size)
 /* 指定した文字で始まる都道府県名を検索する関数 */
 void search_by_first_char(char arr[][MAX_NAME_LENGTH], int size, char first_char)
 {
+    int i;
     int found = 0;
     
     printf("=== '%c'で始まる都道府県名 ===\n", first_char);
     
-    for (int i = 0; i < size; i++) {  /* C99：forループ内変数宣言 */
+    for (i = 0; i < size; i++) {
         if (arr[i][0] == first_char) {
             printf("- %s\n", arr[i]);
             found = 1;
@@ -86,9 +90,10 @@ void search_by_first_char(char arr[][MAX_NAME_LENGTH], int size, char first_char
 /* 「県」が含まれる都道府県をカウントする関数 */
 int count_ken_prefectures(char arr[][MAX_NAME_LENGTH], int size)
 {
+    int i;
     int count = 0;
     
-    for (int i = 0; i < size; i++) {  /* C99：forループ内変数宣言 */
+    for (i = 0; i < size; i++) {
         if (strstr(arr[i], "県") != NULL) {
             count++;
         }
@@ -100,12 +105,13 @@ int count_ken_prefectures(char arr[][MAX_NAME_LENGTH], int size)
 /* 都道府県の種類別カウントを表示する関数 */
 void display_type_count(char arr[][MAX_NAME_LENGTH], int size)
 {
+    int i;
     int ken_count = 0;
     int fu_count = 0;
     int to_count = 0;
     int do_count = 0;
     
-    for (int i = 0; i < size; i++) {  /* C99：forループ内変数宣言 */
+    for (i = 0; i < size; i++) {
         if (strstr(arr[i], "県") != NULL) {
             ken_count++;
         } else if (strstr(arr[i], "府") != NULL) {
@@ -127,12 +133,16 @@ void display_type_count(char arr[][MAX_NAME_LENGTH], int size)
 
 int main(void)
 {
+    /* C90では先頭で全ての変数を宣言 */
     char working_array[NUM_PREFECTURES][MAX_NAME_LENGTH];
+    char search_char;
+    int i;
+    int ken_count;
     
     printf("=== 都道府県管理システム ===\n\n");
     
     /* 作業用配列にコピー（元データを保持するため） */
-    for (int i = 0; i < NUM_PREFECTURES; i++) {  /* C99：forループ内変数宣言 */
+    for (i = 0; i < NUM_PREFECTURES; i++) {
         strcpy(working_array[i], prefectures[i]);
     }
     
@@ -150,12 +160,11 @@ int main(void)
     
     /* 指定文字で始まる都道府県を検索 */
     printf("検索したい最初の文字を入力してください: ");
-    char search_char;  /* C99：必要な時に変数宣言 */
     scanf(" %c", &search_char);  /* 先頭の空白でバッファをクリア */
     search_by_first_char(prefectures, NUM_PREFECTURES, search_char);
     
     /* 「県」を含む都道府県をカウント */
-    int ken_count = count_ken_prefectures(prefectures, NUM_PREFECTURES);  /* C99：必要な時に変数宣言 */
+    ken_count = count_ken_prefectures(prefectures, NUM_PREFECTURES);
     printf("「県」が含まれる都道府県: %d個\n\n", ken_count);
     
     /* 種類別カウントを表示 */
