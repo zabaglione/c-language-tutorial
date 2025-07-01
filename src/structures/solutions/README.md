@@ -6,46 +6,46 @@
 
 ### 基礎問題
 
-1. **演習11-1: 学生情報管理**
-   - [ex11_1_student.c](ex11_1_student.c) - C90準拠版
-   - [ex11_1_student_c99.c](ex11_1_student_c99.c) - C99準拠版
+1. **演習13-1: 学生情報管理**
+   - [ex13_1_student.c](ex11_1_student.c) - C90準拠版
+   - [ex13_1_student_c99.c](ex11_1_student_c99.c) - C99準拠版
    - 構造体とポインタを使った基本的なデータ管理
 
-2. **演習11-2: 座標計算**
-   - [ex11_2_coordinate.c](ex11_2_coordinate.c) - C90準拠版
-   - [ex11_2_coordinate_c99.c](ex11_2_coordinate_c99.c) - C99準拠版
+2. **演習13-2: 座標計算**
+   - [ex13_2_coordinate.c](ex11_2_coordinate.c) - C90準拠版
+   - [ex13_2_coordinate_c99.c](ex11_2_coordinate_c99.c) - C99準拠版
    - 構造体で座標を表現し、距離計算を実装
 
-3. **演習11-3: 商品管理**
-   - [ex11_3_product.c](ex11_3_product.c) - C90準拠版
-   - [ex11_3_product_c99.c](ex11_3_product_c99.c) - C99準拠版
+3. **演習13-3: 商品管理**
+   - [ex13_3_product.c](ex11_3_product.c) - C90準拠版
+   - [ex13_3_product_c99.c](ex11_3_product_c99.c) - C99準拠版
    - 構造体配列による商品在庫管理システム
 
 ### 応用問題
 
-4. **演習11-4: 従業員データベース**
+4. **演習13-4: 従業員データベース**
    - ネストした構造体と統計計算
    - （未実装）
 
-5. **演習11-5: 図書管理システム**
+5. **演習13-5: 図書管理システム**
    - 検索・貸出・返却機能の実装
    - （未実装）
 
-6. **演習11-6: 成績管理システム**
+6. **演習13-6: 成績管理システム**
    - 学生別・科目別の成績統計とGPA計算
    - （未実装）
 
 ### 発展問題
 
-7. **演習11-7: 動的配列システム**
+7. **演習13-7: 動的配列システム**
    - 動的メモリ管理による拡張可能な配列
    - （未実装）
 
-8. **演習11-8: データソート**
+8. **演習13-8: データソート**
    - 複数条件でのソート機能
    - （未実装）
 
-9. **演習11-9: 階層データ構造**
+9. **演習13-9: 階層データ構造**
    - 会社組織の階層構造表現
    - （未実装）
 
@@ -75,19 +75,19 @@
 
 ### 各演習の重要概念
 
-#### 演習11-1〜11-3（基礎）
+#### 演習13-1〜13-3（基礎）
 - 構造体の定義と初期化
 - ドット演算子とアロー演算子
 - 構造体配列の操作
 - ポインタによる効率的なデータ渡し
 
-#### 演習11-4〜11-6（応用）
+#### 演習13-4〜13-6（応用）
 - ネストした構造体
 - 構造体ポインタ配列
 - 複雑なデータ構造の管理
 - 統計処理とデータ分析
 
-#### 演習11-7〜11-9（発展）
+#### 演習13-7〜13-9（発展）
 - 動的メモリ管理
 - qsortによる汎用ソート
 - 階層的なデータ構造
@@ -97,16 +97,16 @@
 
 ```bash
 # C90準拠でコンパイル
-gcc -std=c90 -Wall -Wextra -pedantic ex11_1_student.c -o ex11_1_student
+gcc -std=c90 -Wall -Wextra -pedantic ex13_1_student.c -o ex11_1_student
 
 # C99準拠でコンパイル
-gcc -std=c99 -Wall -Wextra -pedantic ex11_1_student_c99.c -o ex11_1_student_c99
+gcc -std=c99 -Wall -Wextra -pedantic ex13_1_student_c99.c -o ex11_1_student_c99
 
 # 座標計算（数学ライブラリをリンク）
-gcc -std=c90 -Wall -Wextra -pedantic ex11_2_coordinate.c -o ex11_2_coordinate -lm
+gcc -std=c90 -Wall -Wextra -pedantic ex13_2_coordinate.c -o ex11_2_coordinate -lm
 
 # 実行
-./ex11_1_student
+./ex13_1_student
 ```
 
 ## 注意事項

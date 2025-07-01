@@ -12,7 +12,7 @@
 - 静的ライブラリを作成・使用できる
 - 大規模プロジェクトの構成を理解する
 - 短絡評価を使った安全なプログラミングができる
-- ビット演算の高度なテクニックを活用できる
+- 共用体（union）を理解し活用できる
 
 ##  概要と詳細
 
@@ -697,84 +697,142 @@ void process_data_file(const char *filename)
 }
 ```
 
-#### ビット演算の高度な活用
+#### ビット操作とビットフィールド
 
-ビット演算は、メモリ効率的なプログラミングや高速な計算を実現するための強力なツールです。
+ビット演算の詳細な解説、ビットマスクを使った高度なテクニック、ビットフィールドによるメモリ最適化については、専用の章を設けています。
 
-##### フラグ管理システム
+**詳細な学習**: [第12章: ビット操作とビットフィールド](../bit-operations/README.md)では、以下の内容を詳しく説明しています：
+- ビット演算子の詳細と活用法
+- フラグ管理システムの実装
+- ビットカウントなどの高度なアルゴリズム
+- ビットフィールドによるデータ圧縮
+- RGB色操作などの実践的な応用例
+
+#### 共用体（union）
+
+共用体は、同じメモリ領域を複数の異なる型で共有する仕組みです。メモリを効率的に使用したい場合や、異なる解釈でデータを扱いたい場合に使用します。
+
+##### 基本的な共用体の使い方
 
 ```c
-/* フラグの定義（各ビットに意味を持たせる） */
-#define FLAG_READ     0x01  /* 00000001 */
-#define FLAG_WRITE    0x02  /* 00000010 */
-#define FLAG_EXECUTE  0x04  /* 00000100 */
-#define FLAG_DELETE   0x08  /* 00001000 */
+/* 基本的な共用体の定義 */
+union Data {
+    int i;
+    float f;
+    char str[20];
+};
 
-unsigned char permissions = 0;
-
-/* フラグを立てる（ビットOR） */
-permissions |= FLAG_READ;    /* 読み取り権限を付与 */
-permissions |= FLAG_WRITE;   /* 書き込み権限を付与 */
-
-/* 複数のフラグを同時に立てる */
-permissions |= (FLAG_READ | FLAG_EXECUTE);
-
-/* フラグをクリアする（ビットAND + NOT） */
-permissions &= ~FLAG_WRITE;  /* 書き込み権限を削除 */
-
-/* フラグの確認（ビットAND） */
-if (permissions & FLAG_READ) {
-    printf("読み取り可能\n");
+int main(void) {
+    union Data data;
+    
+    /* 整数として使用 */
+    data.i = 42;
+    printf("整数: %d\n", data.i);
+    
+    /* 浮動小数点として使用（前の値は上書きされる） */
+    data.f = 3.14f;
+    printf("浮動小数点: %f\n", data.f);
+    
+    /* 文字列として使用 */
+    strcpy(data.str, "Hello");
+    printf("文字列: %s\n", data.str);
+    
+    printf("共用体のサイズ: %zu バイト\n", sizeof(union Data));
+    return 0;
 }
-
-/* 複数フラグの同時確認 */
-if ((permissions & (FLAG_READ | FLAG_WRITE)) == (FLAG_READ | FLAG_WRITE)) {
-    printf("読み書き両方可能\n");
-}
-
-/* フラグを反転する（ビットXOR） */
-permissions ^= FLAG_EXECUTE;  /* 実行権限を反転 */
 ```
 
-##### 高度なビット演算アルゴリズム
+##### 型変換とビットパターン解析
 
 ```c
-/* 2の累乗判定（Brian Kernighanのアルゴリズム） */
-int is_power_of_two(unsigned int n) {
-    /* n が 0 でなく、n & (n-1) が 0 なら2の累乗 */
-    return n && !(n & (n - 1));
-}
+/* 浮動小数点数のビットパターンを調べる */
+union FloatConverter {
+    float f;
+    unsigned int u;
+    struct {
+        unsigned int fraction : 23;
+        unsigned int exponent : 8;
+        unsigned int sign : 1;
+    } parts;
+};
 
-/* ビットカウント（1の数を数える） */
-int count_bits_fast(unsigned int n) {
-    int count = 0;
-    while (n) {
-        n &= (n - 1);  /* 最下位の1を消す */
-        count++;
+void analyze_float(float value) {
+    union FloatConverter conv;
+    conv.f = value;
+    
+    printf("浮動小数点数: %f\n", conv.f);
+    printf("ビットパターン: 0x%08X\n", conv.u);
+    printf("符号: %u, 指数部: %u, 仮数部: 0x%06X\n",
+           conv.parts.sign, conv.parts.exponent, conv.parts.fraction);
+}
+```
+
+##### ネットワークプログラミングでの活用
+
+```c
+/* IPアドレスの表現 */
+union IPAddress {
+    unsigned int addr;
+    unsigned char octets[4];
+};
+
+void print_ip_address(unsigned int ip) {
+    union IPAddress addr;
+    addr.addr = ip;
+    
+    printf("IPアドレス: %u.%u.%u.%u\n",
+           addr.octets[3], addr.octets[2], 
+           addr.octets[1], addr.octets[0]);
+}
+```
+
+##### タグ付き共用体（判別共用体）
+
+```c
+/* データ型を識別するタグ付き共用体 */
+typedef enum {
+    TYPE_INT,
+    TYPE_FLOAT,
+    TYPE_STRING
+} DataType;
+
+typedef struct {
+    DataType type;
+    union {
+        int i;
+        float f;
+        char *s;
+    } value;
+} Variant;
+
+void print_variant(const Variant *var) {
+    switch (var->type) {
+        case TYPE_INT:
+            printf("整数: %d\n", var->value.i);
+            break;
+        case TYPE_FLOAT:
+            printf("浮動小数点: %f\n", var->value.f);
+            break;
+        case TYPE_STRING:
+            printf("文字列: %s\n", var->value.s);
+            break;
     }
-    return count;
 }
-
-/* ビットマスクを使ったRGB色操作 */
-unsigned int color = 0xFF5733;  /* RGB: FF(赤) 57(緑) 33(青) */
-
-/* 各色成分を抽出 */
-unsigned char red   = (color >> 16) & 0xFF;  /* 上位8ビット */
-unsigned char green = (color >> 8) & 0xFF;   /* 中位8ビット */
-unsigned char blue  = color & 0xFF;          /* 下位8ビット */
-
-/* 色成分を組み合わせる */
-unsigned int new_color = (red << 16) | (green << 8) | blue;
-
-/* ビットフィールドを使ったデータ圧縮 */
-struct DatePacked {
-    unsigned int year : 12;   /* 12ビット (0-4095) */
-    unsigned int month : 4;   /* 4ビット (0-15) */
-    unsigned int day : 5;     /* 5ビット (0-31) */
-    unsigned int hour : 5;    /* 5ビット (0-31) */
-    unsigned int minute : 6;  /* 6ビット (0-63) */
-};  /* 合計32ビット */
 ```
+
+##### 共用体の注意点
+
+1. **一度に1つのメンバーのみ有効**
+   - 最後に代入したメンバーのみが有効
+   - 他のメンバーの値は不定
+
+2. **メモリサイズ**
+   - 最大のメンバーのサイズになる
+   - パディングの影響を受ける
+
+3. **初期化**
+   - C90では最初のメンバーでのみ初期化可能
+   - C99では指定初期化子が使用可能
 
 ##### パフォーマンス最適化テクニック
 

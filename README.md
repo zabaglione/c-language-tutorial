@@ -28,10 +28,11 @@ c-language-tutorial/
 │   ├── arrays-pointers/  # 第9章: 配列とポインタ
 │   ├── strings/          # 第10章: 文字列処理
 │   ├── functions/        # 第11章: 関数
-│   ├── structures/       # 第12章: 構造体とポインタ
-│   ├── function-pointers/# 第13章: 関数ポインタ
-│   ├── advanced/         # 第14章: 複数ファイル・発展技術
-│   └── c23-features/     # 第15章: C23の新機能（オプション）
+│   ├── bit-operations/   # 第12章: ビット操作とビットフィールド
+│   ├── structures/       # 第13章: 構造体とポインタ
+│   ├── function-pointers/# 第14章: 関数ポインタ
+│   ├── advanced/         # 第15章: 複数ファイル・発展技術
+│   └── c23-features/     # 第16章: C23の新機能（オプション）
 ├── scripts/              # 支援スクリプト
 │   ├── combine_chapters.sh
 │   ├── create_pdf.sh
@@ -47,9 +48,9 @@ c-language-tutorial/
 └── .gitignore
 ```
 
-## 📁 教材構成
+##  教材構成
 
-### 🟢 初心者レベル（基礎編）
+### 初心者レベル（基礎編）
 プログラミング初心者対象、基本概念から制御構造まで
 
 | 章 | タイトル | 主要な学習内容 | 対象規格 |
@@ -61,7 +62,7 @@ c-language-tutorial/
 | 5 | [制御構造（条件分岐）](src/control-if/README.md) | if文、else if文、switch文 | C90 |
 | 6 | [制御構造（ループ）](src/control-loop/README.md) | for文、while文、do-while文、break/continue | C90/C99 |
 
-### 🟡 中級レベル（応用編）
+### 中級レベル（応用編）
 配列、ポインタ、文字列、関数
 
 | 章 | タイトル | 主要な学習内容 | 対象規格 |
@@ -72,21 +73,22 @@ c-language-tutorial/
 | 10 | [文字列処理](src/strings/README.md) | 文字配列、文字列関数、文字列操作 | C90 |
 | 11 | [関数](src/functions/README.md) | 関数定義、引数、戻り値、再帰関数 | C90/C99 |
 
-### 🔴 発展レベル（上級編）
-構造体、ファイル処理、応用技術
+### 発展レベル（上級編）
+構造体、ビット操作、関数ポインタ、応用技術
 
 | 章 | タイトル | 主要な学習内容 | 対象規格 |
 |---|---------|---------------|---------|
-| 12 | [構造体とポインタ](src/structures/README.md) | 構造体定義、構造体ポインタ | C90/C11 |
-| 13 | [関数ポインタ](src/function-pointers/README.md) | 関数ポインタ、コールバック関数 | C90 |
-| 14 | [複数ファイル・発展技術](src/advanced/README.md) | 分割コンパイル、extern宣言、プリプロセッサ | C90/C99/C11/C17 |
+| 12 | [ビット操作とビットフィールド](src/bit-operations/README.md) | ビット演算、ビットマスク、ビットフィールド | C90 |
+| 13 | [構造体とポインタ](src/structures/README.md) | 構造体定義、構造体ポインタ | C90/C11 |
+| 14 | [関数ポインタ](src/function-pointers/README.md) | 関数ポインタ、コールバック関数 | C90 |
+| 15 | [複数ファイル・発展技術](src/advanced/README.md) | 分割コンパイル、extern宣言、プリプロセッサ | C90/C99/C11/C17 |
 
-### 🟣 オプション（最新規格）
+### オプション（最新規格）
 C23対応コンパイラが利用可能な場合
 
 | 章 | タイトル | 主要な学習内容 | 対象規格 |
 |---|---------|---------------|---------|
-| 15 | [C23の新機能](src/c23-features/README.md) | bool型、typeof、nullptr、2進数リテラル | C23 |
+| 16 | [C23の新機能](src/c23-features/README.md) | bool型、typeof、nullptr、2進数リテラル | C23 |
 
 ##  開発環境
 
@@ -141,7 +143,7 @@ cd src/c23-features && make all
 gcc -Wall -Wextra -pedantic -std=c90 ファイル名.c -o 実行ファイル名
 ```
 
-## 📚 生成済みドキュメント
+## 生成済みドキュメント
 
 output/ディレクトリに以下のドキュメントが含まれています：
 
@@ -171,7 +173,7 @@ output/ディレクトリに以下のドキュメントが含まれています�
 
 ###  学習パス
 
-1. **標準パス（推奨）**: introduction → basics-syntax → data-types → operators → control-if → control-loop → arrays → strings → functions → pointers → structures → function-pointers → advanced
+1. **標準パス（推奨）**: introduction → basics-syntax → data-types → operators → control-if → control-loop → arrays-basics → pointers → arrays-pointers → strings → functions → bit-operations → structures → function-pointers → advanced
 
 2. **復習重点パス**: 基礎が不安な場合は introduction〜control-loop を繰り返し学習
 
@@ -198,10 +200,12 @@ output/ディレクトリに以下のドキュメントが含まれています�
 - [ ] operators: 演算子の正しい使用
 - [ ] control-if: 条件分岐の実装
 - [ ] control-loop: ループ処理の実装
-- [ ] arrays: 配列操作の習得
+- [ ] arrays-basics: 配列の基本操作
+- [ ] pointers: ポインタの基本理解
+- [ ] arrays-pointers: 配列とポインタの関係
 - [ ] strings: 文字列処理の理解
 - [ ] functions: 関数の作成と使用
-- [ ] pointers: ポインタの基本理解
+- [ ] bit-operations: ビット操作の習得
 - [ ] structures: 構造体の活用
 - [ ] function-pointers: 関数ポインタの使用
 - [ ] advanced: 高度な技術の理解
@@ -218,7 +222,7 @@ output/ディレクトリに以下のドキュメントが含まれています�
 - [Online GDB](https://www.onlinegdb.com/) - オンラインコンパイラ
 - [Compiler Explorer](https://godbolt.org/) - コンパイル結果確認
 
-## 🆘 トラブルシューティング
+## トラブルシューティング
 
 ### よくある問題と解決方法
 
