@@ -203,9 +203,12 @@ if (count > 0) {
 ### 関係演算子（比較する）
 関係演算子は、2つの値を比較して「正しい（真）」か「正しくない（偽）」かを判定します。日常生活での「大きい・小さい」「同じ・違う」の判断をプログラムで行うための演算子です。
 #### C言語における真偽の表現
-C言語では。
+C言語では、真偽を表すために専用のブール型がありません（C99以降では`_Bool`型が追加されましたが、この章ではC90準拠のため扱いません）。代わりに、整数値を使って真偽を表現します。
+
 - **真（True）** = 0以外の値（通常は1）
 - **偽（False）** = 0
+
+この仕組みを理解することは、条件判断を正しく書くために非常に重要です。
 | 演算子 | 意味 | 例 | 結果 | 日常での例 |
 |--------|------|----|----- |------------|
 | `==` | 等しい | `5 == 3` | `0` (偽) | パスワードが一致するか |
@@ -257,17 +260,21 @@ if (x == 10) {   /* xが10と等しいか比較 */
 | 演算子 | 意味 | 例 | 説明 | 日常での例 |
 |--------|------|----|----- |------------|
 | `&&` | かつ（AND） | `a && b` | 両方とも真なら真 | 「晴れ」かつ「暖かい」なら外出 |
-| `||` | または（OR） | `a || b` | どちらか真なら真 | 「土曜」または「日曜」なら休み |
+| `\|\|` | または（OR） | `a \|\| b` | どちらか真なら真 | 「土曜」または「日曜」なら休み |
 | `!` | でない（NOT） | `!a` | 真偽を反転 | 「雨でない」なら洗濯 |
 #### 真理値表で理解する
+
 **AND（&&）の動作**
+
 | A | B | A && B |
 |---|---|--------|
 | 真 | 真 | 真 |
 | 真 | 偽 | 偽 |
 | 偽 | 真 | 偽 |
 | 偽 | 偽 | 偽 |
+
 **OR（||）の動作**
+
 | A | B | A \|\| B |
 |---|---|----------|
 | 真 | 真 | 真 |
@@ -299,18 +306,279 @@ if ((age >= 65 || age < 18) && is_member) {
 }
 ```
 #### 短絡評価（ショートサーキット）
-論理演算子には「短絡評価」という重要な特性があります。結果が確定した時点で、残りの評価をスキップします。
+論理演算子には「短絡評価」という重要な特性があります。これは、式の評価中に結果が確定した時点で、残りの評価をスキップする仕組みです。
+
+##### なぜ短絡評価が重要なのか？
+
+1. **パフォーマンスの向上** - 不要な計算を省略できる
+2. **エラーの回避** - 危険な操作を安全に書ける
+3. **条件付き実行** - 関数呼び出しを制御できる
+
+##### &&（AND）の短絡評価
+左側が偽（0）の場合、右側を評価しなくても全体が偽になることが確定するため、右側は評価されません。
+
 ```c
-/* &&の短絡評価：左が偽なら右は評価しない */
+/* 基本的な例 */
 int a = 0, b = 10;
-if (a != 0 && b / a > 5) {  /* a が 0 なので b/a は計算されない */
-    /* ゼロ除算エラーを回避できる */
+if (a && b) {
+    /* a が 0（偽）なので、b は評価されない */
+    printf("この行は実行されない\n");
 }
-/* ||の短絡評価：左が真なら右は評価しない */
+
+/* エラー回避の例：ゼロ除算を防ぐ */
+int divisor = 0;
+int value = 100;
+if (divisor != 0 && value / divisor > 5) {
+    /* divisor が 0 なので、value / divisor は計算されない */
+    /* ゼロ除算エラーを回避できる！ */
+    printf("結果: %d\n", value / divisor);
+}
+
+/* ポインタのNULLチェック */
+char *ptr = NULL;
+if (ptr != NULL && *ptr == 'A') {
+    /* ptr が NULL なので、*ptr へのアクセスは行われない */
+    /* セグメンテーションフォルトを回避！ */
+}
+```
+
+##### ||（OR）の短絡評価
+左側が真（0以外）の場合、右側を評価しなくても全体が真になることが確定するため、右側は評価されません。
+
+```c
+/* 基本的な例 */
 int is_admin = 1;
 int has_permission = 0;
-if (is_admin || check_permission()) {  /* is_adminが真なので関数は呼ばれない */
+if (is_admin || has_permission) {
+    /* is_admin が 1（真）なので、has_permission は評価されない */
     printf("アクセス許可\n");
+}
+
+/* 関数呼び出しの制御 */
+int cached_result = 1;
+if (cached_result || expensive_calculation()) {
+    /* cached_result が真なので、高コストな関数は呼ばれない */
+    printf("処理を実行\n");
+}
+
+/* デフォルト値の設定 */
+int user_input = 0;  /* ユーザーが何も入力しなかった */
+int value = user_input || get_default_value();
+/* user_input が 0 の場合のみ get_default_value() が呼ばれる */
+```
+
+##### 短絡評価を活用した実用的なテクニック
+
+**1. 配列とポインタの安全な操作**
+
+```c
+/* 配列の境界チェック */
+int array[10];
+int index = 15;
+if (index >= 0 && index < 10 && array[index] > 0) {
+    /* index が範囲外なので、array[index] へのアクセスは行われない */
+    printf("有効な値: %d\n", array[index]);
+}
+
+/* 多次元配列の安全なアクセス */
+int matrix[5][5];
+int row = 3, col = 7;
+if (row >= 0 && row < 5 && col >= 0 && col < 5 && matrix[row][col] != 0) {
+    /* 行と列の両方が範囲内の場合のみアクセス */
+    process_element(matrix[row][col]);
+}
+
+/* 動的配列（ポインタ）の安全な操作 */
+int *data = malloc(size * sizeof(int));
+if (data && size > 0 && initialize_array(data, size)) {
+    /* メモリ確保成功、かつ初期化成功の場合のみ使用 */
+    use_array(data, size);
+}
+```
+
+**2. 文字列処理の安全性確保**
+
+```c
+/* 文字列の安全なチェック */
+char *str = get_string();  /* NULL を返す可能性がある */
+if (str && strlen(str) > 0 && str[0] == 'A') {
+    /* str が NULL の場合、strlen や str[0] は評価されない */
+    printf("文字列は 'A' で始まります\n");
+}
+
+/* 文字列の詳細な検証 */
+char *input = get_user_input();
+if (input && *input && strlen(input) < MAX_LENGTH && is_valid_format(input)) {
+    /* NULL でない、空でない、長さ制限内、フォーマット正しい */
+    process_input(input);
+}
+
+/* 文字列の部分アクセス */
+char *filename = "document.txt";
+int len = strlen(filename);
+if (len > 4 && filename[len-4] == '.' && strcmp(&filename[len-3], "txt") == 0) {
+    /* 拡張子が .txt であることを安全に確認 */
+    printf("テキストファイルです\n");
+}
+```
+
+**3. ファイル操作の段階的チェック**
+
+```c
+/* ファイル操作の連鎖的エラーチェック */
+FILE *fp = fopen("data.txt", "r");
+if (fp && read_header(fp) && validate_data(fp)) {
+    /* 各段階でエラーがあれば、後続の処理はスキップされる */
+    process_file(fp);
+    fclose(fp);
+}
+
+/* より詳細なファイル処理 */
+char *config_file = "settings.conf";
+FILE *cfg = NULL;
+if ((cfg = fopen(config_file, "r")) &&
+    check_file_version(cfg) &&
+    load_settings(cfg) &&
+    validate_settings()) {
+    /* すべての段階が成功した場合のみ適用 */
+    apply_settings();
+    printf("設定を正常に読み込みました\n");
+}
+if (cfg) fclose(cfg);
+```
+
+**4. リソース管理とエラーハンドリング**
+
+```c
+/* メモリとファイルの複合的な管理 */
+void process_data_file(const char *filename)
+{
+    FILE *fp = NULL;
+    char *buffer = NULL;
+    int *data = NULL;
+    
+    /* リソースの段階的確保 */
+    if ((fp = fopen(filename, "rb")) &&
+        (buffer = malloc(BUFFER_SIZE)) &&
+        (data = malloc(sizeof(int) * MAX_ITEMS)) &&
+        read_file_to_buffer(fp, buffer, BUFFER_SIZE) &&
+        parse_buffer_to_data(buffer, data, MAX_ITEMS)) {
+        
+        /* すべてのリソースが正常に確保され、処理が成功 */
+        analyze_data(data, MAX_ITEMS);
+        
+    } else {
+        /* どこかでエラーが発生した */
+        printf("エラー: データ処理に失敗しました\n");
+    }
+    
+    /* クリーンアップ（NULL チェック不要） */
+    free(data);
+    free(buffer);
+    if (fp) fclose(fp);
+}
+```
+
+**5. ユーザー入力の段階的検証**
+
+```c
+/* コマンドライン引数の検証 */
+int main(int argc, char *argv[])
+{
+    /* 引数の数と内容を段階的にチェック */
+    if (argc > 1 && 
+        argv[1] && 
+        strlen(argv[1]) > 0 && 
+        is_valid_command(argv[1])) {
+        
+        /* 追加の引数もチェック */
+        if (argc > 2 && 
+            argv[2] && 
+            is_valid_parameter(argv[1], argv[2])) {
+            execute_command(argv[1], argv[2]);
+        } else {
+            execute_command(argv[1], NULL);
+        }
+    } else {
+        print_usage();
+    }
+    
+    return 0;
+}
+
+/* 数値入力の検証 */
+char input_buffer[100];
+int value;
+if (fgets(input_buffer, sizeof(input_buffer), stdin) &&
+    sscanf(input_buffer, "%d", &value) == 1 &&
+    value >= MIN_VALUE &&
+    value <= MAX_VALUE) {
+    /* 入力成功、変換成功、範囲内 */
+    process_value(value);
+} else {
+    printf("エラー: 有効な値を入力してください\n");
+}
+```
+
+**6. 条件付き処理の最適化**
+
+```c
+/* キャッシュを使った高速化 */
+typedef struct {
+    int is_cached;
+    int cache_value;
+} Cache;
+
+int get_expensive_value(Cache *cache, int param)
+{
+    /* キャッシュがあればそれを使用、なければ計算 */
+    if (cache && cache->is_cached && cache->cache_value) {
+        return cache->cache_value;
+    }
+    
+    /* 高コストな計算 */
+    int result = expensive_calculation(param);
+    
+    /* キャッシュに保存 */
+    if (cache) {
+        cache->is_cached = 1;
+        cache->cache_value = result;
+    }
+    
+    return result;
+}
+
+/* 権限チェックの最適化 */
+int can_access_resource(User *user, Resource *resource)
+{
+    /* 管理者は常にアクセス可能（高速パス） */
+    return (user && user->is_admin) ||
+           /* 一般ユーザーは詳細な権限チェック */
+           (user && 
+            resource && 
+            user->level >= resource->required_level &&
+            has_permission(user, resource->type) &&
+            !is_blocked(user, resource));
+}
+```
+
+##### 注意点：副作用のある式
+短絡評価により、期待した副作用（変数の更新など）が発生しない場合があります。
+
+```c
+int x = 0, y = 0;
+
+/* 注意が必要な例 */
+if (x++ > 0 && y++ > 0) {
+    /* x は増加するが、y は増加しない！ */
+}
+printf("x = %d, y = %d\n", x, y);  /* x = 1, y = 0 */
+
+/* より明確な書き方 */
+x++;
+y++;
+if (x > 0 && y > 0) {
+    /* 意図が明確 */
 }
 ```
 #### 論理演算子の優先順位
