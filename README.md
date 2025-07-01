@@ -110,7 +110,7 @@ make --version
 
 ### 各章での学習方法
 
-1. **README.md** で理論を学習
+1. **README\.md** で理論を学習
 2. **examples/** でサンプルコードを確認・実行
 3. **exercises/** で演習課題に挑戦
 4. **solutions/** で解答例を確認
