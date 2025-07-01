@@ -1,29 +1,26 @@
 /*
- * ファイル名: ex4_3_bmi_judge.c
- * 演習4-3: BMI判定プログラム
+ * ファイル名: ex5_3_bmi_judge_c99.c
+ * 演習5-3: BMI判定プログラム
  * 説明: 身長と体重からBMIを計算し体型判定を行う
- * 規格: C90準拠
+ * 規格: C99準拠
  */
 #include <stdio.h>
 
 int main(void)
 {
-    /* 変数の宣言（C90では先頭で宣言） */
-    double height_cm, height_m, weight, bmi;
-    char *category;
-    char *advice;
-    
     printf("=== BMI判定プログラム ===\n");
     
-    /* 身長の入力（センチメートル） */
+    // 身長の入力（センチメートル）
     printf("身長を入力してください（cm）: ");
+    double height_cm;
     scanf("%lf", &height_cm);
     
-    /* 体重の入力 */
+    // 体重の入力
     printf("体重を入力してください（kg）: ");
+    double weight;
     scanf("%lf", &weight);
     
-    /* 入力値の検証 */
+    // 入力値の検証
     if (height_cm <= 0 || height_cm > 300) {
         printf("エラー: 身長は1cm〜300cmの範囲で入力してください。\n");
         return 1;
@@ -34,13 +31,16 @@ int main(void)
         return 1;
     }
     
-    /* 身長をメートルに変換 */
-    height_m = height_cm / 100.0;
+    // 身長をメートルに変換
+    double height_m = height_cm / 100.0;
     
-    /* BMI計算 */
-    bmi = weight / (height_m * height_m);
+    // BMI計算
+    double bmi = weight / (height_m * height_m);
     
-    /* BMI判定 */
+    // BMI判定
+    char *category;
+    char *advice;
+    
     if (bmi < 18.5) {
         category = "低体重";
         advice = "栄養バランスの良い食事を心がけ、適度な運動で健康的に体重を増やしましょう。";
@@ -55,7 +55,7 @@ int main(void)
         advice = "高度な肥満です。医師に相談し、本格的な減量プログラムを検討してください。";
     }
     
-    /* 結果の表示 */
+    // 結果の表示
     printf("\n=== BMI計算結果 ===\n");
     printf("身長: %.1f cm (%.2f m)\n", height_cm, height_m);
     printf("体重: %.1f kg\n", weight);
@@ -63,7 +63,7 @@ int main(void)
     printf("判定: %s\n", category);
     printf("\nアドバイス: %s\n", advice);
     
-    /* 追加の健康情報 */
+    // 追加の健康情報
     printf("\n=== 健康情報 ===\n");
     
     if (bmi < 18.5) {
@@ -80,7 +80,7 @@ int main(void)
         printf("・心血管疾患のリスクが大幅に増加します\n");
     }
     
-    /* 理想体重の計算と表示 */
+    // 理想体重の計算と表示
     if (bmi < 18.5 || bmi >= 25.0) {
         double ideal_weight_min = 18.5 * (height_m * height_m);
         double ideal_weight_max = 24.9 * (height_m * height_m);
@@ -110,7 +110,7 @@ int main(void)
 5. 計算結果を使った追加処理
 
 実装のポイント:
-- C90準拠のため、すべての変数を関数先頭で宣言
+- C99準拠のため、変数を使用箇所の近くで宣言
 - BMI計算式の正確な実装
 - 境界値（18.5, 25.0, 30.0）の適切な処理
 - ユーザーフレンドリーな結果表示

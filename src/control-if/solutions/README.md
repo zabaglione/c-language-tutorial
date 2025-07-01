@@ -13,32 +13,32 @@
 ## 演習問題の解答
 
 ### 演習4-1: 年齢による料金計算
-- **ファイル**: `ex4_1_ticket_pricing.c`, `ex4_1_ticket_pricing_c99.c`
+- **ファイル**: `ex5_1_ticket_pricing.c`, `ex5_1_ticket_pricing_c99.c`
 - **学習内容**: if-else if文による段階的判定
 - **ポイント**: 境界値の適切な処理
 
 ### 演習4-2: 電卓プログラム
-- **ファイル**: `ex4_2_calculator.c`, `ex4_2_calculator_c99.c`
+- **ファイル**: `ex5_2_calculator.c`, `ex5_2_calculator_c99.c`
 - **学習内容**: switch文による多分岐処理
 - **ポイント**: ゼロ除算エラーの処理
 
 ### 演習4-3: BMI判定プログラム
-- **ファイル**: `ex4_3_bmi_judge.c`, `ex4_3_bmi_judge_c99.c`
+- **ファイル**: `ex5_3_bmi_judge.c`, `ex5_3_bmi_judge_c99.c`
 - **学習内容**: 浮動小数点数の計算と範囲判定
 - **ポイント**: 単位変換と健康アドバイス
 
 ### 演習4-4: うるう年判定
-- **ファイル**: `ex4_4_leap_year.c`, `ex4_4_leap_year_c99.c`
+- **ファイル**: `ex5_4_leap_year.c`, `ex5_4_leap_year_c99.c`
 - **学習内容**: 複雑な論理演算子の組み合わせ
 - **ポイント**: 複合条件式の正確な実装
 
 ### 演習4-5: 成績評価システム
-- **ファイル**: `ex4_5_grade_system.c`, `ex4_5_grade_system_c99.c`
+- **ファイル**: `ex5_5_grade_system.c`, `ex5_5_grade_system_c99.c`
 - **学習内容**: 条件演算子と複合条件の活用
 - **ポイント**: 複数データの統合的な評価
 
 ### チャレンジ4-6: じゃんけんゲーム
-- **ファイル**: `ex4_6_janken_game.c`, `ex4_6_janken_game_c99.c`
+- **ファイル**: `ex5_6_janken_game.c`, `ex5_6_janken_game_c99.c`
 - **学習内容**: ランダム数生成と複雑な勝敗判定
 - **ポイント**: ゲームロジックの実装と統計分析
 
@@ -58,21 +58,21 @@
 
 ### 基本的なコンパイル
 ```bash
-gcc -Wall -Wextra -pedantic -std=c90 ex4_1_ticket_pricing.c -o ex4_1_ticket_pricing
-./ex4_1_ticket_pricing
+gcc -Wall -Wextra -pedantic -std=c90 ex5_1_ticket_pricing.c -o ex5_1_ticket_pricing
+./ex5_1_ticket_pricing
 ```
 
 ### C99版のコンパイル
 ```bash
-gcc -Wall -Wextra -pedantic -std=c99 ex4_1_ticket_pricing_c99.c -o ex4_1_ticket_pricing_c99
-./ex4_1_ticket_pricing_c99
+gcc -Wall -Wextra -pedantic -std=c99 ex5_1_ticket_pricing_c99.c -o ex5_1_ticket_pricing_c99
+./ex5_1_ticket_pricing_c99
 ```
 
 ### Makefileを使用
 ```bash
 make all                    # 全てをコンパイル
 make solutions              # 解答例のみコンパイル
-make ex4_1                  # 個別コンパイル
+make ex5_1                  # 個別コンパイル
 make run-solutions          # 解答例を実行
 make clean                  # 実行ファイルを削除
 ```
