@@ -230,7 +230,7 @@ def create_exercises_doc(chapter_info, src_dir, output_dir):
 def main():
     """メイン処理"""
     src_dir = '../src'
-    output_dir = '../output/docs'
+    output_dir = '../output/word'
     
     # 出力ディレクトリの作成
     os.makedirs(output_dir, exist_ok=True)

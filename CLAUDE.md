@@ -8,9 +8,13 @@ This is a comprehensive C programming tutorial written in Japanese (C言語学�
 
 The project is organized into:
 - `src/` - Source code (tutorial chapters, including C23 optional chapter)
-- `scripts/` - Support scripts for PDF/HTML generation
-- `output/` - Generated PDFs and HTML files
-- `docs/` - Documentation and reports
+- `scripts/` - Support scripts for document generation
+- `output/` - Generated documents
+  - `word/` - Word documents (.docx)
+  - `pdf/` - PDF documents
+  - `html/` - HTML documents
+- `docs/` - Project documentation (Markdown)
+- `reports/` - Work reports and evaluations
 
 ## Common Development Commands
 
@@ -225,16 +229,25 @@ chapter-name/
 
 ### Generated Documentation
 
-The repository includes several generated documentation files:
-- `C言語学習教材.pdf` - Complete tutorial in PDF format
+The repository includes several types of generated documentation:
+
+**Word Documents** (`output/word/`):
+- `C言語プログラミング教材_メインテキスト.docx` - Main textbook
+- `C言語プログラミング教材_演習問題集.docx` - Exercise workbook
+- Individual chapter files (e.g., `chapter_01_textbook.docx`)
+
+**PDF Documents** (`output/pdf/`):
+- `C言語学習教材.pdf` - Complete tutorial
 - `C言語プログラミング教材_メインテキスト.pdf` - Main textbook
 - `C言語プログラミング教材_演習課題集.pdf` - Exercise workbook
+
+**HTML Documents** (`output/html/`):
 - Various HTML versions for web viewing
 
 ### Shell Scripts
 
-Several utility scripts exist in the root directory for documentation generation:
-- `combine_chapters.sh` - Combines all chapters into a single document
+Several utility scripts exist in the `scripts/` directory for documentation generation:
+- `create_merged_docs_no_samples.sh` - Creates Word documents without sample code/exercises
 - `create_pdf.sh` - Generates PDF documentation
 - `create_main_textbook.sh` - Creates the main textbook
 - `create_exercises.sh` - Creates the exercise workbook

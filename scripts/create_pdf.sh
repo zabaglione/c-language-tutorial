@@ -11,7 +11,7 @@ if command -v "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" &> 
     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
         --headless \
         --disable-gpu \
-        --print-to-pdf="C言語学習教材.pdf" \
+        --print-to-pdf="../output/pdf/C言語学習教材.pdf" \
         --print-to-pdf-no-header \
         --hide-scrollbars \
         --virtual-time-budget=10000 \
@@ -19,8 +19,8 @@ if command -v "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" &> 
         "file://$(pwd)/C言語学習教材_styled.html"
     
     if [ $? -eq 0 ]; then
-        echo "✅ PDF作成完了: C言語学習教材.pdf"
-        ls -lh "C言語学習教材.pdf"
+        echo "✅ PDF作成完了: ../output/pdf/C言語学習教材.pdf"
+        ls -lh "../output/pdf/C言語学習教材.pdf"
     else
         echo "❌ PDF作成に失敗しました"
     fi
@@ -37,6 +37,6 @@ echo "📄 Created files:"
 echo "- complete_tutorial.md (統合Markdownファイル)"
 echo "- C言語学習教材.html (基本HTMLファイル)"
 echo "- C言語学習教材_styled.html (スタイル付きHTMLファイル)"
-if [ -f "C言語学習教材.pdf" ]; then
-    echo "- C言語学習教材.pdf (PDFファイル)"
+if [ -f "../output/pdf/C言語学習教材.pdf" ]; then
+    echo "- ../output/pdf/C言語学習教材.pdf (PDFファイル)"
 fi

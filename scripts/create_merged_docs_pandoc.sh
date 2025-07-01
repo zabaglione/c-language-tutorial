@@ -4,7 +4,7 @@
 # 基本ディレクトリ
 BASE_DIR=$(pwd)
 SRC_DIR="../src"
-OUTPUT_DIR="../output/docs"
+OUTPUT_DIR="../output/word"
 TEMPLATE="../custom-reference-1.docx"
 
 # 一時ファイル

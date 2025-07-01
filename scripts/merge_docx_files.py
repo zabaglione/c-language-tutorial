@@ -101,7 +101,7 @@ def merge_docx_files(file_list, output_path, title):
 
 def main():
     """メイン処理"""
-    docs_dir = "../output/docs"
+    docs_dir = "../output/word"
     
     # 教科書ファイルのリスト
     textbook_files = []
