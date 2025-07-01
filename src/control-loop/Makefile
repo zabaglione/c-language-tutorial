@@ -1,159 +1,189 @@
-# C言語学習教材 - 第5章: 制御構造（ループ）
-# コンパイラとフラグの設定
+# Makefile for control-loop chapter
+# Supports both C90 and C99 standards
 
+# Compiler settings
 CC = gcc
-CFLAGS_BASE = -Wall -Wextra -pedantic
 STANDARD ?= c90
-CFLAGS = $(CFLAGS_BASE) -std=$(STANDARD)
+CFLAGS = -Wall -Wextra -pedantic -std=$(STANDARD)
+SRCDIR = examples
+BUILDDIR = build
 
-# ディレクトリ設定
-EXAMPLES_DIR = examples
-EXERCISES_DIR = exercises
-SOLUTIONS_DIR = solutions
+# Source files
+SOURCES = basic_for.c while_loop.c nested_loops.c for_loop_basics.c break_continue.c while_dowhile.c
+TARGETS = basic_for while_loop nested_loops for_loop_basics break_continue while_dowhile
+C99_TARGETS = basic_for_c99 while_loop_c99 nested_loops_c99 for_loop_basics_c99 break_continue_c99 while_dowhile_c99
 
-# ソースファイル
-EXAMPLES_SRC = $(wildcard $(EXAMPLES_DIR)/*.c)
-EXAMPLES_BIN = $(EXAMPLES_SRC:.c=)
+# Default target
+all: $(TARGETS)
 
-SOLUTIONS_SRC = $(wildcard $(SOLUTIONS_DIR)/*.c)
-SOLUTIONS_BIN = $(SOLUTIONS_SRC:.c=)
+# C99 versions
+c99: STANDARD=c99
+c99: $(C99_TARGETS)
 
-# デフォルトターゲット
-.PHONY: all clean run examples solutions help
+# Build directory
+$(BUILDDIR):
+	@mkdir -p $(BUILDDIR)
 
-all: examples solutions
+# Generic rule for C90 programs
+%: $(SRCDIR)/%.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
+	@echo "Built $@ (C90)"
 
-examples: $(EXAMPLES_BIN)
+# Generic rule for C99 programs
+%_c99: $(SRCDIR)/%_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
+	@echo "Built $@ (C99)"
 
-solutions: $(SOLUTIONS_BIN)
+# Individual targets
+basic_for: $(SRCDIR)/basic_for.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 例題プログラムのコンパイル
-$(EXAMPLES_DIR)/%: $(EXAMPLES_DIR)/%.c
-	$(CC) $(CFLAGS) $< -o $@
+basic_for_c99: $(SRCDIR)/basic_for_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 解答例プログラムのコンパイル（数学関数を使用する場合は-lmを追加）
-$(SOLUTIONS_DIR)/ex5_3_prime_list: $(SOLUTIONS_DIR)/ex5_3_prime_list.c
-	$(CC) $(CFLAGS) $< -o $@ -lm
+while_loop: $(SRCDIR)/while_loop.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-$(SOLUTIONS_DIR)/ex5_3_prime_list_c99: $(SOLUTIONS_DIR)/ex5_3_prime_list_c99.c
-	$(CC) $(CFLAGS) $< -o $@ -lm
+while_loop_c99: $(SRCDIR)/while_loop_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-$(SOLUTIONS_DIR)/%: $(SOLUTIONS_DIR)/%.c
-	$(CC) $(CFLAGS) $< -o $@
+nested_loops: $(SRCDIR)/nested_loops.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 個別ターゲット（例題）
-for_loop_basics: $(EXAMPLES_DIR)/for_loop_basics
-while_dowhile: $(EXAMPLES_DIR)/while_dowhile
-break_continue: $(EXAMPLES_DIR)/break_continue
+nested_loops_c99: $(SRCDIR)/nested_loops_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# C99版のターゲット（例題）
-for_loop_basics_c99: $(EXAMPLES_DIR)/for_loop_basics_c99
-while_dowhile_c99: $(EXAMPLES_DIR)/while_dowhile_c99
-break_continue_c99: $(EXAMPLES_DIR)/break_continue_c99
+for_loop_basics: $(SRCDIR)/for_loop_basics.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 個別ターゲット（演習解答例）
-ex5_1: $(SOLUTIONS_DIR)/ex5_1_fibonacci
-ex5_2: $(SOLUTIONS_DIR)/ex5_2_number_guess
-ex5_3: $(SOLUTIONS_DIR)/ex5_3_prime_list
-ex5_4: $(SOLUTIONS_DIR)/ex5_4_draw_shapes
-ex5_5: $(SOLUTIONS_DIR)/ex5_5_multiplication_table
-ex5_6: $(SOLUTIONS_DIR)/ex5_6_factorial
+for_loop_basics_c99: $(SRCDIR)/for_loop_basics_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# C99版のターゲット（演習解答例）
-ex5_1_c99: $(SOLUTIONS_DIR)/ex5_1_fibonacci_c99
-ex5_2_c99: $(SOLUTIONS_DIR)/ex5_2_number_guess_c99
-ex5_3_c99: $(SOLUTIONS_DIR)/ex5_3_prime_list_c99
-ex5_4_c99: $(SOLUTIONS_DIR)/ex5_4_draw_shapes_c99
-ex5_5_c99: $(SOLUTIONS_DIR)/ex5_5_multiplication_table_c99
-ex5_6_c99: $(SOLUTIONS_DIR)/ex5_6_factorial_c99
+break_continue: $(SRCDIR)/break_continue.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 実行ターゲット（例題）
-run-examples: examples
-	@echo "=== ループ構造の例題実行 ==="
-	@echo "--- for文の基本 ---"
-	@./$(EXAMPLES_DIR)/for_loop_basics
-	@echo ""
-	@echo "--- while文とdo-while文 ---"
-	@./$(EXAMPLES_DIR)/while_dowhile
-	@echo ""
-	@echo "--- break文とcontinue文 ---"
-	@./$(EXAMPLES_DIR)/break_continue
+break_continue_c99: $(SRCDIR)/break_continue_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 実行ターゲット（演習解答例 - 非対話的なもののみ）
-run-solutions: ex5_5 ex5_4
-	@echo "=== 解答例の実行（非対話的なもの） ==="
-	@echo "--- 演習5-5: 掛け算表 ---"
-	@echo "9" | ./$(SOLUTIONS_DIR)/ex5_5_multiplication_table
-	@echo ""
-	@echo "--- 演習5-4: 図形描画 ---"
-	@echo "5" | ./$(SOLUTIONS_DIR)/ex5_4_draw_shapes
+while_dowhile: $(SRCDIR)/while_dowhile.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 個別実行ターゲット
-run-ex5_1: ex5_1
-	@echo "10" | ./$(SOLUTIONS_DIR)/ex5_1_fibonacci
+while_dowhile_c99: $(SRCDIR)/while_dowhile_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-run-ex5_2: ex5_2
-	./$(SOLUTIONS_DIR)/ex5_2_number_guess
+# Run targets
+run-all: all
+	@echo "Running all programs:"
+	@echo "--- basic_for ---"
+	@$(BUILDDIR)/basic_for || true
+	@echo
+	@echo "--- while_loop ---"
+	@$(BUILDDIR)/while_loop || true
+	@echo
+	@echo "--- nested_loops ---"
+	@$(BUILDDIR)/nested_loops || true
+	@echo
+	@echo "--- for_loop_basics ---"
+	@$(BUILDDIR)/for_loop_basics || true
+	@echo
+	@echo "--- break_continue ---"
+	@$(BUILDDIR)/break_continue || true
+	@echo
+	@echo "--- while_dowhile ---"
+	@$(BUILDDIR)/while_dowhile || true
+	@echo
 
-run-ex5_3: ex5_3
-	@echo "10 50" | ./$(SOLUTIONS_DIR)/ex5_3_prime_list
+# Individual run targets
+run-basic_for: basic_for
+	@echo "Running basic_for:"
+	@$(BUILDDIR)/basic_for
 
-run-ex5_4: ex5_4
-	@echo "5" | ./$(SOLUTIONS_DIR)/ex5_4_draw_shapes
+run-basic_for-c99: basic_for_c99
+	@echo "Running basic_for (C99):"
+	@$(BUILDDIR)/basic_for_c99
 
-run-ex5_5: ex5_5
-	./$(SOLUTIONS_DIR)/ex5_5_multiplication_table
+run-while_loop: while_loop
+	@echo "Running while_loop:"
+	@$(BUILDDIR)/while_loop
 
-run-ex5_6: ex5_6
-	@echo "5" | ./$(SOLUTIONS_DIR)/ex5_6_factorial
+run-while_loop-c99: while_loop_c99
+	@echo "Running while_loop (C99):"
+	@$(BUILDDIR)/while_loop_c99
 
-# 規格別コンパイル
-c90:
-	$(MAKE) STANDARD=c90 all
+run-nested_loops: nested_loops
+	@echo "Running nested_loops:"
+	@$(BUILDDIR)/nested_loops
 
-c99:
-	$(MAKE) STANDARD=c99 all
+run-nested_loops-c99: nested_loops_c99
+	@echo "Running nested_loops (C99):"
+	@$(BUILDDIR)/nested_loops_c99
 
-c11:
-	$(MAKE) STANDARD=c11 all
+run-for_loop_basics: for_loop_basics
+	@echo "Running for_loop_basics:"
+	@$(BUILDDIR)/for_loop_basics
 
-# 規格別テスト
-test-standards:
-	@echo "=== C90規格でのコンパイルテスト ==="
-	$(MAKE) clean && $(MAKE) STANDARD=c90 all
-	@echo ""
-	@echo "=== C99規格でのコンパイルテスト ==="
-	$(MAKE) clean && $(MAKE) STANDARD=c99 all
-	@echo ""
-	@echo "=== C11規格でのコンパイルテスト ==="
-	$(MAKE) clean && $(MAKE) STANDARD=c11 all
+run-for_loop_basics-c99: for_loop_basics_c99
+	@echo "Running for_loop_basics (C99):"
+	@$(BUILDDIR)/for_loop_basics_c99
 
-# クリーンアップ
+run-break_continue: break_continue
+	@echo "Running break_continue:"
+	@$(BUILDDIR)/break_continue
+
+run-break_continue-c99: break_continue_c99
+	@echo "Running break_continue (C99):"
+	@$(BUILDDIR)/break_continue_c99
+
+run-while_dowhile: while_dowhile
+	@echo "Running while_dowhile:"
+	@$(BUILDDIR)/while_dowhile
+
+run-while_dowhile-c99: while_dowhile_c99
+	@echo "Running while_dowhile (C99):"
+	@$(BUILDDIR)/while_dowhile_c99
+
+# Test targets
+test: test-c90 test-c99
+
+test-c90:
+	@echo "Testing C90 compilation..."
+	@$(MAKE) clean
+	@$(MAKE) STANDARD=c90 all
+	@echo "C90 compilation: SUCCESS"
+
+test-c99:
+	@echo "Testing C99 compilation..."
+	@$(MAKE) clean  
+	@$(MAKE) STANDARD=c99 c99
+	@echo "C99 compilation: SUCCESS"
+
+# Clean target
 clean:
-	rm -f $(EXAMPLES_BIN)
-	rm -f $(SOLUTIONS_BIN)
-	rm -f $(EXERCISES_DIR)/*.o $(EXERCISES_DIR)/a.out
-	rm -f $(SOLUTIONS_DIR)/*.o $(SOLUTIONS_DIR)/a.out
+	@echo "Cleaning build directory..."
+	@rm -rf $(BUILDDIR)
+	@echo "Clean completed"
 
-# ヘルプ
+# Help target
 help:
-	@echo "利用可能なターゲット:"
-	@echo "  all                    - 全ての例題と解答例をコンパイル"
-	@echo "  examples               - 例題プログラムをコンパイル"
-	@echo "  solutions              - 解答例をコンパイル"
-	@echo "  for_loop_basics        - for文の基本をコンパイル"
-	@echo "  while_dowhile          - while文とdo-while文をコンパイル"
-	@echo "  break_continue         - break文とcontinue文をコンパイル"
-	@echo "  ex5_1, ex5_2, ...      - 個別の演習解答例をコンパイル"
-	@echo "  *_c99                  - C99版をコンパイル"
-	@echo "  run-examples           - 例題を実行"
-	@echo "  run-solutions          - 非対話的な解答例を実行"
-	@echo "  run-ex5_1, ...         - 個別の解答例を実行"
-	@echo "  c90/c99/c11            - 指定された規格でコンパイル"
-	@echo "  test-standards         - 複数のC規格でコンパイルテスト"
-	@echo "  clean                  - 生成されたファイルを削除"
-	@echo "  help                   - このヘルプを表示"
+	@echo "Available targets:"
+	@echo "  all       - Build all C90 programs"
+	@echo "  c99       - Build all C99 programs"
+	@echo "  test      - Test both C90 and C99 compilation"
+	@echo "  run-all   - Build and run all programs"
+	@echo "  clean     - Clean build directory"
 	@echo ""
-	@echo "例: make STANDARD=c99 solutions"
-	@echo ""
-	@echo "注意: 素数判定プログラム(ex5_3)は数学ライブラリ(-lm)が必要です"
+	@echo "Individual programs:"
+	@echo "  basic_for            - Build basic_for.c"
+	@echo "  run-basic_for       - Build and run basic_for"
+	@echo "  while_loop           - Build while_loop.c"
+	@echo "  run-while_loop      - Build and run while_loop"
+	@echo "  nested_loops         - Build nested_loops.c"
+	@echo "  run-nested_loops    - Build and run nested_loops"
+	@echo "  for_loop_basics      - Build for_loop_basics.c"
+	@echo "  run-for_loop_basics - Build and run for_loop_basics"
+	@echo "  break_continue       - Build break_continue.c"
+	@echo "  run-break_continue  - Build and run break_continue"
+	@echo "  while_dowhile        - Build while_dowhile.c"
+	@echo "  run-while_dowhile   - Build and run while_dowhile"
+
+.PHONY: all c99 test test-c90 test-c99 run-all clean help

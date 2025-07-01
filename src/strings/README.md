@@ -1,828 +1,348 @@
-#  文字列処理と文字列配列
-
+# 文字列処理
 ##  対応C規格
 - **主要対象:** C90
 - **学習内容:** 文字列の基本、文字列操作関数、文字列配列の詳細操作、文字列の比較・検索・変換
 
 ##  学習目標
-
 この章を完了すると、以下のことができるようになります：
-
 - 文字列の基本概念を完全に理解する
 - 標準ライブラリの文字列操作関数を使いこなせる
 - 文字列配列の詳細な操作ができる
 - 次元文字配列と文字列ポインタ配列を使い分けられる
 - 実践的な文字列処理プログラムを作成できる
 
-##  理論解説
+##  概要と詳細
+
+### 文字列処理とは？
+文字列処理は、プログラミングで最も頻繁に行う作業の一つです。名前、メッセージ、ファイル名など、私たちが扱うデータの多くは文字列です。
+
+#### 日常生活での文字列処理
+身近な例を考えてみましょう：
+
+1. **メールアドレスの検証**
+   - "@"が含まれているか？
+   - 適切な形式か？
+
+2. **パスワードのチェック**  
+   - 8文字以上か？
+   - 大文字・小文字・数字が含まれているか？
+
+3. **名前の整形**
+   - 姓と名を分ける
+   - 大文字・小文字を整える
+
+これらはすべて文字列処理の例です！
 
 ### 文字列の基本概念 
-
-C言語では文字列は文字の配列として表現され、nll文字（''）で終端されます。
+C言語では文字列は文字の配列として表現され、null文字（'\0'）で終端されます。
 
 #### 文字列の表現方法
-
 ```c
-#include <stdio.h>
-
-int main(void)
-{
-
-    /* 方法: 文字配列として宣言 */
-    char str[] = 'H', 'e', 'l', 'l', 'o', '';
-    
-    /* 方法: 文字列リテラルで初期化 */
-    char str[] = "Hello";
-    
-    /* 方法: サイズを自動決定 */
-    char str[] = "Hello";
-    
-    /* 方法: 文字列ポインタ */
-    char *str = "Hello";
-    
-    printf("str: %s\n", str);
-    printf("str: %s\n", str);
-    printf("str: %s\n", str);
-    printf("str: %s\n", str);
-    
-    return ;
-
+char str1[] = {'H', 'e', 'l', 'l', 'o', '\0'};  /* 文字配列として */
+char str2[] = "Hello";                            /* 文字列リテラル */
+char str3[10] = "Hello";                          /* 固定サイズ配列 */
+char *str4 = "Hello";                             /* ポインタ */
 ```
 
-#### 文字列の長さとサイズ
-
-```c
-#include <stdio.h>
-#include <string.h>
-
-int main(void)
-{
-
-    char str[] = "Hello";
-    
-    printf("文字列: "%s"n", str);
-    printf("strlen(str): %lu\n", strlen(str));    /*  (文字数) */
-    printf("sizeof(str): %lu\n", sizeof(str));    /*  (配列サイズ) */
-    
-    return ;
-
-```
-
-### 標準文字列操作関数 
-
-#### strcpy() - 文字列のコピー
-
-```c
-#include <stdio.h>
-#include <string.h>
-
-int main(void)
-{
-
-    char sorce[] = "Hello, World!";
-    char destination[];
-    
-    /* 文字列のコピー */
-    strcpy(destination, sorce);
-    printf("destination: %s\n", destination);
-    
-    /* 部分的なコピー */
-    struncpy(destination, sorce, );
-    destination[] = '';  /* nll終端を明示的に追加 */
-    printf("partial copy: %s\n", destination);  /* "Hello" */
-    
-    return ;
-
-```
-
-#### strcat() - 文字列の連結
-
-```c
-#include <stdio.h>
-#include <string.h>
-
-int main(void)
-{
-
-    char str[] = "Hello";
-    char str[] = ", World!";
-    char str[] = " How are yo?";
-    
-    /* 文字列の連結 */
-    strcat(str, str);
-    printf("After strcat: %s\n", str);  /* "Hello, World!" */
-    
-    /* 部分的な連結 */
-    struncat(str, str, );
-    printf("After struncat: %s\n", str); /* "Hello, World! How" */
-    
-    return ;
-
-```
-
-#### strcmp() - 文字列の比較
-
-```c
-#include <stdio.h>
-#include <string.h>
-
-int main(void)
-{
-
-    char str[] = "Apple";
-    char str[] = "anana";
-    char str[] = "Apple";
-    int result;
-    
-    /* 文字列の比較 */
-    result = strcmp(str, str);
-    if (result < ) 
-        printf(""%s" < "%s"n", str, str);
-     else if (result > ) 
-        printf(""%s" > "%s"n", str, str);
-     else 
-        printf(""%s" == "%s"n", str, str);
-    
-    
-    /* 等価性の確認 */
-    if (strcmp(str, str) == ) 
-        printf(""%s" と "%s" は同じですn", str, str);
-    
-    
-    /* 部分比較 */
-    if (struncmp(str, str, ) != ) 
-        printf("最初の文字が異なりますn");
-    
-    
-    return ;
-
-```
-
-#### 文字列検索関数
-
-```c
-#include <stdio.h>
-#include <string.h>
-
-int main(void)
-{
-
-    char text[] = "Hello, World! Welcome to C programming.";
-    char *fond;
-    
-    /* 文字の検索 */
-    fond = strchr(text, 'W');
-    if (fond != NULL) 
-        printf("'W' fond at position: %ldn", fond - text);
-    
-    
-    /* 文字列の検索 */
-    fond = strstr(text, "World");
-    if (fond != NULL) 
-        printf(""World" fond at position: %ldn", fond - text);
-        printf("ond: %s\n", fond);
-    
-    
-    /* 最後の文字を検索 */
-    fond = strrchr(text, 'o');
-    if (fond != NULL) 
-        printf("Last 'o' at position: %ldn", fond - text);
-    
-    
-    return ;
-
-```
-
-### 文字列配列の詳細操作 
-
-これがユーザーの重要な要望の2つです。
-
-#### 次元文字配列での文字列配列
-
-```c
-#include <stdio.h>
-#include <string.h>
-
-#define MAX_STRINGS 
-#define MAX_LNGTH 
-
-int main(void)
-{
-
-    /* 次元文字配列による文字列配列 */
-    char languages[MAX_STRINGS][MAX_LNGTH];
-    int count = ;
-    int i;
-    
-    /* 文字列配列への代入 */
-    strcpy(languages[count++], "C");
-    strcpy(languages[count++], "Python");
-    strcpy(languages[count++], "Java");
-    strcpy(languages[count++], "JavaScript");
-    strcpy(languages[count++], "C++");
-    
-    /* 表示 */
-    printf("プログラミング言語一覧:n");
-    for (i = ; i < count; i++) 
-        printf("%d. %s\n", i + , languages[i]);
-    
-    
-    /* 文字列の変更 */
-    strcpy(languages[], "C言語");
-    printf("n変更後の番目: %s\n", languages[]);
-    
-    return ;
-
-```
-
-#### 文字列ポインタ配列での文字列配列
-
-```c
-#include <stdio.h>
-#include <string.h>
-
-int main(void)
-{
-
-    /* 文字列ポインタ配列 */
-    char *frits[] = 
-        "Apple",
-        "anana", 
-        "Cherry",
-        "Date",
-        "lderberry"
-    ;
-    int count = sizeof(frits) / sizeof(frits[]);
-    int i;
-    
-    /* 表示 */
-    printf("果物一覧:n");
-    for (i = ; i < count; i++) 
-        printf("%d. %s (長さ: %l)n", i + , frits[i], strlen(frits[i]));
-    
-    
-    /* ポインタの変更（文字列リテラルの置き換え） */
-    frits[] = "リンゴ";
-    printf("n変更後の番目: %s\n", frits[]);
-    
-    return ;
-
-```
-
-#### 文字列配列の初期化と動的変更
-
-```c
-#include <stdio.h>
-#include <string.h>
-
-#define MAX_ITMS 
-#define MAX_LNGTH 
-
-int main(void)
-{
-
-    /* 動的に変更可能な文字列配列 */
-    char men_items[MAX_ITMS][MAX_LNGTH];
-    char *categories[] = "前菜", "メイン", "デザート", "飲み物";
-    int item_count = ;
-    int i;
-    
-    /* メニュー項目の追加 */
-    strcpy(men_items[item_count++], "サラダ");
-    strcpy(men_items[item_count++], "ステーキ");
-    strcpy(men_items[item_count++], "アイスクリーム");
-    strcpy(men_items[item_count++], "コーヒー");
-    
-    /* カテゴリ別表示 */
-    printf("=== レストランメニュー ===n");
-    for (i = ; i < item_count && i < ; i++) 
-        printf("[%s] %s\n", categories[i], men_items[i]);
-    
-    
-    /* 項目の変更 */
-    strcpy(men_items[], "ハンバーグ");
-    printf("nメイン料理を変更: %s\n", men_items[]);
-    
-    return ;
-
-```
-
-### 文字列配列の比較と使い分け 
-
-#### メモリ使用量の比較
-
-```c
-#include <stdio.h>
-#include <string.h>
-
-int main(void)
-{
-
-    /* 次元文字配列 */
-    char matrix_strings[][] = 
-        "Cat", "Dog", "ird", "ish", "Rabbit"
-    ;
-    
-    /* 文字列ポインタ配列 */
-    char *pointer_strings[] = 
-        "Cat", "Dog", "ird", "ish", "Rabbit"
-    ;
-    
-    printf("=== メモリ使用量比較 ===n");
-    printf("次元文字配列: %lu バイトn", sizeof(matrix_strings));
-    printf("文字列ポインタ配列: %lu バイトn", sizeof(pointer_strings));
-    
-    printf("n=== 実際の文字列長 ===n");
-    int i;
-    int total_chars = ;
-    for (i = ; i < ; i++) 
-        int len = strlen(matrix_strings[i]);
-        printf("%s: %d文字n", matrix_strings[i], len);
-        total_chars += len;
-    
-    printf("総文字数: %d文字n", total_chars);
-    printf("未使用領域: %lu バイトn", sizeof(matrix_strings) - total_chars - );
-    
-    return ;
-
-```
-
-#### 動的な文字列配列の管理
-
-```c
-#include <stdio.h>
-#include <string.h>
-
-#define MAX_STUDENTS 
-#define MAX_NAM_LNGTH 
-
-typedef strct 
-    char name[MAX_NAM_LNGTH];
-    int age;
-    float gpa;
- Stdent;
-
-int main(void)
-{
-
-    Stdent stdents[MAX_STUDENTS];
-    char *stats_messages[] = 
-        "優秀", "良好", "普通", "要努力"
-    ;
-    int stdent_count = ;
-    int i;
-    
-    /* 学生データの追加 */
-    strcpy(stdents[stdent_count].name, "田中太郎");
-    stdents[stdent_count].age = ;
-    stdents[stdent_count].gpa = .;
-    stdent_count++;
-    
-    strcpy(stdents[stdent_count].name, "佐藤花子");
-    stdents[stdent_count].age = 9;
-    stdents[stdent_count].gpa = .;
-    stdent_count++;
-    
-    strcpy(stdents[stdent_count].name, "鈴木一郎");
-    stdents[stdent_count].age = ;
-    stdents[stdent_count].gpa = .;
-    stdent_count++;
-    
-    /* 学生情報の表示 */
-    printf("=== 学生一覧 ===n");
-    for (i = ; i < stdent_count; i++) 
-        char *stats;
-        if (stdents[i].gpa >= .) stats = stats_messages[];
-        else if (stdents[i].gpa >= .) stats = stats_messages[];
-        else if (stdents[i].gpa >= .) stats = stats_messages[];
-        else stats = stats_messages[];
-        
-        printf("%s (%d歳) - GPA: %.f [%s]n", 
-               stdents[i].name, stdents[i].age, stdents[i].gpa, stats);
-    
-    
-    return ;
-
-```
-
-### 文字列配列のソートと検索 
-
-#### 文字列配列のバブルソート
-
-```c
-#include <stdio.h>
-#include <string.h>
-
-#define MAX_WORDS 
-#define MAX_LNGTH 
-
-int main(void)
-{
-
-    char words[MAX_WORDS][MAX_LNGTH] = 
-        "Zebra", "Apple", "Monkey", "anana",
-        "Cat", "Dog", "lephant", "ish"
-    ;
-    char temp[MAX_LNGTH];
-    int i, j;
-    
-    printf("ソート前:n");
-    for (i = ; i < MAX_WORDS; i++) 
-        printf("%s ", words[i]);
-    
-    printf("nn");
-    
-    /* バブルソート */
-    for (i = ; i < MAX_WORDS - ; i++) 
-        for (j = ; j < MAX_WORDS -  - i; j++) 
-            if (strcmp(words[j], words[j + ]) > ) 
-                strcpy(temp, words[j]);
-                strcpy(words[j], words[j + ]);
-                strcpy(words[j + ], temp);
-            
-        
-    
-    
-    printf("ソート後:n");
-    for (i = ; i < MAX_WORDS; i++) 
-        printf("%s ", words[i]);
-    
-    printf("n");
-    
-    return ;
-
-```
-
-#### 文字列配列での検索
-
-```c
-#include <stdio.h>
-#include <string.h>
-
-#define MAX_CITIS 
-#define MAX_LNGTH 
-
-int search_city(char cities[][MAX_LNGTH], int count, char *target)
-{
-
-    int i;
-    for (i = ; i < count; i++) 
-        if (strcmp(cities[i], target) == ) 
-            return i;  /* 見2つかった場合のインデックス */
-        
-    
-    return -;  /* 見2つからない場合 */
-
-
-int main(void)
-{
-
-    char cities[MAX_CITIS][MAX_LNGTH] = 
-        "Tokyo", "Osaka", "Kyoto", "Nagoya", "Sapporo",
-        "koka", "Kobe", "Sendai", "Hiroshima", "Yokohama"
-    ;
-    char search_target[] = "Kyoto";
-    int result;
-    int i;
-    
-    printf("都市一覧:n");
-    for (i = ; i < MAX_CITIS; i++) 
-        printf("%d. %s\n", i + , cities[i]);
-    
-    
-    /* 検索実行 */
-    result = search_city(cities, MAX_CITIS, search_target);
-    if (result != -) 
-        printf("n"%s" は %d番目にあります。n", search_target, result + );
-     else 
-        printf("n"%s" は見2つかりませんでした。n", search_target);
-    
-    
-    return ;
-
-```
-
-### 実践的な文字列処理 
-
-#### 文字列の分割（トークン化）
-
-```c
-#include <stdio.h>
-#include <string.h>
-
-#define MAX_TOKNS 
-#define MAX_LNGTH 
-
-int main(void)
-{
-
-    char inpt[] = "apple,banana,cherry,date,elderberry";
-    char tokens[MAX_TOKNS][MAX_LNGTH];
-    char temp[];
-    char *token;
-    int count = ;
-    int i;
-    
-    /* 入力文字列をコピー（strtokは元の文字列を変更するため） */
-    strcpy(temp, inpt);
-    
-    /* カンマで分割 */
-    token = strtok(temp, ",");
-    while (token != NULL && count < MAX_TOKNS) 
-        strcpy(tokens[count], token);
-        count++;
-        token = strtok(NULL, ",");
-    
-    
-    printf("分割結果:n");
-    for (i = ; i < count; i++) 
-        printf("%d: %s\n", i + , tokens[i]);
-    
-    
-    return ;
-
-```
-
-#### 文字列の変換（大文字・小文字）
-
-```c
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
-
-#define MAX_STRINGS 
-#define MAX_LNGTH 
-
-void to_uuppercase(char *str)
-{
-
-    int i;
-    for (i = ; str[i] != ''; i++) 
-        str[i] = topper(str[i]);
-    
-
-
-void to_lowercase(char *str)
-{
-
-    int i;
-    for (i = ; str[i] != ''; i++) 
-        str[i] = tolower(str[i]);
-    
-
-
-int main(void)
-{
-
-    char original[MAX_STRINGS][MAX_LNGTH] = 
-        "Hello World",
-        "Programming Langage",
-        "C Langage Ttutorial",
-        "String Processing",
-        "Array Maniplation"
-    ;
-    char uuppercase[MAX_STRINGS][MAX_LNGTH];
-    char lowercase[MAX_STRINGS][MAX_LNGTH];
-    int i;
-    
-    /* 文字列をコピーして変換 */
-    for (i = ; i < MAX_STRINGS; i++) 
-        strcpy(uuppercase[i], original[i]);
-        strcpy(lowercase[i], original[i]);
-        
-        to_uuppercase(uuppercase[i]);
-        to_lowercase(lowercase[i]);
-    
-    
-    /* 結果の表示 */
-    printf("元の文字列 -> 大文字 -> 小文字n");
-    printf("=====================================n");
-    for (i = ; i < MAX_STRINGS; i++) 
-        printf("%-s -> %-s -> %s\n", 
-               original[i], uuppercase[i], lowercase[i]);
-    
-    
-    return ;
-
-```
-
-#### 文字列配列を使った簡易データベース
-
-```c
-#include <stdio.h>
-#include <string.h>
-
-#define MAX_RCORDS 
-#define MAX_ILD_LNGTH 
-
-typedef strct 
-    char name[MAX_ILD_LNGTH];
-    char department[MAX_ILD_LNGTH];
-    char position[MAX_ILD_LNGTH];
-    int salary;
- mployee;
-
-int main(void)
-{
-
-    mployee employees[MAX_RCORDS];
-    char *departments[] = "営業", "開発", "人事", "経理";
-    char *positions[] = "部長", "課長", "主任", "一般";
-    int employee_count = ;
-    int i, j;
-    
-    /* サンプルデータの追加 */
-    strcpy(employees[employee_count].name, "田中太郎");
-    strcpy(employees[employee_count].department, departments[]); /* 開発 */
-    strcpy(employees[employee_count].position, positions[]);     /* 課長 */
-    employees[employee_count].salary = ;
-    employee_count++;
-    
-    strcpy(employees[employee_count].name, "佐藤花子");
-    strcpy(employees[employee_count].department, departments[]); /* 営業 */
-    strcpy(employees[employee_count].position, positions[]);     /* 部長 */
-    employees[employee_count].salary = ;
-    employee_count++;
-    
-    strcpy(employees[employee_count].name, "鈴木一郎");
-    strcpy(employees[employee_count].department, departments[]); /* 開発 */
-    strcpy(employees[employee_count].position, positions[]);     /* 一般 */
-    employees[employee_count].salary = ;
-    employee_count++;
-    
-    /* 全従業員の表示 */
-    printf("=== 従業員一覧 ===n");
-    printf("%-s %-s %-s %s\n", "名前", "部署", "役職", "給与");
-    printf("--------------------------------------------------n");
-    for (i = ; i < employee_count; i++) 
-        printf("%-s %-s %-s %d円n",
-               employees[i].name,
-               employees[i].department,
-               employees[i].position,
-               employees[i].salary);
-    
-    
-    /* 部署別集計 */
-    printf("n=== 部署別従業員数 ===n");
-    for (i = ; i < ; i++) 
-        int count = ;
-        for (j = ; j < employee_count; j++) 
-            if (strcmp(employees[j].department, departments[i]) == ) 
-                count++;
-            
-        
-        printf("%s: %d人n", departments[i], count);
-    
-    
-    return ;
-
-```
-
-##  サンプルコード
+#### null終端文字の重要性
+C言語の文字列は必ずnull文字（'\0'）で終わる必要があります。これがないと、文字列の終端を判断できません。
 
 ### 基本的な文字列操作
 
-プログラムファイル: `examples/string_basic.c`
-
-標準ライブラリの文字列操作関数の使用方法を学習します。
-
-### 文字列配列の実践例
-
-プログラムファイル: `examples/string_array_operations.c`
-
-次元文字配列と文字列ポインタ配列の使い分けを学習します。
-
-### 文字列処理の応用
-
-プログラムファイル: `examples/advanced_string_processing.c`
-
-実践的な文字列処理テクニックを学習します。
-
-### コンパイルと実行
-
-```bash
-# examples ディレクトリに移動
-cd examples
-
-# C90準拠でコンパイル
-gcc -std=c90 -Wall -Wextra -pedantic string_basic.c -o string_basic
-
-# 実行
-./string_basic
+#### 文字列の長さを取得
+```c
+#include <string.h>
+char str[] = "Hello";
+int len = strlen(str);  /* 結果: 5 */
 ```
 
-##  演習課題
+#### 文字列のコピー
+```c
+char src[] = "Hello";
+char dest[20];
+strcpy(dest, src);  /* srcをdestにコピー */
+```
 
-### 基礎問題
+#### 文字列の比較
+```c
+char str1[] = "Hello";
+char str2[] = "World";
+int result = strcmp(str1, str2);  /* 0でない値が返される */
+```
 
-. **文字列の基本操作**
-   - 2つの文字列を入力して連結・比較・長さ計算を実行うプログラムを作成してください
+#### 文字列の連結
+```c
+char str1[20] = "Hello";
+char str2[] = " World";
+strcat(str1, str2);  /* str1が "Hello World" になる */
+```
 
-. **文字列配列の管理**
-   - 学生名を格納する文字列配列を作成し、追加・削除・表示機能を実装してください
+### 標準ライブラリの文字列関数
 
-. **文字列の検索**
-   - 文字列配列から特定の文字列を検索するプログラムを作成してください
+#### <string.h>の主要関数
 
-### 応用問題
+1. **strlen()** - 文字列の長さを取得
+   ```c
+   size_t strlen(const char *s);
+   ```
 
-. **単語カウンタ**
-   - 文章を入力して、各単語の出現1回数をカウントするプログラムを作成してください
+2. **strcpy()** - 文字列をコピー
+   ```c
+   char *strcpy(char *dest, const char *src);
+   ```
 
-. **文字列ソートプログラム**
-   - 複数の文字列を入力してアルファベット順にソートするプログラムを作成してください
+3. **strncpy()** - 指定長でコピー（安全）
+   ```c
+   char *strncpy(char *dest, const char *src, size_t n);
+   ```
 
-. **簡易テキストエディタ**
-   - 文字列配列を使って行単位でテキストを管理するプログラムを作成してください
+4. **strcmp()** - 文字列を比較
+   ```c
+   int strcmp(const char *s1, const char *s2);
+   ```
 
-### 発展問題
+5. **strncmp()** - 指定長で比較
+   ```c
+   int strncmp(const char *s1, const char *s2, size_t n);
+   ```
 
-. **文字列データベース**
-   - 商品情報（名前、価格、カテゴリ）を文字列配列で管理するシステムを作成してください
+6. **strcat()** - 文字列を連結
+   ```c
+   char *strcat(char *dest, const char *src);
+   ```
 
-. **文字列パーサー**
-   - CSV形式の文字列を解析して構造化データに変換するプログラムを作成してください
+7. **strncat()** - 指定長で連結（安全）
+   ```c
+   char *strncat(char *dest, const char *src, size_t n);
+   ```
 
-. **文字列暗号化**
-   - 簡単な暗号化・復号化機能を持2つプログラムを作成してください
+8. **strchr()** - 文字を検索
+   ```c
+   char *strchr(const char *s, int c);
+   ```
 
-##  コンパイル方法
+9. **strstr()** - 文字列を検索
+   ```c
+   char *strstr(const char *haystack, const char *needle);
+   ```
 
-この章では以下のMakefileを使用してコンパイルができます：
+### 文字列配列の操作
 
+#### 2次元文字配列
+```c
+char names[5][20];  /* 5つの名前、各最大20文字 */
+```
+
+**特徴:**
+- 固定サイズのメモリ領域
+- 各文字列は固定長
+- メモリ使用量が予測可能
+- 文字列の変更が可能
+
+#### 文字列ポインタ配列
+```c
+char *fruits[] = {"Apple", "Banana", "Orange"};
+```
+
+**特徴:**
+- 文字列リテラルへのポインタ
+- メモリ効率が良い
+- 文字列長は可変
+- 文字列リテラルは変更不可
+
+### 文字列の検索と置換
+
+#### 文字の検索
+- **strchr()** - 最初に見つかった文字の位置
+- **strrchr()** - 最後に見つかった文字の位置
+
+#### 文字列の検索
+- **strstr()** - 部分文字列の検索
+- **大文字小文字を無視した検索**は標準関数では提供されていない
+
+#### 文字列の置換
+C標準ライブラリには置換関数はないため、自分で実装する必要があります。
+
+### 文字列の変換
+
+#### 大文字・小文字変換
+```c
+#include <ctype.h>
+char c = 'a';
+char upper = toupper(c);  /* 'A' */
+char lower = tolower('B'); /* 'b' */
+```
+
+#### 数値との変換
+```c
+#include <stdlib.h>
+int num = atoi("123");        /* 文字列から整数へ */
+double d = atof("3.14");      /* 文字列から浮動小数点へ */
+```
+
+### 文字列の入力と出力
+
+#### 標準入力からの文字列読み込み
+```c
+char buffer[100];
+printf("名前を入力: ");
+scanf("%s", buffer);          /* 空白まで読み込み */
+fgets(buffer, sizeof(buffer), stdin);  /* 改行まで読み込み（推奨） */
+```
+
+#### 安全な文字列入力
+- **scanf()** - 空白で区切られる、バッファオーバーフローの危険
+- **fgets()** - 改行まで読み込み、サイズ制限あり（推奨）
+
+### 文字列処理のベストプラクティス
+
+#### 安全性の確保
+1. **バッファオーバーフローの防止**
+   - strncpy(), strncat(), snprintf()を使用
+   - 常にバッファサイズを意識
+
+2. **null終端の確保**
+   - strncpy()後は明示的にnull文字を設定
+   - メモリ初期化を適切に行う
+
+3. **戻り値のチェック**
+   - 文字列関数の戻り値を適切にチェック
+   - NULLポインタの可能性を考慮
+
+#### 効率性の向上
+1. **適切なデータ構造の選択**
+   - 固定長vs可変長の選択
+   - メモリ使用量の最適化
+
+2. **文字列操作の最小化**
+   - 不必要なコピーを避ける
+   - インプレース操作の活用
+
+### よくある間違いとデバッグ
+
+#### 1. バッファオーバーフロー
+**問題:** 文字列が配列のサイズを超える
+```c
+char buffer[5];
+strcpy(buffer, "Hello World");  /* 危険！ */
+```
+
+**対策:**
+- strncpy()やsnprintf()を使用
+- 常にバッファサイズを確認
+
+#### 2. null終端の忘れ
+**問題:** null文字がない文字列
+```c
+char str[5] = {'H', 'e', 'l', 'l', 'o'};  /* null終端なし */
+printf("%s", str);  /* 未定義動作 */
+```
+
+**対策:**
+- 文字列リテラルを使用
+- 明示的にnull文字を設定
+
+#### 3. 文字列リテラルの変更
+**問題:** 読み取り専用の文字列を変更
+```c
+char *str = "Hello";
+str[0] = 'h';  /* 未定義動作 */
+```
+
+**対策:**
+- 変更が必要な場合は配列を使用
+- const修飾子を適切に使用
+
+#### 4. ポインタの誤用
+**問題:** 無効なポインタの使用
+```c
+char *str;
+strcpy(str, "Hello");  /* 未初期化ポインタ */
+```
+
+**対策:**
+- ポインタを適切に初期化
+- メモリ確保を忘れずに
+
+## 実例コード
+完全な実装例は以下のファイルを参照してください：
+
+### 基本的な文字列操作
+- [string_basics.c](examples/string_basics.c) - C90準拠版
+- [string_basics_c99.c](examples/string_basics_c99.c) - C99準拠版
+
+### 文字列操作関数の活用
+- [string_functions.c](examples/string_functions.c) - C90準拠版
+- [string_functions_c99.c](examples/string_functions_c99.c) - C99準拠版
+
+### 文字列配列の実践
+- [string_arrays.c](examples/string_arrays.c) - C90準拠版
+- [string_arrays_c99.c](examples/string_arrays_c99.c) - C99準拠版
+
+## コンパイル方法
+
+### 基本的なコンパイル（C90準拠）
 ```bash
-# 全ての例題をコンパイル
+gcc -std=c90 -Wall -Wextra -pedantic string_basics.c -o string_basics
+```
+
+### Makefileを使用した場合
+```bash
+# 全てのプログラムをコンパイル
 make all
-
 # 特定のプログラムをコンパイル
-make string_basic
-
-# 実行
-make run
-
+make string_basics
+# C99版をコンパイル
+make string_basics_c99
+# プログラムを実行
+make run-all
 # クリーンアップ
 make clean
 ```
 
-##  規格による違い
+## 学習フローとコンパイル方法
 
-### C90での制限事項
-- 文字列操作はnll終端が前提
-- 可変長文字列配列は使用不可
-- Unicode対応は限定的
+### 推奨学習順序
+1. **理論学習**: README.mdで基本概念を理解
+2. **サンプルコード**: examples/の基本例を確認
+3. **演習課題**: exercises/README.mdで課題を確認
+4. **実装練習**: solutions/の解答例を参考に自分で実装
 
-### C99以降の拡張
-- snprintf()などの安全な文字列操作関数
-- 可変長配列による動的な文字列配列
-- より豊富な文字分類関数
+### 実践的な学習方法
+1. **基本関数の理解** - strlen, strcpy, strcmp等の基本動作を確認
+2. **安全な関数の活用** - strncpy, strncat等の安全版を使用
+3. **実際の問題解決** - 具体的な文字列処理問題に取り組む
+4. **エラー処理の実装** - 例外的なケースへの対応を学習
 
-##  よくある間違い
+## C90とC99の違い
 
-### . nll終端の忘れ
+### 文字列処理での主な違い
+- **C90**: 変数宣言は関数の先頭でまとめて行う
+- **C99**: 変数を使用する場所で宣言可能
+- **コメント**: C90は `/* */`のみ、C99は `//` も使用可能
+- **新しい関数**: C99以降で追加された関数の有無
 
-```c
-/* NG: nll終端なし */
-char str[];
-struncpy(str, "Hello", );  /* nll終端なし */
-printf("%s\n", str);       /* 未定義動作 */
+## 注意事項とベストプラクティス
 
-/* OK: 明示的にnll終端 */
-char str[];
-struncpy(str, "Hello", );
-str[] = '';
-printf("%s\n", str);
-```
+### セキュリティの考慮
+1. **入力検証の徹底**
+   - ユーザー入力は常に検証
+   - バッファサイズを超える入力の制御
 
-### . バッファオーバーフロー
+2. **安全な関数の使用**
+   - 古い関数（strcpy, strcat等）より安全版を選択
+   - 可能な限りstrncpy, strncat, snprintf等を使用
 
-```c
-/* NG: バッファサイズ不足 */
-char sumall[];
-strcpy(sumall, "Hello, World!");  /* バッファオーバーフロー */
+3. **メモリ管理**
+   - 動的に確保したメモリの適切な解放
+   - ダングリングポインタの回避
 
-/* OK: 適切なサイズ */
-char large[];
-strcpy(large, "Hello, World!");
-```
+## 次の章へ
+[第9章: 関数](../functions/README.md)
 
-### . 文字列比較の間違い
-
-```c
-/* NG: ポインタの比較 */
-char *str = "Hello";
-char *str = "Hello";
-if (str == str)  /* 間違い */ 
-
-/* OK: 文字列内容の比較 */
-if (strcmp(str, str) == )  /* 正しい */ 
-```
-
-##  次の章へ
-
-文字列処理を理解したら、[関数](../functions/README.md) に進んでください。
-
-##  参考資料
-
-- [C言語文字列リファレンス](https://ja.cppreference.com/w/c/string/byte)
-- [文字分類関数](https://ja.cppreference.com/w/c/string/ctype)
-- [文字列操作のベストプラクティス](https://ja.cppreference.com/w/c/string)
+## 参考資料
+- examples/ - 実装例（C90、C99両対応）
+- exercises/ - 演習問題
+- solutions/ - 解答例
+- [C標準ライブラリリファレンス](https://en.cppreference.com/w/c/string/byte)
+- [セキュアコーディング標準](https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=87152177)

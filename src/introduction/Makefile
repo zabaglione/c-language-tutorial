@@ -1,142 +1,132 @@
-# C言語学習教材 - 第1章: はじめに
-# コンパイラとフラグの設定
+# Makefile for introduction chapter
+# Supports both C90 and C99 standards
 
+# Compiler settings
 CC = gcc
-CFLAGS_BASE = -Wall -Wextra -pedantic
 STANDARD ?= c90
-CFLAGS = $(CFLAGS_BASE) -std=$(STANDARD)
+CFLAGS = -Wall -Wextra -pedantic -std=$(STANDARD)
+SRCDIR = examples
+BUILDDIR = build
 
-# ディレクトリ設定
-EXAMPLES_DIR = examples
-EXERCISES_DIR = exercises
-SOLUTIONS_DIR = solutions
+# Source files
+SOURCES = hello_world.c compiler_test.c environment_check.c
+TARGETS = hello_world compiler_test environment_check
+C99_TARGETS = hello_world_c99 compiler_test_c99 environment_check_c99
 
-# ソースファイル
-EXAMPLES_SRC = $(wildcard $(EXAMPLES_DIR)/*.c)
-EXAMPLES_BIN = $(EXAMPLES_SRC:.c=)
+# Default target
+all: $(TARGETS)
 
-SOLUTIONS_SRC = $(wildcard $(SOLUTIONS_DIR)/*.c)
-SOLUTIONS_BIN = $(SOLUTIONS_SRC:.c=)
+# C99 versions
+c99: STANDARD=c99
+c99: $(C99_TARGETS)
 
-# デフォルトターゲット
-.PHONY: all clean run run-all run-examples run-solutions help
+# Build directory
+$(BUILDDIR):
+	@mkdir -p $(BUILDDIR)
 
-all: examples solutions
+# Generic rule for C90 programs
+%: $(SRCDIR)/%.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
+	@echo "Built $@ (C90)"
 
-examples: $(EXAMPLES_BIN)
+# Generic rule for C99 programs
+%_c99: $(SRCDIR)/%_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
+	@echo "Built $@ (C99)"
 
-solutions: $(SOLUTIONS_BIN)
+# Individual targets
+hello_world: $(SRCDIR)/hello_world.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 例題プログラムのコンパイル
-$(EXAMPLES_DIR)/%: $(EXAMPLES_DIR)/%.c
-	$(CC) $(CFLAGS) $< -o $@
+hello_world_c99: $(SRCDIR)/hello_world_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 解答例プログラムのコンパイル
-$(SOLUTIONS_DIR)/%: $(SOLUTIONS_DIR)/%.c
-	$(CC) $(CFLAGS) $< -o $@
+compiler_test: $(SRCDIR)/compiler_test.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 個別ターゲット（例題）
-environment_check: $(EXAMPLES_DIR)/environment_check
+compiler_test_c99: $(SRCDIR)/compiler_test_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 個別ターゲット（解答例）
-ex1_3_hello_name: $(SOLUTIONS_DIR)/ex1_3_hello_name
-ex1_3_hello_name_c99: $(SOLUTIONS_DIR)/ex1_3_hello_name_c99
-ex1_6_system_info: $(SOLUTIONS_DIR)/ex1_6_system_info
-ex1_6_system_info_c99: $(SOLUTIONS_DIR)/ex1_6_system_info_c99
+environment_check: $(SRCDIR)/environment_check.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 実行ターゲット
-run-all: run-examples run-solutions
+environment_check_c99: $(SRCDIR)/environment_check_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-run-examples: examples
-	@echo "=== 例題プログラムの実行 ==="
-	@for prog in $(EXAMPLES_BIN); do \
-		echo "\n--- $$prog の実行 ---"; \
-		$$prog || true; \
-	done
+# Run targets
+run-all: all
+	@echo "Running all programs:"
+	@echo "--- hello_world ---"
+	@$(BUILDDIR)/hello_world || true
+	@echo
+	@echo "--- compiler_test ---"
+	@$(BUILDDIR)/compiler_test || true
+	@echo
+	@echo "--- environment_check ---"
+	@$(BUILDDIR)/environment_check || true
+	@echo
 
-run-solutions: solutions
-	@echo "=== 解答例プログラムの実行 ==="
-	@for prog in $(SOLUTIONS_BIN); do \
-		echo "\n--- $$prog の実行 ---"; \
-		$$prog || true; \
-	done
+# Individual run targets
+run-hello_world: hello_world
+	@echo "Running hello_world:"
+	@$(BUILDDIR)/hello_world
 
-# 個別実行ターゲット（例題）
+run-hello_world-c99: hello_world_c99
+	@echo "Running hello_world (C99):"
+	@$(BUILDDIR)/hello_world_c99
+
+run-compiler_test: compiler_test
+	@echo "Running compiler_test:"
+	@$(BUILDDIR)/compiler_test
+
+run-compiler_test-c99: compiler_test_c99
+	@echo "Running compiler_test (C99):"
+	@$(BUILDDIR)/compiler_test_c99
+
 run-environment_check: environment_check
-	@echo "=== environment_check の実行 ==="
-	@$(EXAMPLES_DIR)/environment_check
+	@echo "Running environment_check:"
+	@$(BUILDDIR)/environment_check
 
-# 個別実行ターゲット（解答例）
-run-ex1_3_hello_name: ex1_3_hello_name
-	@echo "=== ex1_3_hello_name の実行 ==="
-	@$(SOLUTIONS_DIR)/ex1_3_hello_name
+run-environment_check-c99: environment_check_c99
+	@echo "Running environment_check (C99):"
+	@$(BUILDDIR)/environment_check_c99
 
-run-ex1_3_hello_name_c99: ex1_3_hello_name_c99
-	@echo "=== ex1_3_hello_name_c99 の実行 ==="
-	@$(SOLUTIONS_DIR)/ex1_3_hello_name_c99
+# Test targets
+test: test-c90 test-c99
 
-run-ex1_6_system_info: ex1_6_system_info
-	@echo "=== ex1_6_system_info の実行 ==="
-	@$(SOLUTIONS_DIR)/ex1_6_system_info
+test-c90:
+	@echo "Testing C90 compilation..."
+	@$(MAKE) clean
+	@$(MAKE) STANDARD=c90 all
+	@echo "C90 compilation: SUCCESS"
 
-run-ex1_6_system_info_c99: ex1_6_system_info_c99
-	@echo "=== ex1_6_system_info_c99 の実行 ==="
-	@$(SOLUTIONS_DIR)/ex1_6_system_info_c99
+test-c99:
+	@echo "Testing C99 compilation..."
+	@$(MAKE) clean  
+	@$(MAKE) STANDARD=c99 c99
+	@echo "C99 compilation: SUCCESS"
 
-# 規格テスト用の特別ターゲット
-test-standards: clean
-	@echo "=== C規格別のコンパイルテスト ==="
-	@echo "\n--- C90でコンパイル ---"
-	$(MAKE) STANDARD=c90 environment_check
-	@echo "\n--- C99でコンパイル ---"
-	$(MAKE) STANDARD=c99 environment_check
-	@echo "\n--- C11でコンパイル ---"
-	$(MAKE) STANDARD=c11 environment_check
-	@echo "\n--- C17でコンパイル ---"
-	$(MAKE) STANDARD=c17 environment_check
-	@echo "\n=== 各規格での実行結果 ==="
-	@echo "\n--- C90 ---"
-	@$(EXAMPLES_DIR)/environment_check
-	@echo "\n--- C99 ---"
-	@$(MAKE) clean > /dev/null 2>&1
-	@$(MAKE) STANDARD=c99 environment_check > /dev/null 2>&1
-	@$(EXAMPLES_DIR)/environment_check
-	@echo "\n--- C11 ---"
-	@$(MAKE) clean > /dev/null 2>&1
-	@$(MAKE) STANDARD=c11 environment_check > /dev/null 2>&1
-	@$(EXAMPLES_DIR)/environment_check
-	@echo "\n--- C17 ---"
-	@$(MAKE) clean > /dev/null 2>&1
-	@$(MAKE) STANDARD=c17 environment_check > /dev/null 2>&1
-	@$(EXAMPLES_DIR)/environment_check
-
-# クリーンアップ
+# Clean target
 clean:
-	rm -f $(EXAMPLES_BIN) $(SOLUTIONS_BIN)
-	rm -f $(EXAMPLES_DIR)/*.dSYM
-	rm -f $(SOLUTIONS_DIR)/*.dSYM
-	rm -rf $(EXAMPLES_DIR)/*.dSYM/
-	rm -rf $(SOLUTIONS_DIR)/*.dSYM/
+	@echo "Cleaning build directory..."
+	@rm -rf $(BUILDDIR)
+	@echo "Clean completed"
 
-# ヘルプ
+# Help target
 help:
-	@echo "使用可能なターゲット:"
-	@echo "  all             - すべてのプログラムをコンパイル"
-	@echo "  examples        - 例題プログラムをコンパイル"
-	@echo "  solutions       - 解答例プログラムをコンパイル"
-	@echo "  clean           - ビルド生成物を削除"
-	@echo "  run-all         - すべてのプログラムを実行"
-	@echo "  run-examples    - 例題プログラムを実行"
-	@echo "  run-solutions   - 解答例プログラムを実行"
-	@echo "  test-standards  - 全C規格でコンパイル・実行テスト"
+	@echo "Available targets:"
+	@echo "  all       - Build all C90 programs"
+	@echo "  c99       - Build all C99 programs"
+	@echo "  test      - Test both C90 and C99 compilation"
+	@echo "  run-all   - Build and run all programs"
+	@echo "  clean     - Clean build directory"
 	@echo ""
-	@echo "個別実行（例）:"
-	@echo "  make run-environment_check     - environment_checkを実行"
-	@echo "  make run-ex1_3_hello_name      - ex1_3_hello_nameを実行"
-	@echo "  make run-ex1_6_system_info     - ex1_6_system_infoを実行"
-	@echo ""
-	@echo "C標準の指定:"
-	@echo "  make STANDARD=c90  - C90でコンパイル（デフォルト）"
-	@echo "  make STANDARD=c99  - C99でコンパイル"
-	@echo "  make STANDARD=c11  - C11でコンパイル"
-	@echo "  make STANDARD=c17  - C17でコンパイル"
+	@echo "Individual programs:"
+	@echo "  hello_world          - Build hello_world.c"
+	@echo "  run-hello_world     - Build and run hello_world"
+	@echo "  compiler_test        - Build compiler_test.c"
+	@echo "  run-compiler_test   - Build and run compiler_test"
+	@echo "  environment_check    - Build environment_check.c"
+	@echo "  run-environment_check - Build and run environment_check"
+
+.PHONY: all c99 test test-c90 test-c99 run-all clean help

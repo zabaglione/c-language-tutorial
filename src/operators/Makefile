@@ -1,186 +1,170 @@
 # Makefile for operators chapter
-# 演算子と式の章
+# Supports both C90 and C99 standards
 
-# コンパイラとフラグの設定
+# Compiler settings
 CC = gcc
 STANDARD ?= c90
-CFLAGS_BASE = -Wall -Wextra -pedantic
-CFLAGS_DEBUG = $(CFLAGS_BASE) -g -DDEBUG -O0
-CFLAGS_RELEASE = $(CFLAGS_BASE) -O2 -DNDEBUG
+CFLAGS = -Wall -Wextra -pedantic -std=$(STANDARD)
+SRCDIR = examples
+BUILDDIR = build
 
-# 標準規格に応じたフラグ設定
-ifeq ($(STANDARD),c90)
-    CFLAGS = $(CFLAGS_BASE) -std=c90
-    CFLAGS_DEBUG := $(CFLAGS_DEBUG) -std=c90
-    CFLAGS_RELEASE := $(CFLAGS_RELEASE) -std=c90
-else ifeq ($(STANDARD),c99)
-    CFLAGS = $(CFLAGS_BASE) -std=c99
-    CFLAGS_DEBUG := $(CFLAGS_DEBUG) -std=c99
-    CFLAGS_RELEASE := $(CFLAGS_RELEASE) -std=c99
-else ifeq ($(STANDARD),c11)
-    CFLAGS = $(CFLAGS_BASE) -std=c11
-    CFLAGS_DEBUG := $(CFLAGS_DEBUG) -std=c11
-    CFLAGS_RELEASE := $(CFLAGS_RELEASE) -std=c11
-else ifeq ($(STANDARD),c17)
-    CFLAGS = $(CFLAGS_BASE) -std=c17
-    CFLAGS_DEBUG := $(CFLAGS_DEBUG) -std=c17
-    CFLAGS_RELEASE := $(CFLAGS_RELEASE) -std=c17
-endif
+# Source files
+SOURCES = operators_demo.c bitwise_demo.c precedence_demo.c logical_operators.c comparison_operators.c
+TARGETS = operators_demo bitwise_demo precedence_demo logical_operators comparison_operators
+C99_TARGETS = operators_demo_c99 bitwise_demo_c99 precedence_demo_c99 logical_operators_c99 comparison_operators_c99
 
-# ソースファイルの検出
-EXAMPLE_SOURCES = $(wildcard examples/*.c)
-SOLUTION_SOURCES = $(wildcard solutions/*.c)
+# Default target
+all: $(TARGETS)
 
-# バイナリファイル名の生成
-EXAMPLE_TARGETS = $(EXAMPLE_SOURCES:.c=)
-SOLUTION_TARGETS = $(SOLUTION_SOURCES:.c=)
+# C99 versions
+c99: STANDARD=c99
+c99: $(C99_TARGETS)
 
-# 全ターゲット
-ALL_TARGETS = $(EXAMPLE_TARGETS) $(SOLUTION_TARGETS)
+# Build directory
+$(BUILDDIR):
+	@mkdir -p $(BUILDDIR)
 
-# デフォルトターゲット
-all: $(ALL_TARGETS)
+# Generic rule for C90 programs
+%: $(SRCDIR)/%.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
+	@echo "Built $@ (C90)"
 
-# 例題のビルド
-examples: $(EXAMPLE_TARGETS)
+# Generic rule for C99 programs
+%_c99: $(SRCDIR)/%_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
+	@echo "Built $@ (C99)"
 
-# 解答例のビルド
-solutions: $(SOLUTION_TARGETS)
+# Individual targets
+operators_demo: $(SRCDIR)/operators_demo.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 汎用ビルドルール
-%: %.c
-	$(CC) $(CFLAGS) $< -o $@
+operators_demo_c99: $(SRCDIR)/operators_demo_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# C99ファイル用の特別なビルドルール
-%_c99: %_c99.c
-	$(CC) $(CFLAGS_BASE) -std=c99 $< -o $@
+bitwise_demo: $(SRCDIR)/bitwise_demo.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# デバッグビルド
-debug: CFLAGS = $(CFLAGS_DEBUG)
-debug: $(ALL_TARGETS)
+bitwise_demo_c99: $(SRCDIR)/bitwise_demo_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# リリースビルド
-release: CFLAGS = $(CFLAGS_RELEASE)
-release: $(ALL_TARGETS)
+precedence_demo: $(SRCDIR)/precedence_demo.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 全例題の実行
-run-all: examples
-	@echo "===== 演算子の基本デモ (C$(STANDARD)) ====="
-	@if [ -f examples/operators_demo ]; then ./examples/operators_demo; fi
-	@if [ -f examples/operators_demo_c99 ]; then echo ""; echo "===== 演算子の基本デモ (C99版) ====="; ./examples/operators_demo_c99; fi
-	@echo ""
-	@echo "===== ビット演算デモ (C$(STANDARD)) ====="
-	@if [ -f examples/bitwise_demo ]; then ./examples/bitwise_demo; fi
-	@if [ -f examples/bitwise_demo_c99 ]; then echo ""; echo "===== ビット演算デモ (C99版) ====="; ./examples/bitwise_demo_c99; fi
-	@echo ""
-	@echo "===== 演算子優先順位デモ (C$(STANDARD)) ====="
-	@if [ -f examples/precedence_demo ]; then ./examples/precedence_demo; fi
-	@if [ -f examples/precedence_demo_c99 ]; then echo ""; echo "===== 演算子優先順位デモ (C99版) ====="; ./examples/precedence_demo_c99; fi
+precedence_demo_c99: $(SRCDIR)/precedence_demo_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 個別実行ターゲット
-run-operators_demo: examples/operators_demo
-	./examples/operators_demo
+logical_operators: $(SRCDIR)/logical_operators.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-run-operators_demo_c99: examples/operators_demo_c99
-	./examples/operators_demo_c99
+logical_operators_c99: $(SRCDIR)/logical_operators_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-run-bitwise_demo: examples/bitwise_demo
-	./examples/bitwise_demo
+comparison_operators: $(SRCDIR)/comparison_operators.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-run-bitwise_demo_c99: examples/bitwise_demo_c99
-	./examples/bitwise_demo_c99
+comparison_operators_c99: $(SRCDIR)/comparison_operators_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-run-precedence_demo: examples/precedence_demo
-	./examples/precedence_demo
+# Run targets
+run-all: all
+	@echo "Running all programs:"
+	@echo "--- operators_demo ---"
+	@$(BUILDDIR)/operators_demo || true
+	@echo
+	@echo "--- bitwise_demo ---"
+	@$(BUILDDIR)/bitwise_demo || true
+	@echo
+	@echo "--- precedence_demo ---"
+	@$(BUILDDIR)/precedence_demo || true
+	@echo
+	@echo "--- logical_operators ---"
+	@$(BUILDDIR)/logical_operators || true
+	@echo
+	@echo "--- comparison_operators ---"
+	@$(BUILDDIR)/comparison_operators || true
+	@echo
 
-run-precedence_demo_c99: examples/precedence_demo_c99
-	./examples/precedence_demo_c99
+# Individual run targets
+run-operators_demo: operators_demo
+	@echo "Running operators_demo:"
+	@$(BUILDDIR)/operators_demo
 
-# 解答例の実行ターゲット
-run-ex4_1_calculator: solutions/ex4_1_calculator
-	./solutions/ex4_1_calculator
+run-operators_demo-c99: operators_demo_c99
+	@echo "Running operators_demo (C99):"
+	@$(BUILDDIR)/operators_demo_c99
 
-run-ex4_1_calculator_c99: solutions/ex4_1_calculator_c99
-	./solutions/ex4_1_calculator_c99
+run-bitwise_demo: bitwise_demo
+	@echo "Running bitwise_demo:"
+	@$(BUILDDIR)/bitwise_demo
 
-run-ex4_2_comparison: solutions/ex4_2_comparison
-	./solutions/ex4_2_comparison
+run-bitwise_demo-c99: bitwise_demo_c99
+	@echo "Running bitwise_demo (C99):"
+	@$(BUILDDIR)/bitwise_demo_c99
 
-run-ex4_2_comparison_c99: solutions/ex4_2_comparison_c99
-	./solutions/ex4_2_comparison_c99
+run-precedence_demo: precedence_demo
+	@echo "Running precedence_demo:"
+	@$(BUILDDIR)/precedence_demo
 
-run-ex4_3_increment: solutions/ex4_3_increment
-	./solutions/ex4_3_increment
+run-precedence_demo-c99: precedence_demo_c99
+	@echo "Running precedence_demo (C99):"
+	@$(BUILDDIR)/precedence_demo_c99
 
-run-ex4_3_increment_c99: solutions/ex4_3_increment_c99
-	./solutions/ex4_3_increment_c99
+run-logical_operators: logical_operators
+	@echo "Running logical_operators:"
+	@$(BUILDDIR)/logical_operators
 
-run-ex4_4_bitwise: solutions/ex4_4_bitwise
-	./solutions/ex4_4_bitwise
+run-logical_operators-c99: logical_operators_c99
+	@echo "Running logical_operators (C99):"
+	@$(BUILDDIR)/logical_operators_c99
 
-run-ex4_4_bitwise_c99: solutions/ex4_4_bitwise_c99
-	./solutions/ex4_4_bitwise_c99
+run-comparison_operators: comparison_operators
+	@echo "Running comparison_operators:"
+	@$(BUILDDIR)/comparison_operators
 
-run-ex4_5_conditional: solutions/ex4_5_conditional
-	./solutions/ex4_5_conditional
+run-comparison_operators-c99: comparison_operators_c99
+	@echo "Running comparison_operators (C99):"
+	@$(BUILDDIR)/comparison_operators_c99
 
-run-ex4_5_conditional_c99: solutions/ex4_5_conditional_c99
-	./solutions/ex4_5_conditional_c99
+# Test targets
+test: test-c90 test-c99
 
-run-ex4_6_precedence: solutions/ex4_6_precedence
-	./solutions/ex4_6_precedence
+test-c90:
+	@echo "Testing C90 compilation..."
+	@$(MAKE) clean
+	@$(MAKE) STANDARD=c90 all
+	@echo "C90 compilation: SUCCESS"
 
-run-ex4_6_precedence_c99: solutions/ex4_6_precedence_c99
-	./solutions/ex4_6_precedence_c99
+test-c99:
+	@echo "Testing C99 compilation..."
+	@$(MAKE) clean  
+	@$(MAKE) STANDARD=c99 c99
+	@echo "C99 compilation: SUCCESS"
 
-# クリーンアップ
+# Clean target
 clean:
-	rm -f $(ALL_TARGETS)
+	@echo "Cleaning build directory..."
+	@rm -rf $(BUILDDIR)
+	@echo "Clean completed"
 
-# ヘルプの表示
+# Help target
 help:
-	@echo "利用可能なターゲット:"
-	@echo "  all              - 全てのプログラムをビルド"
-	@echo "  examples         - 例題のみビルド"
-	@echo "  solutions        - 解答例のみビルド"
-	@echo "  run-all          - 全例題を実行"
-	@echo "  clean            - 生成されたファイルを削除"
-	@echo "  help             - このヘルプを表示"
+	@echo "Available targets:"
+	@echo "  all       - Build all C90 programs"
+	@echo "  c99       - Build all C99 programs"
+	@echo "  test      - Test both C90 and C99 compilation"
+	@echo "  run-all   - Build and run all programs"
+	@echo "  clean     - Clean build directory"
 	@echo ""
-	@echo "個別実行:"
-	@echo "  run-operators_demo      - 演算子デモを実行"
-	@echo "  run-operators_demo_c99  - 演算子デモ(C99)を実行"
-	@echo "  run-bitwise_demo        - ビット演算デモを実行"
-	@echo "  run-bitwise_demo_c99    - ビット演算デモ(C99)を実行"
-	@echo "  run-precedence_demo     - 優先順位デモを実行"
-	@echo "  run-precedence_demo_c99 - 優先順位デモ(C99)を実行"
-	@echo ""
-	@echo "解答例実行:"
-	@echo "  run-ex4_1_calculator    - 四則演算電卓演習解答"
-	@echo "  run-ex4_2_comparison    - 比較演算子演習解答"
-	@echo "  run-ex4_3_increment     - インクリメント/デクリメント演習解答"
-	@echo "  run-ex4_4_bitwise       - ビット演算演習解答"
-	@echo "  run-ex4_5_conditional   - 条件演算子演習解答"
-	@echo "  run-ex4_6_precedence    - 演算子優先順位演習解答"
-	@echo "  (各解答例のC99版は末尾に_c99を付加)"
-	@echo ""
-	@echo "ビルド設定:"
-	@echo "  STANDARD=c90|c99|c11|c17 - C標準規格を指定 (デフォルト: c90)"
-	@echo "  debug                    - デバッグ版をビルド"
-	@echo "  release                  - リリース版をビルド"
-	@echo ""
-	@echo "使用例:"
-	@echo "  make STANDARD=c99        - C99でビルド"
-	@echo "  make clean && make debug - デバッグ版をビルド"
+	@echo "Individual programs:"
+	@echo "  operators_demo       - Build operators_demo.c"
+	@echo "  run-operators_demo  - Build and run operators_demo"
+	@echo "  bitwise_demo         - Build bitwise_demo.c"
+	@echo "  run-bitwise_demo    - Build and run bitwise_demo"
+	@echo "  precedence_demo      - Build precedence_demo.c"
+	@echo "  run-precedence_demo - Build and run precedence_demo"
+	@echo "  logical_operators    - Build logical_operators.c"
+	@echo "  run-logical_operators - Build and run logical_operators"
+	@echo "  comparison_operators - Build comparison_operators.c"
+	@echo "  run-comparison_operators - Build and run comparison_operators"
 
-# 依存関係の定義
-.PHONY: all examples solutions run-all debug release clean help \
-        run-operators_demo run-operators_demo_c99 \
-        run-bitwise_demo run-bitwise_demo_c99 \
-        run-precedence_demo run-precedence_demo_c99 \
-        run-ex4_1_calculator run-ex4_1_calculator_c99 \
-        run-ex4_2_comparison run-ex4_2_comparison_c99 \
-        run-ex4_3_increment run-ex4_3_increment_c99 \
-        run-ex4_4_bitwise run-ex4_4_bitwise_c99 \
-        run-ex4_5_conditional run-ex4_5_conditional_c99 \
-        run-ex4_6_precedence run-ex4_6_precedence_c99
+.PHONY: all c99 test test-c90 test-c99 run-all clean help

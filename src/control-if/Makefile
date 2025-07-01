@@ -1,148 +1,189 @@
-# C言語学習教材 - 第4章: 制御構造（条件分岐）
-# コンパイラとフラグの設定
+# Makefile for control-if chapter
+# Supports both C90 and C99 standards
 
+# Compiler settings
 CC = gcc
-CFLAGS_BASE = -Wall -Wextra -pedantic
 STANDARD ?= c90
-CFLAGS = $(CFLAGS_BASE) -std=$(STANDARD)
+CFLAGS = -Wall -Wextra -pedantic -std=$(STANDARD)
+SRCDIR = examples
+BUILDDIR = build
 
-# ディレクトリ設定
-EXAMPLES_DIR = examples
-EXERCISES_DIR = exercises
-SOLUTIONS_DIR = solutions
+# Source files
+SOURCES = switch_basic.c basic_if.c grade_system.c if_basic.c conditional_operator.c if_else.c
+TARGETS = switch_basic basic_if grade_system if_basic conditional_operator if_else
+C99_TARGETS = switch_basic_c99 basic_if_c99 grade_system_c99 if_basic_c99 conditional_operator_c99 if_else_c99
 
-# ソースファイル
-EXAMPLES_SRC = $(wildcard $(EXAMPLES_DIR)/*.c)
-EXAMPLES_BIN = $(EXAMPLES_SRC:.c=)
+# Default target
+all: $(TARGETS)
 
+# C99 versions
+c99: STANDARD=c99
+c99: $(C99_TARGETS)
 
-SOLUTIONS_SRC = $(wildcard $(SOLUTIONS_DIR)/*.c)
-SOLUTIONS_BIN = $(SOLUTIONS_SRC:.c=)
+# Build directory
+$(BUILDDIR):
+	@mkdir -p $(BUILDDIR)
 
-# デフォルトターゲット
-.PHONY: all clean run run-all run-examples run-exercises run-solutions help
+# Generic rule for C90 programs
+%: $(SRCDIR)/%.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
+	@echo "Built $@ (C90)"
 
-all: examples solutions
+# Generic rule for C99 programs
+%_c99: $(SRCDIR)/%_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
+	@echo "Built $@ (C99)"
 
-examples: $(EXAMPLES_BIN)
+# Individual targets
+switch_basic: $(SRCDIR)/switch_basic.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-solutions: $(SOLUTIONS_BIN)
+switch_basic_c99: $(SRCDIR)/switch_basic_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 例題プログラムのコンパイル
-$(EXAMPLES_DIR)/%: $(EXAMPLES_DIR)/%.c
-	$(CC) $(CFLAGS) $< -o $@
+basic_if: $(SRCDIR)/basic_if.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
+basic_if_c99: $(SRCDIR)/basic_if_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 解答例プログラムのコンパイル
-$(SOLUTIONS_DIR)/%: $(SOLUTIONS_DIR)/%.c
-	$(CC) $(CFLAGS) $< -o $@
+grade_system: $(SRCDIR)/grade_system.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 個別ターゲット（例題）
-if_basic: $(EXAMPLES_DIR)/if_basic
-switch_basic: $(EXAMPLES_DIR)/switch_basic
-conditional_operator: $(EXAMPLES_DIR)/conditional_operator
+grade_system_c99: $(SRCDIR)/grade_system_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# C99版のターゲット（例題）
-if_basic_c99: $(EXAMPLES_DIR)/if_basic_c99
-switch_basic_c99: $(EXAMPLES_DIR)/switch_basic_c99
-conditional_operator_c99: $(EXAMPLES_DIR)/conditional_operator_c99
+if_basic: $(SRCDIR)/if_basic.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 個別ターゲット（演習解答例）
-ex4_1: $(SOLUTIONS_DIR)/ex4_1_ticket_pricing
-ex4_2: $(SOLUTIONS_DIR)/ex4_2_calculator
-ex4_3: $(SOLUTIONS_DIR)/ex4_3_bmi_judge
-ex4_4: $(SOLUTIONS_DIR)/ex4_4_leap_year
-ex4_5: $(SOLUTIONS_DIR)/ex4_5_grade_system
-ex4_6: $(SOLUTIONS_DIR)/ex4_6_janken_game
+if_basic_c99: $(SRCDIR)/if_basic_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# C99版のターゲット（演習解答例）
-ex4_1_c99: $(SOLUTIONS_DIR)/ex4_1_ticket_pricing_c99
-ex4_2_c99: $(SOLUTIONS_DIR)/ex4_2_calculator_c99
-ex4_3_c99: $(SOLUTIONS_DIR)/ex4_3_bmi_judge_c99
-ex4_4_c99: $(SOLUTIONS_DIR)/ex4_4_leap_year_c99
-ex4_5_c99: $(SOLUTIONS_DIR)/ex4_5_grade_system_c99
-ex4_6_c99: $(SOLUTIONS_DIR)/ex4_6_janken_game_c99
+conditional_operator: $(SRCDIR)/conditional_operator.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 個別ターゲット（解答例）
-grade_calculator: $(SOLUTIONS_DIR)/grade_calculator
-grade_calculator_c99: $(SOLUTIONS_DIR)/grade_calculator_c99
+conditional_operator_c99: $(SRCDIR)/conditional_operator_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 実行ターゲット
-run-examples: examples
-	@echo "=== 制御構造の例題実行 ==="
-	@echo "--- if文の基本 ---"
-	@echo "85" | ./$(EXAMPLES_DIR)/if_basic
-	@echo ""
-	@echo "--- switch文の基本 ---"
-	@echo "2" | ./$(EXAMPLES_DIR)/switch_basic
-	@echo ""
-	@echo "--- 条件演算子 ---"
-	@echo "10 5" | ./$(EXAMPLES_DIR)/conditional_operator
+if_else: $(SRCDIR)/if_else.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-run-exercises: ex4_1 ex4_2 ex4_3
-	@echo "=== 演習解答例の実行 ==="
-	@echo "--- 演習4-1: 料金計算 ---"
-	@echo "25" | ./$(SOLUTIONS_DIR)/ex4_1_ticket_pricing
-	@echo ""
-	@echo "--- 演習4-2: 電卓 ---"
-	@echo "10" | echo "+ 5" | ./$(SOLUTIONS_DIR)/ex4_2_calculator
-	@echo ""
-	@echo "--- 演習4-3: BMI判定 ---"
-	@echo "170 65" | ./$(SOLUTIONS_DIR)/ex4_3_bmi_judge
+if_else_c99: $(SRCDIR)/if_else_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-run-solutions: solutions
-	@echo "=== 解答例の実行 ==="
-	@echo "--- 成績計算システム ---"
-	@echo "85 95 90 80 1" | ./$(SOLUTIONS_DIR)/grade_calculator
+# Run targets
+run-all: all
+	@echo "Running all programs:"
+	@echo "--- switch_basic ---"
+	@$(BUILDDIR)/switch_basic || true
+	@echo
+	@echo "--- basic_if ---"
+	@$(BUILDDIR)/basic_if || true
+	@echo
+	@echo "--- grade_system ---"
+	@$(BUILDDIR)/grade_system || true
+	@echo
+	@echo "--- if_basic ---"
+	@$(BUILDDIR)/if_basic || true
+	@echo
+	@echo "--- conditional_operator ---"
+	@$(BUILDDIR)/conditional_operator || true
+	@echo
+	@echo "--- if_else ---"
+	@$(BUILDDIR)/if_else || true
+	@echo
 
-run-all: run-examples run-exercises run-solutions
+# Individual run targets
+run-switch_basic: switch_basic
+	@echo "Running switch_basic:"
+	@$(BUILDDIR)/switch_basic
 
-# 規格別コンパイル
-c90:
-	$(MAKE) STANDARD=c90 all
+run-switch_basic-c99: switch_basic_c99
+	@echo "Running switch_basic (C99):"
+	@$(BUILDDIR)/switch_basic_c99
 
-c99:
-	$(MAKE) STANDARD=c99 all
+run-basic_if: basic_if
+	@echo "Running basic_if:"
+	@$(BUILDDIR)/basic_if
 
-c11:
-	$(MAKE) STANDARD=c11 all
+run-basic_if-c99: basic_if_c99
+	@echo "Running basic_if (C99):"
+	@$(BUILDDIR)/basic_if_c99
 
-# 規格別テスト
-test-standards:
-	@echo "=== C90規格でのコンパイルテスト ==="
-	$(MAKE) clean && $(MAKE) STANDARD=c90 all
-	@echo ""
-	@echo "=== C99規格でのコンパイルテスト ==="
-	$(MAKE) clean && $(MAKE) STANDARD=c99 all
-	@echo ""
-	@echo "=== C11規格でのコンパイルテスト ==="
-	$(MAKE) clean && $(MAKE) STANDARD=c11 all
+run-grade_system: grade_system
+	@echo "Running grade_system:"
+	@$(BUILDDIR)/grade_system
 
-# クリーンアップ
+run-grade_system-c99: grade_system_c99
+	@echo "Running grade_system (C99):"
+	@$(BUILDDIR)/grade_system_c99
+
+run-if_basic: if_basic
+	@echo "Running if_basic:"
+	@$(BUILDDIR)/if_basic
+
+run-if_basic-c99: if_basic_c99
+	@echo "Running if_basic (C99):"
+	@$(BUILDDIR)/if_basic_c99
+
+run-conditional_operator: conditional_operator
+	@echo "Running conditional_operator:"
+	@$(BUILDDIR)/conditional_operator
+
+run-conditional_operator-c99: conditional_operator_c99
+	@echo "Running conditional_operator (C99):"
+	@$(BUILDDIR)/conditional_operator_c99
+
+run-if_else: if_else
+	@echo "Running if_else:"
+	@$(BUILDDIR)/if_else
+
+run-if_else-c99: if_else_c99
+	@echo "Running if_else (C99):"
+	@$(BUILDDIR)/if_else_c99
+
+# Test targets
+test: test-c90 test-c99
+
+test-c90:
+	@echo "Testing C90 compilation..."
+	@$(MAKE) clean
+	@$(MAKE) STANDARD=c90 all
+	@echo "C90 compilation: SUCCESS"
+
+test-c99:
+	@echo "Testing C99 compilation..."
+	@$(MAKE) clean  
+	@$(MAKE) STANDARD=c99 c99
+	@echo "C99 compilation: SUCCESS"
+
+# Clean target
 clean:
-	rm -f $(EXAMPLES_BIN)
-	rm -f $(SOLUTIONS_BIN)
-	rm -f $(EXERCISES_DIR)/*.o $(EXERCISES_DIR)/a.out
-	rm -f $(SOLUTIONS_DIR)/*.o $(SOLUTIONS_DIR)/a.out
+	@echo "Cleaning build directory..."
+	@rm -rf $(BUILDDIR)
+	@echo "Clean completed"
 
-# ヘルプ
+# Help target
 help:
-	@echo "利用可能なターゲット:"
-	@echo "  all                    - 全ての例題と解答例をコンパイル"
-	@echo "  examples               - 例題プログラムをコンパイル"
-	@echo "  solutions              - 解答例をコンパイル"
-	@echo "  if_basic               - if文の基本をコンパイル"
-	@echo "  switch_basic           - switch文の基本をコンパイル"
-	@echo "  conditional_operator   - 条件演算子をコンパイル"
-	@echo "  ex4_1, ex4_2, ...      - 個別の演習解答例をコンパイル"
-	@echo "  *_c99                  - C99版をコンパイル"
-	@echo "  run-examples           - 例題を実行"
-	@echo "  run-exercises          - 演習解答例を実行"
-	@echo "  run-solutions          - 解答例を実行"
-	@echo "  run-all                - 全てを実行"
-	@echo "  c90/c99/c11            - 指定された規格でコンパイル"
-	@echo "  test-standards         - 複数のC規格でコンパイルテスト"
-	@echo "  clean                  - 生成されたファイルを削除"
-	@echo "  help                   - このヘルプを表示"
+	@echo "Available targets:"
+	@echo "  all       - Build all C90 programs"
+	@echo "  c99       - Build all C99 programs"
+	@echo "  test      - Test both C90 and C99 compilation"
+	@echo "  run-all   - Build and run all programs"
+	@echo "  clean     - Clean build directory"
 	@echo ""
-	@echo "例: make STANDARD=c99 solutions"
+	@echo "Individual programs:"
+	@echo "  switch_basic         - Build switch_basic.c"
+	@echo "  run-switch_basic    - Build and run switch_basic"
+	@echo "  basic_if             - Build basic_if.c"
+	@echo "  run-basic_if        - Build and run basic_if"
+	@echo "  grade_system         - Build grade_system.c"
+	@echo "  run-grade_system    - Build and run grade_system"
+	@echo "  if_basic             - Build if_basic.c"
+	@echo "  run-if_basic        - Build and run if_basic"
+	@echo "  conditional_operator - Build conditional_operator.c"
+	@echo "  run-conditional_operator - Build and run conditional_operator"
+	@echo "  if_else              - Build if_else.c"
+	@echo "  run-if_else         - Build and run if_else"
+
+.PHONY: all c99 test test-c90 test-c99 run-all clean help

@@ -1,134 +1,170 @@
-# C言語学習教材 - 第2章: 基本文法・Hello World
-# コンパイラとフラグの設定
+# Makefile for basics-syntax chapter
+# Supports both C90 and C99 standards
 
+# Compiler settings
 CC = gcc
-CFLAGS_BASE = -Wall -Wextra -pedantic
 STANDARD ?= c90
-CFLAGS = $(CFLAGS_BASE) -std=$(STANDARD)
+CFLAGS = -Wall -Wextra -pedantic -std=$(STANDARD)
+SRCDIR = examples
+BUILDDIR = build
 
-# ディレクトリ設定
-EXAMPLES_DIR = examples
-EXERCISES_DIR = exercises
-SOLUTIONS_DIR = solutions
+# Source files
+SOURCES = hello_world_basic.c formatted_output_demo.c hello_world.c formatted_output.c escape_sequences.c
+TARGETS = hello_world_basic formatted_output_demo hello_world formatted_output escape_sequences
+C99_TARGETS = hello_world_basic_c99 formatted_output_demo_c99 hello_world_c99 formatted_output_c99 escape_sequences_c99
 
-# ソースファイル
-EXAMPLES_SRC = $(wildcard $(EXAMPLES_DIR)/*.c)
-EXAMPLES_BIN = $(EXAMPLES_SRC:.c=)
+# Default target
+all: $(TARGETS)
 
-SOLUTIONS_SRC = $(wildcard $(SOLUTIONS_DIR)/*.c)
-SOLUTIONS_BIN = $(SOLUTIONS_SRC:.c=)
+# C99 versions
+c99: STANDARD=c99
+c99: $(C99_TARGETS)
 
-# デフォルトターゲット
-.PHONY: all clean run examples solutions help
+# Build directory
+$(BUILDDIR):
+	@mkdir -p $(BUILDDIR)
 
-all: examples solutions
+# Generic rule for C90 programs
+%: $(SRCDIR)/%.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
+	@echo "Built $@ (C90)"
 
-examples: $(EXAMPLES_BIN)
+# Generic rule for C99 programs
+%_c99: $(SRCDIR)/%_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
+	@echo "Built $@ (C99)"
 
-solutions: $(SOLUTIONS_BIN)
+# Individual targets
+hello_world_basic: $(SRCDIR)/hello_world_basic.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 例題プログラムのコンパイル
-$(EXAMPLES_DIR)/%: $(EXAMPLES_DIR)/%.c
-	$(CC) $(CFLAGS) $< -o $@
+hello_world_basic_c99: $(SRCDIR)/hello_world_basic_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 解答例プログラムのコンパイル
-$(SOLUTIONS_DIR)/%: $(SOLUTIONS_DIR)/%.c
-	$(CC) $(CFLAGS) $< -o $@
+formatted_output_demo: $(SRCDIR)/formatted_output_demo.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 個別ターゲット（例題）
-hello_world: $(EXAMPLES_DIR)/hello_world
-formatted_output: $(EXAMPLES_DIR)/formatted_output
-hello_world_c99: $(EXAMPLES_DIR)/hello_world_c99
-formatted_output_c99: $(EXAMPLES_DIR)/formatted_output_c99
+formatted_output_demo_c99: $(SRCDIR)/formatted_output_demo_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 個別ターゲット（解答例）
-ex2_1: $(SOLUTIONS_DIR)/ex2_1_hello_intro
-ex2_2: $(SOLUTIONS_DIR)/ex2_2_personal_data
-ex2_3: $(SOLUTIONS_DIR)/ex2_3_age_calculator
-ex2_4: $(SOLUTIONS_DIR)/ex2_4_format_demo
-ex2_5: $(SOLUTIONS_DIR)/ex2_5_simple_calculator
-ex2_6: $(SOLUTIONS_DIR)/ex2_6_ascii_explorer
+hello_world: $(SRCDIR)/hello_world.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# C99版の個別ターゲット
-ex2_1_c99: $(SOLUTIONS_DIR)/ex2_1_hello_intro_c99
-ex2_2_c99: $(SOLUTIONS_DIR)/ex2_2_personal_data_c99
-ex2_3_c99: $(SOLUTIONS_DIR)/ex2_3_age_calculator_c99
-ex2_4_c99: $(SOLUTIONS_DIR)/ex2_4_format_demo_c99
-ex2_5_c99: $(SOLUTIONS_DIR)/ex2_5_simple_calculator_c99
-ex2_6_c99: $(SOLUTIONS_DIR)/ex2_6_ascii_explorer_c99
+hello_world_c99: $(SRCDIR)/hello_world_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 実行ターゲット
-run: hello_world
-	@echo "=== Hello World プログラムの実行 ==="
-	@./$(EXAMPLES_DIR)/hello_world
-	@echo ""
-	@echo "=== フォーマット出力プログラムの実行 ==="
-	@./$(EXAMPLES_DIR)/formatted_output
+formatted_output: $(SRCDIR)/formatted_output.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-run-c99: hello_world_c99 formatted_output_c99
-	@echo "=== Hello World プログラムの実行 (C99版) ==="
-	@./$(EXAMPLES_DIR)/hello_world_c99
-	@echo ""
-	@echo "=== フォーマット出力プログラムの実行 (C99版) ==="
-	@./$(EXAMPLES_DIR)/formatted_output_c99
+formatted_output_c99: $(SRCDIR)/formatted_output_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 解答例実行（非対話的なもののみ）
-run-solutions: ex2_1 ex2_2
-	@echo "=== 解答例の実行 ==="
-	@echo "--- 課題2-1: 基本的な出力 ---"
-	@./$(SOLUTIONS_DIR)/ex2_1_hello_intro
-	@echo ""
-	@echo "--- 課題2-2: 個人データ表示 ---"
-	@./$(SOLUTIONS_DIR)/ex2_2_personal_data
+escape_sequences: $(SRCDIR)/escape_sequences.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 個別実行ターゲット
-run-ex2_1: ex2_1
-	./$(SOLUTIONS_DIR)/ex2_1_hello_intro
+escape_sequences_c99: $(SRCDIR)/escape_sequences_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-run-ex2_2: ex2_2
-	./$(SOLUTIONS_DIR)/ex2_2_personal_data
+# Run targets
+run-all: all
+	@echo "Running all programs:"
+	@echo "--- hello_world_basic ---"
+	@$(BUILDDIR)/hello_world_basic || true
+	@echo
+	@echo "--- formatted_output_demo ---"
+	@$(BUILDDIR)/formatted_output_demo || true
+	@echo
+	@echo "--- hello_world ---"
+	@$(BUILDDIR)/hello_world || true
+	@echo
+	@echo "--- formatted_output ---"
+	@$(BUILDDIR)/formatted_output || true
+	@echo
+	@echo "--- escape_sequences ---"
+	@$(BUILDDIR)/escape_sequences || true
+	@echo
 
-# 規格別コンパイル
-c90:
-	$(MAKE) STANDARD=c90 all
+# Individual run targets
+run-hello_world_basic: hello_world_basic
+	@echo "Running hello_world_basic:"
+	@$(BUILDDIR)/hello_world_basic
 
-c99:
-	$(MAKE) STANDARD=c99 all
+run-hello_world_basic-c99: hello_world_basic_c99
+	@echo "Running hello_world_basic (C99):"
+	@$(BUILDDIR)/hello_world_basic_c99
 
-c11:
-	$(MAKE) STANDARD=c11 all
+run-formatted_output_demo: formatted_output_demo
+	@echo "Running formatted_output_demo:"
+	@$(BUILDDIR)/formatted_output_demo
 
-# 規格別テスト
-test-standards:
-	@echo "=== C90規格でのコンパイルテスト ==="
-	$(MAKE) clean && $(MAKE) STANDARD=c90 all
-	@echo ""
-	@echo "=== C99規格でのコンパイルテスト ==="
-	$(MAKE) clean && $(MAKE) STANDARD=c99 all
+run-formatted_output_demo-c99: formatted_output_demo_c99
+	@echo "Running formatted_output_demo (C99):"
+	@$(BUILDDIR)/formatted_output_demo_c99
 
-# クリーンアップ
+run-hello_world: hello_world
+	@echo "Running hello_world:"
+	@$(BUILDDIR)/hello_world
+
+run-hello_world-c99: hello_world_c99
+	@echo "Running hello_world (C99):"
+	@$(BUILDDIR)/hello_world_c99
+
+run-formatted_output: formatted_output
+	@echo "Running formatted_output:"
+	@$(BUILDDIR)/formatted_output
+
+run-formatted_output-c99: formatted_output_c99
+	@echo "Running formatted_output (C99):"
+	@$(BUILDDIR)/formatted_output_c99
+
+run-escape_sequences: escape_sequences
+	@echo "Running escape_sequences:"
+	@$(BUILDDIR)/escape_sequences
+
+run-escape_sequences-c99: escape_sequences_c99
+	@echo "Running escape_sequences (C99):"
+	@$(BUILDDIR)/escape_sequences_c99
+
+# Test targets
+test: test-c90 test-c99
+
+test-c90:
+	@echo "Testing C90 compilation..."
+	@$(MAKE) clean
+	@$(MAKE) STANDARD=c90 all
+	@echo "C90 compilation: SUCCESS"
+
+test-c99:
+	@echo "Testing C99 compilation..."
+	@$(MAKE) clean  
+	@$(MAKE) STANDARD=c99 c99
+	@echo "C99 compilation: SUCCESS"
+
+# Clean target
 clean:
-	rm -f $(EXAMPLES_BIN) $(SOLUTIONS_BIN)
-	find . -name "*.o" -delete
-	find . -name "a.out" -delete
+	@echo "Cleaning build directory..."
+	@rm -rf $(BUILDDIR)
+	@echo "Clean completed"
 
-# ヘルプ
+# Help target
 help:
-	@echo "利用可能なターゲット:"
-	@echo "  all                 - 全ての例題と解答例をコンパイル"
-	@echo "  examples            - 例題プログラムをコンパイル"
-	@echo "  solutions           - 解答例をコンパイル"
-	@echo "  hello_world         - Hello Worldプログラムをコンパイル"
-	@echo "  formatted_output    - フォーマット出力プログラムをコンパイル"
-	@echo "  ex2_1, ex2_2, ...   - 個別の解答例をコンパイル"
-	@echo "  ex2_1_c99, ...      - 個別の解答例をコンパイル (C99版)"
-	@echo "  run                 - 例題プログラムを実行 (C90版)"
-	@echo "  run-c99             - 例題プログラムを実行 (C99版)"
-	@echo "  run-solutions       - 非対話的な解答例を実行"
-	@echo "  run-ex2_1, ...      - 個別の解答例を実行"
-	@echo "  c90/c99/c11         - 指定された規格でコンパイル"
-	@echo "  test-standards      - 複数のC規格でコンパイルテスト"
-	@echo "  clean               - 生成されたファイルを削除"
-	@echo "  help                - このヘルプを表示"
+	@echo "Available targets:"
+	@echo "  all       - Build all C90 programs"
+	@echo "  c99       - Build all C99 programs"
+	@echo "  test      - Test both C90 and C99 compilation"
+	@echo "  run-all   - Build and run all programs"
+	@echo "  clean     - Clean build directory"
 	@echo ""
-	@echo "例: make STANDARD=c99 solutions"
+	@echo "Individual programs:"
+	@echo "  hello_world_basic    - Build hello_world_basic.c"
+	@echo "  run-hello_world_basic - Build and run hello_world_basic"
+	@echo "  formatted_output_demo - Build formatted_output_demo.c"
+	@echo "  run-formatted_output_demo - Build and run formatted_output_demo"
+	@echo "  hello_world          - Build hello_world.c"
+	@echo "  run-hello_world     - Build and run hello_world"
+	@echo "  formatted_output     - Build formatted_output.c"
+	@echo "  run-formatted_output - Build and run formatted_output"
+	@echo "  escape_sequences     - Build escape_sequences.c"
+	@echo "  run-escape_sequences - Build and run escape_sequences"
+
+.PHONY: all c99 test test-c90 test-c99 run-all clean help

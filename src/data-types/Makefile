@@ -1,175 +1,151 @@
 # Makefile for data-types chapter
-# C言語学習教材 - データ型・変数・スコープ章
+# Supports both C90 and C99 standards
 
-# コンパイラとフラグの設定
+# Compiler settings
 CC = gcc
 STANDARD ?= c90
-CFLAGS = -std=$(STANDARD) -Wall -Wextra -pedantic
-MATHFLAGS = -lm
+CFLAGS = -Wall -Wextra -pedantic -std=$(STANDARD)
+SRCDIR = examples
+BUILDDIR = build
 
-# ディレクトリ設定
-EXAMPLES_DIR = examples
-SOLUTIONS_DIR = solutions
+# Source files
+SOURCES = basic_types.c arithmetic_operations.c sizeof_demo.c data_types_demo.c
+TARGETS = basic_types arithmetic_operations sizeof_demo data_types_demo
+C99_TARGETS = basic_types_c99 arithmetic_operations_c99 sizeof_demo_c99 data_types_demo_c99
 
-# ソースファイルとターゲットファイルの自動検出
-EXAMPLE_SOURCES = $(wildcard $(EXAMPLES_DIR)/*.c)
-EXAMPLE_TARGETS = $(EXAMPLE_SOURCES:.c=)
+# Default target
+all: $(TARGETS)
 
-SOLUTION_SOURCES = $(wildcard $(SOLUTIONS_DIR)/*.c)
-SOLUTION_TARGETS = $(SOLUTION_SOURCES:.c=)
+# C99 versions
+c99: STANDARD=c99
+c99: $(C99_TARGETS)
 
-# すべてのターゲット
-ALL_TARGETS = $(EXAMPLE_TARGETS) $(SOLUTION_TARGETS)
+# Build directory
+$(BUILDDIR):
+	@mkdir -p $(BUILDDIR)
 
-# デフォルトターゲット
-.PHONY: all clean run run-examples run-solutions help test
+# Generic rule for C90 programs
+%: $(SRCDIR)/%.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
+	@echo "Built $@ (C90)"
 
-all: $(ALL_TARGETS)
+# Generic rule for C99 programs
+%_c99: $(SRCDIR)/%_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
+	@echo "Built $@ (C99)"
 
-# 個別のコンパイルルール
-$(EXAMPLES_DIR)/%: $(EXAMPLES_DIR)/%.c
-	$(CC) $(CFLAGS) $< -o $@ $(MATHFLAGS)
+# Individual targets
+basic_types: $(SRCDIR)/basic_types.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-$(SOLUTIONS_DIR)/%: $(SOLUTIONS_DIR)/%.c
-	$(CC) $(CFLAGS) $< -o $@ $(MATHFLAGS)
+basic_types_c99: $(SRCDIR)/basic_types_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 特定のプログラムのコンパイル
-data_types_demo: $(EXAMPLES_DIR)/data_types_demo
-data_types_demo_c99: $(EXAMPLES_DIR)/data_types_demo_c99
+arithmetic_operations: $(SRCDIR)/arithmetic_operations.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 演習問題のコンパイル
-ex3_1: $(SOLUTIONS_DIR)/ex3_1_variable_declaration
-ex3_1_c99: $(SOLUTIONS_DIR)/ex3_1_variable_declaration_c99
-ex3_2: $(SOLUTIONS_DIR)/ex3_2_calculator
-ex3_2_c99: $(SOLUTIONS_DIR)/ex3_2_calculator_c99
-ex3_3: $(SOLUTIONS_DIR)/ex3_3_sizeof_demo
-ex3_3_c99: $(SOLUTIONS_DIR)/ex3_3_sizeof_demo_c99
-ex3_4: $(SOLUTIONS_DIR)/ex3_4_type_conversion
-ex3_4_c99: $(SOLUTIONS_DIR)/ex3_4_type_conversion_c99
-ex3_5: $(SOLUTIONS_DIR)/ex3_5_scope_experiment
-ex3_5_c99: $(SOLUTIONS_DIR)/ex3_5_scope_experiment_c99
-ex3_6: $(SOLUTIONS_DIR)/ex3_6_constants_demo
-ex3_6_c99: $(SOLUTIONS_DIR)/ex3_6_constants_demo_c99
-ex3_7: $(SOLUTIONS_DIR)/ex3_7_temperature_converter
-ex3_7_c99: $(SOLUTIONS_DIR)/ex3_7_temperature_converter_c99
+arithmetic_operations_c99: $(SRCDIR)/arithmetic_operations_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 実行ターゲット
-run: run-examples
+sizeof_demo: $(SRCDIR)/sizeof_demo.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-run-examples: $(EXAMPLE_TARGETS)
-	@echo "=== データ型デモプログラムの実行 ==="
-	@for target in $(EXAMPLE_TARGETS); do \
-		if [ -f $$target ]; then \
-			echo "--- $$target の実行 ---"; \
-			./$$target; \
-			echo; \
-		fi \
-	done
+sizeof_demo_c99: $(SRCDIR)/sizeof_demo_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-run-solutions: $(SOLUTION_TARGETS)
-	@echo "=== 演習解答プログラムの実行 ==="
-	@for target in $(SOLUTION_TARGETS); do \
-		if [ -f $$target ]; then \
-			echo "--- $$target の実行 ---"; \
-			./$$target; \
-			echo; \
-		fi \
-	done
+data_types_demo: $(SRCDIR)/data_types_demo.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-# 特定のプログラムの実行
-run-data_types_demo: $(EXAMPLES_DIR)/data_types_demo
-	./$(EXAMPLES_DIR)/data_types_demo
+data_types_demo_c99: $(SRCDIR)/data_types_demo_c99.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) $< -o $(BUILDDIR)/$@
 
-run-data_types_demo_c99: $(EXAMPLES_DIR)/data_types_demo_c99
-	./$(EXAMPLES_DIR)/data_types_demo_c99
+# Run targets
+run-all: all
+	@echo "Running all programs:"
+	@echo "--- basic_types ---"
+	@$(BUILDDIR)/basic_types || true
+	@echo
+	@echo "--- arithmetic_operations ---"
+	@$(BUILDDIR)/arithmetic_operations || true
+	@echo
+	@echo "--- sizeof_demo ---"
+	@$(BUILDDIR)/sizeof_demo || true
+	@echo
+	@echo "--- data_types_demo ---"
+	@$(BUILDDIR)/data_types_demo || true
+	@echo
 
+# Individual run targets
+run-basic_types: basic_types
+	@echo "Running basic_types:"
+	@$(BUILDDIR)/basic_types
 
-# 演習問題の実行
-run-ex3_1: $(SOLUTIONS_DIR)/ex3_1_variable_declaration
-	./$(SOLUTIONS_DIR)/ex3_1_variable_declaration
+run-basic_types-c99: basic_types_c99
+	@echo "Running basic_types (C99):"
+	@$(BUILDDIR)/basic_types_c99
 
-run-ex3_1_c99: $(SOLUTIONS_DIR)/ex3_1_variable_declaration_c99
-	./$(SOLUTIONS_DIR)/ex3_1_variable_declaration_c99
+run-arithmetic_operations: arithmetic_operations
+	@echo "Running arithmetic_operations:"
+	@$(BUILDDIR)/arithmetic_operations
 
-run-ex3_2: $(SOLUTIONS_DIR)/ex3_2_calculator
-	./$(SOLUTIONS_DIR)/ex3_2_calculator
+run-arithmetic_operations-c99: arithmetic_operations_c99
+	@echo "Running arithmetic_operations (C99):"
+	@$(BUILDDIR)/arithmetic_operations_c99
 
-run-ex3_2_c99: $(SOLUTIONS_DIR)/ex3_2_calculator_c99
-	./$(SOLUTIONS_DIR)/ex3_2_calculator_c99
+run-sizeof_demo: sizeof_demo
+	@echo "Running sizeof_demo:"
+	@$(BUILDDIR)/sizeof_demo
 
-run-ex3_3: $(SOLUTIONS_DIR)/ex3_3_sizeof_demo
-	./$(SOLUTIONS_DIR)/ex3_3_sizeof_demo
+run-sizeof_demo-c99: sizeof_demo_c99
+	@echo "Running sizeof_demo (C99):"
+	@$(BUILDDIR)/sizeof_demo_c99
 
-run-ex3_3_c99: $(SOLUTIONS_DIR)/ex3_3_sizeof_demo_c99
-	./$(SOLUTIONS_DIR)/ex3_3_sizeof_demo_c99
+run-data_types_demo: data_types_demo
+	@echo "Running data_types_demo:"
+	@$(BUILDDIR)/data_types_demo
 
-run-ex3_4: $(SOLUTIONS_DIR)/ex3_4_type_conversion
-	./$(SOLUTIONS_DIR)/ex3_4_type_conversion
+run-data_types_demo-c99: data_types_demo_c99
+	@echo "Running data_types_demo (C99):"
+	@$(BUILDDIR)/data_types_demo_c99
 
-run-ex3_4_c99: $(SOLUTIONS_DIR)/ex3_4_type_conversion_c99
-	./$(SOLUTIONS_DIR)/ex3_4_type_conversion_c99
-
-run-ex3_5: $(SOLUTIONS_DIR)/ex3_5_scope_experiment
-	./$(SOLUTIONS_DIR)/ex3_5_scope_experiment
-
-run-ex3_5_c99: $(SOLUTIONS_DIR)/ex3_5_scope_experiment_c99
-	./$(SOLUTIONS_DIR)/ex3_5_scope_experiment_c99
-
-run-ex3_6: $(SOLUTIONS_DIR)/ex3_6_constants_demo
-	./$(SOLUTIONS_DIR)/ex3_6_constants_demo
-
-run-ex3_6_c99: $(SOLUTIONS_DIR)/ex3_6_constants_demo_c99
-	./$(SOLUTIONS_DIR)/ex3_6_constants_demo_c99
-
-run-ex3_7: $(SOLUTIONS_DIR)/ex3_7_temperature_converter
-	./$(SOLUTIONS_DIR)/ex3_7_temperature_converter
-
-run-ex3_7_c99: $(SOLUTIONS_DIR)/ex3_7_temperature_converter_c99
-	./$(SOLUTIONS_DIR)/ex3_7_temperature_converter_c99
-
-# 異なるC標準でのテスト
+# Test targets
 test: test-c90 test-c99
 
 test-c90:
-	@echo "=== C90標準でのコンパイルテスト ==="
-	$(MAKE) clean
-	$(MAKE) STANDARD=c90 all
-	@echo "C90コンパイル成功"
+	@echo "Testing C90 compilation..."
+	@$(MAKE) clean
+	@$(MAKE) STANDARD=c90 all
+	@echo "C90 compilation: SUCCESS"
 
 test-c99:
-	@echo "=== C99標準でのコンパイルテスト ==="
-	$(MAKE) clean
-	$(MAKE) STANDARD=c99 all
-	@echo "C99コンパイル成功"
+	@echo "Testing C99 compilation..."
+	@$(MAKE) clean  
+	@$(MAKE) STANDARD=c99 c99
+	@echo "C99 compilation: SUCCESS"
 
-# クリーンアップ
+# Clean target
 clean:
-	rm -f $(ALL_TARGETS)
-	@echo "クリーンアップ完了"
+	@echo "Cleaning build directory..."
+	@rm -rf $(BUILDDIR)
+	@echo "Clean completed"
 
-# ヘルプ
+# Help target
 help:
-	@echo "利用可能なターゲット:"
-	@echo "  all              - すべてのプログラムをコンパイル"
-	@echo "  clean            - 生成されたファイルを削除"
-	@echo "  run              - サンプルプログラムを実行"
-	@echo "  run-examples     - サンプルプログラムを実行"
-	@echo "  run-solutions    - 演習解答プログラムを実行"
-	@echo "  test             - C90とC99でコンパイルテスト"
+	@echo "Available targets:"
+	@echo "  all       - Build all C90 programs"
+	@echo "  c99       - Build all C99 programs"
+	@echo "  test      - Test both C90 and C99 compilation"
+	@echo "  run-all   - Build and run all programs"
+	@echo "  clean     - Clean build directory"
 	@echo ""
-	@echo "個別プログラム:"
-	@echo "  data_types_demo  - データ型デモプログラム（C90）"
-	@echo "  data_types_demo_c99 - データ型デモプログラム（C99）"
-	@echo ""
-	@echo "演習問題:"
-	@echo "  ex3_1, ex3_1_c99 - 変数宣言と初期化"
-	@echo "  ex3_2, ex3_2_c99 - 四則演算計算機"
-	@echo "  ex3_3, ex3_3_c99 - データ型サイズの確認"
-	@echo "  ex3_4, ex3_4_c99 - 型変換の理解"
-	@echo "  ex3_5, ex3_5_c99 - スコープの実験"
-	@echo "  ex3_6, ex3_6_c99 - 定数の活用"
-	@echo "  ex3_7, ex3_7_c99 - 温度変換プログラム"
-	@echo ""
-	@echo "実行例:"
-	@echo "  make run-ex3_1   - 演習3-1を実行"
-	@echo "  make STANDARD=c99 all - C99でコンパイル"
+	@echo "Individual programs:"
+	@echo "  basic_types          - Build basic_types.c"
+	@echo "  run-basic_types     - Build and run basic_types"
+	@echo "  arithmetic_operations - Build arithmetic_operations.c"
+	@echo "  run-arithmetic_operations - Build and run arithmetic_operations"
+	@echo "  sizeof_demo          - Build sizeof_demo.c"
+	@echo "  run-sizeof_demo     - Build and run sizeof_demo"
+	@echo "  data_types_demo      - Build data_types_demo.c"
+	@echo "  run-data_types_demo - Build and run data_types_demo"
+
+.PHONY: all c99 test test-c90 test-c99 run-all clean help
