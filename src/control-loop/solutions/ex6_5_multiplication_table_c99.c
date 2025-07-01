@@ -1,6 +1,6 @@
 /*
- * ファイル名: ex5_5_multiplication_table_c99.c
- * 演習5-5: 掛け算表
+ * ファイル名: ex6_5_multiplication_table_c99.c
+ * 演習6-5: 掛け算表
  * 説明: 9×9の掛け算表を表示するプログラム
  * 規格: C99準拠
  */

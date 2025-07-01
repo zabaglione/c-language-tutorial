@@ -3,32 +3,32 @@
 ## 解答例一覧
 
 ### 演習5-1: フィボナッチ数列
-- **ファイル**: `ex5_1_fibonacci.c`, `ex5_1_fibonacci_c99.c`
+- **ファイル**: `ex6_1_fibonacci.c`, `ex6_1_fibonacci_c99.c`
 - **学習内容**: for文による繰り返し処理、フィボナッチ数列のアルゴリズム
 - **ポイント**: 変数の値の更新と循環、初期値の特別処理
 
 ### 演習5-2: 数当てゲーム（改良版）
-- **ファイル**: `ex5_2_number_guess.c`, `ex5_2_number_guess_c99.c`
+- **ファイル**: `ex6_2_number_guess.c`, `ex6_2_number_guess_c99.c`
 - **学習内容**: do-while文による繰り返し、ランダム数生成
 - **ポイント**: 複数の終了条件、デモ版として自動実行
 
 ### 演習5-3: 素数リスト
-- **ファイル**: `ex5_3_prime_list.c`, `ex5_3_prime_list_c99.c`
+- **ファイル**: `ex6_3_prime_list.c`, `ex6_3_prime_list_c99.c`
 - **学習内容**: ネストしたループ、break文、効率的な素数判定
 - **ポイント**: 数学的最適化、統計情報の計算
 
 ### 演習5-4: 図形の描画
-- **ファイル**: `ex5_4_draw_shapes.c`, `ex5_4_draw_shapes_c99.c`
+- **ファイル**: `ex6_4_draw_shapes.c`, `ex6_4_draw_shapes_c99.c`
 - **学習内容**: ネストしたループによる2次元パターン生成
 - **ポイント**: 空白とアスタリスクの配置制御、複雑な図形の分解
 
 ### 演習5-5: 掛け算表
-- **ファイル**: `ex5_5_multiplication_table.c`, `ex5_5_multiplication_table_c99.c`
+- **ファイル**: `ex6_5_multiplication_table.c`, `ex6_5_multiplication_table_c99.c`
 - **学習内容**: ネストしたfor文、表形式データの生成
 - **ポイント**: 書式指定子による桁揃え、ヘッダーと区切り線
 
 ### 演習5-6: 階乗計算
-- **ファイル**: `ex5_6_factorial.c`, `ex5_6_factorial_c99.c`
+- **ファイル**: `ex6_6_factorial.c`, `ex6_6_factorial_c99.c`
 - **学習内容**: while文による繰り返し、オーバーフロー対策
 - **ポイント**: long long型の使用、計算過程の表示
 
@@ -49,20 +49,20 @@
 
 ### 基本的なコンパイル
 ```bash
-gcc -Wall -Wextra -pedantic -std=c90 ex5_1_fibonacci.c -o ex5_1_fibonacci
-./ex5_1_fibonacci
+gcc -Wall -Wextra -pedantic -std=c90 ex6_1_fibonacci.c -o ex6_1_fibonacci
+./ex6_1_fibonacci
 ```
 
 ### C99版のコンパイル
 ```bash
-gcc -Wall -Wextra -pedantic -std=c99 ex5_1_fibonacci_c99.c -o ex5_1_fibonacci_c99
-./ex5_1_fibonacci_c99
+gcc -Wall -Wextra -pedantic -std=c99 ex6_1_fibonacci_c99.c -o ex6_1_fibonacci_c99
+./ex6_1_fibonacci_c99
 ```
 
 ### 数学関数を使用する場合（素数判定）
 ```bash
-gcc -Wall -Wextra -pedantic -std=c90 ex5_3_prime_list.c -o ex5_3_prime_list -lm
-./ex5_3_prime_list
+gcc -Wall -Wextra -pedantic -std=c90 ex6_3_prime_list.c -o ex6_3_prime_list -lm
+./ex6_3_prime_list
 ```
 
 ## 学習のポイント
