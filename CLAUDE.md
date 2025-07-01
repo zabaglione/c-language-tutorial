@@ -237,7 +237,7 @@ When fixing code issues, address in this order:
 The project maintains multiple documentation formats:
 
 **Source Documents** (in `docs/`):
-- `main_textbook.md` - Complete tutorial content
+- `main_textbook.md` - Complete tutorial content (can be generated from chapter READMEs)
 - `exercises_workbook.md` - All exercises compiled
 - `complete_tutorial.md` - Everything combined
 
@@ -246,6 +246,30 @@ The project maintains multiple documentation formats:
 - Word: `C言語プログラミング教材_演習問題集.docx` (exercise workbook)
 - PDF: Various PDF versions for different use cases
 - HTML: Web-viewable versions
+
+### Documentation Management Scripts
+
+The `scripts/` directory contains tools for managing documentation:
+
+**Synchronization Scripts:**
+- `update_chapter_readmes.py` - Splits main_textbook.md content into individual chapter README.md files
+- `generate_main_textbook.py` - Combines chapter README.md files into main_textbook.md
+
+**Generation Scripts:**
+- `create_main_textbook.sh` - Creates Word version of main textbook
+- `create_exercises.sh` - Creates Word version of exercise workbook
+- `create_pdf.sh` - Generates PDF documentation (requires Chrome/Chromium)
+
+**Documentation Workflow:**
+```bash
+# After editing main_textbook.md, update chapters:
+python3 scripts/update_chapter_readmes.py
+
+# After editing chapter README.md files, regenerate main textbook:
+python3 scripts/generate_main_textbook.py
+# Then review and rename if satisfactory:
+mv docs/main_textbook_generated.md docs/main_textbook.md
+```
 
 ## Quick Reference
 
