@@ -612,3 +612,11 @@ make clean
 - solutions/ - 解答例
 - [C標準ライブラリリファレンス](https://en.cppreference.com/w/c)
 - [構造体設計ベストプラクティス](https://stackoverflow.com/questions/tagged/c+struct)
+
+## 📝 練習問題
+
+この章の内容を理解したら、[練習問題](exercises/)に挑戦してみましょう。
+
+- 基礎問題：基本的な文法や概念の確認
+- 応用問題：より実践的なプログラムの作成
+- チャレンジ問題：高度な理解と実装力が必要な問題
