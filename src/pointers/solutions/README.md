@@ -7,8 +7,8 @@
 ### 演習10-1: ポインタの基本操作
 2つの整数変数の値をポインタを使って交換する演習です。
 
-- [ex10_1_pointer_swap.c](ex10_1_pointer_swap.c) - C90準拠版
-- [ex10_1_pointer_swap_c99.c](ex10_1_pointer_swap_c99.c) - C99準拠版（//コメント、bool型、インライン関数、restrict修飾子）
+- [ex8_1_pointer_swap.c](ex8_1_pointer_swap.c) - C90準拠版
+- [ex8_1_pointer_swap_c99.c](ex8_1_pointer_swap_c99.c) - C99準拠版（//コメント、bool型、インライン関数、restrict修飾子）
 
 **学習ポイント:**
 - ポインタによる参照渡しの仕組み
@@ -19,8 +19,8 @@
 ### 演習10-2: 配列とポインタ
 ポインタ演算を使って配列の要素を逆順に表示する演習です。
 
-- [ex10_2_array_reverse.c](ex10_2_array_reverse.c) - C90準拠版
-- [ex10_2_array_reverse_c99.c](ex10_2_array_reverse_c99.c) - C99準拠版（可変長配列、複合リテラル、指定初期化子）
+- [ex8_2_array_reverse.c](ex8_2_array_reverse.c) - C90準拠版
+- [ex8_2_array_reverse_c99.c](ex8_2_array_reverse_c99.c) - C99準拠版（可変長配列、複合リテラル、指定初期化子）
 
 **学習ポイント:**
 - 配列とポインタの等価性
@@ -31,8 +31,8 @@
 ### 演習10-3: 文字列操作
 ポインタを使った文字列の長さ計算、複写、連結を行う演習です。
 
-- [ex10_3_string_manipulation.c](ex10_3_string_manipulation.c) - C90準拠版
-- [ex10_3_string_manipulation_c99.c](ex10_3_string_manipulation_c99.c) - C99準拠版（//コメント、restrict修飾子、bool型）
+- [ex8_3_string_manipulation.c](ex8_3_string_manipulation.c) - C90準拠版
+- [ex8_3_string_manipulation_c99.c](ex8_3_string_manipulation_c99.c) - C99準拠版（//コメント、restrict修飾子、bool型）
 
 **学習ポイント:**
 - 文字列とポインタの関係
@@ -43,8 +43,8 @@
 ### 演習10-4: 配列操作関数
 ポインタを使って配列の最大値、最小値、平均値を求める演習です。
 
-- [ex10_4_array_functions.c](ex10_4_array_functions.c) - C90準拠版
-- [ex10_4_array_functions_c99.c](ex10_4_array_functions_c99.c) - C99準拠版（//コメント、bool型、restrict修飾子）
+- [ex8_4_array_functions.c](ex8_4_array_functions.c) - C90準拠版
+- [ex8_4_array_functions_c99.c](ex8_4_array_functions_c99.c) - C99準拠版（//コメント、bool型、restrict修飾子）
 
 **学習ポイント:**
 - 配列をポインタとして関数に渡す方法
@@ -94,27 +94,27 @@
 
 ```bash
 # C90版のコンパイルと実行
-gcc -std=c90 -Wall -Wextra -pedantic ex10_1_pointer_swap.c -o ex10_1_pointer_swap
-./ex10_1_pointer_swap
+gcc -std=c90 -Wall -Wextra -pedantic ex8_1_pointer_swap.c -o ex8_1_pointer_swap
+./ex8_1_pointer_swap
 
 # C99版のコンパイルと実行
-gcc -std=c99 -Wall -Wextra -pedantic ex10_1_pointer_swap_c99.c -o ex10_1_pointer_swap_c99
-./ex10_1_pointer_swap_c99
+gcc -std=c99 -Wall -Wextra -pedantic ex8_1_pointer_swap_c99.c -o ex8_1_pointer_swap_c99
+./ex8_1_pointer_swap_c99
 
 # その他の演習例
-gcc -std=c90 -Wall -Wextra -pedantic ex10_2_array_reverse.c -o ex10_2_array_reverse
-gcc -std=c90 -Wall -Wextra -pedantic ex10_3_string_manipulation.c -o ex10_3_string_manipulation
-gcc -std=c90 -Wall -Wextra -pedantic ex10_4_array_functions.c -o ex10_4_array_functions
+gcc -std=c90 -Wall -Wextra -pedantic ex8_2_array_reverse.c -o ex8_2_array_reverse
+gcc -std=c90 -Wall -Wextra -pedantic ex8_3_string_manipulation.c -o ex8_3_string_manipulation
+gcc -std=c90 -Wall -Wextra -pedantic ex8_4_array_functions.c -o ex8_4_array_functions
 
 # Makefileを使用した場合
-make run-ex10_1_pointer_swap      # C90版
-make run-ex10_1_pointer_swap_c99  # C99版
-make run-ex10_2_array_reverse     # C90版
-make run-ex10_2_array_reverse_c99 # C99版
-make run-ex10_3_string_manipulation     # C90版
-make run-ex10_3_string_manipulation_c99 # C99版
-make run-ex10_4_array_functions     # C90版
-make run-ex10_4_array_functions_c99 # C99版
+make run-ex8_1_pointer_swap      # C90版
+make run-ex8_1_pointer_swap_c99  # C99版
+make run-ex8_2_array_reverse     # C90版
+make run-ex8_2_array_reverse_c99 # C99版
+make run-ex8_3_string_manipulation     # C90版
+make run-ex8_3_string_manipulation_c99 # C99版
+make run-ex8_4_array_functions     # C90版
+make run-ex8_4_array_functions_c99 # C99版
 ```
 
 ## ポインタ使用時の注意事項

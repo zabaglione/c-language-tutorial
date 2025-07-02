@@ -7,8 +7,8 @@
 ### 演習9-1: 基本的な関数作成
 素数判定や簡単な計算を行う基本的な関数群の実装例です。
 
-- [ex9_1_prime_functions.c](ex9_1_prime_functions.c) - C90準拠版
-- [ex9_1_prime_functions_c99.c](ex9_1_prime_functions_c99.c) - C99準拠版（bool型、//コメント使用）
+- [ex11_1_prime_functions.c](ex11_1_prime_functions.c) - C90準拠版
+- [ex11_1_prime_functions_c99.c](ex11_1_prime_functions_c99.c) - C99準拠版（bool型、//コメント使用）
 
 **学習ポイント:**
 - 関数の基本的な定義と呼び出し
@@ -18,8 +18,8 @@
 ### 演習9-2: 配列操作関数
 配列に対する各種操作（合計、平均、ソート等）を行う関数群の実装例です。
 
-- [ex9_2_array_operations.c](ex9_2_array_operations.c) - C90準拠版
-- [ex9_2_array_operations_c99.c](ex9_2_array_operations_c99.c) - C99準拠版（可変長配列、inline関数使用）
+- [ex11_2_array_operations.c](ex11_2_array_operations.c) - C90準拠版
+- [ex11_2_array_operations_c99.c](ex11_2_array_operations_c99.c) - C99準拠版（可変長配列、inline関数使用）
 
 **学習ポイント:**
 - 配列を引数として受け取る方法
@@ -29,8 +29,8 @@
 ### 演習9-3: 文字列処理関数
 文字列の操作（コピー、連結、変換等）を行う関数群の実装例です。
 
-- [ex9_3_string_processing.c](ex9_3_string_processing.c) - C90準拠版
-- [ex9_3_string_processing_c99.c](ex9_3_string_processing_c99.c) - C99準拠版（bool型、inline関数使用）
+- [ex11_3_string_processing.c](ex11_3_string_processing.c) - C90準拠版
+- [ex11_3_string_processing_c99.c](ex11_3_string_processing_c99.c) - C99準拠版（bool型、inline関数使用）
 
 **学習ポイント:**
 - 文字配列としての文字列操作
@@ -40,8 +40,8 @@
 ### 演習9-4: 複数戻り値を持つ関数
 ポインター引数を使って複数の値を返す関数群の実装例です。
 
-- [ex9_4_multiple_returns.c](ex9_4_multiple_returns.c) - C90準拠版
-- [ex9_4_multiple_returns_c99.c](ex9_4_multiple_returns_c99.c) - C99準拠版（構造体戻り値、複合リテラル使用）
+- [ex11_4_multiple_returns.c](ex11_4_multiple_returns.c) - C90準拠版
+- [ex11_4_multiple_returns_c99.c](ex11_4_multiple_returns_c99.c) - C99準拠版（構造体戻り値、複合リテラル使用）
 
 **学習ポイント:**
 - ポインター引数による複数値の返却
@@ -51,8 +51,8 @@
 ### 演習9-5: エラーハンドリング付き関数
 エラー処理を含む堅牢な関数群の実装例です。
 
-- [ex9_5_error_handling.c](ex9_5_error_handling.c) - C90準拠版
-- [ex9_5_error_handling_c99.c](ex9_5_error_handling_c99.c) - C99準拠版（enum型、可変長引数マクロ使用）
+- [ex11_5_error_handling.c](ex11_5_error_handling.c) - C90準拠版
+- [ex11_5_error_handling_c99.c](ex11_5_error_handling_c99.c) - C99準拠版（enum型、可変長引数マクロ使用）
 
 **学習ポイント:**
 - エラーコードの設計と管理
@@ -62,8 +62,8 @@
 ### 演習9-6: 構造体を使った関数
 構造体を引数や戻り値として使用する関数群の実装例です。
 
-- [ex9_6_struct_functions.c](ex9_6_struct_functions.c) - C90準拠版
-- [ex9_6_struct_functions_c99.c](ex9_6_struct_functions_c99.c) - C99準拠版（designated initializer、複合リテラル使用）
+- [ex11_6_struct_functions.c](ex11_6_struct_functions.c) - C90準拠版
+- [ex11_6_struct_functions_c99.c](ex11_6_struct_functions_c99.c) - C99準拠版（designated initializer、複合リテラル使用）
 
 **学習ポイント:**
 - 構造体の値渡しと参照渡し
@@ -76,13 +76,13 @@
 
 ```bash
 # C90版のコンパイル例
-gcc -Wall -Wextra -pedantic -std=c90 ex9_1_prime_functions.c -o ex9_1_prime
+gcc -Wall -Wextra -pedantic -std=c90 ex11_1_prime_functions.c -o ex11_1_prime
 
 # C99版のコンパイル例（数学関数を使う場合は-lmを追加）
-gcc -Wall -Wextra -pedantic -std=c99 ex9_4_multiple_returns_c99.c -lm -o ex9_4_c99
+gcc -Wall -Wextra -pedantic -std=c99 ex11_4_multiple_returns_c99.c -lm -o ex11_4_c99
 
 # 実行
-./ex9_1_prime
+./ex11_1_prime
 ```
 
 ## 学習のポイント

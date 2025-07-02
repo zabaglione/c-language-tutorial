@@ -56,7 +56,7 @@ nullptrを使った安全なリンクリスト実装例。
 
 ## 演習14-5: C23総合演習
 
-**ファイル**: `ex14_5_config_manager.c`
+**ファイル**: `ex16_5_config_manager.c`
 
 C23の複数機能を組み合わせた設定管理システムの実装例。
 
@@ -71,8 +71,8 @@ C23の複数機能を組み合わせた設定管理システムの実装例。
 
 ```bash
 # 個別の解答例をコンパイル・実行
-make ex14_1_status_system
-./solutions/ex14_1_status_system
+make ex16_1_status_system
+./solutions/ex16_1_status_system
 
 # すべての解答例を実行
 make run-solutions

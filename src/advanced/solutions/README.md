@@ -1,7 +1,7 @@
 # 第15章 解答集
 
 ## 演習15-1: 高度なプリプロセッサマクロ
-**ファイル**: `ex15_1_macro_basics.c`, `ex13_1_macro_basics_c99.c`
+**ファイル**: `ex15_1_macro_basics.c`, `ex15_1_macro_basics_c99.c`
 
 基本的なプリプロセッサマクロの実装です。
 - 数学定数、計算マクロ、ビット操作
@@ -10,7 +10,7 @@
 - C99版：可変引数マクロ、`__func__`マクロ活用
 
 ## 演習15-2: 安全なメモリ操作マクロ
-**ファイル**: `ex15_2_safe_memory.c`, `ex13_2_safe_memory_c99.c`
+**ファイル**: `ex15_2_safe_memory.c`, `ex15_2_safe_memory_c99.c`
 
 メモリ安全性を高めるマクロセットの実装です。
 - NULLチェック付きメモリ操作
@@ -20,7 +20,7 @@
 - C99版：inline関数、可変引数マクロによる拡張
 
 ## 演習15-3: シンプルなメモリプール
-**ファイル**: `ex15_3_memory_pool.c`, `ex13_3_memory_pool_c99.c`
+**ファイル**: `ex15_3_memory_pool.c`, `ex15_3_memory_pool_c99.c`
 
 固定サイズオブジェクト用メモリプールの実装です。
 - O(1)での割り当て・解放
@@ -30,7 +30,7 @@
 - C99版：型安全性の向上、統計機能追加
 
 ## 演習15-4: 汎用的なプリプロセッサライブラリ
-**ファイル**: `ex15_4_generic_macros.c`, `ex13_4_generic_macros_c99.c`
+**ファイル**: `ex15_4_generic_macros.c`, `ex15_4_generic_macros_c99.c`
 
 高度なマクロプログラミング技法の実装です。
 - 型チェック、汎用操作マクロ
@@ -39,7 +39,7 @@
 - C99版：_Generic、typeof、複合リテラル活用
 
 ## 演習15-5: 高性能メモリアロケーター
-**ファイル**: `ex15_5_allocator.c`, `ex13_5_allocator_c99.c`
+**ファイル**: `ex15_5_allocator.c`, `ex15_5_allocator_c99.c`
 
 マルチプール型カスタムアロケーターの実装です。
 - サイズ別プール管理
@@ -49,7 +49,7 @@
 - C99版：inline最適化、restrict修飾子活用
 
 ## 演習15-6: キャッシュフレンドリーなデータ構造
-**ファイル**: `ex15_6_cache_vector.c`, `ex13_6_cache_vector_c99.c`
+**ファイル**: `ex15_6_cache_vector.c`, `ex15_6_cache_vector_c99.c`
 
 キャッシュ効率を考慮した動的配列の実装です。
 - キャッシュラインアライメント
@@ -59,7 +59,7 @@
 - C99版：フレキシブル配列メンバー、VLA活用
 
 ## 演習13-7: プリプロセッサベースのDSL
-**ファイル**: `ex13_7_dsl.c`, `ex13_7_dsl_c99.c`
+**ファイル**: `ex15_7_dsl.c`, `ex15_7_dsl_c99.c`
 
 ドメイン固有言語の実装例です。
 - 状態機械DSL
@@ -69,7 +69,7 @@
 - C99版：可変引数マクロによる表現力向上
 
 ## 演習13-8: ガベージコレクション機能付きメモリ管理
-**ファイル**: `ex13_8_gc_framework.c`, `ex13_8_gc_framework_c99.c`
+**ファイル**: `ex15_8_gc_framework.c`, `ex15_8_gc_framework_c99.c`
 
 3つのGCアルゴリズムの実装です。
 - マーク&スイープGC
@@ -79,7 +79,7 @@
 - C99版：インクリメンタルGC、クロージャ対応
 
 ## 演習13-9: リアルタイムメモリアロケーター
-**ファイル**: `ex13_9_realtime.c`, `ex13_9_realtime_c99.c`
+**ファイル**: `ex15_9_realtime.c`, `ex15_9_realtime_c99.c`
 
 決定的時間保証を持つアロケーターの実装です。
 - O(1)時間保証
@@ -92,16 +92,16 @@
 
 ```bash
 # 特定の解答をビルド
-make ex13_1_macro_basics
+make ex15_1_macro_basics
 
 # C99版をビルド
-make ex13_1_macro_basics_c99
+make ex15_1_macro_basics_c99
 
 # すべての解答をビルド
 make all
 
 # 実行
-./ex13_1_macro_basics
+./ex15_1_macro_basics
 ```
 
 ## 学習のポイント

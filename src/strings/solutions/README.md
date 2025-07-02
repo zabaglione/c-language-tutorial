@@ -8,8 +8,8 @@
 
 標準ライブラリの関数を使わずに、基本的な文字列操作関数を実装する問題です。
 
-- **C90版**: [ex8_1_string_operations.c](ex8_1_string_operations.c)
-- **C99版**: [ex8_1_string_operations_c99.c](ex8_1_string_operations_c99.c)
+- **C90版**: [ex10_1_string_operations.c](ex10_1_string_operations.c)
+- **C99版**: [ex10_1_string_operations_c99.c](ex10_1_string_operations_c99.c)
 
 **実装する関数**:
 - `my_strlen()` - 文字列の長さを計算
@@ -27,8 +27,8 @@
 
 学生名を格納する文字列配列の管理システムを実装する問題です。
 
-- **C90版**: [ex8_2_string_arrays.c](ex8_2_string_arrays.c)
-- **C99版**: [ex8_2_string_arrays_c99.c](ex8_2_string_arrays_c99.c)
+- **C90版**: [ex10_2_string_arrays.c](ex10_2_string_arrays.c)
+- **C99版**: [ex10_2_string_arrays_c99.c](ex10_2_string_arrays_c99.c)
 
 **実装する機能**:
 - 学生名の追加・削除
@@ -46,8 +46,8 @@
 
 標準ライブラリを使わずに、高度な文字列検索機能を実装する問題です。
 
-- **C90版**: [ex8_3_string_search.c](ex8_3_string_search.c)
-- **C99版**: [ex8_3_string_search_c99.c](ex8_3_string_search_c99.c)
+- **C90版**: [ex10_3_string_search.c](ex10_3_string_search.c)
+- **C99版**: [ex10_3_string_search_c99.c](ex10_3_string_search_c99.c)
 
 **実装する機能**:
 - 大小文字を区別しない検索
@@ -85,10 +85,10 @@
 
 ```bash
 # C90版
-gcc -Wall -Wextra -pedantic -std=c90 ex8_1_string_operations.c -o ex8_1
+gcc -Wall -Wextra -pedantic -std=c90 ex10_1_string_operations.c -o ex10_1
 
 # C99版
-gcc -Wall -Wextra -pedantic -std=c99 ex8_1_string_operations_c99.c -o ex8_1_c99
+gcc -Wall -Wextra -pedantic -std=c99 ex10_1_string_operations_c99.c -o ex10_1_c99
 ```
 
 ### Makefileを使用

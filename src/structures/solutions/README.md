@@ -7,18 +7,18 @@
 ### 基礎問題
 
 1. **演習13-1: 学生情報管理**
-   - [ex13_1_student.c](ex11_1_student.c) - C90準拠版
-   - [ex13_1_student_c99.c](ex11_1_student_c99.c) - C99準拠版
+   - [ex13_1_student.c](ex13_1_student.c) - C90準拠版
+   - [ex13_1_student_c99.c](ex13_1_student_c99.c) - C99準拠版
    - 構造体とポインタを使った基本的なデータ管理
 
 2. **演習13-2: 座標計算**
-   - [ex13_2_coordinate.c](ex11_2_coordinate.c) - C90準拠版
-   - [ex13_2_coordinate_c99.c](ex11_2_coordinate_c99.c) - C99準拠版
+   - [ex13_2_coordinate.c](ex13_2_coordinate.c) - C90準拠版
+   - [ex13_2_coordinate_c99.c](ex13_2_coordinate_c99.c) - C99準拠版
    - 構造体で座標を表現し、距離計算を実装
 
 3. **演習13-3: 商品管理**
-   - [ex13_3_product.c](ex11_3_product.c) - C90準拠版
-   - [ex13_3_product_c99.c](ex11_3_product_c99.c) - C99準拠版
+   - [ex13_3_product.c](ex13_3_product.c) - C90準拠版
+   - [ex13_3_product_c99.c](ex13_3_product_c99.c) - C99準拠版
    - 構造体配列による商品在庫管理システム
 
 ### 応用問題
@@ -97,13 +97,13 @@
 
 ```bash
 # C90準拠でコンパイル
-gcc -std=c90 -Wall -Wextra -pedantic ex13_1_student.c -o ex11_1_student
+gcc -std=c90 -Wall -Wextra -pedantic ex13_1_student.c -o ex13_1_student
 
 # C99準拠でコンパイル
-gcc -std=c99 -Wall -Wextra -pedantic ex13_1_student_c99.c -o ex11_1_student_c99
+gcc -std=c99 -Wall -Wextra -pedantic ex13_1_student_c99.c -o ex13_1_student_c99
 
 # 座標計算（数学ライブラリをリンク）
-gcc -std=c90 -Wall -Wextra -pedantic ex13_2_coordinate.c -o ex11_2_coordinate -lm
+gcc -std=c90 -Wall -Wextra -pedantic ex13_2_coordinate.c -o ex13_2_coordinate -lm
 
 # 実行
 ./ex13_1_student

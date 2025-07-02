@@ -5,26 +5,26 @@
 ## 解答例一覧
 
 ### 演習14-1: 関数ポインタの基本操作
-- **C90版**: [ex14_1_basic_function_pointer.c](ex12_1_basic_function_pointer.c)
-- **C99版**: [ex14_1_basic_function_pointer_c99.c](ex12_1_basic_function_pointer_c99.c)
+- **C90版**: [ex14_1_basic_function_pointer.c](ex14_1_basic_function_pointer.c)
+- **C99版**: [ex14_1_basic_function_pointer_c99.c](ex14_1_basic_function_pointer_c99.c)
 - **内容**: 関数ポインタを使った動的関数呼び出しのデモ（maximum, minimum, power関数）
 - **学習ポイント**: 関数ポインタの宣言、初期化、呼び出し、配列での管理
 
 ### 演習14-2: 関数選択システム
-- **C90版**: [ex14_2_function_selector.c](ex12_2_function_selector.c)
-- **C99版**: [ex14_2_function_selector_c99.c](ex12_2_function_selector_c99.c)
+- **C90版**: [ex14_2_function_selector.c](ex14_2_function_selector.c)
+- **C99版**: [ex14_2_function_selector_c99.c](ex14_2_function_selector_c99.c)
 - **内容**: 文字に基づく関数選択システム（構造体による関数ポインタ管理）
 - **学習ポイント**: 構造体と関数ポインタの組み合わせ、エラーハンドリング
 
 ### 演習14-3: 配列処理のコールバック
-- **C90版**: [ex14_3_array_callback.c](ex12_3_array_callback.c)
-- **C99版**: [ex14_3_array_callback_c99.c](ex12_3_array_callback_c99.c)
+- **C90版**: [ex14_3_array_callback.c](ex14_3_array_callback.c)
+- **C99版**: [ex14_3_array_callback_c99.c](ex14_3_array_callback_c99.c)
 - **内容**: コールバック関数を使った配列要素処理（倍加、減算、符号反転）
 - **学習ポイント**: コールバック関数の概念、関数ポインタを引数として渡す方法
 
 ### 演習14-4: 関数ポインタ配列を使った計算機
-- **C90版**: [ex14_4_calculator_function_array.c](ex12_4_calculator_function_array.c)
-- **C99版**: [ex14_4_calculator_function_array_c99.c](ex12_4_calculator_function_array_c99.c)
+- **C90版**: [ex14_4_calculator_function_array.c](ex14_4_calculator_function_array.c)
+- **C99版**: [ex14_4_calculator_function_array_c99.c](ex14_4_calculator_function_array_c99.c)
 - **内容**: 関数ポインタ配列による計算機（履歴管理、統計機能付き）
 - **学習ポイント**: 関数ポインタ配列、履歴管理、連続計算
 
