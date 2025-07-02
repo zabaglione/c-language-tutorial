@@ -1,10 +1,13 @@
 # 複数ファイル・発展技術
+
 ##  対応C規格
+
 - **主要対象:** C90/C99/C11/C17
 - **学習内容:** 分割コンパイル、extern宣言、プリプロセッサ、モジュール設計、ライブラリ作成、高度な演算子テクニック
 
 ##  学習目標
 この章を完了すると、以下のことができるようになります。
+
 - 複数ファイルに分割したプログラムを作成できる
 - extern宣言を正しく使用できる
 - プリプロセッサ機能を効果的に活用できる
@@ -17,18 +20,23 @@
 ##  概要と詳細
 
 ### 高度なトピックとは？
+
 これまで学んできたC言語の基礎を活かして、より実践的なプログラミング技術を学びます。実際の開発現場で使われる技術です！
 
 #### なぜ高度なトピックを学ぶのか？
+
 1. **大規模プログラムの開発**
+
    - 1つのファイルに全てを書くのは非現実的
    - チーム開発では分割が必須
 
 2. **コードの再利用**
+
    - 一度書いたコードを他のプロジェクトでも使える
    - ライブラリとして配布可能
 
 3. **保守性の向上**
+
    - 機能ごとにファイルを分けて管理
    - バグの特定と修正が容易
 
@@ -37,6 +45,7 @@
 
 #### 分割コンパイルの日常例
 レストランの厨房を考えてみましょう。
+
 - **前菜担当** → string_utils.c（文字列処理）
 - **メイン担当** → math_utils.c（数値計算）
 - **デザート担当** → file_utils.c（ファイル処理）
@@ -47,6 +56,7 @@
 #### 基本的な分割例
 
 **math_utils.h（ヘッダーファイル）**
+
 ```c
 #ifndef MATH_UTILS_H
 #define MATH_UTILS_H
@@ -59,6 +69,7 @@ double circle_area(double radius);
 ```
 
 **math_utils.c（実装ファイル）**
+
 ```c
 #include "math_utils.h"
 #define PI 3.14159265359
@@ -80,6 +91,7 @@ double circle_area(double radius)
 ```
 
 **main.c（メインプログラム）**
+
 ```c
 #include <stdio.h>
 #include "math_utils.h"
@@ -101,6 +113,7 @@ int main(void)
 ### extern宣言とグローバル変数
 
 #### extern宣言の基本
+
 ```c
 /* config.h */
 #ifndef CONFIG_H
@@ -119,6 +132,7 @@ char app_name[] = "MyApplication";
 ```
 
 #### グローバル変数の適切な使用
+
 ```c
 /* logger.h */
 #ifndef LOGGER_H
@@ -141,6 +155,7 @@ void log_message(LogLevel level, const char *message);
 ### プリプロセッサの活用
 
 #### 基本的なマクロ定義
+
 ```c
 #define MAX_SIZE 100
 #define PI 3.14159265359
@@ -149,6 +164,7 @@ void log_message(LogLevel level, const char *message);
 ```
 
 #### 条件付きコンパイル
+
 ```c
 #ifdef DEBUG
     #define DEBUG_PRINT(fmt, ...) \
@@ -165,6 +181,7 @@ void log_message(LogLevel level, const char *message);
 ```
 
 #### 複雑なマクロ
+
 ```c
 /* 安全な除算マクロ */
 #define SAFE_DIVIDE(a, b, result) \
@@ -184,6 +201,7 @@ void log_message(LogLevel level, const char *message);
 ### ヘッダーファイルの設計
 
 #### インクルードガードの重要性
+
 ```c
 #ifndef MODULE_NAME_H
 #define MODULE_NAME_H
@@ -194,6 +212,7 @@ void log_message(LogLevel level, const char *message);
 ```
 
 #### プリコンパイルされたヘッダー
+
 ```c
 /* common.h - よく使われるヘッダーをまとめる */
 #ifndef COMMON_H
@@ -244,6 +263,7 @@ char *read_entire_file(const char *filename);
 ```
 
 #### 依存関係の最小化
+
 ```c
 /* good_module.h - 最小限の依存関係 */
 #ifndef GOOD_MODULE_H
@@ -266,6 +286,7 @@ double point_distance(const Point *p1, const Point *p2);
 ### 静的ライブラリの作成
 
 #### ライブラリの構築手順
+
 ```bash
 # オブジェクトファイルの作成
 gcc -c math_utils.c -o math_utils.o
@@ -279,6 +300,7 @@ gcc main.c -L. -lmyutils -o main
 ```
 
 #### Makefileでのライブラリ管理
+
 ```makefile
 CC = gcc
 CFLAGS = -Wall -Wextra -pedantic -std=c90
@@ -309,6 +331,7 @@ clean:
 ### 大規模プロジェクトの構成
 
 #### 推奨ディレクトリ構造
+
 ```
 project/
 ├── src/           # ソースファイル
@@ -327,6 +350,7 @@ project/
 ```
 
 #### モジュール間のインターフェース設計
+
 ```c
 /* 良いインターフェース設計の例 */
 
@@ -356,6 +380,7 @@ LogLevel logger_get_level(void);
 ### C11/C17の新機能
 
 #### _Static_assert
+
 ```c
 #include <assert.h>
 
@@ -370,6 +395,7 @@ _Static_assert(sizeof(Buffer) == 64, "Buffer size must be exactly 64 bytes");
 ```
 
 #### _Generic（型汎用選択）
+
 ```c
 #define abs_generic(x) _Generic((x), \
     int: abs, \
@@ -389,6 +415,7 @@ printf("%.2f\n", abs_generic(d));  /* fabs(d) */
 ### 実践的なモジュール例
 
 #### エラーハンドリングモジュール
+
 ```c
 /* error.h */
 #ifndef ERROR_H
@@ -410,6 +437,7 @@ ErrorCode error_get_last_error(void);
 ```
 
 #### 設定管理モジュール
+
 ```c
 /* config.h */
 #ifndef CONFIG_H
@@ -432,6 +460,7 @@ void config_cleanup(void);
 ### デバッグとテスト支援
 
 #### デバッグマクロの活用
+
 ```c
 /* debug.h */
 #ifndef DEBUG_H
@@ -452,6 +481,7 @@ void config_cleanup(void);
 ```
 
 #### 単体テストフレームワーク
+
 ```c
 /* test_framework.h */
 #ifndef TEST_FRAMEWORK_H
@@ -482,6 +512,7 @@ extern int test_passed;
 ### パフォーマンス最適化
 
 #### インライン関数（C99以降）
+
 ```c
 /* C99のinline関数 */
 static inline int max_inline(int a, int b)
@@ -497,6 +528,7 @@ inline double square_inline(double x)
 ```
 
 #### コンパイラ最適化の活用
+
 ```c
 /* 最適化ヒントの提供 */
 #ifdef __GNUC__
@@ -519,20 +551,24 @@ if (LIKELY(ptr != NULL)) {
 完全な実装例は以下のファイルを参照してください。
 
 ### 基本的な分割コンパイル
+
 - [multi_file_basic/](examples/multi_file_basic/) - 基本的な分割例
 - [library_example/](examples/library_example/) - ライブラリ作成例
 
 ### 高度なプリプロセッサ活用
+
 - [preprocessor_demo.c](examples/preprocessor_demo.c) - マクロとプリプロセッサ
 - [conditional_compile.c](examples/conditional_compile.c) - 条件付きコンパイル
 
 ### 実用的なモジュール
+
 - [utils_library/](examples/utils_library/) - 実用的なユーティリティライブラリ
 - [project_template/](examples/project_template/) - プロジェクトテンプレート
 
 ## コンパイル方法
 
 ### 基本的な分割コンパイル
+
 ```bash
 # 個別にコンパイル
 gcc -c math_utils.c -o math_utils.o
@@ -544,6 +580,7 @@ gcc math_utils.c main.c -o main
 ```
 
 ### 静的ライブラリの作成と使用
+
 ```bash
 # ライブラリ作成
 gcc -c *.c
@@ -554,6 +591,7 @@ gcc main.c -L. -lmyutils -o main
 ```
 
 ### Makefileを使用した場合
+
 ```bash
 # 全てのターゲットをビルド
 make all
@@ -571,12 +609,14 @@ make install
 ## 学習フローとコンパイル方法
 
 ### 推奨学習順序
+
 1. **理論学習**: README.mdで基本概念を理解
 2. **サンプルコード**: examples/の基本例を確認
 3. **演習課題**: exercises/README.mdで課題を確認
 4. **実装練習**: solutions/の解答例を参考に自分で実装
 
 ### 実践的な学習方法
+
 1. **小さなプロジェクトから始める**: 2-3ファイルの分割から
 2. **段階的に複雑化**: 機能追加ごとにモジュール分割
 3. **実際のライブラリを参考**: オープンソースプロジェクトの構成を学習
@@ -585,17 +625,20 @@ make install
 ## C標準の違いと対応
 
 ### C90での制限と対策
+
 - inline関数なし → マクロまたは最適化に頼る
 - 可変長引数マクロなし → 固定引数マクロを使用
 - _Bool型なし → int型でbooleanを表現
 
 ### C99以降の拡張機能活用
+
 - inline関数の使用
 - 可変長引数マクロ
 - 指定初期化子
 - 複合リテラル
 
 ### C11/C17の新機能
+
 - _Static_assert
 - _Generic
 - _Alignas/_Alignof
@@ -702,6 +745,7 @@ void process_data_file(const char *filename)
 ビット演算の詳細な解説、ビットマスクを使った高度なテクニック、ビットフィールドによるメモリ最適化については、専用の章を設けています。
 
 **詳細な学習**: [第12章: ビット操作とビットフィールド](../bit-operations/README.md)では、以下の内容を詳しく説明しています：
+
 - ビット演算子の詳細と活用法
 - フラグ管理システムの実装
 - ビットカウントなどの高度なアルゴリズム
@@ -823,14 +867,17 @@ void print_variant(const Variant *var) {
 ##### 共用体の注意点
 
 1. **一度に1つのメンバーのみ有効**
+
    - 最後に代入したメンバーのみが有効
    - 他のメンバーの値は不定
 
 2. **メモリサイズ**
+
    - 最大のメンバーのサイズになる
    - パディングの影響を受ける
 
 3. **初期化**
+
    - C90では最初のメンバーでのみ初期化可能
    - C99では指定初期化子が使用可能
 
@@ -878,11 +925,13 @@ int can_access_resource(User *user, Resource *resource)
 
 ## 次の章へ
 これでC言語の主要トピックは完了です。さらに学習を続けたい場合は。
+
 - [C23の新機能](../c23-features/README.md)（オプション）
 - プロジェクト実践
 - 他の言語への応用
 
 ## 参考資料
+
 - examples/ - 実装例（複数C標準対応）
 - exercises/ - 演習問題
 - solutions/ - 解答例

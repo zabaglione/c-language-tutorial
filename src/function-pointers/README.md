@@ -1,10 +1,13 @@
 # 関数ポインタ
+
 ## 対応C規格
+
 - **主要対象:** C90
 - **学習内容:** 関数ポインタの基本、関数ポインタ配列、コールバック関数、高階関数の実装
 
 ## 学習目標
 この章を完了すると、以下のことができるようになります。
+
 - 関数ポインタの概念を理解し、適切に宣言・使用できる
 - 関数ポインタを引数として渡す関数を作成できる
 - 関数ポインタ配列を使った効率的なプログラムを書ける
@@ -14,27 +17,32 @@
 ## 概要と詳細
 
 ### 関数ポインタとは？
+
 関数ポインタは、関数のアドレスを格納する変数です。関数も実際にはメモリ上の特定の場所に配置されており、その場所を指すポインタを作ることができます。
 
 #### 日常生活での関数ポインタ
 関数ポインタを理解するために、身近な例を考えてみましょう。
 
 1. **リモコンのボタン**
+
    - ボタン = 関数ポインタ
    - ボタンを押す = 関数を実行
    - 設定でボタンの機能を変更 = 関数ポインタの値を変更
 
 2. **電話の短縮ダイヤル**
+
    - 短縮番号1 = 関数ポインタ
    - 番号1を押す = 関数を呼び出す
    - 登録先を変更 = 関数ポインタを別の関数に変更
 
 3. **イベントハンドラ**
+
    - ボタンクリック時の処理 = 関数ポインタ
    - クリックイベント = 関数の呼び出し
    - 処理を変更 = 別の関数を割り当て
 
 #### なぜ関数ポインタが必要なの？
+
 1. **柔軟性**: 実行時に呼び出す関数を変更できる
 2. **再利用性**: 同じコードで異なる処理を実行できる
 3. **拡張性**: 新しい機能を簡単に追加できる
@@ -44,11 +52,13 @@
 ### 関数ポインタの基本概念
 
 #### 関数ポインタの宣言
+
 ```c
 戻り値の型 (*ポインタ名)(引数リスト);
 ```
 
 #### 基本的な例
+
 ```c
 /* 関数の定義 */
 int add(int a, int b)
@@ -80,6 +90,7 @@ int main(void)
 ### 関数ポインタの様々な形式
 
 #### 引数なし・戻り値なしの関数ポインタ
+
 ```c
 void (*func_ptr)(void);
 
@@ -93,6 +104,7 @@ func_ptr();  /* hello()と同じ */
 ```
 
 #### 複雑な引数を持つ関数ポインタ
+
 ```c
 /* 文字列を引数に取る関数ポインタ */
 void (*string_func)(const char *);
@@ -108,6 +120,7 @@ string_func("hello");
 ```
 
 #### 関数ポインタを返す関数
+
 ```c
 /* 関数ポインタを返す関数 */
 int (*get_operation(int choice))(int, int)
@@ -127,6 +140,7 @@ int result = op(10, 20);
 ### 関数ポインタ配列
 
 #### 基本的な関数ポインタ配列
+
 ```c
 int add(int a, int b) { return a + b; }
 int subtract(int a, int b) { return a - b; }
@@ -146,6 +160,7 @@ for (i = 0; i < 4; i++) {
 ```
 
 #### 関数ポインタ配列を使った計算機
+
 ```c
 typedef struct {
     char symbol;
@@ -181,6 +196,7 @@ int execute_operation(char op, int a, int b)
 コールバック関数は、他の関数に引数として渡される関数です。呼び出される側が適切なタイミングで「呼び戻す（コールバック）」ことからこの名前が付いています。
 
 #### 基本的なコールバック関数
+
 ```c
 /* コールバック関数の型定義 */
 typedef void (*callback_t)(int);
@@ -209,6 +225,7 @@ process_data(15, log_result);    /* ログ: 計算結果は 30 です */
 ```
 
 #### 配列処理でのコールバック関数
+
 ```c
 /* 配列の各要素に対して処理を行う関数 */
 void array_foreach(int *arr, int size, void (*callback)(int*, int))
@@ -241,6 +258,7 @@ array_foreach(numbers, 5, square_value);   /* 各要素を2乗 */
 ### より高度な関数ポインタ
 
 #### 関数ポインタの構造体
+
 ```c
 typedef struct {
     char *name;
@@ -270,6 +288,7 @@ void run_module(Module *mod, int data)
 ```
 
 #### 関数ポインタチェーン
+
 ```c
 typedef struct filter {
     int (*process)(int);
@@ -307,6 +326,7 @@ int result = apply_filters(5, &filter1);
 ### qsort()関数との組み合わせ
 
 #### 標準ライブラリのqsort()
+
 ```c
 #include <stdlib.h>
 
@@ -332,6 +352,7 @@ qsort(numbers, size, sizeof(int), compare_int_desc); /* 降順 */
 ```
 
 #### 文字列の比較関数
+
 ```c
 int compare_string(const void *a, const void *b)
 {
@@ -348,6 +369,7 @@ qsort(names, name_count, sizeof(char*), compare_string);
 ### 実用的な応用例
 
 #### イベントシステム
+
 ```c
 #define MAX_EVENTS 10
 
@@ -382,6 +404,7 @@ void trigger_event(int event_type, int data)
 ```
 
 #### プラグインシステム
+
 ```c
 typedef struct {
     char *name;
@@ -417,6 +440,7 @@ void execute_all_plugins(const char *command)
 
 #### 1. 関数ポインタの間違った宣言
 **問題:** 括弧の位置が間違っている
+
 ```c
 int *func(int, int);     /* 関数（ポインタを返す） */
 int (*func)(int, int);   /* 関数ポインタ（正しい） */
@@ -424,12 +448,14 @@ int (*func)(int, int);   /* 関数ポインタ（正しい） */
 
 #### 2. NULLポインタの呼び出し
 **問題:** 未初期化の関数ポインタを呼び出す
+
 ```c
 int (*func)(int, int);
 int result = func(5, 3);  /* 危険！未初期化 */
 ```
 
 **対策:**
+
 ```c
 int (*func)(int, int) = NULL;
 if (func != NULL) {
@@ -439,6 +465,7 @@ if (func != NULL) {
 
 #### 3. 関数の型の不一致
 **問題:** 関数ポインタの型と実際の関数の型が異なる
+
 ```c
 int add(int a, int b) { return a + b; }
 void (*func)(int, int) = add;  /* 戻り値の型が違う */
@@ -446,6 +473,7 @@ void (*func)(int, int) = add;  /* 戻り値の型が違う */
 
 #### 4. 関数ポインタ配列の初期化ミス
 **問題:** 配列のサイズと関数の数が一致しない
+
 ```c
 int (*ops[3])(int, int) = {add, subtract, multiply, divide};  /* 4つの関数 */
 ```
@@ -453,11 +481,13 @@ int (*ops[3])(int, int) = {add, subtract, multiply, divide};  /* 4つの関数 *
 ### パフォーマンスの考慮事項
 
 #### 関数ポインタ呼び出しのオーバーヘッド
+
 - 直接関数呼び出しより若干遅い
 - 分岐予測が困難な場合がある
 - ただし、柔軟性の利益の方が大きい場合が多い
 
 #### 最適化のヒント
+
 - 頻繁に呼び出される関数ポインタはローカル変数に格納
 - コンパイラの最適化オプションを活用
 - プロファイリングでボトルネックを特定
@@ -466,25 +496,30 @@ int (*ops[3])(int, int) = {add, subtract, multiply, divide};  /* 4つの関数 *
 完全な実装例は以下のファイルを参照してください。
 
 ### 基本的な関数ポインタ
+
 - [function_pointer_basics.c](examples/function_pointer_basics.c) - C90準拠版
 - [function_pointer_basics_c99.c](examples/function_pointer_basics_c99.c) - C99準拠版
 
 ### 関数ポインタ配列と計算機
+
 - [calculator.c](examples/calculator.c) - C90準拠版
 - [calculator_c99.c](examples/calculator_c99.c) - C99準拠版
 
 ### コールバック関数とイベントシステム
+
 - [callback_system.c](examples/callback_system.c) - C90準拠版
 - [callback_system_c99.c](examples/callback_system_c99.c) - C99準拠版
 
 ## コンパイル方法
 
 ### 基本的なコンパイル（C90準拠）
+
 ```bash
 gcc -std=c90 -Wall -Wextra -pedantic function_pointer_basics.c -o function_pointer_basics
 ```
 
 ### Makefileを使用した場合
+
 ```bash
 # 全てのプログラムをコンパイル
 make all
@@ -501,12 +536,14 @@ make clean
 ## 学習フローとコンパイル方法
 
 ### 推奨学習順序
+
 1. **理論学習**: README.mdで基本概念を理解
 2. **サンプルコード**: examples/の基本例を確認
 3. **演習課題**: exercises/README.mdで課題を確認
 4. **実装練習**: solutions/の解答例を参考に自分で実装
 
 ### 学習のコツ
+
 1. **段階的理解**: 基本→配列→コールバック→高度な応用の順で学習
 2. **実用例の実装**: 計算機、イベントシステムなどを実際に作成
 3. **デバッグ技術**: 関数ポインタの値をprintfで確認
@@ -515,21 +552,25 @@ make clean
 ## 実践的な応用分野
 
 ### システムプログラミング
+
 - デバイスドライバのハンドラ
 - 割り込み処理関数
 - システムコールハンドラ
 
 ### GUI プログラミング
+
 - イベントハンドラ
 - ボタンのクリック処理
 - メニュー項目の処理
 
 ### ゲーム開発
+
 - ステートマシン
 - アニメーション制御
 - 入力処理
 
 ### 組み込みシステム
+
 - タイマー割り込み処理
 - センサーデータ処理
 - 通信プロトコル処理
@@ -538,6 +579,7 @@ make clean
 [第13章: 複数ファイル・発展技術](../advanced/README.md)
 
 ## 参考資料
+
 - examples/ - 実装例（C90、C99両対応）
 - exercises/ - 演習問題
 - solutions/ - 解答例

@@ -1,10 +1,13 @@
 # ビット操作とビットフィールド
+
 ##  対応C規格
+
 - **主要対象:** C90
 - **学習内容:** ビット演算、ビットマスク、ビットフィールド、実践的なビット操作技術
 
 ##  学習目標
 この章を完了すると、以下のことができるようになります。
+
 - ビット演算子を使いこなせる
 - ビットマスクを使ったフラグ管理ができる
 - ビットフィールドを理解して活用できる
@@ -14,23 +17,27 @@
 ##  概要と詳細
 
 ### ビット操作とは？
+
 ビット操作は、データの最小単位であるビットを直接操作する技術です。これは、メモリ効率的なプログラミング、ハードウェア制御、高速な演算処理などで重要な役割を果たします。
 
 #### 日常生活でのビット操作
 身近な例を考えてみましょう。
 
 1. **スイッチパネル**
+
    - 8個のスイッチ = 8ビット
    - 各スイッチのON/OFF = 1/0
    - 複数のスイッチの状態を1つの数値で表現
 
 2. **アクセス権限**
+
    - 読み取り権限 = ビット0
    - 書き込み権限 = ビット1
    - 実行権限 = ビット2
    - 権限の組み合わせを数値で管理
 
 3. **色の表現（RGB）**
+
    - 赤（R）: 5ビット
    - 緑（G）: 6ビット
    - 青（B）: 5ビット
@@ -39,6 +46,7 @@
 ### ビット演算子の詳細
 
 #### ビット演算子一覧
+
 | 演算子 | 名称 | 動作 | 使用例 |
 |--------|------|------|--------|
 | `&` | AND | 両方が1の時1 | `a & b` |
@@ -49,6 +57,7 @@
 | `>>` | 右シフト | ビットを右へ移動 | `a >> 2` |
 
 #### ビット演算の真理値表
+
 ```
 AND演算（&）
 A | B | A & B
@@ -78,6 +87,7 @@ A | B | A ^ B
 ### ビットマスクの活用
 
 #### ビットマスクとは？
+
 ビットマスクは、特定のビットを操作するためのパターンです。
 
 ```c
@@ -95,6 +105,7 @@ A | B | A ^ B
 #### ビット操作の基本テクニック
 
 ##### 1. 特定ビットのセット（1にする）
+
 ```c
 unsigned char flags = 0x00;
 flags |= BIT3;  /* ビット3を1にセット */
@@ -102,18 +113,21 @@ flags |= BIT3;  /* ビット3を1にセット */
 ```
 
 ##### 2. 特定ビットのクリア（0にする）
+
 ```c
 flags &= ~BIT3;  /* ビット3を0にクリア */
 /* flags = 00000000 */
 ```
 
 ##### 3. 特定ビットの反転（トグル）
+
 ```c
 flags ^= BIT3;  /* ビット3を反転 */
 /* 0なら1に、1なら0に */
 ```
 
 ##### 4. 特定ビットのテスト
+
 ```c
 if (flags & BIT3) {
     /* ビット3が1の場合 */
@@ -123,6 +137,7 @@ if (flags & BIT3) {
 ### フラグ管理システム
 
 #### 実用的なフラグシステムの例
+
 ```c
 /* ファイルアクセス権限 */
 #define PERM_READ    0x04  /* 100 */
@@ -147,6 +162,7 @@ if (permissions & PERM_WRITE) {
 ### 効率的なビット操作アルゴリズム
 
 #### 1. ビットカウント（1の個数を数える）
+
 ```c
 /* Brian Kernighanのアルゴリズム */
 int count_bits(unsigned int n) {
@@ -160,6 +176,7 @@ int count_bits(unsigned int n) {
 ```
 
 #### 2. 2のべき乗判定
+
 ```c
 int is_power_of_two(unsigned int n) {
     return n && !(n & (n - 1));
@@ -167,6 +184,7 @@ int is_power_of_two(unsigned int n) {
 ```
 
 #### 3. ビットスワップ
+
 ```c
 /* XORを使った値の交換 */
 void swap_without_temp(int *a, int *b) {
@@ -179,9 +197,11 @@ void swap_without_temp(int *a, int *b) {
 ### ビットフィールド
 
 #### ビットフィールドとは？
+
 構造体のメンバーに対してビット単位でサイズを指定できる機能です。
 
 #### 基本的な宣言
+
 ```c
 struct PackedData {
     unsigned int flag1 : 1;   /* 1ビット */
@@ -193,6 +213,7 @@ struct PackedData {
 ```
 
 #### ビットフィールドの使用例
+
 ```c
 #include <stdio.h>
 
@@ -215,6 +236,7 @@ int main(void) {
 ```
 
 #### ハードウェアレジスタの定義
+
 ```c
 /* マイコンのレジスタ定義例 */
 struct ControlRegister {
@@ -229,11 +251,13 @@ struct ControlRegister {
 ### ビットフィールドの注意点
 
 #### 1. 移植性の問題
+
 - ビットフィールドのレイアウトは処理系依存
 - エンディアンの影響を受ける
 - パディングの挿入位置が異なる場合がある
 
 #### 2. アドレスが取得できない
+
 ```c
 struct BitField {
     unsigned int flag : 1;
@@ -244,6 +268,7 @@ struct BitField bf;
 ```
 
 #### 3. 配列にできない
+
 ```c
 struct Invalid {
     unsigned int flags[8] : 1;  /* エラー！配列のビットフィールドは不可 */
@@ -253,6 +278,7 @@ struct Invalid {
 ### 実践的な応用例
 
 #### RGB565形式の色操作
+
 ```c
 /* 16ビットRGB（5-6-5形式） */
 typedef struct {
@@ -272,6 +298,7 @@ unsigned short make_rgb565(int r, int g, int b) {
 ```
 
 #### ネットワークプロトコルのヘッダ
+
 ```c
 /* 簡易パケットヘッダ */
 struct PacketHeader {
@@ -285,6 +312,7 @@ struct PacketHeader {
 ### ビット操作のベストプラクティス
 
 #### 1. マクロの活用
+
 ```c
 #define SET_BIT(value, bit)    ((value) |= (1 << (bit)))
 #define CLEAR_BIT(value, bit)  ((value) &= ~(1 << (bit)))
@@ -293,6 +321,7 @@ struct PacketHeader {
 ```
 
 #### 2. 型の明確化
+
 ```c
 /* 符号なし型を使用してシフトの動作を明確に */
 unsigned int flags = 0;
@@ -300,6 +329,7 @@ unsigned char byte_data = 0xFF;
 ```
 
 #### 3. 定数の使用
+
 ```c
 /* マジックナンバーを避ける */
 #define MAX_FLAGS 32
@@ -310,6 +340,7 @@ unsigned char byte_data = 0xFF;
 ### よくある間違いとデバッグ
 
 #### 1. 符号付き整数の右シフト
+
 ```c
 int negative = -16;  /* 11110000 (8ビットの場合) */
 int result = negative >> 2;  /* 結果は処理系依存！ */
@@ -317,12 +348,14 @@ int result = negative >> 2;  /* 結果は処理系依存！ */
 ```
 
 #### 2. シフト量の範囲外
+
 ```c
 unsigned int value = 1;
 value <<= 32;  /* 32ビット整数で32ビットシフトは未定義動作 */
 ```
 
 #### 3. 演算子の優先順位
+
 ```c
 /* 間違い */
 if (flags & BIT0 == 0)  /* == が先に評価される！ */
@@ -335,14 +368,17 @@ if ((flags & BIT0) == 0)
 完全な実装例は以下のファイルを参照してください。
 
 ### ビット操作の基本
+
 - [bit_basics.c](examples/bit_basics.c) - C90準拠版
 - [bit_basics_c99.c](examples/bit_basics_c99.c) - C99準拠版
 
 ### ビットフィールドの活用
+
 - [bitfield_examples.c](examples/bitfield_examples.c) - C90準拠版
 - [bitfield_examples_c99.c](examples/bitfield_examples_c99.c) - C99準拠版
 
 ### 実践的な応用
+
 - [bit_applications.c](examples/bit_applications.c) - C90準拠版
 - [bit_applications_c99.c](examples/bit_applications_c99.c) - C99準拠版
 
@@ -357,5 +393,6 @@ if ((flags & BIT0) == 0)
 ビット操作を理解したら、[構造体とポインタ](../structures/README.md) に進んでください。構造体でビットフィールドをより効果的に活用できます。
 
 ##  参考資料
+
 - [ビット演算](https://en.cppreference.com/w/c/language/operator_arithmetic)
 - [ビットフィールド](https://en.cppreference.com/w/c/language/struct)

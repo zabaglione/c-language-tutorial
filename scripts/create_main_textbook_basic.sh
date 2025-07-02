@@ -108,16 +108,16 @@ if command -v pandoc &> /dev/null; then
     if [ -f "$PROJECT_ROOT/templates/custom-reference.docx" ]; then
         pandoc "$INPUT_MD" \
             -o "$OUTPUT_DOCX" \
-            --from markdown+raw_attribute+raw_html \
-            --to docx \
+            --from markdown+raw_attribute+raw_html+fenced_divs+bracketed_spans \
+            --to docx+styles \
             --standalone \
             --toc \
             --reference-doc="$PROJECT_ROOT/templates/custom-reference.docx"
     else
         pandoc "$INPUT_MD" \
             -o "$OUTPUT_DOCX" \
-            --from markdown+raw_attribute+raw_html \
-            --to docx \
+            --from markdown+raw_attribute+raw_html+fenced_divs+bracketed_spans \
+            --to docx+styles \
             --standalone \
             --toc
     fi
