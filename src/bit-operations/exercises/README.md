@@ -25,7 +25,8 @@ unsigned int rotate_left(unsigned int value, int shift);
 unsigned int rotate_right(unsigned int value, int shift);
 ```
 
-**要件:**
+**要件**
+
 - ビット位置は0から31まで
 - 範囲外のビット位置の場合は何もしない
 - 循環シフトは32ビットの範囲で行う

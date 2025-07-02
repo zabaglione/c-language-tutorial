@@ -162,20 +162,19 @@ int score = 85;
 printf("点数: %d点\n", score);
 if (score >= 90) {
     printf("成績: A（優秀）\n");
-printf("素晴らしい成績です！\n");
+    printf("素晴らしい成績です！\n");
 } else if (score >= 80) {
     printf("成績: B（良好）\n");
-printf("よく頑張りました！\n");
+    printf("よく頑張りました！\n");
 } else if (score >= 70) {
     printf("成績: C（普通）\n");
-printf("合格です\n");
+    printf("合格です\n");
 } else if (score >= 60) {
     printf("成績: D（可）\n");
-printf("ギリギリ合格です\n");
+    printf("ギリギリ合格です\n");
 } else {
     printf("成績: F（不可）\n");
-printf("もう少し頑張りましょう\n");
-}
+    printf("もう少し頑張りましょう\n");
 }
 ```
 
@@ -206,6 +205,7 @@ if (age >= 0) {
 } else if (age >= 18) {
     printf("成人\n");  /* 実行されない */
 }
+
 /* 正しい順序（厳しい条件から） */
 if (age >= 18) {
     printf("成人\n");
@@ -257,6 +257,7 @@ if (age >= 18) {
         printf("運転できます\n");
     }
 }
+
 /* 論理演算子を使った場合 */
 if (age >= 18 && has_license) {
     printf("運転できます\n");
@@ -282,14 +283,17 @@ if (a >= b)   printf("a は b 以上\n");
 ```c
 int age = 25;
 int income = 300000;
+
 /* AND演算子 */
 if (age >= 20 && income >= 200000) {
     printf("ローン審査に通りました\n");
 }
+
 /* OR演算子 */
 if (age < 6 || age > 65) {
     printf("特別料金が適用されます\n");
 }
+
 /* NOT演算子 */
 if (!(age >= 18)) {
     printf("18歳未満です\n");
@@ -446,12 +450,14 @@ switch (ch) {
 ```c
 int a = 5, b = 3;
 int max;
+
 /* if-else文での記述 */
 if (a > b) {
     max = a;
  } else {
     max = b;
 }
+
 /* 条件演算子での記述 */
 max = (a > b) ? a : b;
 printf("最大値: %d\n", max);
@@ -464,14 +470,17 @@ printf("最大値: %d\n", max);
 
 ```c
 int x = 5;
+
 /* NG: 代入になってしまう */
 if (x = 10) {  /* ← これは間違い！ */
     printf("常に実行される\n");  /* x に 10 が代入され、常に真 */
 }
+
 /* OK: 比較演算子を使用 */
 if (x == 10) {  /* ← 正しい書き方 */
     printf("x が 10 の場合のみ実行\n");
 }
+
 /* 防御的プログラミング：定数を左側に書く */
 if (10 == x) {  /* もし = を1つしか書かなかったらコンパイルエラーになる */
     printf("x が 10 の場合のみ実行\n");
@@ -483,14 +492,17 @@ if (10 == x) {  /* もし = を1つしか書かなかったらコンパイルエ
 
 ```c
 double d = 0.1 + 0.2;
+
 /* NG: 浮動小数点の誤差で期待通りにならない可能性 */
 if (d == 0.3) {
     printf("等しい\n");  /* 実行されないかも！ */
 }
+
 /* OK: 誤差を考慮した比較 */
 if (d >= 0.299999 && d <= 0.300001) {
     printf("ほぼ等しい\n");
 }
+
 /* より実践的な方法：許容誤差を定義 */
 #define EPSILON 0.00001
 if (fabs(d - 0.3) < EPSILON) {
@@ -536,6 +548,7 @@ if (condition);
 {
     printf("常に実行される\n");  /* 条件に関係なく実行 */
 }
+
 /* OK: 正しい記述 */
 if (condition) {
     printf("条件が真の場合のみ実行\n");
@@ -553,6 +566,7 @@ switch (value) {
         printf("2です\n");
         break;
 }
+
 /* OK: 適切なbreak文 */
 switch (value) {
     case 1:
@@ -570,6 +584,7 @@ switch (value) {
 /* NG: 意図しない優先順位 */
 if (a == 1 || b == 2 && c == 3) 
     /* && が || より優先される */
+
 /* OK: 括弧で明示 */
 if ((a == 1) || (b == 2 && c == 3)) 
     /* 意図が明確 */

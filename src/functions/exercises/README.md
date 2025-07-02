@@ -21,6 +21,7 @@
    - 数値を指定した桁数で表示する関数 `void print_number_padded(int num, int width)`
 
 **期待される出力例:**
+
 ```
 === 数学関数のテスト ===
 max(10, 20) = 20
@@ -60,6 +61,7 @@ print_number_padded(1234, 3): 1234
    - 配列内の重複する要素の数を数える関数 `int count_duplicates(int arr[], int size)`
 
 **期待される出力例:**
+
 ```
 === 配列操作関数のテスト ===
 配列: [34, 12, 67, 89, 23, 45, 78, 56, 90, 11]
@@ -102,6 +104,7 @@ linear_search(45) = 5
    - 文字列内の母音の数を数える関数 `int count_vowels(const char str[])`
 
 **期待される出力例:**
+
 ```
 === 文字列処理関数のテスト ===
 
@@ -142,6 +145,7 @@ my_strcmp("Hello", "World") = -15
    - 成績から評価を計算する関数 `void calculate_grade_info(int scores[], int count, double *average, char *grade, int *pass_count)`
 
 **期待される出力例:**
+
 ```
 === 複数戻り値関数のテスト ===
 
@@ -182,6 +186,7 @@ my_strcmp("Hello", "World") = -15
    - メールアドレスの基本形式をチェックする関数 `int is_valid_email(const char email[])`
 
 **期待される出力例:**
+
 ```
 === エラーハンドリング関数のテスト ===
 
@@ -243,6 +248,7 @@ typedef struct {
    - 2つの日付の差を計算する関数 `int date_difference(Date d1, Date d2)`
 
 **期待される出力例:**
+
 ```
 === 構造体関数のテスト ===
 
@@ -282,6 +288,7 @@ is_valid_date(2024/3/15) = 1 (有効)
    - 配列の最大値を再帰的に見つける関数 `int find_max_recursive(int arr[], int size)`
 
 **期待される出力例:**
+
 ```
 === 再帰関数のテスト ===
 
