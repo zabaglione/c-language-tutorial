@@ -397,9 +397,9 @@ if ((flags & BIT0) == 0)
 - [ビット演算](https://en.cppreference.com/w/c/language/operator_arithmetic)
 - [ビットフィールド](https://en.cppreference.com/w/c/language/struct)
 
-## 📝 練習問題
+## 演習問題
 
-この章の内容を理解したら、[練習問題](exercises/)に挑戦してみましょう。
+この章の内容を理解したら、[演習問題](exercises/)に挑戦してみましょう。
 
 - 基礎問題：基本的な文法や概念の確認
 - 応用問題：より実践的なプログラムの作成

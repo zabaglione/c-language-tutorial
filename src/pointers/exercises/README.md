@@ -270,3 +270,7 @@ gcc -std=c90 -Wall -Wextra -pedantic ex_pointer_swap.c -o ex_pointer_swap
 - ローカル変数のアドレスを返すこと
 - 配列の範囲外アクセス
 - NULLポインタの参照
+
+## 次の章へ
+
+演習問題お疲れさまでした！次は[第9章: 配列とポインタ](../../arrays-pointers/)に進みましょう。

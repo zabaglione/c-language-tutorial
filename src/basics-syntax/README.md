@@ -459,9 +459,9 @@ make clean
 - [エスケープシーケンス一覧](https://ja.cppreference.com/w/c/language/escape)
 - [C90規格仕様](https://www.iso.org/standard/17782.html)
 
-## 📝 練習問題
+## 演習問題
 
-この章の内容を理解したら、[練習問題](exercises/)に挑戦してみましょう。
+この章の内容を理解したら、[演習問題](exercises/)に挑戦してみましょう。
 
 - 基礎問題：基本的な文法や概念の確認
 - 応用問題：より実践的なプログラムの作成

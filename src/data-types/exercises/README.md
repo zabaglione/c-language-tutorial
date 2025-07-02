@@ -236,3 +236,7 @@ gcc -std=c90 -Wall -Wextra -pedantic ex_variables.c -o ex_variables
 - 初期化されていない変数の使用に注意
 - 型の範囲を超えないよう注意
 - sizeof演算子の戻り値はsize_t型（%luで出力）
+
+## 次の章へ
+
+演習問題お疲れさまでした！次は[第4章: 演算子](../../operators/)に進みましょう。

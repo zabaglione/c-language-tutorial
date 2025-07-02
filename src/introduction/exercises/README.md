@@ -266,6 +266,6 @@ _Static_assert によるコンパイル時チェック: OK
 - [C言語規格書](https://www.iso.org/standard/74528.html)
 - [GNU Make マニュアル](https://www.gnu.org/software/make/manual/)
 
-## 次の段階
+## 次の章へ
 
-演習課題が完了したら、[基本文法・Hello World](../../basics-syntax/README.md) に進んでください。
+演習問題お疲れさまでした！次は[第2章: 基本文法・Hello World](../../basics-syntax/)に進みましょう。

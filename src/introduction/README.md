@@ -348,9 +348,9 @@ make clean
 - [C言語規格書 (ISO/IEC 9899:2018)](https://www.iso.org/standard/74528.html)
 - [GNU Make マニュアル](https://www.gnu.org/software/make/manual/)
 
-## 📝 練習問題
+## 演習問題
 
-この章の内容を理解したら、[練習問題](exercises/)に挑戦してみましょう。
+この章の内容を理解したら、[演習問題](exercises/)に挑戦してみましょう。
 
 - 基礎問題：基本的な文法や概念の確認
 - 応用問題：より実践的なプログラムの作成

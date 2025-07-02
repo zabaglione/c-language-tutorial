@@ -938,9 +938,9 @@ int can_access_resource(User *user, Resource *resource)
 - [C標準ライブラリリファレンス](https://en.cppreference.com/w/c)
 - [GNU Make Manual](https://www.gnu.org/software/make/manual/)
 
-## 📝 練習問題
+## 演習問題
 
-この章の内容を理解したら、[練習問題](exercises/)に挑戦してみましょう。
+この章の内容を理解したら、[演習問題](exercises/)に挑戦してみましょう。
 
 - 基礎問題：基本的な文法や概念の確認
 - 応用問題：より実践的なプログラムの作成

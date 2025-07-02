@@ -873,9 +873,9 @@ int big_num = 300;
 - [sizeof演算子](https://ja.cppreference.com/w/c/language/sizeof)
 - [型変換](https://ja.cppreference.com/w/c/language/conversion)
 
-## 📝 練習問題
+## 演習問題
 
-この章の内容を理解したら、[練習問題](exercises/)に挑戦してみましょう。
+この章の内容を理解したら、[演習問題](exercises/)に挑戦してみましょう。
 
 - 基礎問題：基本的な文法や概念の確認
 - 応用問題：より実践的なプログラムの作成
