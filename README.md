@@ -271,3 +271,7 @@ cd scripts
 
 この教材は教育目的での利用を前提としています。
 商用利用については別途ご相談ください。
+
+## 連絡先
+
+e-mail: z.zabagline@gmail.com
