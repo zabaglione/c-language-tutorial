@@ -106,12 +106,12 @@ C言語では、通常の変数を渡すと「値のコピー」が渡されま�
 graph LR
     subgraph "main関数のメモリ"
         A1["num = 10"]
-        A2["num = 10<br/>(変更されない)"]
+        A2["num = 10\n(変更されない)"]
     end
 
     subgraph "modify_value関数のメモリ"
-        B1["x = 10<br/>(コピー)"]
-        B2["x = 100<br/>(変更後)"]
+        B1["x = 10\n(コピー)"]
+        B2["x = 100\n(変更後)"]
     end
 
     A1 -.->|"値をコピー"| B1
@@ -169,12 +169,12 @@ int main(void)
 ```mermaid
 graph LR
     subgraph "main関数のメモリ"
-        A1["num = 10<br/>アドレス: 1000"]
-        A2["num = 100<br/>アドレス: 1000<br/>(直接変更される)"]
+        A1["num = 10\nアドレス: 1000"]
+        A2["num = 100\nアドレス: 1000\n(直接変更される)"]
     end
 
     subgraph "modify_value関数のメモリ"
-        B1["x = &num<br/>(アドレスを保持)"]
+        B1["x = &num\n(アドレスを保持)"]
     end
 
     B1 -->|"アドレスを指す"| A1
@@ -350,13 +350,13 @@ int main(void)
 flowchart LR
     subgraph "main関数"
         A1["x=5, y=10"]
-        A2["x=5, y=10<br/>(変更なし)"]
+        A2["x=5, y=10\n(変更なし)"]
     end
 
     subgraph "swap_wrong関数"
-        B1["a=5, b=10<br/>(コピー)"]
-        B2["a=10, b=5<br/>(交換後)"]
-        B3["関数終了で<br/>消滅"]
+        B1["a=5, b=10\n(コピー)"]
+        B2["a=10, b=5\n(交換後)"]
+        B3["関数終了で\n消滅"]
     end
 
     A1 -->|"値をコピー"| B1
@@ -831,7 +831,7 @@ void function_example(void)
 graph TB
     subgraph "関数呼び出し時"
         A1["main()の変数"]
-        A2["function()の<br/>local_var = 10"]
+        A2["function()の\nlocal_var = 10"]
         A1 --> A2
     end
 
