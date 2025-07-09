@@ -88,12 +88,12 @@ for (i = 0; i < 5; i++) {
 ```mermaid
 flowchart LR
     A["arr[i] の仕組み"]
-    A --> B["1. arr = 先頭アドレス\n(例: 1000)"]
-    B --> C["2. i = インデックス\n(例: 2)"]
-    C --> D["3. arr + i =\ni要素分進んだアドレス"]
+    A --> B["(1) arr = 先頭アドレス\n(例: 1000)"]
+    B --> C["(2) i = インデックス\n(例: 2)"]
+    C --> D["(3) arr + i =\ni要素分進んだアドレス"]
     D --> E["実際のアドレス計算:\n1000 + (2 × 4) = 1008\n(int型は4バイト)"]
-    E --> F["4. *(arr + i) =\nそのアドレスの値を取得"]
-    F --> G["5. これは arr[2] と同じ！"]
+    E --> F["(4) *(arr + i) =\nそのアドレスの値を取得"]
+    F --> G["(5) これは arr[2] と同じ！"]
 
     style A fill:#fdd,stroke:#333,stroke-width:2px
     style G fill:#dfd,stroke:#333,stroke-width:2px
