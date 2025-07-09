@@ -36,7 +36,7 @@ int sum_array(int *arr, int size)
     int i;
     
     for (i = 0; i < size; i++) {
-        sum += *(arr + i);  /* ポインタ記法 */
+        sum += *(arr + i);  /* ポインター記法 */
     }
     
     return sum;
@@ -93,7 +93,7 @@ int* search_value(int *arr, int size, int target)
     return NULL;  /* 見つからない場合はNULLを返す */
 }
 
-/* 文字列の長さを計算する関数（ポインタ版） */
+/* 文字列の長さを計算する関数（ポインター版） */
 int string_length_ptr(char *str)
 {
     int length = 0;
@@ -106,7 +106,7 @@ int string_length_ptr(char *str)
     return length;
 }
 
-/* 文字列をコピーする関数（ポインタ版） */
+/* 文字列をコピーする関数（ポインター版） */
 void string_copy_ptr(char *dest, char *src)
 {
     while (*src != '\0') {
@@ -160,7 +160,7 @@ int main(void)
     char *labels[] = {"numbers配列", "data配列"};
     int array_sum;
     
-    printf("===== ポインタを引数とする関数 =====\n");
+    printf("===== ポインターを引数とする関数 =====\n");
     
     /* 変数の初期化 */
     size = sizeof(numbers) / sizeof(numbers[0]);
@@ -194,7 +194,7 @@ int main(void)
     modify_array(numbers, size, 3);
     print_array("main関数内での変更後", numbers, size);
     
-    printf("\n===== ポインタを戻り値とする関数 =====\n");
+    printf("\n===== ポインターを戻り値とする関数 =====\n");
     
     print_array("検索対象配列", data, data_size);
     
@@ -228,9 +228,9 @@ int main(void)
     string_copy_ptr(copy_buffer, original);
     printf("コピーした文字列: \"%s\"\n", copy_buffer);
     
-    printf("\n===== ポインタによる高度な操作 =====\n");
+    printf("\n===== ポインターによる高度な操作 =====\n");
     
-    /* ポインタの配列を使った複数の文字列 */
+    /* ポインターの配列を使った複数の文字列 */
     
     printf("果物リスト:\n");
     for (i = 0; i < fruit_count; i++) {
@@ -281,5 +281,5 @@ int main(void)
 - ローカル変数のアドレスを返してはいけない
 - 配列の範囲外アクセスに注意
 - NULLポインタの参照は避ける
-- ポインタ演算の境界を意識する
+- ポインター演算の境界を意識する
 */

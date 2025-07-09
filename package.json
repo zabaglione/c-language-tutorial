@@ -1,0 +1,26 @@
+{
+  "name": "c-language-tutorial",
+  "version": "1.0.0",
+  "description": "C言語学習教材",
+  "scripts": {
+    "lint:md": "markdownlint '**/*.md' --ignore node_modules --ignore output",
+    "lint:md:fix": "markdownlint '**/*.md' --ignore node_modules --ignore output --fix",
+    "check": "npm run lint:md",
+    "fix": "npm run lint:md:fix"
+  },
+  "devDependencies": {
+    "markdownlint-cli": "^0.37.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zabaglione/c-language-tutorial.git"
+  },
+  "keywords": [
+    "c",
+    "programming",
+    "tutorial",
+    "japanese"
+  ],
+  "author": "",
+  "license": "MIT"
+}

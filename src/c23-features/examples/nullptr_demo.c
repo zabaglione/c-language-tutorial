@@ -153,7 +153,7 @@ void process_int(int value)
 
 void process_ptr(void *ptr)
 {
-    printf("ポインタを処理: %p\n", ptr);
+    printf("ポインターを処理: %p\n", ptr);
 }
 
 /*
@@ -171,9 +171,9 @@ void process_ptr(void *ptr)
  * old_style == new_style: true
  * 
  * --- 型安全性の向上 ---
- * ポインタを処理: 0x0
+ * ポインターを処理: 0x0
  * 整数値を処理: 0
- * ポインタを処理: 0x0
+ * ポインターを処理: 0x0
  * 
  * --- 関数での使用 ---
  * ptr1 is nullptr: false

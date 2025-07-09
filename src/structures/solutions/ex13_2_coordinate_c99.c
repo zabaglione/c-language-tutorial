@@ -46,7 +46,7 @@ static inline double calculate_distance(const Point2D *p1, const Point2D *p2)
     return sqrt(dx * dx + dy * dy);
 }
 
-// 座標を移動する関数（ポインタで更新）
+// 座標を移動する関数（ポインターで更新）
 void move_point(Point2D *point, double dx, double dy)
 {
     if (point == NULL) {

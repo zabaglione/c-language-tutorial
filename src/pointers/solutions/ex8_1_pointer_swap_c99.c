@@ -1,6 +1,6 @@
 /*
  * ファイル名: ex8_1_pointer_swap_c99.c
- * 演習8-1: ポインタの基本操作
+ * 演習8-1: ポインターの基本操作
  * 説明: 2つの整数変数の値をポインタを使って交換
  * 規格: C99準拠
  */
@@ -15,7 +15,7 @@ static inline void swap_with_pointers(int *ptr_a, int *ptr_b)
 {
     printf("  swap関数内部:\n");
     printf("    交換前: *ptr_a = %d, *ptr_b = %d\n", *ptr_a, *ptr_b);
-    printf("    ポインタ: ptr_a = %p, ptr_b = %p\n", (void*)ptr_a, (void*)ptr_b);
+    printf("    ポインター: ptr_a = %p, ptr_b = %p\n", (void*)ptr_a, (void*)ptr_b);
     
     int temp = *ptr_a;  // C99: 使用箇所で変数宣言
     *ptr_a = *ptr_b;
@@ -73,7 +73,7 @@ void swap_generic(void *ptr1, void *ptr2, size_t size)
 
 int main(void)
 {
-    printf("===== ポインタによる値の交換デモ =====\n\n");
+    printf("===== ポインターによる値の交換デモ =====\n\n");
     
     // C99: 使用箇所で変数宣言
     int x = 10, y = 20;
@@ -84,16 +84,16 @@ int main(void)
     printf("   x = %d (アドレス: %p)\n", x, (void*)&x);
     printf("   y = %d (アドレス: %p)\n", y, (void*)&y);
     
-    printf("\n2. ポインタの初期化後:\n");
+    printf("\n2. ポインターの初期化後:\n");
     printf("   ptr_x = %p (指す値: %d)\n", (void*)ptr_x, *ptr_x);
     printf("   ptr_y = %p (指す値: %d)\n", (void*)ptr_y, *ptr_y);
     
     // C99: bool型による有効性チェック
     bool pointers_valid = pointers_are_valid(ptr_x, ptr_y);
-    printf("   ポインタは有効? %s\n", pointers_valid ? "true" : "false");
+    printf("   ポインターは有効? %s\n", pointers_valid ? "true" : "false");
     
-    // ポインタを使った交換の実行
-    printf("\n3. ポインタを使った交換の実行:\n");
+    // ポインターを使った交換の実行
+    printf("\n3. ポインターを使った交換の実行:\n");
     swap_with_pointers(ptr_x, ptr_y);
     
     printf("\n4. 交換後の状態（main関数内）:\n");
@@ -122,8 +122,8 @@ int main(void)
     swap_with_pointers(&x, &y);
     printf("   交換後: x = %d, y = %d\n", x, y);
     
-    // ポインタ演算の応用例
-    printf("\n===== ポインタ演算の応用 =====\n");
+    // ポインター演算の応用例
+    printf("\n===== ポインター演算の応用 =====\n");
     
     int numbers[4] = {100, 200, 300, 400};
     int *start = numbers;
@@ -180,15 +180,15 @@ int main(void)
 
 /*
 学習ポイント:
-1. ポインタによる参照渡し:
+1. ポインターによる参照渡し:
    - 関数で元の変数の値を変更可能
    - アドレスを渡すことで直接メモリを操作
 
 2. 値渡しとの違い:
    - 値渡しでは呼び出し元の変数は変更されない
-   - ポインタ渡しで真の値の交換が可能
+   - ポインター渡しで真の値の交換が可能
 
-3. ポインタの安全な使用:
+3. ポインターの安全な使用:
    - NULLチェックによる安全性向上
    - 有効なアドレスの確認
 
@@ -203,12 +203,12 @@ int main(void)
    - インライン関数による最適化
    - forループ内での変数宣言
    - restrict修飾子による最適化ヒント
-   - 汎用的なvoid*ポインタを使った関数
+   - 汎用的なvoid*ポインターを使った関数
    - 複合リテラルの活用
 
 注意点:
-- ポインタは必ず有効なアドレスを指すよう初期化
+- ポインターは必ず有効なアドレスを指すよう初期化
 - NULLポインタの参照は避ける
-- ポインタが指すメモリが有効であることを確認
+- ポインターが指すメモリが有効であることを確認
 - restrict修飾子は重複しないポインタにのみ使用
 */

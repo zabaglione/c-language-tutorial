@@ -130,8 +130,8 @@ void print_statistics(int * restrict arr, int size) {
            size - above_count, (double)(size - above_count) / size * 100);
     printf("\n");
     
-    /* ポインタ解析情報 */
-    printf("ポインタ解析:\n");
+    /* ポインター解析情報 */
+    printf("ポインター解析:\n");
     printf("  配列の先頭アドレス: %p\n", (void*)arr);
     if (max_ptr && min_ptr) {
         printf("  最大値と先頭の差: %td要素\n", max_ptr - arr);
@@ -216,7 +216,7 @@ int main(void) {
     printf("2. 可変長配列: 実行時にサイズが決まる配列\n");
     printf("3. 複合リテラル: (int[]){1,2,3}のような無名配列\n");
     printf("4. 指示初期化子: [index] = valueによる初期化\n");
-    printf("5. restrict修飾子: ポインタのエイリアシング制限\n");
+    printf("5. restrict修飾子: ポインターのエイリアシング制限\n");
     printf("6. bool型とstdbool.h: 真偽値の標準化\n");
     printf("7. long long型: 64ビット整数のサポート\n");
     

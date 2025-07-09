@@ -180,11 +180,11 @@ void pool_free(MemoryPool *pool, void *ptr)
     VALIDATE_POOL_VOID(pool);
     
     if (!ptr) {
-        fprintf(stderr, "NULL ポインタの解放試行\n");
+        fprintf(stderr, "NULL ポインターの解放試行\n");
         return;
     }
     
-    /* ポインタがプール内にあるかチェック */
+    /* ポインターがプール内にあるかチェック */
     pool_start = (char *)pool->memory_chunk;
     pool_end = pool_start + (pool->object_size * pool->pool_capacity);
     obj_ptr = (char *)ptr;
@@ -467,7 +467,7 @@ void test_error_handling(void)
     /* 不正なポインタでの解放テスト */
     printf("不正なポインタ解放テスト:\n");
     
-    /* NULL ポインタ */
+    /* NULL ポインター */
     pool_free(pool, NULL);
     
     /* プール外のポインタ */
@@ -694,7 +694,7 @@ Point [4]: 割り当て失敗（プール枯渇）
 [POOL DEBUG] プール 'ErrorTestPool' を作成: オブジェクトサイズ=8, 容量=4
 [POOL DEBUG] オブジェクト割り当て: 0x1234668 (使用中: 1/4)
 不正なポインタ解放テスト:
-NULL ポインタの解放試行
+NULL ポインターの解放試行
 プール外のポインタの解放試行: 0x7ffd1234abcd
 不正にアラインされたポインタ: 0x1234669
 [POOL DEBUG] オブジェクト解放: 0x1234668 (使用中: 0/4)

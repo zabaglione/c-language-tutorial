@@ -85,7 +85,7 @@ int main(void)
             printf("フォーマット結果: \"%s\"\n", buffer);
             printf("書き込まれた文字数: %d\n", result);
             
-            // バッファが小さい場合のテスト
+            // バッファーが小さい場合のテスト
             char small_buffer[10];
             int overflow_result = snprintf(small_buffer, sizeof(small_buffer), 
                                          "Very long string that will be truncated");
@@ -244,7 +244,7 @@ C99で追加された機能:
    - 関数パラメータとしても使用可能
 
 4. restrict修飾子:
-   - ポインタの重複なしをコンパイラに伝える
+   - ポインターの重複なしをコンパイラに伝える
    - 最適化のヒント
 
 5. 複合リテラル:

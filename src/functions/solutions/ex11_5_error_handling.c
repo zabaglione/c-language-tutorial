@@ -346,14 +346,14 @@ int safe_string_copy(char *dest, size_t dest_size, const char *src)
     
     if (dest_size == 0)
     {
-        set_error(ERROR_INVALID_ARGUMENT, "バッファサイズがゼロ");
+        set_error(ERROR_INVALID_ARGUMENT, "バッファーサイズがゼロ");
         return ERROR_INVALID_ARGUMENT;
     }
     
     size_t src_len = strlen(src);
     if (src_len >= dest_size)
     {
-        set_error(ERROR_OUT_OF_RANGE, "バッファサイズ不足");
+        set_error(ERROR_OUT_OF_RANGE, "バッファーサイズ不足");
         return ERROR_OUT_OF_RANGE;
     }
     
@@ -372,7 +372,7 @@ int safe_string_concat(char *dest, size_t dest_size, const char *src)
     
     if (dest_size == 0)
     {
-        set_error(ERROR_INVALID_ARGUMENT, "バッファサイズがゼロ");
+        set_error(ERROR_INVALID_ARGUMENT, "バッファーサイズがゼロ");
         return ERROR_INVALID_ARGUMENT;
     }
     
@@ -381,7 +381,7 @@ int safe_string_concat(char *dest, size_t dest_size, const char *src)
     
     if (dest_len + src_len >= dest_size)
     {
-        set_error(ERROR_OUT_OF_RANGE, "バッファサイズ不足");
+        set_error(ERROR_OUT_OF_RANGE, "バッファーサイズ不足");
         return ERROR_OUT_OF_RANGE;
     }
     
@@ -430,7 +430,7 @@ int safe_file_read_line(FILE *file, char *buffer, size_t buffer_size)
     
     if (buffer_size == 0)
     {
-        set_error(ERROR_INVALID_ARGUMENT, "バッファサイズがゼロ");
+        set_error(ERROR_INVALID_ARGUMENT, "バッファーサイズがゼロ");
         return ERROR_INVALID_ARGUMENT;
     }
     
@@ -602,7 +602,7 @@ int main(void)
         printf("エラー: %s\n", error_to_string(result));
     }
     
-    /* バッファオーバーフロー防止 */
+    /* バッファーオーバーフロー防止 */
     char small_buffer[5];
     result = safe_string_copy(small_buffer, sizeof(small_buffer), "This is too long");
     printf("小さいバッファへのコピー: ");
@@ -647,7 +647,7 @@ int main(void)
     printf("- オーバーフロー/アンダーフロー\n");
     printf("- ゼロ除算\n");
     printf("- 範囲外アクセス\n");
-    printf("- バッファオーバーフロー\n");
+    printf("- バッファーオーバーフロー\n");
     printf("- 無効な入力\n");
     printf("- NULLポインター参照\n");
     

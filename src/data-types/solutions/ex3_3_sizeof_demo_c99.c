@@ -56,7 +56,7 @@ int main(void)
     printf("  int配列[10]   : %lu バイト\n", sizeof(array));
     printf("  配列要素数    : %lu 個\n", sizeof(array) / sizeof(array[0]));
     
-    // ポインタのサイズ
+    // ポインターのサイズ
     printf("\nポインタのサイズ:\n");
     printf("  char*         : %lu バイト\n", sizeof(char*));
     printf("  int*          : %lu バイト\n", sizeof(int*));

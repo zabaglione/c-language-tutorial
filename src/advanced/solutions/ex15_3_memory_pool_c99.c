@@ -203,13 +203,13 @@ void pool_free(MemoryPool * restrict pool, void * restrict ptr)
     VALIDATE_POOL_VOID(pool);
     
     if (!ptr) {
-        POOL_DEBUG("NULL ポインタの解放試行");
+        POOL_DEBUG("NULL ポインターの解放試行");
         return;
     }
     
     double start_time = get_time_sec();
     
-    /* ポインタがプール内にあるかチェック */
+    /* ポインターがプール内にあるかチェック */
     char *pool_start = (char *)pool->memory_chunk;
     char *pool_end = pool_start + (pool->object_size * pool->pool_capacity);
     char *obj_ptr = (char *)ptr;

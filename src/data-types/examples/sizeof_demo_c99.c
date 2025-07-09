@@ -15,7 +15,7 @@ int main(void)
     printf("sizeof(double)   = %zu バイト\n", sizeof(double));
     printf("sizeof(char)     = %zu バイト\n", sizeof(char));
     printf("sizeof(long)     = %zu バイト\n", sizeof(long));
-    printf("sizeof(void*)    = %zu バイト (ポインタサイズ)\n", sizeof(void*));
+    printf("sizeof(void*)    = %zu バイト (ポインターサイズ)\n", sizeof(void*));
     
     printf("\n");
     
@@ -55,13 +55,13 @@ int main(void)
     
     printf("\n");
     
-    // ポインタと配列の違い
-    printf("=== ポインタと配列のサイズの違い ===\n");
+    // ポインターと配列の違い
+    printf("=== ポインターと配列のサイズの違い ===\n");
     char arr[] = "Hello World";
     char *ptr = "Hello World";
     
     printf("char arr[]       = %zu バイト (配列全体)\n", sizeof arr);
-    printf("char *ptr        = %zu バイト (ポインタサイズ)\n", sizeof ptr);
+    printf("char *ptr        = %zu バイト (ポインターサイズ)\n", sizeof ptr);
     
     printf("\n");
     

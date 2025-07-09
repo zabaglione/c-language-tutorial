@@ -159,12 +159,12 @@ void demonstrate_complex_types(void)
 {
     printf("\n=== 複雑な型での動作 ===\n");
     
-    /* ポインタの交換 */
+    /* ポインターの交換 */
     int val1 = 100, val2 = 200;
     int *ptr1 = &val1;
     int *ptr2 = &val2;
     
-    printf("ポインタの交換:\n");
+    printf("ポインターの交換:\n");
     printf("交換前: *ptr1 = %d, *ptr2 = %d\n", *ptr1, *ptr2);
     SWAP_SAFE(ptr1, ptr2);
     printf("交換後: *ptr1 = %d, *ptr2 = %d\n", *ptr1, *ptr2);

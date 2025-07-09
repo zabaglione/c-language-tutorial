@@ -5,18 +5,20 @@
 ## 実施内容
 
 ### 問題点
+
 - `docs/` と `output/docs/` という同名で異なる目的のフォルダが存在していた
 - 混乱を招く可能性があった
 
 ### 実施した変更
 
 1. **新しいフォルダ構造の作成**
+
    ```
    output/
    ├── word/   # Word文書 (.docx)
    ├── pdf/    # PDF文書
    └── html/   # HTML文書
-   
+
    reports/    # レポート・報告書（旧docs/から移動）
    ```
 
@@ -45,6 +47,7 @@
 ### 影響を受けたファイル
 
 **スクリプト**:
+
 - `scripts/create_merged_docs_no_samples.sh`
 - `scripts/create_merged_docs_final.sh`
 - `scripts/create_merged_docs_pandoc_fixed_codeblock.sh`
@@ -53,6 +56,7 @@
 - `scripts/create_pdf.sh`
 
 **ドキュメント**:
+
 - `CLAUDE.md`
 - `FOLDER_STRUCTURE.md` (新規)
 

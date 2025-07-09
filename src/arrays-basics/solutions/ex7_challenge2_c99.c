@@ -154,7 +154,7 @@ void set_custom_pattern(int grid[][GRID_SIZE])
         printf("行 列: ");
         int row, col;  /* C99：必要な時に変数宣言 */
         if (scanf("%d %d", &row, &col) != 2) {
-            /* 入力エラーの場合、バッファをクリア */
+            /* 入力エラーの場合、バッファーをクリア */
             while (getchar() != '\n');
             continue;
         }

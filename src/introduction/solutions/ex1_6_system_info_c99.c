@@ -52,7 +52,7 @@ void show_architecture_info(void)
     }
     else
     {
-        printf("- 不明なアーキテクチャ（ポインタサイズ: %zu bytes）\n", ptr_size);
+        printf("- 不明なアーキテクチャ（ポインターサイズ: %zu bytes）\n", ptr_size);
     }
 }
 
@@ -84,10 +84,10 @@ void show_os_info(void)
     }
 }
 
-// コンパイラ情報を表示する関数
+// コンパイラー情報を表示する関数
 void show_compiler_info(void)
 {
-    printf("コンパイラ情報:\n");
+    printf("コンパイラー情報:\n");
 
 #ifdef __GNUC__
     printf("- GCC %d.%d.%d\n", __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__);
@@ -197,7 +197,7 @@ int main(void)
     show_os_info();
     printf("\n");
 
-    // コンパイラ情報の表示
+    // コンパイラー情報の表示
     show_compiler_info();
     printf("\n");
 

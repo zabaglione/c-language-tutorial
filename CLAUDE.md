@@ -20,14 +20,14 @@ c-language-tutorial/
 │   ├── control-if/      # 第5章: 条件分岐（if文）
 │   ├── control-loop/    # 第6章: 繰り返し処理（ループ）
 │   ├── arrays-basics/   # 第7章: 配列の基礎
-│   ├── arrays-pointers/ # 第8章: 配列とポインタ
+│   ├── arrays-pointers/ # 第8章: 配列とポインター
 │   ├── strings/         # 第9章: 文字列処理
-│   ├── pointers/        # 第10章: ポインタの基礎と応用
+│   ├── pointers/        # 第10章: ポインターの基礎と応用
 │   ├── functions/       # 第11章: 関数
 │   ├── bit-operations/  # 第12章: ビット演算
 │   ├── structures/      # 第13章: 構造体
 │   ├── advanced/        # 第14章: 高度なC言語機能
-│   ├── function-pointers/# 第15章: 関数ポインタ
+│   ├── function-pointers/# 第15章: 関数ポインター
 │   ├── c23-features/    # 第16章: C23の新機能
 │   ├── c-standards/     # 補章1: C言語の規格と歴史
 │   └── development-environment/ # 補章2: 開発環境の詳細設定
@@ -45,45 +45,58 @@ c-language-tutorial/
 ### Building and Running Code
 
 ```bash
+
 # Navigate to a chapter
+
 cd src/[chapter-name]
 
 # Build all examples in a chapter
+
 make all
 
 # Build with specific C standard
+
 make clean && make STANDARD=c90    # C90 standard (default)
-make clean && make STANDARD=c99    # C99 standard  
+make clean && make STANDARD=c99    # C99 standard
 make clean && make STANDARD=c11    # C11 standard
 make clean && make STANDARD=c17    # C17 standard
 make clean && make STANDARD=c23    # C23 standard (compiler support required)
 
 # Run all examples
+
 make run-all
 
 # Run specific example
+
 make run-<example-name>  # e.g., make run-ex1_hello
 
 # Clean build artifacts
+
 make clean
 
 # Debug build (where available)
+
 make debug
 
 # Check available targets
+
 make help
 ```
 
 ### Testing
 
 ```bash
+
 # Run tests (available in introduction and function-pointers chapters)
+
 make test
 
 # Test with different C standards (introduction chapter)
+
 make test-standards
 
 # Run comprehensive build and execution tests across all chapters
+
 cd scripts
 python3 test_all_builds.py
 ```
@@ -91,28 +104,36 @@ python3 test_all_builds.py
 ### Direct Compilation (without Make)
 
 ```bash
+
 # Basic compilation
+
 gcc -Wall -Wextra -pedantic -std=c99 source.c -o output
 
 # Debug build
+
 gcc -Wall -Wextra -pedantic -g -DDEBUG -O0 source.c -o output
 
 # Release build
+
 gcc -Wall -Wextra -pedantic -O2 -DNDEBUG source.c -o output
 ```
 
 ### Document Generation
 
 ```bash
+
 # Generate Word documents
+
 cd scripts
 ./create_main_textbook.sh      # Main textbook
 ./create_exercises.sh           # Exercise workbook
 
 # Generate PDF documents
+
 ./create_pdf.sh                 # Requires Chrome/Chromium
 
 # Combine all chapters
+
 ./combine_chapters.sh
 ```
 
@@ -121,6 +142,7 @@ cd scripts
 ### Chapter Organization
 
 Each chapter follows this consistent structure:
+
 ```
 chapter-name/
 ├── Makefile          # Build configuration with multi-standard support
@@ -174,18 +196,19 @@ chapter-name/
    - Exercise solutions: `ex[chapter]_[number]_[description].c`
 
 3. **Code Style Requirements**:
+
    ```c
    // ALWAYS use braces, even for single statements
    if (condition) {
        statement;
    }
-   
+
    // Correct escape sequences
    printf("Hello\n");  // NOT printf("Hello\\n");
-   
+
    // ASCII only in code (no Unicode)
    // Use 'x' not '×'
-   
+
    // Always include return in main
    int main(void) {
        // code
@@ -200,6 +223,7 @@ chapter-name/
 ### Error Fixing Priority
 
 When fixing code issues, address in this order:
+
 1. Include errors (e.g., `#include <studio.h>` → `#include <stdio.h>`)
 2. Escape sequence errors (`\\n` → `\n`)
 3. Typos (e.g., `retrn` → `return`, `doble` → `double`)
@@ -259,11 +283,13 @@ When fixing code issues, address in this order:
 The project maintains multiple documentation formats:
 
 **Source Documents** (in `docs/`):
+
 - `main_textbook.md` - Complete tutorial content (can be generated from chapter READMEs)
 - `exercises_workbook.md` - All exercises compiled
 - `complete_tutorial.md` - Everything combined
 
 **Generated Outputs** (in `output/`):
+
 - Word: Main textbook split into 3 volumes:
   - `C言語プログラミング教材_基礎編.docx` (Chapters 1-6: Beginner)
   - `C言語プログラミング教材_応用編.docx` (Chapters 7-11: Intermediate)
@@ -277,55 +303,71 @@ The project maintains multiple documentation formats:
 The `scripts/` directory contains tools for managing documentation:
 
 **Synchronization Scripts:**
+
 - `update_chapter_readmes.py` - Splits main_textbook.md content into individual chapter README.md files
 - `generate_main_textbook.py` - Combines chapter README.md files into main_textbook.md
 
 **Generation Scripts:**
+
 - `create_main_textbook.sh` - Creates Word version of main textbook
 - `create_exercises.sh` - Creates Word version of exercise workbook
 - `create_pdf.sh` - Generates PDF documentation (requires Chrome/Chromium)
 
 **Documentation Workflow:**
+
 ```bash
+
 # After editing main_textbook.md, update chapters:
+
 python3 scripts/update_chapter_readmes.py
 
 # After editing chapter README.md files, regenerate main textbook:
+
 python3 scripts/generate_main_textbook.py
+
 # Then review and rename if satisfactory:
+
 mv docs/main_textbook_generated.md docs/main_textbook.md
 ```
 
 ## Quick Reference
 
 ### Run a Single Test
+
 ```bash
 cd src/introduction
 make test
 ```
 
 ### Build Only Examples (not Solutions)
+
 ```bash
 make examples
 ```
 
 ### Build and Run Everything in a Chapter
+
 ```bash
 make all && make run-all
 ```
 
 ### Check Which Programs Will Be Built
+
 ```bash
 make help
 ```
 
 ### Test Multiple C Standards
+
 ```bash
+
 # In chapters that support it
+
 make test-standards
 ```
 
 ### Generate All Documentation
+
 ```bash
 cd scripts
 ./create_main_textbook.sh && ./create_exercises.sh && ./create_pdf.sh

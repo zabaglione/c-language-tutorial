@@ -1,0 +1,436 @@
+version: 1
+
+rules:
+  # 語尾が -er で終わる語彙に長音を付ける
+  - expected: コンピューター
+    patterns:
+      - コンピュータ
+      - computer
+    
+  - expected: ユーザー
+    patterns:
+      - ユーザ
+      - user
+    
+  - expected: サーバー
+    patterns:
+      - サーバ
+      - server
+    
+  - expected: プログラマー
+    patterns:
+      - プログラマ
+      - programmer
+    
+  - expected: デバッガー
+    patterns:
+      - デバッガ
+      - debugger
+    
+  - expected: コンパイラー
+    patterns:
+      - コンパイラ
+      - compiler
+    
+  - expected: ポインター
+    patterns:
+      - ポインタ
+      - pointer
+    
+  - expected: バッファー
+    patterns:
+      - バッファ
+      - buffer
+    
+  - expected: レジスター
+    patterns:
+      - レジスタ
+      - register
+    
+  - expected: パラメーター
+    patterns:
+      - パラメータ
+      - パラメタ
+      - parameter
+    
+  - expected: マスター
+    patterns:
+      - マスタ
+      - master
+    
+  - expected: エンター
+    patterns:
+      - エンタ
+      - enter
+    
+  - expected: センター
+    patterns:
+      - センタ
+      - center
+    
+  - expected: フィルター
+    patterns:
+      - フィルタ
+      - filter
+    
+  - expected: ヘッダー
+    patterns:
+      - ヘッダ
+      - header
+    
+  - expected: フッター
+    patterns:
+      - フッタ
+      - footer
+    
+  - expected: カウンター
+    patterns:
+      - カウンタ
+      - counter
+    
+  - expected: タイマー
+    patterns:
+      - タイマ
+      - timer
+    
+  - expected: ハンドラー
+    patterns:
+      - ハンドラ
+      - handler
+    
+  - expected: マネージャー
+    patterns:
+      - マネージャ
+      - manager
+    
+  - expected: コントローラー
+    patterns:
+      - コントローラ
+      - controller
+    
+  - expected: デコーダー
+    patterns:
+      - デコーダ
+      - decoder
+    
+  - expected: エンコーダー
+    patterns:
+      - エンコーダ
+      - encoder
+    
+  - expected: アダプター
+    patterns:
+      - アダプタ
+      - adapter
+    
+  - expected: ドライバー
+    patterns:
+      - ドライバ
+      - driver
+    
+  - expected: レイヤー
+    patterns:
+      - レイヤ
+      - layer
+    
+  - expected: プレイヤー
+    patterns:
+      - プレイヤ
+      - player
+    
+  - expected: ビューアー
+    patterns:
+      - ビューア
+      - viewer
+    
+  - expected: エディター
+    patterns:
+      - エディタ
+      - editor
+    
+  - expected: リーダー
+    patterns:
+      - リーダ
+      - reader
+    
+  - expected: ライター
+    patterns:
+      - ライタ
+      - writer
+    
+  - expected: スキャナー
+    patterns:
+      - スキャナ
+      - scanner
+    
+  - expected: プリンター
+    patterns:
+      - プリンタ
+      - printer
+    
+  - expected: ルーター
+    patterns:
+      - ルータ
+      - router
+    
+  - expected: リスナー
+    patterns:
+      - リスナ
+      - listener
+    
+  - expected: レンダラー
+    patterns:
+      - レンダラ
+      - renderer
+    
+  - expected: ブラウザー
+    patterns:
+      - ブラウザ
+      - browser
+    
+  - expected: インタープリター
+    patterns:
+      - インタープリタ
+      - インタプリタ
+      - interpreter
+    
+  - expected: イテレーター
+    patterns:
+      - イテレータ
+      - iterator
+
+  # 語尾が -or で終わる語彙に長音を付ける
+  - expected: エラー
+    patterns:
+      - エラ
+      - error
+    
+  - expected: ベクター
+    patterns:
+      - ベクタ
+      - vector
+    
+  - expected: セクター
+    patterns:
+      - セクタ
+      - sector
+    
+  - expected: ファクター
+    patterns:
+      - ファクタ
+      - factor
+    
+  - expected: アクター
+    patterns:
+      - アクタ
+      - actor
+    
+  - expected: モニター
+    patterns:
+      - モニタ
+      - monitor
+    
+  - expected: エディター
+    patterns:
+      - エディタ
+      - editor
+    
+  - expected: ジェネレーター
+    patterns:
+      - ジェネレータ
+      - generator
+    
+  - expected: イニシエーター
+    patterns:
+      - イニシエータ
+      - initiator
+    
+  - expected: オペレーター
+    patterns:
+      - オペレータ
+      - operator
+    
+  - expected: モデレーター
+    patterns:
+      - モデレータ
+      - moderator
+    
+  - expected: ナビゲーター
+    patterns:
+      - ナビゲータ
+      - navigator
+    
+  - expected: セレクター
+    patterns:
+      - セレクタ
+      - selector
+    
+  - expected: インジケーター
+    patterns:
+      - インジケータ
+      - indicator
+    
+  - expected: アロケーター
+    patterns:
+      - アロケータ
+      - allocator
+    
+  - expected: イニシャライザー
+    patterns:
+      - イニシャライザ
+      - initializer
+    
+  - expected: ターミネーター
+    patterns:
+      - ターミネータ
+      - terminator
+    
+  - expected: シミュレーター
+    patterns:
+      - シミュレータ
+      - simulator
+    
+  - expected: エミュレーター
+    patterns:
+      - エミュレータ
+      - emulator
+    
+  - expected: コンストラクター
+    patterns:
+      - コンストラクタ
+      - constructor
+    
+  - expected: デストラクター
+    patterns:
+      - デストラクタ
+      - destructor
+    
+  - expected: プロセッサー
+    patterns:
+      - プロセッサ
+      - processor
+    
+  - expected: アクセサー
+    patterns:
+      - アクセサ
+      - accessor
+    
+  - expected: イテレーター
+    patterns:
+      - イテレータ
+      - iterator
+    
+  - expected: デコレーター
+    patterns:
+      - デコレータ
+      - decorator
+    
+  - expected: ディレクター
+    patterns:
+      - ディレクタ
+      - director
+    
+  - expected: コレクター
+    patterns:
+      - コレクタ
+      - collector
+    
+  - expected: インスペクター
+    patterns:
+      - インスペクタ
+      - inspector
+    
+  - expected: プロテクター
+    patterns:
+      - プロテクタ
+      - protector
+    
+  - expected: リフレクター
+    patterns:
+      - リフレクタ
+      - reflector
+    
+  - expected: コネクター
+    patterns:
+      - コネクタ
+      - connector
+    
+  - expected: ビジター
+    patterns:
+      - ビジタ
+      - visitor
+    
+  - expected: カーソル
+    patterns:
+      - cursor
+    
+  - expected: アンカー
+    patterns:
+      - アンカ
+      - anchor
+    
+  - expected: トランジスター
+    patterns:
+      - トランジスタ
+      - transistor
+    
+  - expected: キャパシター
+    patterns:
+      - キャパシタ
+      - capacitor
+    
+  - expected: センサー
+    patterns:
+      - センサ
+      - sensor
+
+  # 語尾が -ar で終わる語彙に長音を付ける
+  - expected: レジスター
+    patterns:
+      - レジスタ
+      - registar
+      - register
+    
+  - expected: カレンダー
+    patterns:
+      - カレンダ
+      - calendar
+    
+  - expected: スカラー
+    patterns:
+      - スカラ
+      - scalar
+    
+  - expected: レギュラー
+    patterns:
+      - レギュラ
+      - regular
+    
+  - expected: ポピュラー
+    patterns:
+      - ポピュラ
+      - popular
+    
+  - expected: ドル
+    patterns:
+      - ドラー
+      - dollar
+    
+  - expected: シミラー
+    patterns:
+      - シミラ
+      - similar
+    
+  - expected: パーティキュラー
+    patterns:
+      - パーティキュラ
+      - particular
+
+  # 特殊なケース（慣例的に長音を付けない、または議論のあるもの）
+  # これらはプロジェクトのスタイルガイドに従って調整してください
+  
+  # 注意: 以下は一般的に長音を付けないことが多い
+  # - キャラクタ/キャラクター (character)
+  # - パラメータ/パラメーター (parameter) - 上記で長音付きを採用
+  # - レジスタ/レジスター (register) - 上記で長音付きを採用
+  # - エディタ/エディター (editor) - 上記で長音付きを採用

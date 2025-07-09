@@ -90,7 +90,7 @@ int local_vs_global_demo(int param)
     static_local += param;
     global_counter += param;
     
-    printf("パラメータ: %d\n", param);
+    printf("パラメーター: %d\n", param);
     printf("ローカル変数: %d\n", local);
     printf("静的ローカル変数: %d\n", static_local);
     printf("グローバル変数: %d\n", global_counter);

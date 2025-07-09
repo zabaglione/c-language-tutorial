@@ -75,7 +75,7 @@ int my_strcmp(const char * restrict str1, const char * restrict str2)
     return result;
 }
 
-// C99: 安全な文字列連結（バッファサイズ指定）
+// C99: 安全な文字列連結（バッファーサイズ指定）
 bool my_strcat_safe(char * restrict dest, size_t dest_size, const char * restrict src)
 {
     if (dest == NULL || src == NULL || dest_size == 0) {
@@ -85,7 +85,7 @@ bool my_strcat_safe(char * restrict dest, size_t dest_size, const char * restric
     size_t dest_len = my_strlen_fast(dest);
     size_t src_len = my_strlen_fast(src);
     
-    // バッファオーバーフローチェック
+    // バッファーオーバーフローチェック
     if (dest_len + src_len >= dest_size) {
         return false; // 容量不足
     }
@@ -208,7 +208,7 @@ void test_vla_string_functions(size_t buffer_size)
 {
     char test_buffer[buffer_size];  // C99: 可変長配列
     
-    printf("\n=== VLA文字列テスト（バッファサイズ: %zu） ===\n", buffer_size);
+    printf("\n=== VLA文字列テスト（バッファーサイズ: %zu） ===\n", buffer_size);
     
     // 安全な文字列操作のテスト
     my_strcpy_optimized(test_buffer, "Hello");
@@ -387,9 +387,9 @@ C99による文字列操作の改善点:
    - 効率的なアルゴリズム実装
 
 3. 安全性の向上:
-   - バッファサイズ指定による安全な操作
+   - バッファーサイズ指定による安全な操作
    - オーバーフロー検出
-   - NULL ポインタ検査
+   - NULL ポインター検査
 
 4. 可読性の改善:
    - 構造体による詳細情報の返却

@@ -15,8 +15,8 @@ void print_environment_info(void)
 {
     printf("=== C言語開発環境確認 ===\n\n");
 
-    /* コンパイラ情報 */
-    printf("コンパイラ情報:\n");
+    /* コンパイラー情報 */
+    printf("コンパイラー情報:\n");
 
 #ifdef __GNUC__
     printf("- GCC version: %d.%d.%d\n", __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__);
@@ -65,7 +65,7 @@ void print_environment_info(void)
 
     printf("- int型サイズ: %lu bytes\n", (unsigned long)sizeof(int));
     printf("- long型サイズ: %lu bytes\n", (unsigned long)sizeof(long));
-    printf("- ポインタサイズ: %lu bytes\n", (unsigned long)sizeof(void *));
+    printf("- ポインターサイズ: %lu bytes\n", (unsigned long)sizeof(void *));
     printf("- char型範囲: %d 〜 %d\n", CHAR_MIN, CHAR_MAX);
     printf("- int型範囲: %d 〜 %d\n", INT_MIN, INT_MAX);
 }

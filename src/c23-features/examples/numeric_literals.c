@@ -49,11 +49,11 @@ int main(void)
            (permissions & WRITE_PERMISSION) ? "○" : "×",
            (permissions & EXEC_PERMISSION) ? "○" : "×");
     
-    /* 数値区切り（コンパイラサポート次第） */
+    /* 数値区切り（コンパイラーサポート次第） */
     printf("\n--- 数値区切り（C23で検討中） ---\n");
     
     /* 注: 数値区切りは最終仕様では採用されない可能性あり */
-    /* int large_number = 1'000'000; */  /* コンパイラサポート待ち */
+    /* int large_number = 1'000'000; */  /* コンパイラーサポート待ち */
     
     int large_number = 1000000;
     printf("大きな数値: %d\n", large_number);
@@ -71,8 +71,8 @@ int main(void)
     }
     printf("\n");
     
-    /* 実用例: レジスタ設定 */
-    printf("\n--- 実用例: レジスタ設定 ---\n");
+    /* 実用例: レジスター設定 */
+    printf("\n--- 実用例: レジスター設定 ---\n");
     
     /* ハードウェアレジスタのビット定義 */
     #define REG_ENABLE    0b10000000
@@ -83,7 +83,7 @@ int main(void)
     #define REG_MODE_C    0b00100000
     
     unsigned char reg = REG_ENABLE | REG_MODE_B;
-    printf("レジスタ値: 0b%08b (0x%02X)\n", reg, reg);
+    printf("レジスター値: 0b%08b (0x%02X)\n", reg, reg);
     
     return 0;
 }
@@ -113,6 +113,6 @@ int main(void)
  * 8進数: 052
  * 2進数: 0b00101010
  * 
- * --- 実用例: レジスタ設定 ---
- * レジスタ値: 0b10010000 (0x90)
+ * --- 実用例: レジスター設定 ---
+ * レジスター値: 0b10010000 (0x90)
  */

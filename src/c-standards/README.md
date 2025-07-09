@@ -55,6 +55,7 @@ C言語は1972年にデニス・リッチーがベル研究所で開発したプ
 - 古い組込みシステムでも確実に動作
 
 **主な特徴:**
+
 - 関数プロトタイプの導入
 - void型、const、volatileキーワード
 - 標準ライブラリの定義
@@ -65,6 +66,7 @@ C言語は1972年にデニス・リッチーがベル研究所で開発したプ
 - 現在最も広く使われている規格
 
 **主な新機能:**
+
 - forループ内での変数宣言
 - 可変長配列（VLA）
 - inline関数
@@ -82,17 +84,17 @@ int main(void) {
     for (int i = 0; i < 10; i++) {
         printf("%d\n", i);
     }
-    
+
     /* bool型の使用 */
     bool flag = true;
-    
+
     /* 可変長配列 */
     int n = 5;
     int array[n];  /* C99から可能 */
-    
+
     /* 指定初期化子 */
     int arr[10] = {[0] = 1, [5] = 2, [9] = 3};
-    
+
     return 0;
 }
 ```
@@ -103,6 +105,7 @@ int main(void) {
 - より安全なプログラミングのための機能強化
 
 **主な新機能:**
+
 - スレッドライブラリ（threads.h）
 - アトミック操作（stdatomic.h）
 - _Generic（型に応じた処理の選択）
@@ -127,10 +130,10 @@ _Static_assert(sizeof(int) == 4, "int must be 4 bytes");
 int main(void) {
     int i = 42;
     float f = 3.14f;
-    
+
     printf("i is %s\n", TYPE_NAME(i));    /* "i is integer" */
     printf("f is %s\n", TYPE_NAME(f));    /* "f is float" */
-    
+
     return 0;
 }
 ```
@@ -147,6 +150,7 @@ int main(void) {
 - より使いやすい言語を目指した改良
 
 **主な新機能:**
+
 - typeof演算子
 - _BitInt（任意ビット幅整数）
 - #embed（バイナリデータの埋め込み）
@@ -158,23 +162,27 @@ int main(void) {
 ### 用途別の推奨規格
 
 #### 学習目的
+
 - **C90から始める**
   - 最も基本的な機能を確実に習得
   - どこでも動く汎用的なコード
   - 段階的に新しい機能を学べる
 
 #### 実用的なプログラム開発
+
 - **C99を使う**
   - 便利な機能で生産性向上
   - ほとんどの環境で問題なく動作
   - 現在の業界標準
 
 #### 組込みシステム開発
+
 - **C90またはC99**
   - マイコンやコンパイラの対応状況を確認
   - 古い環境ではC90のみの場合あり
 
 #### 最新機能を使いたい
+
 - **C11/C17**
   - マルチスレッドプログラミング
   - より安全なコード記述
@@ -189,22 +197,22 @@ int main(void) {
 int main(void) {
     int i;
     int sum = 0;
-    
+
     for (i = 0; i < 10; i++) {
         sum += i;
     }
-    
+
     return 0;
 }
 
 /* C99以降のスタイル - 使用する場所で宣言 */
 int main(void) {
     int sum = 0;
-    
+
     for (int i = 0; i < 10; i++) {
         sum += i;
     }
-    
+
     return 0;
 }
 ```
@@ -214,9 +222,11 @@ int main(void) {
 ```c
 /* C90 - ブロックコメントのみ */
 /* これはコメントです */
-/* 
+/*
+
  * 複数行の
  * コメント
+
  */
 
 /* C99以降 - 行コメントも使用可能 */
@@ -224,22 +234,28 @@ int main(void) {
 // より簡潔に書ける
 ```
 
-## コンパイラでの規格指定
+## コンパイラーでの規格指定
 
 ```bash
+
 # C90準拠
+
 gcc -std=c90 -pedantic program.c
 
 # C99準拠
+
 gcc -std=c99 -pedantic program.c
 
 # C11準拠
+
 gcc -std=c11 -pedantic program.c
 
 # C17準拠
+
 gcc -std=c17 -pedantic program.c
 
-# C23準拠（コンパイラが対応している場合）
+# C23準拠（コンパイラーが対応している場合）
+
 gcc -std=c23 -pedantic program.c
 ```
 

@@ -204,7 +204,7 @@ void physics_calculations(void)
 
 #define vs const の違い:
 - #define: プリプロセッサによる文字列置換、型情報なし
-- const: 型付き定数、デバッガで値確認可能、スコープあり
+- const: 型付き定数、デバッガーで値確認可能、スコープあり
 
 マクロ定数の利点:
 - コンパイル時に値が確定
@@ -213,7 +213,7 @@ void physics_calculations(void)
 
 const変数の利点:
 - 型安全性
-- デバッガでの確認が容易
+- デバッガーでの確認が容易
 - スコープによる制御が可能
 
 注意点:

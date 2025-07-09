@@ -1,7 +1,7 @@
 # C言語学習教材 コード品質評価レポート
 
-**評価ツール**: cppcheck Cppcheck 2.17.1  
-**評価日時**: 2025-06-29 21:05:52  
+**評価ツール**: cppcheck Cppcheck 2.17.1
+**評価日時**: 2025-06-29 21:05:52
 **評価対象**: src/ディレクトリ内の全C言語ソースコード
 
 ## 評価サマリー
@@ -11,6 +11,7 @@
 ### 評価基準
 
 cppcheckは以下の項目をチェックします：
+
 - **error**: 明確なバグ
 - **warning**: 防御的プログラミングの観点からの警告
 - **style**: コーディングスタイルの問題
@@ -22,21 +23,24 @@ cppcheckは以下の項目をチェックします：
 
 ## 章別評価結果
 
-
 ### advanced
 
 **検査ファイル数**: 20 個
 
 **検出された問題**:
+
 - Errors: 4
 - Warnings: 21
 - Style: 178
 - Performance: 0
+
 0
+
 - Portability: 1
 - Information: 10
 
 **詳細**:
+
 ```
 advanced/examples/memory_optimization.c:457: warning: If memory allocation fails, then there is a possible null pointer dereference: objects
 advanced/examples/memory_optimization.c:458: warning: If memory allocation fails, then there is a possible null pointer dereference: objects
@@ -259,16 +263,22 @@ nofile:0: information: Active checkers: There was critical errors (use --checker
 **検査ファイル数**: 20 個
 
 **検出された問題**:
+
 - Errors: 0
+
 0
+
 - Warnings: 10
 - Style: 76
 - Performance: 0
+
 0
+
 - Portability: 14
 - Information: 15
 
 **詳細**:
+
 ```
 arrays/examples/array_basics.c:0: information: Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches.
 arrays/examples/array_basics.c:160: portability: %lu in format string (no. 1) requires 'unsigned long' but the argument type is 'size_t {aka unsigned long}'.
@@ -392,18 +402,28 @@ nofile:0: information: Active checkers: 109/856 (use --checkers-report=<filename
 **検査ファイル数**: 16 個
 
 **検出された問題**:
+
 - Errors: 0
+
 0
+
 - Warnings: 0
+
 0
+
 - Style: 1
 - Performance: 0
+
 0
+
 - Portability: 0
+
 0
+
 - Information: 3
 
 **詳細**:
+
 ```
 basics-syntax/examples/formatted_output_c99.c:47: style: Variable 'name' can be declared as const array
 basics-syntax/solutions/ex2_6_ascii_explorer.c:0: information: Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches.
@@ -416,18 +436,28 @@ nofile:0: information: Active checkers: 109/856 (use --checkers-report=<filename
 **検査ファイル数**: 32 個
 
 **検出された問題**:
+
 - Errors: 0
+
 0
+
 - Warnings: 0
+
 0
+
 - Style: 10
 - Performance: 0
+
 0
+
 - Portability: 0
+
 0
+
 - Information: 1
 
 **詳細**:
+
 ```
 basics/solutions/ex1_1_self_introduction.c:13: style: Variable 'name' can be declared as const array
 basics/solutions/ex1_1_self_introduction.c:15: style: Variable 'hobby' can be declared as const array
@@ -447,18 +477,28 @@ nofile:0: information: Active checkers: 109/856 (use --checkers-report=<filename
 **検査ファイル数**: 18 個
 
 **検出された問題**:
+
 - Errors: 0
+
 0
+
 - Warnings: 0
+
 0
+
 - Style: 28
 - Performance: 0
+
 0
+
 - Portability: 0
+
 0
+
 - Information: 13
 
 **詳細**:
+
 ```
 control-if/examples/conditional_operator.c:20: style: Variable 'result' can be declared as pointer to const
 control-if/examples/conditional_operator.c:21: style: Variable 'status' can be declared as pointer to const
@@ -508,18 +548,28 @@ nofile:0: information: Active checkers: 109/856 (use --checkers-report=<filename
 **検査ファイル数**: 15 個
 
 **検出された問題**:
+
 - Errors: 0
+
 0
+
 - Warnings: 0
+
 0
+
 - Style: 7
 - Performance: 0
+
 0
+
 - Portability: 0
+
 0
+
 - Information: 8
 
 **詳細**:
+
 ```
 control-loop/examples/break_continue.c:0: information: Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches.
 control-loop/solutions/ex5_1_fibonacci.c:32: style: Condition 'n>=1' is always true
@@ -543,16 +593,22 @@ nofile:0: information: Active checkers: 109/856 (use --checkers-report=<filename
 **検査ファイル数**: 16 個
 
 **検出された問題**:
+
 - Errors: 0
+
 0
+
 - Warnings: 11
 - Style: 6
 - Performance: 0
+
 0
+
 - Portability: 80
 - Information: 1
 
 **詳細**:
+
 ```
 data-types/examples/data_types_demo.c:25: portability: %lu in format string (no. 1) requires 'unsigned long' but the argument type is 'size_t {aka unsigned long}'.
 data-types/examples/data_types_demo.c:27: portability: %lu in format string (no. 1) requires 'unsigned long' but the argument type is 'size_t {aka unsigned long}'.
@@ -659,18 +715,28 @@ nofile:0: information: Active checkers: 109/856 (use --checkers-report=<filename
 **検査ファイル数**: 14 個
 
 **検出された問題**:
+
 - Errors: 0
+
 0
+
 - Warnings: 0
+
 0
+
 - Style: 48
 - Performance: 0
+
 0
+
 - Portability: 0
+
 0
+
 - Information: 8
 
 **詳細**:
+
 ```
 function-pointers/examples/callback_functions.c:0: information: Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches.
 function-pointers/examples/callback_functions.c:46: style: Parameter 'arr' can be declared as const array
@@ -735,17 +801,25 @@ nofile:0: information: Active checkers: 109/856 (use --checkers-report=<filename
 **検査ファイル数**: 22 個
 
 **検出された問題**:
+
 - Errors: 0
+
 0
+
 - Warnings: 1
 - Style: 87
 - Performance: 0
+
 0
+
 - Portability: 0
+
 0
+
 - Information: 13
 
 **詳細**:
+
 ```
 functions/examples/advanced_functions.c:43: style: Parameter 'arr' can be declared as const array
 functions/examples/advanced_functions.c:54: style: Parameter 'arr' can be declared as const array
@@ -855,17 +929,25 @@ nofile:0: information: Active checkers: 109/856 (use --checkers-report=<filename
 **検査ファイル数**: 5 個
 
 **検出された問題**:
+
 - Errors: 0
+
 0
+
 - Warnings: 2
 - Style: 9
 - Performance: 0
+
 0
+
 - Portability: 0
+
 0
+
 - Information: 1
 
 **詳細**:
+
 ```
 introduction/examples/environment_check.c:37: warning: %ld in format string (no. 1) requires 'long' but the argument type is 'signed int'.
 introduction/solutions/ex1_6_system_info_c99.c:45: style: Condition 'ptr_size==4' is always false
@@ -886,17 +968,25 @@ nofile:0: information: Active checkers: 109/856 (use --checkers-report=<filename
 **検査ファイル数**: 18 個
 
 **検出された問題**:
+
 - Errors: 0
+
 0
+
 - Warnings: 1
 - Style: 159
 - Performance: 0
+
 0
+
 - Portability: 0
+
 0
+
 - Information: 6
 
 **詳細**:
+
 ```
 operators/examples/bitwise_demo_c99.c:172: style: Condition 'flag_a_on' is always true
 operators/examples/bitwise_demo_c99.c:175: style: Condition '!flag_b_on' is always true
@@ -1071,16 +1161,22 @@ nofile:0: information: Active checkers: 109/856 (use --checkers-report=<filename
 **検査ファイル数**: 14 個
 
 **検出された問題**:
+
 - Errors: 0
+
 0
+
 - Warnings: 1
 - Style: 92
 - Performance: 0
+
 0
+
 - Portability: 5
 - Information: 5
 
 **詳細**:
+
 ```
 pointers/examples/pointer_arrays.c:0: information: Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches.
 pointers/examples/pointer_arrays.c:86: portability: %ld in format string (no. 1) requires 'long' but the argument type is 'ptrdiff_t {aka signed int}'.
@@ -1192,16 +1288,22 @@ nofile:0: information: Active checkers: 109/856 (use --checkers-report=<filename
 **検査ファイル数**: 12 個
 
 **検出された問題**:
+
 - Errors: 1
 - Warnings: 0
+
 0
+
 - Style: 108
 - Performance: 0
+
 0
+
 - Portability: 8
 - Information: 10
 
 **詳細**:
+
 ```
 strings/examples/advanced_string_processing.c:0: information: Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches.
 strings/examples/advanced_string_processing.c:61: style: Parameter 'arr' can be declared as const array
@@ -1337,17 +1439,25 @@ nofile:0: information: Active checkers: 109/856 (use --checkers-report=<filename
 **検査ファイル数**: 12 個
 
 **検出された問題**:
+
 - Errors: 0
+
 0
+
 - Warnings: 0
+
 0
+
 - Style: 63
 - Performance: 0
+
 0
+
 - Portability: 3
 - Information: 8
 
 **詳細**:
+
 ```
 structures/examples/struct_arrays.c:0: information: Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches.
 structures/examples/struct_arrays.c:157: style: Parameter 'lib' can be declared as pointer to const
@@ -1432,11 +1542,14 @@ nofile:0: information: Active checkers: 109/856 (use --checkers-report=<filename
 **総検査ファイル数**: 234 個
 
 **検出された問題の総数**:
+
 - Errors: 5
 - Warnings: 47
 - Style: 851
 - Performance: 0
+
 0
+
 - Portability: 111
 - Information: 89
 

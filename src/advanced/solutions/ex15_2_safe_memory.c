@@ -111,7 +111,7 @@ static int g_free_count = 0;
         } \
     } while (0)
 
-/* ポインタ検証マクロ */
+/* ポインター検証マクロ */
 #define VALIDATE_POINTER(ptr, action) \
     do { \
         if (!(ptr)) { \

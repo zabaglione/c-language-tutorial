@@ -399,14 +399,14 @@ ErrorCode safe_string_copy(char *restrict dest, size_t dest_size, const char *re
     
     if (dest_size == 0)
     {
-        SET_ERROR(ERROR_INVALID_ARGUMENT, "バッファサイズがゼロ");
+        SET_ERROR(ERROR_INVALID_ARGUMENT, "バッファーサイズがゼロ");
         return ERROR_INVALID_ARGUMENT;
     }
     
     size_t src_len = strlen(src);
     if (src_len >= dest_size)
     {
-        SET_ERROR(ERROR_OUT_OF_RANGE, "バッファサイズ不足: 必要 %zu, 利用可能 %zu", 
+        SET_ERROR(ERROR_OUT_OF_RANGE, "バッファーサイズ不足: 必要 %zu, 利用可能 %zu", 
                   src_len + 1, dest_size);
         return ERROR_OUT_OF_RANGE;
     }
@@ -426,7 +426,7 @@ ErrorCode safe_string_concat(char *restrict dest, size_t dest_size, const char *
     
     if (dest_size == 0)
     {
-        SET_ERROR(ERROR_INVALID_ARGUMENT, "バッファサイズがゼロ");
+        SET_ERROR(ERROR_INVALID_ARGUMENT, "バッファーサイズがゼロ");
         return ERROR_INVALID_ARGUMENT;
     }
     
@@ -435,7 +435,7 @@ ErrorCode safe_string_concat(char *restrict dest, size_t dest_size, const char *
     
     if (dest_len + src_len >= dest_size)
     {
-        SET_ERROR(ERROR_OUT_OF_RANGE, "バッファサイズ不足: 必要 %zu, 利用可能 %zu",
+        SET_ERROR(ERROR_OUT_OF_RANGE, "バッファーサイズ不足: 必要 %zu, 利用可能 %zu",
                   dest_len + src_len + 1, dest_size);
         return ERROR_OUT_OF_RANGE;
     }
@@ -479,13 +479,13 @@ ErrorCode safe_string_format(char *buffer, size_t size, const char *format, ...)
 {
     if (buffer == NULL || format == NULL)
     {
-        SET_ERROR(ERROR_NULL_POINTER, "バッファまたはフォーマットがNULL");
+        SET_ERROR(ERROR_NULL_POINTER, "バッファーまたはフォーマットがNULL");
         return ERROR_NULL_POINTER;
     }
     
     if (size == 0)
     {
-        SET_ERROR(ERROR_INVALID_ARGUMENT, "バッファサイズがゼロ");
+        SET_ERROR(ERROR_INVALID_ARGUMENT, "バッファーサイズがゼロ");
         return ERROR_INVALID_ARGUMENT;
     }
     
@@ -502,7 +502,7 @@ ErrorCode safe_string_format(char *buffer, size_t size, const char *format, ...)
     
     if ((size_t)result >= size)
     {
-        SET_ERROR(ERROR_OUT_OF_RANGE, "バッファサイズ不足");
+        SET_ERROR(ERROR_OUT_OF_RANGE, "バッファーサイズ不足");
         return ERROR_OUT_OF_RANGE;
     }
     
@@ -520,7 +520,7 @@ ErrorCode safe_file_read_line(FILE *file, char *buffer, size_t buffer_size)
     
     if (buffer_size == 0)
     {
-        SET_ERROR(ERROR_INVALID_ARGUMENT, "バッファサイズがゼロ");
+        SET_ERROR(ERROR_INVALID_ARGUMENT, "バッファーサイズがゼロ");
         return ERROR_INVALID_ARGUMENT;
     }
     
@@ -726,7 +726,7 @@ int main(void)
         trigger_error_handler();
     }
     
-    // バッファオーバーフロー防止
+    // バッファーオーバーフロー防止
     char small_buffer[5];
     result = safe_string_copy(small_buffer, sizeof(small_buffer), "This is too long");
     printf("小さいバッファへのコピー: ");

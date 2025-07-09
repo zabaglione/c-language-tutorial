@@ -252,7 +252,7 @@ int main(void)
     printf("--- 動的ビットベクタ ---\n");
     DynamicBitVector *prime_bits = bitvec_create(100);
     
-    /* エラトステネスの篩 */
+    /* エラートステネスの篩 */
     for (size_t i = 2; i < 100; i++) {
         bitvec_set(prime_bits, i);
     }

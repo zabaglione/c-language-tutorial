@@ -1,6 +1,7 @@
 # 第1章: はじめてのC言語
 
 ## 学習目標
+
 この章を完了すると、以下のことができるようになります。
 
 - C言語がどんなプログラミング言語か理解する
@@ -14,7 +15,7 @@ C言語は1972年に開発されたプログラミング言語です。今でも
 
 ### なぜC言語を学ぶの？
 
-1. **コンピュータの基礎が学べる**
+1. **コンピューターの基礎が学べる**
    - メモリやCPUの動きが理解できるようになります
    - 他のプログラミング言語を学ぶときの土台になります
 
@@ -34,7 +35,7 @@ C言語でプログラミングを始めるには、以下のツールが必要�
 1. **テキストエディタ**：プログラムを書くためのソフト
    - メモ帳でもOKですが、Visual Studio Code（無料）がおすすめ
 
-2. **コンパイラ**：書いたプログラムを実行できる形に変換するソフト
+2. **コンパイラー**：書いたプログラムを実行できる形に変換するソフト
    - Windows: MinGW-w64
    - macOS: Xcode Command Line Tools
    - Linux: GCC（最初から入っていることが多い）
@@ -42,19 +43,26 @@ C言語でプログラミングを始めるには、以下のツールが必要�
 ### かんたん環境構築
 
 **Windows:**
+
 1. [MinGW-w64](https://www.mingw-w64.org/)をダウンロード
 2. インストーラーを実行（デフォルト設定でOK）
 3. コマンドプロンプトで`gcc --version`と入力して確認
 
 **macOS:**
+
 ```bash
+
 # ターミナルを開いて以下を実行
+
 xcode-select --install
 ```
 
 **Linux (Ubuntu/Debian):**
+
 ```bash
+
 # ターミナルを開いて以下を実行
+
 sudo apt update
 sudo apt install build-essential
 ```
@@ -86,10 +94,13 @@ int main(void) {
 ### 3. コンパイルと実行
 
 ```bash
+
 # コンパイル（プログラムを実行できる形に変換）
+
 gcc hello.c -o hello
 
 # 実行
+
 ./hello    # macOS/Linux
 hello.exe  # Windows
 ```
@@ -105,11 +116,11 @@ hello.exe  # Windows
 
 int main(void) {
     char name[50];
-    
+
     printf("お名前は？: ");
     scanf("%s", name);
     printf("こんにちは、%sさん！\n", name);
-    
+
     return 0;
 }
 ```
@@ -122,6 +133,7 @@ gcc greeting.c -o greeting
 ```
 
 実行例：
+
 ```
 お名前は？: 太郎
 こんにちは、太郎さん！
@@ -132,13 +144,17 @@ gcc greeting.c -o greeting
 この章のフォルダには、簡単にコンパイルできるMakefileが用意されています：
 
 ```bash
+
 # すべてのプログラムをコンパイル
+
 make all
 
 # 実行
+
 make run-hello_world
 
 # きれいにする（作成したファイルを削除）
+
 make clean
 ```
 

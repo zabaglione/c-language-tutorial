@@ -1,7 +1,7 @@
 /*
  * ファイル名: ex5_6_janken_game_c99.c
  * チャレンジ4-6: じゃんけんゲーム
- * 説明: コンピュータとじゃんけんをする3回勝負のプログラム
+ * 説明: コンピューターとじゃんけんをする3回勝負のプログラム
  * 規格: C99準拠
  */
 #include <stdio.h>
@@ -39,12 +39,12 @@ int main(void)
             }
         } while (user_choice < 1 || user_choice > 3);
         
-        // コンピュータの手をランダムに決定
+        // コンピューターの手をランダムに決定
         int computer_choice = rand() % 3 + 1;
         
         // 手の表示
         printf("あなた: %s\n", hands[user_choice - 1]);
-        printf("コンピュータ: %s\n", hands[computer_choice - 1]);
+        printf("コンピューター: %s\n", hands[computer_choice - 1]);
         
         // 勝敗判定
         char *result_message;
@@ -59,13 +59,13 @@ int main(void)
             result_message = "勝利";
             user_wins++;
         } else {
-            printf("結果: コンピュータの勝ち！\n");
+            printf("結果: コンピューターの勝ち！\n");
             result_message = "敗北";
             computer_wins++;
         }
         
         // 現在の戦績表示
-        printf("現在の戦績 - あなた: %d勝, コンピュータ: %d勝, あいこ: %d回\n", 
+        printf("現在の戦績 - あなた: %d勝, コンピューター: %d勝, あいこ: %d回\n", 
                user_wins, computer_wins, draws);
         printf("\n");
     }
@@ -74,7 +74,7 @@ int main(void)
     printf("=== 最終結果 ===\n");
     printf("3回戦の結果:\n");
     printf("あなた: %d勝\n", user_wins);
-    printf("コンピュータ: %d勝\n", computer_wins);
+    printf("コンピューター: %d勝\n", computer_wins);
     printf("あいこ: %d回\n", draws);
     printf("-----------------\n");
     
@@ -89,7 +89,7 @@ int main(void)
             printf("2勝1分けの安定した勝利です。\n");
         }
     } else if (computer_wins > user_wins) {
-        printf("総合結果: コンピュータの勝利！\n");
+        printf("総合結果: コンピューターの勝利！\n");
         printf("残念！次回はきっと勝てますよ。\n");
         
         if (computer_wins == 3) {
@@ -130,7 +130,7 @@ int main(void)
     
     // ランダム性の説明
     printf("\n=== 豆知識 ===\n");
-    printf("・コンピュータの手は完全にランダムです\n");
+    printf("・コンピューターの手は完全にランダムです\n");
     printf("・じゃんけんの確率論では、各手が出る確率は1/3です\n");
     printf("・人間は無意識にパターンを作りがちですが、\n");
     printf("  本当のランダム性には勝てません\n");

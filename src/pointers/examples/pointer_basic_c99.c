@@ -1,6 +1,6 @@
 /*
  * pointer_basic_c99.c
- * ポインタの宣言、初期化、基本的な操作を学習
+ * ポインターの宣言、初期化、基本的な操作を学習
  * C99準拠 - //コメント、bool型、変数宣言位置の自由化、stdint.h
  */
 
@@ -10,7 +10,7 @@
 
 int main(void)
 {
-    printf("===== ポインタの基本操作 =====\n");
+    printf("===== ポインターの基本操作 =====\n");
     
     // C99: 使用箇所で変数宣言
     int value = 42;         // 通常の整数変数
@@ -18,24 +18,24 @@ int main(void)
     
     printf("変数valueの値: %d\n", value);
     printf("変数valueのアドレス: %p\n", (void*)&value);
-    printf("ポインタptrの値（アドレス）: %p\n", (void*)ptr);
-    printf("ポインタptrが指す値: %d\n", *ptr);
+    printf("ポインターptrの値（アドレス）: %p\n", (void*)ptr);
+    printf("ポインターptrが指す値: %d\n", *ptr);
     
     printf("\n===== 間接参照による値の変更 =====\n");
     printf("変更前: value = %d, *ptr = %d\n", value, *ptr);
     
-    *ptr = 75;              // ポインタを通じて値を変更
+    *ptr = 75;              // ポインターを通じて値を変更
     printf("*ptr = 75 実行後:\n");
     printf("変更後: value = %d, *ptr = %d\n", value, *ptr);
     
-    printf("\n===== ポインタの再代入 =====\n");
+    printf("\n===== ポインターの再代入 =====\n");
     int another_value = 100;  // C99: 必要な時点で宣言
     printf("another_value = %d\n", another_value);
     
     ptr = &another_value;   // ptrを別の変数に向ける
     printf("ptr = &another_value 実行後:\n");
-    printf("ポインタptrが指す値: %d\n", *ptr);
-    printf("ポインタptrのアドレス: %p\n", (void*)ptr);
+    printf("ポインターptrが指す値: %d\n", *ptr);
+    printf("ポインターptrのアドレス: %p\n", (void*)ptr);
     
     printf("\n===== 様々なデータ型のポインタ =====\n");
     // C99: 使用箇所で変数宣言
@@ -51,7 +51,7 @@ int main(void)
     printf("float値: %.2f (アドレス: %p)\n", *float_ptr, (void*)float_ptr);
     printf("double値: %.3f (アドレス: %p)\n", *double_ptr, (void*)double_ptr);
     
-    printf("\n===== ポインタのサイズ =====\n");
+    printf("\n===== ポインターのサイズ =====\n");
     printf("int*のサイズ: %zu バイト\n", sizeof(int*));      // C99: %zu for size_t
     printf("char*のサイズ: %zu バイト\n", sizeof(char*));
     printf("float*のサイズ: %zu バイト\n", sizeof(float*));
@@ -68,7 +68,7 @@ int main(void)
     // NULLポインタの参照は危険なのでコメントアウト
     // printf("NULL参照: %d\n", *null_ptr);  // 危険！
     
-    printf("\n===== void*ポインタ（汎用ポインタ） =====\n");
+    printf("\n===== void*ポインター（汎用ポインタ） =====\n");
     void *generic_ptr;
     int int_val = 123;
     double double_val = 45.67;
@@ -93,8 +93,8 @@ int main(void)
     printf("int16_t値: %d (サイズ: %zu バイト)\n", *short_ptr, sizeof(int16_t));
     printf("int32_t値: %d (サイズ: %zu バイト)\n", *int_ptr32, sizeof(int32_t));
     
-    // C99: ポインタの演算と配列の例
-    printf("\n===== ポインタ演算の基本（C99） =====\n");
+    // C99: ポインターの演算と配列の例
+    printf("\n===== ポインター演算の基本（C99） =====\n");
     int numbers[] = {10, 20, 30, 40, 50};
     int *num_ptr = numbers;  // 配列の先頭を指す
     
@@ -104,8 +104,8 @@ int main(void)
                i, numbers[i], i, *(num_ptr + i));
     }
     
-    // C99: restrict キーワードの例（コンパイラの最適化ヒント）
-    printf("\n===== restrict ポインタ（C99） =====\n");
+    // C99: restrict キーワードの例（コンパイラーの最適化ヒント）
+    printf("\n===== restrict ポインター（C99） =====\n");
     int source = 100;
     int destination = 200;
     int * restrict src_ptr = &source;     // C99: restrict修飾子
@@ -125,13 +125,13 @@ int main(void)
 
 /*
 学習ポイント:
-1. ポインタの宣言: int *ptr;
+1. ポインターの宣言: int *ptr;
 2. アドレス演算子: &variable
 3. 間接参照演算子: *pointer
-4. ポインタの初期化と再代入
+4. ポインターの初期化と再代入
 5. NULLポインタの安全な使用
-6. void*ポインタと型キャスト
-7. ポインタのサイズは型に関係なく一定
+6. void*ポインターと型キャスト
+7. ポインターのサイズは型に関係なく一定
 8. 安全なプログラミングのためのNULLチェック
 
 C99での拡張:
@@ -146,6 +146,6 @@ C99での拡張:
 注意点:
 - 未初期化ポインタの使用は危険
 - NULLポインタの参照は避ける
-- void*ポインタは使用時に適切な型キャストが必要
+- void*ポインターは使用時に適切な型キャストが必要
 - restrictポインタは同じメモリ位置を指さないことが前提
 */

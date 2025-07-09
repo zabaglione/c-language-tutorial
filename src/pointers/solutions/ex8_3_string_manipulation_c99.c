@@ -3,7 +3,7 @@
  * 
  * 演習8-3: 文字列操作 (C99版)
  * 
- * ポインタを使った文字列操作の実装
+ * ポインターを使った文字列操作の実装
  * - カスタムstrlen関数
  * - 文字列逆順関数
  * - 文字列リテラルと文字配列の違い
@@ -15,20 +15,20 @@
 #include <stdio.h>
 #include <stdbool.h>  // C99: bool型の使用
 
-// カスタムstrlen関数：ポインタを使って文字列の長さを計算
+// カスタムstrlen関数：ポインターを使って文字列の長さを計算
 size_t my_strlen(const char *str) {
-    const char *p = str;  // ポインタで文字列の先頭を記憶
+    const char *p = str;  // ポインターで文字列の先頭を記憶
     
     // ヌル文字に到達するまでポインタを進める
     while (*p != '\0') {
         p++;
     }
     
-    // ポインタの差分が文字列の長さ
+    // ポインターの差分が文字列の長さ
     return p - str;
 }
 
-// 文字列を逆順にする関数：ポインタを使って実装
+// 文字列を逆順にする関数：ポインターを使って実装
 void reverse_string(char *str) {
     if (str == NULL) return;  // NULLポインタのチェック
     
@@ -37,12 +37,12 @@ void reverse_string(char *str) {
     
     // 先頭と末尾のポインタが交差するまで文字を交換
     while (start < end) {
-        // ポインタを使って文字を交換
+        // ポインターを使って文字を交換
         char temp = *start;
         *start = *end;
         *end = temp;
         
-        // ポインタを内側に移動
+        // ポインターを内側に移動
         start++;
         end--;
     }
@@ -136,8 +136,8 @@ int main(void) {
         printf("  逆順文字列: \"%s\"\n\n", current_array);
     }
     
-    // 4. ポインタ操作の詳細説明
-    printf("4. ポインタ操作の仕組み\n");
+    // 4. ポインター操作の詳細説明
+    printf("4. ポインター操作の仕組み\n");
     printf("----------------------------------------\n");
     show_string_details(array3);
     printf("\n");

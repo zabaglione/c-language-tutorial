@@ -307,7 +307,7 @@ int main(void)
 
     // 関数ポインタの配列のポインタ
     double (**op_ptr)(double, double) = &operations[0].operation;
-    printf("ポインタ経由の演算: 10.0 + 3.0 = %.2f\n", (*op_ptr)(10.0, 3.0));
+    printf("ポインター経由の演算: 10.0 + 3.0 = %.2f\n", (*op_ptr)(10.0, 3.0));
 
     // 関数ポインタのコピーと実行
     double (*copied_func)(double, double) = operations[2].operation;

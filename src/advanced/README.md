@@ -1,11 +1,12 @@
 # 複数ファイル・発展技術
 
-##  対応C規格
+## 対応C規格
 
 - **主要対象:** C90/C99/C11/C17
 - **学習内容:** 分割コンパイル、extern宣言、プリプロセッサ、モジュール設計、ライブラリ作成、高度な演算子テクニック
 
-##  学習目標
+## 学習目標
+
 この章を完了すると、以下のことができるようになります。
 
 - 複数ファイルに分割したプログラムを作成できる
@@ -17,7 +18,7 @@
 - 短絡評価を使った安全なプログラミングができる
 - 共用体（union）を理解し活用できる
 
-##  概要と詳細
+## 概要と詳細
 
 ### 高度なトピックとは？
 
@@ -40,10 +41,12 @@
    - 機能ごとにファイルを分けて管理
    - バグの特定と修正が容易
 
-### 分割コンパイルの基本 
+### 分割コンパイルの基本
+
 大きなプログラムを複数のソースファイルに分割することで、保守性と再利用性が向上します。
 
 #### 分割コンパイルの日常例
+
 レストランの厨房を考えてみましょう。
 
 - **前菜担当** → string_utils.c（文字列処理）
@@ -101,11 +104,11 @@ int main(void)
     int sum = add(10, 20);
     int product = multiply(5, 6);
     double area = circle_area(3.0);
-    
+
     printf("合計: %d\n", sum);
     printf("積: %d\n", product);
     printf("円の面積: %.2f\n", area);
-    
+
     return 0;
 }
 ```
@@ -238,6 +241,7 @@ typedef unsigned int u32;
 ### モジュール設計の原則
 
 #### 単一責任の原則
+
 各モジュールは1つの明確な責任を持つべきです。
 
 ```c
@@ -288,14 +292,18 @@ double point_distance(const Point *p1, const Point *p2);
 #### ライブラリの構築手順
 
 ```bash
+
 # オブジェクトファイルの作成
+
 gcc -c math_utils.c -o math_utils.o
 gcc -c string_utils.c -o string_utils.o
 
 # 静的ライブラリの作成
+
 ar rcs libmyutils.a math_utils.o string_utils.o
 
 # ライブラリの使用
+
 gcc main.c -L. -lmyutils -o main
 ```
 
@@ -308,24 +316,26 @@ AR = ar
 ARFLAGS = rcs
 
 # ライブラリのソースファイル
+
 LIB_SOURCES = math_utils.c string_utils.c file_utils.c
 LIB_OBJECTS = $(LIB_SOURCES:.c=.o)
 LIB_TARGET = libmyutils.a
 
 # メインプログラム
+
 MAIN_SOURCE = main.c
 MAIN_TARGET = main
 
 all: $(LIB_TARGET) $(MAIN_TARGET)
 
 $(LIB_TARGET): $(LIB_OBJECTS)
-	$(AR) $(ARFLAGS) $@ $^
+    $(AR) $(ARFLAGS) $@ $^
 
 $(MAIN_TARGET): $(MAIN_SOURCE) $(LIB_TARGET)
-	$(CC) $(CFLAGS) $< -L. -lmyutils -o $@
+    $(CC) $(CFLAGS) $< -L. -lmyutils -o $@
 
 clean:
-	rm -f *.o $(LIB_TARGET) $(MAIN_TARGET)
+    rm -f *.o $(LIB_TARGET) $(MAIN_TARGET)
 ```
 
 ### 大規模プロジェクトの構成
@@ -527,7 +537,7 @@ inline double square_inline(double x)
 }
 ```
 
-#### コンパイラ最適化の活用
+#### コンパイラー最適化の活用
 
 ```c
 /* 最適化ヒントの提供 */
@@ -548,6 +558,7 @@ if (LIKELY(ptr != NULL)) {
 ```
 
 ## 実例コード
+
 完全な実装例は以下のファイルを参照してください。
 
 ### 基本的な分割コンパイル
@@ -570,39 +581,50 @@ if (LIKELY(ptr != NULL)) {
 ### 基本的な分割コンパイル
 
 ```bash
+
 # 個別にコンパイル
+
 gcc -c math_utils.c -o math_utils.o
 gcc -c main.c -o main.o
 gcc math_utils.o main.o -o main
 
 # 一括コンパイル
+
 gcc math_utils.c main.c -o main
 ```
 
 ### 静的ライブラリの作成と使用
 
 ```bash
+
 # ライブラリ作成
+
 gcc -c *.c
 ar rcs libmyutils.a *.o
 
 # ライブラリ使用
+
 gcc main.c -L. -lmyutils -o main
 ```
 
 ### Makefileを使用した場合
 
 ```bash
+
 # 全てのターゲットをビルド
+
 make all
 
 # 特定のターゲットをビルド
+
 make library
 
 # クリーンアップ
+
 make clean
 
 # インストール
+
 make install
 ```
 
@@ -652,9 +674,9 @@ make install
 
 短絡評価（ショートサーキット）は、論理演算子（`&&`、`||`）の特性を活用して、安全で効率的なコードを書くための重要なテクニックです。
 
-##### 配列とポインタの安全な操作
+##### 配列とポインターの安全な操作
 
-C言語では配列の境界チェックが自動的に行われないため、プログラマが明示的にチェックする必要があります。
+C言語では配列の境界チェックが自動的に行われないため、プログラマーが明示的にチェックする必要があります。
 
 ```c
 /* 配列の境界チェック */
@@ -673,7 +695,7 @@ if (row >= 0 && row < 5 && col >= 0 && col < 5 && matrix[row][col] != 0) {
     process_element(matrix[row][col]);
 }
 
-/* 動的配列（ポインタ）の安全な操作 */
+/* 動的配列（ポインター）の安全な操作 */
 int *data = malloc(size * sizeof(int));
 if (data && size > 0 && initialize_array(data, size)) {
     /* メモリ確保成功、かつ初期化成功の場合のみ使用 */
@@ -717,22 +739,22 @@ void process_data_file(const char *filename)
     FILE *fp = NULL;
     char *buffer = NULL;
     int *data = NULL;
-    
+
     /* リソースの段階的確保 */
     if ((fp = fopen(filename, "rb")) &&
         (buffer = malloc(BUFFER_SIZE)) &&
         (data = malloc(sizeof(int) * MAX_ITEMS)) &&
         read_file_to_buffer(fp, buffer, BUFFER_SIZE) &&
         parse_buffer_to_data(buffer, data, MAX_ITEMS)) {
-        
+
         /* すべてのリソースが正常に確保され、処理が成功 */
         analyze_data(data, MAX_ITEMS);
-        
+
     } else {
         /* どこかでエラーが発生した */
         printf("エラー: データ処理に失敗しました\n");
     }
-    
+
     /* クリーンアップ（NULL チェック不要） */
     free(data);
     free(buffer);
@@ -768,19 +790,19 @@ union Data {
 
 int main(void) {
     union Data data;
-    
+
     /* 整数として使用 */
     data.i = 42;
     printf("整数: %d\n", data.i);
-    
+
     /* 浮動小数点として使用（前の値は上書きされる） */
     data.f = 3.14f;
     printf("浮動小数点: %f\n", data.f);
-    
+
     /* 文字列として使用 */
     strcpy(data.str, "Hello");
     printf("文字列: %s\n", data.str);
-    
+
     printf("共用体のサイズ: %zu バイト\n", sizeof(union Data));
     return 0;
 }
@@ -803,7 +825,7 @@ union FloatConverter {
 void analyze_float(float value) {
     union FloatConverter conv;
     conv.f = value;
-    
+
     printf("浮動小数点数: %f\n", conv.f);
     printf("ビットパターン: 0x%08X\n", conv.u);
     printf("符号: %u, 指数部: %u, 仮数部: 0x%06X\n",
@@ -823,9 +845,9 @@ union IPAddress {
 void print_ip_address(unsigned int ip) {
     union IPAddress addr;
     addr.addr = ip;
-    
+
     printf("IPアドレス: %u.%u.%u.%u\n",
-           addr.octets[3], addr.octets[2], 
+           addr.octets[3], addr.octets[2],
            addr.octets[1], addr.octets[0]);
 }
 ```
@@ -896,16 +918,16 @@ int get_expensive_value(Cache *cache, int param)
     if (cache && cache->is_cached && cache->cache_value) {
         return cache->cache_value;
     }
-    
+
     /* 高コストな計算 */
     int result = expensive_calculation(param);
-    
+
     /* キャッシュに保存 */
     if (cache) {
         cache->is_cached = 1;
         cache->cache_value = result;
     }
-    
+
     return result;
 }
 
@@ -915,8 +937,8 @@ int can_access_resource(User *user, Resource *resource)
     /* 管理者は常にアクセス可能（高速パス） */
     return (user && user->is_admin) ||
            /* 一般ユーザーは詳細な権限チェック */
-           (user && 
-            resource && 
+           (user &&
+            resource &&
             user->level >= resource->required_level &&
             has_permission(user, resource->type) &&
             !is_blocked(user, resource));
@@ -924,6 +946,7 @@ int can_access_resource(User *user, Resource *resource)
 ```
 
 ## 次の章へ
+
 これでC言語の主要トピックは完了です。さらに学習を続けたい場合は。
 
 - [C23の新機能](../c23-features/README.md)（オプション）

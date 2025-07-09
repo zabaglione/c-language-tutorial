@@ -290,7 +290,7 @@ void test_static_assertions(void)
     
     /* コンパイル時のサイズチェック */
     STATIC_ASSERT(sizeof(int) >= 4, "intは少なくとも4バイト必要");
-    STATIC_ASSERT(sizeof(void*) >= sizeof(int), "ポインタはint以上のサイズ必要");
+    STATIC_ASSERT(sizeof(void*) >= sizeof(int), "ポインターはint以上のサイズ必要");
     
     /* 配列サイズの確認 */
     int array[10];

@@ -14,7 +14,7 @@ int main(void)
     
     /* ユーザーからの入力 */
     printf("お名前を入力してください: ");
-    scanf("%49s", name);  /* 49文字まで読み込み（バッファオーバーフロー対策） */
+    scanf("%49s", name);  /* 49文字まで読み込み（バッファーオーバーフロー対策） */
     
     printf("年齢を入力してください: ");
     scanf("%d", &current_age);
@@ -41,7 +41,7 @@ int main(void)
    
 2. 文字配列の宣言:
    - char name[50]: 50文字まで格納可能
-   - scanf("%49s", name): バッファオーバーフロー対策
+   - scanf("%49s", name): バッファーオーバーフロー対策
    
 3. 計算処理:
    - future_age = current_age + 10

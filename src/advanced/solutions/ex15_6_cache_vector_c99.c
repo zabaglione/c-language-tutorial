@@ -23,7 +23,7 @@
 #define VECTOR_SHRINK_THRESHOLD 0.25
 #define VECTOR_SHRINK_FACTOR 0.5
 
-/* プリフェッチヒント（コンパイラ依存） */
+/* プリフェッチヒント（コンパイラー依存） */
 #ifdef __GNUC__
 #define PREFETCH_READ(addr) __builtin_prefetch((addr), 0, 3)
 #define PREFETCH_WRITE(addr) __builtin_prefetch((addr), 1, 3)

@@ -184,12 +184,12 @@ void demonstrate_common_mistakes(void)
     printf("  (val << 2) + 1  = %d (正しい)\n", correct2);
     printf("\n");
 
-    /* 間違い3: ポインタと配列の優先順位 */
-    printf("間違い3: ポインタ演算\n");
+    /* 間違い3: ポインターと配列の優先順位 */
+    printf("間違い3: ポインター演算\n");
     int array[] = {10, 20, 30, 40};
     int *ptr = array;
 
-    printf("  *ptr++ = %d (ポインタを進めてから前の値)\n", *ptr++);
+    printf("  *ptr++ = %d (ポインターを進めてから前の値)\n", *ptr++);
     printf("  現在のptr: %d\n", *ptr);
 
     ptr = array; /* リセット */
@@ -226,7 +226,7 @@ void demonstrate_common_mistakes(void)
 3. よくある間違い
    - ビット演算と比較の混同
    - シフトと算術演算の優先順位
-   - ポインタ演算の理解不足
+   - ポインター演算の理解不足
 
 4. 対策
    - 複雑な式では括弧を使う
@@ -235,7 +235,7 @@ void demonstrate_common_mistakes(void)
 
 5. 実用的なガイドライン
    - 疑問があれば括弧で明確にする
-   - コンパイラ警告を確認する
+   - コンパイラー警告を確認する
    - 式を分割して可読性を向上させる
 
 重要な優先順位:

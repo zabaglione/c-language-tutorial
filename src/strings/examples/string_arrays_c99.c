@@ -50,7 +50,7 @@ int main(void)
     }
     printf("\n");
     
-    /* 3. char*配列（ポインタ配列）*/
+    /* 3. char*配列（ポインター配列）*/
     printf("=== char*配列による文字列配列 ===\n");
     
     /* 文字列リテラルへのポインタの配列 */
@@ -77,7 +77,7 @@ int main(void)
     
     printf("char配列のサイズ: %lu バイト\n", sizeof(cities1));
     printf("char*配列のサイズ: %lu バイト\n", sizeof(cities2));
-    printf("（ポインタのサイズx要素数）\n\n");
+    printf("（ポインターのサイズx要素数）\n\n");
     
     /* 5. 文字列の検索と操作 */
     printf("=== 文字列配列の検索 ===\n");

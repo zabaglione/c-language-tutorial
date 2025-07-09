@@ -24,7 +24,7 @@
    - Atom
    - Vim/Emacs（上級者向け）
 
-2. **コンパイラ**
+2. **コンパイラー**
    - GCC（GNU Compiler Collection）
    - Clang/LLVM
    - Microsoft Visual C++
@@ -45,6 +45,7 @@
 #### Windows
 
 **MinGW-w64の詳細設定:**
+
 1. インストーラーのダウンロード
 2. インストール時の設定：
    - Architecture: x86_64（64ビット版）
@@ -52,11 +53,13 @@
    - Exception: seh（構造化例外処理）
 
 3. 環境変数の設定：
+
    ```batch
    setx PATH "%PATH%;C:\mingw64\bin"
    ```
 
 **Visual Studio Community:**
+
 - C++開発ワークロードをインストール
 - Windows SDK を含める
 - CMakeサポートを追加
@@ -64,24 +67,33 @@
 #### macOS
 
 **Xcode Command Line Toolsの詳細:**
+
 ```bash
+
 # インストール
+
 xcode-select --install
 
 # 確認
+
 xcode-select -p
 
 # バージョン確認
+
 gcc --version
 clang --version
 ```
 
 **Homebrewでの追加ツール:**
+
 ```bash
+
 # Homebrewのインストール
+
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # 開発ツールのインストール
+
 brew install gcc
 brew install gdb
 brew install cmake
@@ -92,6 +104,7 @@ brew install cmake
 **各ディストリビューション別:**
 
 **Ubuntu/Debian:**
+
 ```bash
 sudo apt update
 sudo apt install build-essential
@@ -101,6 +114,7 @@ sudo apt install valgrind
 ```
 
 **Fedora/RHEL:**
+
 ```bash
 sudo dnf groupinstall "Development Tools"
 sudo dnf install gcc
@@ -109,6 +123,7 @@ sudo dnf install cmake
 ```
 
 **Arch Linux:**
+
 ```bash
 sudo pacman -S base-devel
 sudo pacman -S gdb
@@ -120,39 +135,48 @@ sudo pacman -S cmake
 ### コンパイルの各段階
 
 1. **プリプロセッサ処理**
+
    ```bash
    gcc -E source.c -o source.i
    ```
+
    - `#include`の展開
    - `#define`の置換
    - 条件付きコンパイルの処理
 
 2. **コンパイル（狭義）**
+
    ```bash
    gcc -S source.i -o source.s
    ```
+
    - C言語からアセンブリ言語へ変換
    - 構文解析と意味解析
    - 最適化の実行
 
 3. **アセンブル**
+
    ```bash
    gcc -c source.s -o source.o
    ```
+
    - アセンブリ言語から機械語へ変換
    - オブジェクトファイルの生成
 
 4. **リンク**
+
    ```bash
    gcc source.o -o program
    ```
+
    - オブジェクトファイルの結合
    - ライブラリの結合
    - 実行ファイルの生成
 
-### コンパイラオプションの詳細
+### コンパイラーオプションの詳細
 
 #### 警告オプション
+
 ```bash
 -Wall          # 基本的な警告をすべて有効化
 -Wextra        # 追加の警告を有効化
@@ -162,6 +186,7 @@ sudo pacman -S cmake
 ```
 
 #### 最適化オプション
+
 ```bash
 -O0            # 最適化なし（デフォルト）
 -O1            # 基本的な最適化
@@ -172,6 +197,7 @@ sudo pacman -S cmake
 ```
 
 #### デバッグオプション
+
 ```bash
 -g             # デバッグ情報を含める
 -g3            # マクロ情報も含める
@@ -179,6 +205,7 @@ sudo pacman -S cmake
 ```
 
 #### その他の重要なオプション
+
 ```bash
 -std=c99       # C99規格を使用
 -D DEBUG       # DEBUGマクロを定義
@@ -200,7 +227,7 @@ sudo pacman -S cmake
 
 void print_system_info(void) {
     printf("=== システム情報 ===\n");
-    
+
     /* データ型のサイズ */
     printf("\nデータ型のサイズ:\n");
     printf("char: %lu bytes\n", sizeof(char));
@@ -211,14 +238,14 @@ void print_system_info(void) {
     printf("float: %lu bytes\n", sizeof(float));
     printf("double: %lu bytes\n", sizeof(double));
     printf("pointer: %lu bytes\n", sizeof(void*));
-    
+
     /* 整数型の範囲 */
     printf("\n整数型の範囲:\n");
     printf("CHAR: %d ~ %d\n", CHAR_MIN, CHAR_MAX);
     printf("SHORT: %d ~ %d\n", SHRT_MIN, SHRT_MAX);
     printf("INT: %d ~ %d\n", INT_MIN, INT_MAX);
     printf("LONG: %ld ~ %ld\n", LONG_MIN, LONG_MAX);
-    
+
     /* 浮動小数点の情報 */
     printf("\n浮動小数点の情報:\n");
     printf("FLT_MIN: %e\n", FLT_MIN);
@@ -228,14 +255,14 @@ void print_system_info(void) {
 }
 ```
 
-### コンパイラ情報の取得
+### コンパイラー情報の取得
 
 ```c
 void print_compiler_info(void) {
-    printf("=== コンパイラ情報 ===\n");
-    
+    printf("=== コンパイラー情報 ===\n");
+
 #ifdef __GNUC__
-    printf("GCC version: %d.%d.%d\n", 
+    printf("GCC version: %d.%d.%d\n",
            __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__);
 #endif
 
@@ -260,7 +287,7 @@ void print_compiler_info(void) {
 void check_endianness(void) {
     unsigned int x = 1;
     char *c = (char*)&x;
-    
+
     if (*c) {
         printf("システムはリトルエンディアンです\n");
     } else {
@@ -274,7 +301,7 @@ void check_endianness(void) {
 ### よくあるエラーと対処法
 
 1. **"gcc: command not found"**
-   - 原因：コンパイラがインストールされていない
+   - 原因：コンパイラーがインストールされていない
    - 対処：環境構築の手順を再確認
 
 2. **"undefined reference to `main'"**
@@ -292,21 +319,24 @@ void check_endianness(void) {
 ### デバッグ手法
 
 1. **printf デバッグ**
+
    ```c
    printf("DEBUG: 変数x = %d\n", x);
    ```
 
 2. **アサーション**
+
    ```c
    #include <assert.h>
    assert(x > 0);  /* 条件が偽なら停止 */
    ```
 
 3. **GDBの基本的な使い方**
+
    ```bash
    gcc -g program.c -o program
    gdb ./program
-   
+
    # GDB内のコマンド
    break main     # ブレークポイント設定
    run           # プログラム実行
@@ -318,29 +348,31 @@ void check_endianness(void) {
 
 ## 環境設定のベストプラクティス
 
-1. **エディタの設定**
+1. **エディターの設定**
    - インデント：スペース4つ
    - 文字エンコーディング：UTF-8
    - 改行コード：LF（Unix形式）
 
-2. **コンパイラの警告設定**
+2. **コンパイラーの警告設定**
+
    ```bash
    alias gcc='gcc -Wall -Wextra -pedantic'
    ```
 
 3. **Makefileの活用**
+
    ```makefile
    CC = gcc
    CFLAGS = -Wall -Wextra -pedantic -std=c99
-   
+
    all: program
-   
+
    program: main.o utils.o
        $(CC) $(CFLAGS) -o $@ $^
-   
+
    %.o: %.c
        $(CC) $(CFLAGS) -c $<
-   
+
    clean:
        rm -f *.o program
    ```

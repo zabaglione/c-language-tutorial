@@ -141,8 +141,8 @@ int main(void)
                new_value, counter);
     }
     
-    // ポインタでの高度な使用例
-    printf("\n=== ポインタでの高度な使用例 ===\n");
+    // ポインターでの高度な使用例
+    printf("\n=== ポインターでの高度な使用例 ===\n");
     {
         int *ptr = array;
         int *end = array + 5;

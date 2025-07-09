@@ -34,31 +34,30 @@ numbersections: true
 応用編では以下の内容を扱います：
 
 - 第7章: 配列（基本編）
-- 第8章: ポインタ基礎
-- 第9章: 配列とポインタ
+- 第8章: ポインター基礎
+- 第9章: 配列とポインター
 - 第10章: 文字列処理
 - 第11章: 関数
 
 ## 学習のポイント
 
-応用編では、C言語の最も重要な概念であるポインタを中心に学習します。ポインタは初学者にとって難しい概念ですが、メモリの仕組みを理解しながら段階的に学習することで、必ず習得できます。
+応用編では、C言語の最も重要な概念であるポインターを中心に学習します。ポインターは初学者にとって難しい概念ですが、メモリの仕組みを理解しながら段階的に学習することで、必ず習得できます。
 
 ---
-
 
 ```{=openxml}
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
 ```
 
-
 # 配列（基本編）
 
-##  対応C規格
+## 対応C規格
 
 - **主要対象:** C90
 - **学習内容:** 一次元配列、多次元配列、配列の初期化、基本的な配列操作
 
-##  学習目標
+## 学習目標
+
 この章を完了すると、以下のことができるようになります。
 
 - 一次元配列の宣言・初期化・使用ができる
@@ -66,13 +65,14 @@ numbersections: true
 - 数値配列の基本操作（検索、統計計算）ができる
 - 配列を使った実践的なプログラムを作成できる
 
-##  概要と詳細
+## 概要と詳細
 
 ### 配列とは？
 
 配列（はいれつ）は、プログラミングで最も重要なデータ構造の一つです。
 
 #### 日常生活での配列
+
 配列を理解するために、身近な例を考えてみましょう。
 
 1. **教室の座席**
@@ -95,7 +95,8 @@ numbersections: true
 
 配列がないと、たくさんのデータを扱うのが大変になります。例えば5人の点数を管理する場合、配列なしでは変数を5つ作る必要がありますが、配列を使えば1つの変数で管理でき、100人でも1000人でも簡単に管理できます。
 
-### 配列の基本概念 
+### 配列の基本概念
+
 配列は同じデータ型の要素を連続したメモリ領域に格納するデータ構造です。
 
 #### 配列の3つの重要な特徴
@@ -117,13 +118,26 @@ numbersections: true
 
 #### 配列のメモリ上の配置
 
-```
-配列 int numbers[5] のメモリ配置：
+```mermaid
+graph LR
+    subgraph "配列 int numbers[5] のメモリ配置"
+        A["[0]<br/>10"]
+        B["[1]<br/>20"]
+        C["[2]<br/>30"]
+        D["[3]<br/>40"]
+        E["[4]<br/>50"]
 
-インデックス:  [0]    [1]    [2]    [3]    [4]
-            +------+------+------+------+------+
-値:         |  10  |  20  |  30  |  40  |  50  |
-            +------+------+------+------+------+
+        A ---|連続| B
+        B ---|連続| C
+        C ---|連続| D
+        D ---|連続| E
+    end
+
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#f9f,stroke:#333,stroke-width:2px
+    style C fill:#f9f,stroke:#333,stroke-width:2px
+    style D fill:#f9f,stroke:#333,stroke-width:2px
+    style E fill:#f9f,stroke:#333,stroke-width:2px
 ```
 
 #### 1次元配列の宣言
@@ -138,7 +152,8 @@ numbersections: true
 int numbers[5];  /* 5つのint型要素を持つ配列 */
 ```
 
-### 配列の初期化 
+### 配列の初期化
+
 配列を使用する前に適切な値で初期化することが重要です。
 
 #### 宣言時の初期化
@@ -156,10 +171,11 @@ int numbers[5] = {10, 20};  /* 残りの3つは0で初期化される */
 #### サイズを省略した初期化
 
 ```c
-int numbers[] = {10, 20, 30, 40, 50};  /* コンパイラが自動的にサイズを決定 */
+int numbers[] = {10, 20, 30, 40, 50};  /* コンパイラーが自動的にサイズを決定 */
 ```
 
-### 配列の操作 
+### 配列の操作
+
 配列の要素にアクセスするには、添字（インデックス）を使用します。
 
 #### 要素へのアクセス
@@ -176,6 +192,7 @@ int value = numbers[2];  /* 3番目の要素の値を取得 */
 - 範囲外アクセスは未定義動作を引き起こします
 
 ### 配列の基本操作
+
 数値配列では以下のような操作が頻繁に行われます。
 
 #### 配列内の値を検索する
@@ -188,7 +205,7 @@ int main(void) {
     int target = 6;  /* 探したい値 */
     int found = -1;  /* 見つかった位置（-1は見つからない） */
     int i;
-    
+
     /* 配列を検索 */
     for (i = 0; i < 10; i++) {
         if (numbers[i] == target) {
@@ -196,14 +213,14 @@ int main(void) {
             break;      /* 見つかったらループを抜ける */
         }
     }
-    
+
     /* 結果を表示 */
     if (found != -1) {
         printf("%d は位置 %d にあります\n", target, found);
     } else {
         printf("%d は配列内にありません\n", target);
     }
-    
+
     return 0;
 }
 ```
@@ -218,37 +235,37 @@ int main(void) {
     int max, min, sum;
     double average;
     int i;
-    
+
     /* 初期値の設定 */
     max = scores[0];
     min = scores[0];
     sum = scores[0];
-    
+
     /* 2番目の要素から比較開始 */
     for (i = 1; i < 5; i++) {
         /* 最大値の更新 */
         if (scores[i] > max) {
             max = scores[i];
         }
-        
+
         /* 最小値の更新 */
         if (scores[i] < min) {
             min = scores[i];
         }
-        
+
         /* 合計に加算 */
         sum += scores[i];
     }
-    
+
     /* 平均値の計算 */
     average = (double)sum / 5;
-    
+
     /* 結果を表示 */
     printf("最大値: %d\n", max);
     printf("最小値: %d\n", min);
     printf("合計: %d\n", sum);
     printf("平均値: %.1f\n", average);
-    
+
     return 0;
 }
 ```
@@ -262,14 +279,14 @@ int main(void) {
     int arr[6] = {1, 2, 3, 4, 5, 6};
     int temp;
     int i;
-    
+
     /* 元の配列を表示 */
     printf("元の配列: ");
     for (i = 0; i < 6; i++) {
         printf("%d ", arr[i]);
     }
     printf("\n");
-    
+
     /* 配列を逆順にする */
     for (i = 0; i < 6 / 2; i++) {
         /* 前後の要素を交換 */
@@ -277,19 +294,20 @@ int main(void) {
         arr[i] = arr[5 - i];
         arr[5 - i] = temp;
     }
-    
+
     /* 逆順にした配列を表示 */
     printf("逆順配列: ");
     for (i = 0; i < 6; i++) {
         printf("%d ", arr[i]);
     }
     printf("\n");
-    
+
     return 0;
 }
 ```
 
-### 多次元配列 
+### 多次元配列
+
 配列の配列を作ることで、表やマトリックスのような構造を表現できます。
 
 #### 2次元配列の宣言
@@ -319,7 +337,7 @@ int main(void) {
         {7, 8, 9}
     };
     int i, j;
-    
+
     /* 2次元配列の全要素を表示 */
     printf("行列の内容:\n");
     for (i = 0; i < 3; i++) {
@@ -328,7 +346,7 @@ int main(void) {
         }
         printf("\n");
     }
-    
+
     return 0;
 }
 ```
@@ -339,7 +357,8 @@ int main(void) {
 int cube[2][3][4];  /* 2×3×4の3次元配列 */
 ```
 
-### 配列の実践的応用 
+### 配列の実践的応用
+
 配列は様々な場面で活用できます。
 
 1. **統計計算** - 数値の集合から平均、最大値、最小値を計算
@@ -349,6 +368,7 @@ int cube[2][3][4];  /* 2×3×4の3次元配列 */
 5. **画像処理** - 画素データの管理
 
 ## 実例コード
+
 完全な実装例は以下のファイルを参照してください。
 
 ### 基本的な配列操作
@@ -372,15 +392,25 @@ gcc -std=c90 -Wall -Wextra -pedantic array_basics.c -o array_basics
 ### Makefileを使用した場合
 
 ```bash
+
 # 全てのプログラムをコンパイル
+
 make all
-# 特定のプログラムをコンパイル  
+
+# 特定のプログラムをコンパイル
+
 make array_basics
+
 # C99版をコンパイル
+
 make array_basics_c99
+
 # プログラムを実行
+
 make run-all
+
 # クリーンアップ
+
 make clean
 ```
 
@@ -412,6 +442,7 @@ make clean
 ## よくある間違いとデバッグ方法
 
 ### 1. 配列の境界外アクセス
+
 **問題:** 配列のサイズを超えた添字でアクセス
 
 ```c
@@ -426,6 +457,7 @@ int value = arr[5];  /* エラー：添字は0-4が有効 */
 - デバッガーやランタイムチェックツールを使用
 
 ### 2. 配列の初期化忘れ
+
 **問題:** 配列が適切に初期化されていない
 
 ```c
@@ -440,6 +472,7 @@ int arr[10];
 - ループで初期値を設定する
 
 ### 3. 配列代入の間違い
+
 **問題:** 配列全体を直接代入しようとする
 
 ```c
@@ -453,10 +486,11 @@ arr2 = arr1;  /* エラー：配列は直接代入不可 */
 - ループを使用して要素を1つずつコピー
 - 標準ライブラリの関数を使用（後の章で学習）
 
-##  次の章へ
-配列の基本を理解したら、[第8章: ポインタ基礎](../pointers/README.md) に進んでください。ポインタを学ぶことで、配列のより深い理解が得られます。
+## 次の章へ
 
-##  参考資料
+配列の基本を理解したら、[第8章: ポインター基礎](../pointers/README.md) に進んでください。ポインターを学ぶことで、配列のより深い理解が得られます。
+
+## 参考資料
 
 - [C90規格書](https://www.iso.org/standard/17782.html)
 - [C99規格書](https://www.iso.org/standard/29237.html)
@@ -473,51 +507,52 @@ arr2 = arr1;  /* エラー：配列は直接代入不可 */
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
 ```
 
-
-# ポインタ基礎
+# ポインター基礎
 
 ## 対応C規格
 
 - **主要対象:** C90
-- **学習内容:** ポインタの基本概念、ポインタと配列、ポインタと関数、メモリ管理の基礎
+- **学習内容:** ポインターの基本概念、ポインターと配列、ポインターと関数、メモリ管理の基礎
 
 ## 学習目標
+
 この章を完了すると、以下のことができるようになります。
 
-- ポインタの基本概念を完全に理解する
-- ポインタを使った変数の操作ができる
-- ポインタと配列の関係を理解する
-- 関数でポインタを適切に使える
+- ポインターの基本概念を完全に理解する
+- ポインターを使った変数の操作ができる
+- ポインターと配列の関係を理解する
+- 関数でポインターを適切に使える
 - 動的メモリ割り当ての基礎を理解する
 
 ## 概要と詳細
 
-### ポインタとは？
+### ポインターとは？
 
-ポインタは、他の変数のメモリアドレス（住所）を格納する変数です。C言語の最も強力で重要な機能の一つです。
+ポインターは、他の変数のメモリアドレス（住所）を格納する変数です。C言語の最も強力で重要な機能の一つです。
 
-#### 日常生活でのポインタ
-ポインタを理解するために、身近な例を考えてみましょう。
+#### 日常生活でのポインター
+
+ポインターを理解するために、身近な例を考えてみましょう。
 
 1. **住所録**
 
    - 友人の名前 = 変数名
-   - 友人の住所 = ポインタ（メモリアドレス）
+   - 友人の住所 = ポインター（メモリアドレス）
    - 友人の家 = 実際のデータ
 
 2. **図書館の目録**
 
    - 本のタイトル = 変数名
-   - 本の所在（A棚3段目） = ポインタ
+   - 本の所在（A棚3段目） = ポインター
    - 実際の本 = データ
 
 3. **リンク集**
 
    - サイト名 = 変数名
-   - URL = ポインタ
+   - URL = ポインター
    - 実際のWebページ = データ
 
-#### なぜポインタが必要なの？
+#### なぜポインターが必要なの？
 
 1. **効率的なデータ操作** - 大きなデータをコピーせず、アドレスだけを渡す
 2. **動的メモリ管理** - 実行時にメモリを確保・解放
@@ -525,17 +560,18 @@ arr2 = arr1;  /* エラー：配列は直接代入不可 */
 4. **複雑なデータ構造** - リスト、ツリーなどの実装
 5. **配列の効率的な処理** - 配列要素への高速アクセス
 
-### ポインタの基本概念
+### ポインターの基本概念
 
-#### ポインタの宣言
+#### ポインターの宣言
 
 ```c
-int *ptr;        /* int型へのポインタ */
-char *str_ptr;   /* char型へのポインタ */
-double *d_ptr;   /* double型へのポインタ */
+int *ptr;        /* int型へのポインター */
+char *str_ptr;   /* char型へのポインター */
+double *d_ptr;   /* double型へのポインター */
 ```
 
 #### アドレス演算子（&）
+
 変数のアドレスを取得します。
 
 ```c
@@ -544,14 +580,15 @@ int *ptr = &num;  /* numのアドレスをptrに格納 */
 ```
 
 #### 間接参照演算子（*）
-ポインタが指す場所の値にアクセスします。
+
+ポインターが指す場所の値にアクセスします。
 
 ```c
 int value = *ptr;  /* ptrが指す場所の値を取得 */
 *ptr = 100;        /* ptrが指す場所に100を代入 */
 ```
 
-### ポインタの基本操作
+### ポインターの基本操作
 
 #### 基本的な使い方
 
@@ -566,7 +603,7 @@ printf("ptrの値（アドレス）: %p\n", ptr);
 printf("ptrが指す値: %d\n", *ptr);
 ```
 
-#### ポインタを使った値の変更
+#### ポインターを使った値の変更
 
 ```c
 int num = 10;
@@ -577,18 +614,20 @@ printf("変更前: %d\n", num);  /* 10 */
 printf("変更後: %d\n", num);  /* 20 */
 ```
 
-### ポインタと配列の関係
+### ポインターと配列の関係
 
-#### 配列名はポインタ
-C言語では、配列名は最初の要素へのポインタと同じです。
+#### 配列名はポインター
+
+C言語では、配列名は最初の要素へのポインターと同じです。
 
 ```c
 int arr[5] = {10, 20, 30, 40, 50};
 int *ptr = arr;  /* arr は &arr[0] と同じ */
 ```
 
-#### ポインタ演算
-ポインタには加算・減算ができます。
+#### ポインター演算
+
+ポインターには加算・減算ができます。
 
 ```c
 int arr[5] = {10, 20, 30, 40, 50};
@@ -599,28 +638,29 @@ printf("%d\n", *(ptr+1));  /* 20 (arr[1]) */
 printf("%d\n", *(ptr+2));  /* 30 (arr[2]) */
 ```
 
-#### 配列のポインタによる操作
+#### 配列のポインターによる操作
 
 ```c
 int arr[5] = {1, 2, 3, 4, 5};
 int *ptr = arr;
 int i;
 
-/* ポインタを使った配列要素のアクセス */
+/* ポインターを使った配列要素のアクセス */
 for (i = 0; i < 5; i++) {
     printf("arr[%d] = %d\n", i, *(ptr + i));
 }
 
-/* ポインタのインクリメント */
+/* ポインターのインクリメント */
 for (ptr = arr; ptr < arr + 5; ptr++) {
     printf("値: %d\n", *ptr);
 }
 ```
 
-### ポインタと関数
+### ポインターと関数
 
-#### 関数の引数としてのポインタ
-関数で元の変数を変更するためにポインタを使用します。
+#### 関数の引数としてのポインター
+
+関数で元の変数を変更するためにポインターを使用します。
 
 ```c
 /* 値を交換する関数 */
@@ -634,11 +674,11 @@ void swap(int *a, int *b)
 int main(void)
 {
     int x = 10, y = 20;
-    
+
     printf("交換前: x=%d, y=%d\n", x, y);
     swap(&x, &y);
     printf("交換後: x=%d, y=%d\n", x, y);
-    
+
     return 0;
 }
 ```
@@ -651,11 +691,11 @@ int array_sum(int *arr, int size)
 {
     int sum = 0;
     int i;
-    
+
     for (i = 0; i < size; i++) {
         sum += arr[i];  /* または sum += *(arr + i); */
     }
-    
+
     return sum;
 }
 
@@ -668,32 +708,32 @@ int main(void)
 }
 ```
 
-#### 関数からポインタを返す
+#### 関数からポインターを返す
 
 ```c
-/* 配列の最大値を指すポインタを返す */
+/* 配列の最大値を指すポインターを返す */
 int* find_max(int *arr, int size)
 {
     int *max_ptr = arr;
     int i;
-    
+
     for (i = 1; i < size; i++) {
         if (*(arr + i) > *max_ptr) {
             max_ptr = arr + i;
         }
     }
-    
+
     return max_ptr;
 }
 ```
 
-### 文字列とポインタ
+### 文字列とポインター
 
 #### 文字列の表現方法
 
 ```c
 char str1[] = "Hello";     /* 文字配列 */
-char *str2 = "World";      /* 文字列リテラルへのポインタ */
+char *str2 = "World";      /* 文字列リテラルへのポインター */
 ```
 
 #### 文字列の操作
@@ -710,9 +750,9 @@ while (*ptr != '\0') {
 printf("\n");
 ```
 
-### 多次元配列とポインタ
+### 多次元配列とポインター
 
-#### 2次元配列へのポインタ
+#### 2次元配列へのポインター
 
 ```c
 int matrix[3][4] = {
@@ -721,7 +761,7 @@ int matrix[3][4] = {
     {9, 10, 11, 12}
 };
 
-int (*ptr)[4] = matrix;  /* 4要素のint配列へのポインタ */
+int (*ptr)[4] = matrix;  /* 4要素のint配列へのポインター */
 ```
 
 #### 2次元配列の要素アクセス
@@ -729,8 +769,8 @@ int (*ptr)[4] = matrix;  /* 4要素のint配列へのポインタ */
 ```c
 /* 以下はすべて同じ要素にアクセス */
 matrix[1][2];        /* 通常のアクセス */
-(*(matrix + 1))[2];  /* ポインタ演算1 */
-*(*(matrix + 1) + 2); /* ポインタ演算2 */
+(*(matrix + 1))[2];  /* ポインター演算1 */
+*(*(matrix + 1) + 2); /* ポインター演算2 */
 ```
 
 ### 動的メモリ割り当て
@@ -758,7 +798,7 @@ for (i = 0; i < size; i++) {
 
 /* メモリの解放 */
 free(ptr);
-ptr = NULL;  /* ダングリングポインタの防止 */
+ptr = NULL;  /* ダングリングポインターの防止 */
 ```
 
 #### calloc()とrealloc()
@@ -773,34 +813,35 @@ arr = (int*)realloc(arr, 10 * sizeof(int));
 free(arr);
 ```
 
-### ポインタのポインタ
+### ポインターのポインター
 
-#### 2重ポインタの概念
+#### 2重ポインターの概念
 
 ```c
 int num = 42;
-int *ptr = &num;      /* numへのポインタ */
-int **dptr = &ptr;    /* ptrへのポインタ */
+int *ptr = &num;      /* numへのポインター */
+int **dptr = &ptr;    /* ptrへのポインター */
 
 printf("num = %d\n", num);
 printf("*ptr = %d\n", *ptr);
 printf("**dptr = %d\n", **dptr);
 ```
 
-#### 2重ポインタの用途
+#### 2重ポインターの用途
 
-- 関数でポインタ自体を変更する
+- 関数でポインター自体を変更する
 - 動的な2次元配列の作成
 - 複雑なデータ構造の実装
 
 ### よくある間違いとデバッグ
 
-#### 1. 未初期化ポインタ
-**問題:** ポインタを初期化せずに使用
+#### 1. 未初期化ポインター
+
+**問題:** ポインターを初期化せずに使用
 
 ```c
 int *ptr;
-*ptr = 10;  /* 危険！未初期化ポインタの使用 */
+*ptr = 10;  /* 危険！未初期化ポインターの使用 */
 ```
 
 **対策:**
@@ -812,8 +853,9 @@ ptr = &num;       /* 適切なアドレスを代入してから使用 */
 *ptr = 10;        /* 安全 */
 ```
 
-#### 2. ダングリングポインタ
-**問題:** 解放されたメモリを指すポインタ
+#### 2. ダングリングポインター
+
+**問題:** 解放されたメモリを指すポインター
 
 ```c
 int *ptr = (int*)malloc(sizeof(int));
@@ -830,7 +872,8 @@ ptr = NULL;  /* NULLを代入 */
 ```
 
 #### 3. 配列の境界外アクセス
-**問題:** ポインタ演算での範囲外アクセス
+
+**問題:** ポインター演算での範囲外アクセス
 
 ```c
 int arr[5] = {1, 2, 3, 4, 5};
@@ -849,6 +892,7 @@ if (ptr + 2 < arr + 5) {  /* 境界チェック */
 ```
 
 #### 4. メモリリーク
+
 **問題:** 確保したメモリを解放し忘れ
 
 ```c
@@ -866,24 +910,24 @@ void function()
 {
     int *ptr = (int*)malloc(100 * sizeof(int));
     if (ptr == NULL) return;
-    
+
     /* 処理 */
-    
+
     free(ptr);  /* 必ず解放 */
     ptr = NULL;
 }
 ```
 
-### ポインタの高度な使用法
+### ポインターの高度な使用法
 
-#### 関数ポインタ
+#### 関数ポインター
 
 ```c
 /* 関数の定義 */
 int add(int a, int b) { return a + b; }
 int multiply(int a, int b) { return a * b; }
 
-/* 関数ポインタの使用 */
+/* 関数ポインターの使用 */
 int (*operation)(int, int);
 operation = add;
 printf("5 + 3 = %d\n", operation(5, 3));
@@ -892,7 +936,7 @@ operation = multiply;
 printf("5 * 3 = %d\n", operation(5, 3));
 ```
 
-#### 構造体とポインタ
+#### 構造体とポインター
 
 ```c
 struct point {
@@ -910,14 +954,15 @@ printf("x = %d, y = %d\n", (*ptr).x, (*ptr).y);
 ```
 
 ## 実例コード
+
 完全な実装例は以下のファイルを参照してください。
 
-### ポインタの基本操作
+### ポインターの基本操作
 
 - [pointer_basics.c](examples/pointer_basics.c) - C90準拠版
 - [pointer_basics_c99.c](examples/pointer_basics_c99.c) - C99準拠版
 
-### ポインタと配列
+### ポインターと配列
 
 - [pointer_arrays.c](examples/pointer_arrays.c) - C90準拠版
 - [pointer_arrays_c99.c](examples/pointer_arrays_c99.c) - C99準拠版
@@ -938,15 +983,25 @@ gcc -std=c90 -Wall -Wextra -pedantic pointer_basics.c -o pointer_basics
 ### Makefileを使用した場合
 
 ```bash
+
 # 全てのプログラムをコンパイル
+
 make all
+
 # 特定のプログラムをコンパイル
+
 make pointer_basics
+
 # C99版をコンパイル
+
 make pointer_basics_c99
+
 # プログラムを実行
+
 make run-all
+
 # クリーンアップ
+
 make clean
 ```
 
@@ -961,7 +1016,7 @@ make clean
 
 ### 学習のコツ
 
-1. **視覚化**: メモリ図を描いてポインタの動作を理解
+1. **視覚化**: メモリ図を描いてポインターの動作を理解
 2. **段階的学習**: 基本→配列→関数→動的メモリの順で学習
 3. **デバッグ技術**: printfでアドレスと値を出力して確認
 4. **実践練習**: 小さなプログラムから始めて徐々に複雑に
@@ -970,19 +1025,20 @@ make clean
 
 ### セキュリティの考慮
 
-1. **NULL チェック**: ポインタ使用前の NULL チェック
+1. **NULL チェック**: ポインター使用前の NULL チェック
 2. **境界チェック**: 配列アクセス時の範囲確認
 3. **メモリ管理**: malloc/free のペア、ダブルフリーの防止
-4. **初期化**: ポインタの適切な初期化
+4. **初期化**: ポインターの適切な初期化
 
 ### パフォーマンスの最適化
 
-1. **ポインタ演算**: 配列アクセスの高速化
+1. **ポインター演算**: 配列アクセスの高速化
 2. **参照渡し**: 大きなデータのコピー回避
 3. **キャッシュ効率**: メモリアクセスパターンの最適化
 
 ## 次の章へ
-[配列とポインタ](../arrays-pointers/README.md)
+
+[配列とポインター](../arrays-pointers/README.md)
 
 ## 参考資料
 
@@ -1001,35 +1057,38 @@ make clean
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
 ```
 
+# 配列とポインター
 
-# 配列とポインタ
-
-##  対応C規格
+## 対応C規格
 
 - **主要対象:** C90
-- **学習内容:** 配列とポインタの関係、ポインタを使った配列操作、関数への配列渡し
+- **学習内容:** 配列とポインターの関係、ポインターを使った配列操作、関数への配列渡し
 
-##  学習目標
+## 学習目標
+
 この章を完了すると、以下のことができるようになります。
 
-- 配列名がポインタとして扱われることを理解する
-- ポインタ演算を使った配列操作ができる
+- 配列名がポインターとして扱われることを理解する
+- ポインター演算を使った配列操作ができる
 - 配列を関数に渡す仕組みを理解する
 - より効率的な配列処理ができる
 
-##  概要と詳細
+## 概要と詳細
 
 ### 前提知識
+
 この章を学習する前に、以下の章を完了していることを前提とします：
 
 - 第7章: 配列（基本編）
-- 第8章: ポインタ基礎
+- 第8章: ポインター基礎
 
-### 配列とポインタの関係 
-C言語において、配列とポインタには密接な関係があります。この関係を理解することは、C言語をマスターする上で非常に重要です。
+### 配列とポインターの関係
+
+C言語において、配列とポインターには密接な関係があります。この関係を理解することは、C言語をマスターする上で非常に重要です。
 
 #### 配列名の本質
-配列名は、配列の最初の要素へのポインタとして扱われます。
+
+配列名は、配列の最初の要素へのポインターとして扱われます。
 
 ```c
 int arr[5] = {10, 20, 30, 40, 50};
@@ -1042,20 +1101,32 @@ printf("&arr     = %p\n", &arr);      /* 配列全体のアドレス（値は同
 
 #### 視覚的な理解
 
-```
-配列 int arr[5] = {10, 20, 30, 40, 50} のメモリ配置：
+```mermaid
+graph TB
+    subgraph "配列 int arr[5] = {10, 20, 30, 40, 50} のメモリ配置"
+        A["アドレス: 1000<br/>値: 10<br/>arr[0]"]
+        B["アドレス: 1004<br/>値: 20<br/>arr[1]"]
+        C["アドレス: 1008<br/>値: 30<br/>arr[2]"]
+        D["アドレス: 1012<br/>値: 40<br/>arr[3]"]
+        E["アドレス: 1016<br/>値: 50<br/>arr[4]"]
+    end
 
-アドレス:  1000    1004    1008    1012    1016
-         +-------+-------+-------+-------+-------+
-         |  10   |  20   |  30   |  40   |  50   |
-         +-------+-------+-------+-------+-------+
-         ↑
-         arr（配列名）は、この最初の要素のアドレス（1000）を表す
+    F["arr（配列名）"]
+    F --> A
+    F -.- G["最初の要素のアドレス（1000）を表す"]
+
+    style A fill:#ffd,stroke:#333,stroke-width:3px
+    style B fill:#ffd,stroke:#333,stroke-width:2px
+    style C fill:#ffd,stroke:#333,stroke-width:2px
+    style D fill:#ffd,stroke:#333,stroke-width:2px
+    style E fill:#ffd,stroke:#333,stroke-width:2px
+    style F fill:#dff,stroke:#333,stroke-width:2px
 ```
 
 ### 配列要素へのアクセス方法の等価性
 
 #### 2つの記法
+
 C言語では、配列要素にアクセスする方法が2つあります。
 
 ```c
@@ -1065,7 +1136,7 @@ int i;
 /* 以下の2つの方法は完全に等価 */
 for (i = 0; i < 5; i++) {
     printf("arr[%d] = %d\n", i, arr[i]);        /* 配列記法 */
-    printf("*(arr+%d) = %d\n", i, *(arr+i));    /* ポインタ記法 */
+    printf("*(arr+%d) = %d\n", i, *(arr+i));    /* ポインター記法 */
 }
 
 /* つまり、arr[i] は *(arr + i) の糖衣構文（シンタックスシュガー） */
@@ -1073,35 +1144,37 @@ for (i = 0; i < 5; i++) {
 
 #### なぜこれが等価なのか？
 
+```mermaid
+flowchart LR
+    A["arr[i] の仕組み"]
+    A --> B["1. arr = 先頭アドレス<br/>(例: 1000)"]
+    B --> C["2. i = インデックス<br/>(例: 2)"]
+    C --> D["3. arr + i =<br/>i要素分進んだアドレス"]
+    D --> E["実際のアドレス計算:<br/>1000 + (2 × 4) = 1008<br/>(int型は4バイト)"]
+    E --> F["4. *(arr + i) =<br/>そのアドレスの値を取得"]
+    F --> G["5. これは arr[2] と同じ！"]
+
+    style A fill:#fdd,stroke:#333,stroke-width:2px
+    style G fill:#dfd,stroke:#333,stroke-width:2px
 ```
-arr[i] の仕組み：
 
-1. arr は配列の先頭アドレス（例: 1000）
-2. i は配列のインデックス（例: 2）
-3. arr + i は、arr から i要素分進んだアドレス
-   - 実際のアドレス = 1000 + (2 × 4) = 1008
-   - （int型は4バイトなので）
-4. *(arr + i) は、そのアドレスの値を取得
-5. これは arr[2] と同じ！
-```
+### 配列とポインターの違い
 
-### 配列とポインタの違い
-
-配列名はポインタのように振る舞いますが、重要な違いがあります。
+配列名はポインターのように振る舞いますが、重要な違いがあります。
 
 #### 配列名は定数
 
 ```c
 int arr[5] = {1, 2, 3, 4, 5};
-int *ptr = arr;  /* OK: 配列の先頭アドレスをポインタに代入 */
+int *ptr = arr;  /* OK: 配列の先頭アドレスをポインターに代入 */
 
 /* 配列名は定数（変更不可） */
 arr = ptr;       /* エラー: 配列名への代入はできない */
 arr++;           /* エラー: 配列名の変更はできない */
 
-/* ポインタは変数（変更可能） */
-ptr++;           /* OK: ポインタを次の要素に移動 */
-ptr = &arr[3];   /* OK: ポインタに別のアドレスを代入 */
+/* ポインターは変数（変更可能） */
+ptr++;           /* OK: ポインターを次の要素に移動 */
+ptr = &arr[3];   /* OK: ポインターに別のアドレスを代入 */
 ```
 
 #### サイズの違い
@@ -1114,9 +1187,9 @@ printf("sizeof(arr) = %lu\n", sizeof(arr));  /* 20（5×4バイト） */
 printf("sizeof(ptr) = %lu\n", sizeof(ptr));  /* 8（64ビット環境）or 4（32ビット環境） */
 ```
 
-### ポインタ演算による配列操作
+### ポインター演算による配列操作
 
-#### ポインタの移動
+#### ポインターの移動
 
 ```c
 #include <stdio.h>
@@ -1124,20 +1197,20 @@ printf("sizeof(ptr) = %lu\n", sizeof(ptr));  /* 8（64ビット環境）or 4（3
 int main(void) {
     int arr[5] = {10, 20, 30, 40, 50};
     int *ptr = arr;
-    
+
     printf("ptr が指す値: %d\n", *ptr);      /* 10 */
-    
+
     ptr++;  /* 次の要素へ移動 */
     printf("ptr が指す値: %d\n", *ptr);      /* 20 */
-    
+
     ptr += 2;  /* 2つ先の要素へ移動 */
     printf("ptr が指す値: %d\n", *ptr);      /* 40 */
-    
+
     return 0;
 }
 ```
 
-#### ポインタを使った配列の走査
+#### ポインターを使った配列の走査
 
 ```c
 #include <stdio.h>
@@ -1145,37 +1218,37 @@ int main(void) {
 int main(void) {
     int arr[5] = {1, 2, 3, 4, 5};
     int *ptr;
-    
+
     /* 方法1: インデックスを使用 */
     printf("インデックスを使用:\n");
     for (ptr = arr; ptr < arr + 5; ptr++) {
         printf("%d ", *ptr);
     }
     printf("\n");
-    
-    /* 方法2: ポインタの比較 */
-    printf("ポインタの比較:\n");
+
+    /* 方法2: ポインターの比較 */
+    printf("ポインターの比較:\n");
     ptr = arr;
     while (ptr <= &arr[4]) {
         printf("%d ", *ptr);
         ptr++;
     }
     printf("\n");
-    
+
     return 0;
 }
 ```
 
 ### 関数への配列の渡し方
 
-配列を関数に渡すとき、実際には先頭要素へのポインタが渡されます。
+配列を関数に渡すとき、実際には先頭要素へのポインターが渡されます。
 
 #### 関数の宣言方法
 
 ```c
 /* これらの宣言は同じ意味 */
 void process_array(int arr[]);      /* 配列として宣言 */
-void process_array(int *arr);       /* ポインタとして宣言 */
+void process_array(int *arr);       /* ポインターとして宣言 */
 void process_array(int arr[10]);    /* サイズ指定（無視される） */
 ```
 
@@ -1188,18 +1261,18 @@ void process_array(int arr[10]);    /* サイズ指定（無視される） */
 int array_sum(int *arr, int size) {
     int sum = 0;
     int i;
-    
+
     for (i = 0; i < size; i++) {
         sum += arr[i];  /* または sum += *(arr + i); */
     }
-    
+
     return sum;
 }
 
 /* 配列の要素をすべて2倍にする関数 */
 void double_array(int arr[], int size) {
     int i;
-    
+
     for (i = 0; i < size; i++) {
         arr[i] *= 2;  /* 元の配列が変更される */
     }
@@ -1209,31 +1282,31 @@ int main(void) {
     int numbers[5] = {1, 2, 3, 4, 5};
     int total;
     int i;
-    
+
     /* 合計を計算 */
     total = array_sum(numbers, 5);
     printf("合計: %d\n", total);
-    
+
     /* 配列を2倍に */
     printf("元の配列: ");
     for (i = 0; i < 5; i++) {
         printf("%d ", numbers[i]);
     }
     printf("\n");
-    
+
     double_array(numbers, 5);
-    
+
     printf("2倍後: ");
     for (i = 0; i < 5; i++) {
         printf("%d ", numbers[i]);
     }
     printf("\n");
-    
+
     return 0;
 }
 ```
 
-### 多次元配列とポインタ
+### 多次元配列とポインター
 
 #### 2次元配列のメモリ配置
 
@@ -1248,21 +1321,21 @@ int matrix[3][4] = {
 /* [1][2][3][4][5][6][7][8][9][10][11][12] */
 ```
 
-#### 2次元配列へのポインタ
+#### 2次元配列へのポインター
 
 ```c
 int matrix[3][4];
-int (*ptr)[4] = matrix;  /* 4要素のint配列へのポインタ */
+int (*ptr)[4] = matrix;  /* 4要素のint配列へのポインター */
 
 /* 以下はすべて同じ要素にアクセス */
 matrix[1][2];         /* 通常のアクセス */
-*(*(matrix + 1) + 2); /* ポインタ演算 */
-ptr[1][2];           /* ポインタ経由のアクセス */
+*(*(matrix + 1) + 2); /* ポインター演算 */
+ptr[1][2];           /* ポインター経由のアクセス */
 ```
 
 ### 実践的な応用例
 
-#### 配列の最大値を見つける（ポインタ版）
+#### 配列の最大値を見つける（ポインター版）
 
 ```c
 #include <stdio.h>
@@ -1270,25 +1343,25 @@ ptr[1][2];           /* ポインタ経由のアクセス */
 int* find_max(int *arr, int size) {
     int *max_ptr = arr;
     int i;
-    
+
     for (i = 1; i < size; i++) {
         if (*(arr + i) > *max_ptr) {
             max_ptr = arr + i;
         }
     }
-    
-    return max_ptr;  /* 最大値へのポインタを返す */
+
+    return max_ptr;  /* 最大値へのポインターを返す */
 }
 
 int main(void) {
     int numbers[5] = {34, 67, 12, 89, 45};
     int *max_ptr;
-    
+
     max_ptr = find_max(numbers, 5);
-    
+
     printf("最大値: %d\n", *max_ptr);
     printf("最大値の位置: %ld\n", max_ptr - numbers);
-    
+
     return 0;
 }
 ```
@@ -1298,24 +1371,24 @@ int main(void) {
 ```c
 #include <stdio.h>
 
-/* 文字列の長さを計算（ポインタ版） */
+/* 文字列の長さを計算（ポインター版） */
 int string_length(char *str) {
     char *start = str;
-    
+
     while (*str != '\0') {
         str++;
     }
-    
-    return str - start;  /* ポインタの差が文字数 */
+
+    return str - start;  /* ポインターの差が文字数 */
 }
 
 int main(void) {
     char message[] = "Hello, World!";
     int len;
-    
+
     len = string_length(message);
     printf("文字列の長さ: %d\n", len);
-    
+
     return 0;
 }
 ```
@@ -1332,29 +1405,30 @@ ptr += 10;  /* 危険！配列の範囲外 */
 *ptr = 100; /* 未定義動作 */
 ```
 
-#### 2. ポインタと配列の混同
+#### 2. ポインターと配列の混同
 
 ```c
 int arr[5];
 int *ptr;
 
 sizeof(arr);  /* 20: 配列全体のサイズ */
-sizeof(ptr);  /* 4 or 8: ポインタのサイズ */
+sizeof(ptr);  /* 4 or 8: ポインターのサイズ */
 ```
 
 #### 3. 関数での配列サイズ
 
 ```c
 void process(int arr[]) {
-    /* sizeof(arr) はポインタのサイズを返す！ */
+    /* sizeof(arr) はポインターのサイズを返す！ */
     /* 配列のサイズは別途引数で渡す必要がある */
 }
 ```
 
 ## 実例コード
+
 完全な実装例は以下のファイルを参照してください。
 
-### 配列とポインタの基本
+### 配列とポインターの基本
 
 - [array_pointer_basics.c](examples/array_pointer_basics.c) - C90準拠版
 - [array_pointer_basics_c99.c](examples/array_pointer_basics_c99.c) - C99準拠版
@@ -1366,18 +1440,19 @@ void process(int arr[]) {
 
 ## 学習のポイント
 
-1. **配列名 = ポインタ定数**: 配列名は変更できないポインタ
+1. **配列名 = ポインター定数**: 配列名は変更できないポインター
 2. **arr[i] = *(arr + i)**: 2つの記法は完全に等価
-3. **関数への渡し方**: 配列は常にポインタとして渡される
+3. **関数への渡し方**: 配列は常にポインターとして渡される
 4. **サイズ情報**: 関数では配列のサイズが分からないので別途渡す
 
-##  次の章へ
-配列とポインタの関係を理解したら、[文字列処理](../strings/README.md) に進んでください。文字列は文字の配列として扱われるため、この知識が活かされます。
+## 次の章へ
 
-##  参考資料
+配列とポインターの関係を理解したら、[文字列処理](../strings/README.md) に進んでください。文字列は文字の配列として扱われるため、この知識が活かされます。
+
+## 参考資料
 
 - [C90規格書](https://www.iso.org/standard/17782.html)
-- [ポインタと配列の詳細](https://en.cppreference.com/w/c/language/array)
+- [ポインターと配列の詳細](https://en.cppreference.com/w/c/language/array)
 
 ## 演習問題
 
@@ -1391,30 +1466,31 @@ void process(int arr[]) {
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
 ```
 
-
 # 文字列処理
 
-##  対応C規格
+## 対応C規格
 
 - **主要対象:** C90
 - **学習内容:** 文字列の基本、文字列操作関数、文字列配列の詳細操作、文字列の比較・検索・変換
 
-##  学習目標
+## 学習目標
+
 この章を完了すると、以下のことができるようになります。
 
 - 文字列の基本概念を完全に理解する
 - 標準ライブラリの文字列操作関数を使いこなせる
 - 文字列配列の詳細な操作ができる
-- 次元文字配列と文字列ポインタ配列を使い分けられる
+- 次元文字配列と文字列ポインター配列を使い分けられる
 - 実践的な文字列処理プログラムを作成できる
 
-##  概要と詳細
+## 概要と詳細
 
 ### 文字列処理とは？
 
 文字列処理は、プログラミングで最も頻繁に行う作業の一つです。名前、メッセージ、ファイル名など、私たちが扱うデータの多くは文字列です。
 
 #### 日常生活での文字列処理
+
 身近な例を考えてみましょう。
 
 1. **メールアドレスの検証**
@@ -1422,7 +1498,7 @@ void process(int arr[]) {
    - "@"が含まれているか？
    - 適切な形式か？
 
-2. **パスワードのチェック**  
+2. **パスワードのチェック**
 
    - 8文字以上か？
    - 大文字・小文字・数字が含まれているか？
@@ -1434,7 +1510,8 @@ void process(int arr[]) {
 
 これらはすべて文字列処理の例です！
 
-### 文字列の基本概念 
+### 文字列の基本概念
+
 C言語では文字列は文字の配列として表現され、null文字（'\0'）で終端されます。この仕組みを理解することが、文字列処理をマスターする第一歩です。
 
 #### 文字列とは何か？
@@ -1454,18 +1531,18 @@ C言語における文字列は、実は「文字の配列」に過ぎません�
 
 ```c
 /* 1. 文字配列として明示的に初期化 */
-char str1[] = {'H', 'e', 'l', 'l', 'o', '\0'};  
+char str1[] = {'H', 'e', 'l', 'l', 'o', '\0'};
 /* 各文字を個別に指定。最後に必ず'\0'が必要 */
 
 /* 2. 文字列リテラルで初期化（最も一般的） */
 char str2[] = "Hello";
-/* コンパイラが自動的に'\0'を追加。サイズは6バイト */
+/* コンパイラーが自動的に'\0'を追加。サイズは6バイト */
 
 /* 3. 固定サイズ配列に文字列を格納 */
 char str3[10] = "Hello";
 /* 10バイト確保。"Hello\0"の後の4バイトは'\0'で初期化 */
 
-/* 4. 文字列リテラルへのポインタ */
+/* 4. 文字列リテラルへのポインター */
 char *str4 = "Hello";
 /* 文字列リテラルは読み取り専用領域に配置される */
 ```
@@ -1633,7 +1710,7 @@ strcat(str1, str2);  /* str1が "Hello World" になる */
 char names[5][20];  /* 5つの名前、各最大20文字 */
 char fruits[5][20] = {
     "Apple",
-    "Banana", 
+    "Banana",
     "Orange",
     "Grape",
     "Strawberry"
@@ -1648,7 +1725,7 @@ char fruits[5][20] = {
 - 文字列の変更が可能
 - サイズ = 行数 × 列数 × sizeof(char)
 
-#### 文字列ポインタ配列（char* 配列）
+#### 文字列ポインター配列（char* 配列）
 
 ```c
 char *fruits[] = {"Apple", "Banana", "Orange"};
@@ -1661,11 +1738,11 @@ char *months[] = {
 
 **特徴:**
 
-- 文字列リテラルへのポインタを格納
+- 文字列リテラルへのポインターを格納
 - メモリ効率が良い（無駄な領域なし）
 - 文字列の長さは可変
 - 文字列リテラルの変更は不可
-- サイズ = ポインタ数 × sizeof(char*)
+- サイズ = ポインター数 × sizeof(char*)
 
 #### char配列 vs char* 配列の使い分け
 
@@ -1703,7 +1780,7 @@ int search_string(char arr[][20], int size, char *target) {
 void sort_strings(char arr[][20], int size) {
     int i, j, min_idx;
     char temp[20];
-    
+
     for (i = 0; i < size - 1; i++) {
         min_idx = i;
         for (j = i + 1; j < size; j++) {
@@ -1733,6 +1810,7 @@ void sort_strings(char arr[][20], int size) {
 - **大文字小文字を無視した検索**は標準関数では提供されていない
 
 #### 文字列の置換
+
 C標準ライブラリには置換関数はないため、自分で実装する必要があります。
 
 ### 文字列の変換
@@ -1767,14 +1845,14 @@ fgets(buffer, sizeof(buffer), stdin);  /* 改行まで読み込み（推奨） *
 
 #### 安全な文字列入力
 
-- **scanf()** - 空白で区切られる、バッファオーバーフローの危険
+- **scanf()** - 空白で区切られる、バッファーオーバーフローの危険
 - **fgets()** - 改行まで読み込み、サイズ制限あり（推奨）
 
 ### 文字列処理のベストプラクティス
 
 #### 安全性の確保
 
-1. **バッファオーバーフローの防止**
+1. **バッファーオーバーフローの防止**
 
    - strncpy(), strncat(), snprintf()を使用
    - 常にバッファサイズを意識
@@ -1787,7 +1865,7 @@ fgets(buffer, sizeof(buffer), stdin);  /* 改行まで読み込み（推奨） *
 3. **戻り値のチェック**
 
    - 文字列関数の戻り値を適切にチェック
-   - NULLポインタの可能性を考慮
+   - NULLポインターの可能性を考慮
 
 #### 効率性の向上
 
@@ -1803,7 +1881,8 @@ fgets(buffer, sizeof(buffer), stdin);  /* 改行まで読み込み（推奨） *
 
 ### よくある間違いとデバッグ
 
-#### 1. バッファオーバーフロー
+#### 1. バッファーオーバーフロー
+
 **問題:** 文字列が配列のサイズを超える
 
 ```c
@@ -1817,6 +1896,7 @@ strcpy(buffer, "Hello World");  /* 危険！ */
 - 常にバッファサイズを確認
 
 #### 2. null終端の忘れ
+
 **問題:** null文字がない文字列
 
 ```c
@@ -1830,6 +1910,7 @@ printf("%s", str);  /* 未定義動作 */
 - 明示的にnull文字を設定
 
 #### 3. 文字列リテラルの変更
+
 **問題:** 読み取り専用の文字列を変更
 
 ```c
@@ -1842,20 +1923,22 @@ str[0] = 'h';  /* 未定義動作 */
 - 変更が必要な場合は配列を使用
 - const修飾子を適切に使用
 
-#### 4. ポインタの誤用
-**問題:** 無効なポインタの使用
+#### 4. ポインターの誤用
+
+**問題:** 無効なポインターの使用
 
 ```c
 char *str;
-strcpy(str, "Hello");  /* 未初期化ポインタ */
+strcpy(str, "Hello");  /* 未初期化ポインター */
 ```
 
 **対策:**
 
-- ポインタを適切に初期化
+- ポインターを適切に初期化
 - メモリ確保を忘れずに
 
 ## 実例コード
+
 完全な実装例は以下のファイルを参照してください。
 
 ### 基本的な文字列操作
@@ -1889,15 +1972,25 @@ gcc -std=c90 -Wall -Wextra -pedantic string_basics.c -o string_basics
 ### Makefileを使用した場合
 
 ```bash
+
 # 全てのプログラムをコンパイル
+
 make all
+
 # 特定のプログラムをコンパイル
+
 make string_basics
+
 # C99版をコンパイル
+
 make string_basics_c99
+
 # プログラムを実行
+
 make run-all
+
 # クリーンアップ
+
 make clean
 ```
 
@@ -1933,7 +2026,7 @@ make clean
 1. **入力検証の徹底**
 
    - ユーザー入力は常に検証
-   - バッファサイズを超える入力の制御
+   - バッファーサイズを超える入力の制御
 
 2. **安全な関数の使用**
 
@@ -1943,11 +2036,11 @@ make clean
 3. **メモリ管理**
 
    - 動的に確保したメモリの適切な解放
-   - ダングリングポインタの回避
+   - ダングリングポインターの回避
 
 ## 次の章へ
-文字列を理解したら、[関数](../functions/README.md) に進んでください。
 
+文字列を理解したら、[関数](../functions/README.md) に進んでください。
 
 ## 参考資料
 
@@ -1966,7 +2059,6 @@ make clean
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
 ```
 
-
 # 関数
 
 ## 対応C規格
@@ -1975,6 +2067,7 @@ make clean
 - **学習内容:** 関数の基本、引数と戻り値、関数のスコープ、再帰関数、関数プロトタイプ
 
 ## 学習目標
+
 この章を完了すると、以下のことができるようになります。
 
 - 関数の定義と呼び出しができる
@@ -1990,6 +2083,7 @@ make clean
 関数は、プログラムを「部品」に分けるための仕組みです。大きな問題を小さな部分に分割して解決する「分割統治」の考え方を実現します。
 
 #### 日常生活での関数
+
 関数を理解するために、料理を例に考えてみましょう。
 
 **カレーライスを作る場合：**
@@ -2006,7 +2100,8 @@ make clean
 - 問題があったとき、どの工程か特定しやすい
 - 複数人で分担できる
 
-### 関数の基本概念 
+### 関数の基本概念
+
 関数は特定の処理をまとめたコードブロックで、プログラムの再利用性と保守性を向上させます。
 
 #### 関数を使う理由
@@ -2027,7 +2122,8 @@ make clean
 }
 ```
 
-### 関数の定義と宣言 
+### 関数の定義と宣言
+
 関数を使うには、「宣言」と「定義」を理解する必要があります。
 
 #### なぜ関数プロトタイプが必要？
@@ -2058,25 +2154,35 @@ void print_message(void)
 ```
 
 ### 引数の渡し方
+
 関数に値を渡す方法は2つあります。この違いを理解することは非常に重要です！
 
 #### 値渡し（Call by Value）
+
 C言語では、通常の変数を渡すと「値のコピー」が渡されます。これはC言語の基本的な動作です。
 
 ##### 値渡しのメカニズム
 
-```
-関数呼び出し時のメモリの様子：
+```mermaid
+graph LR
+    subgraph "main関数のメモリ"
+        A1["num = 10"]
+        A2["num = 10<br/>(変更されない)"]
+    end
 
-main関数のメモリ:                  modify_value関数のメモリ:
-+---------------+                +---------------+
-| num = 10      | ---値をコピー--> | x = 10        |
-+---------------+                +---------------+
-                                      ↓ x = 100に変更
-+---------------+                +---------------+
-| num = 10      |                | x = 100       |
-+---------------+                +---------------+
-※numは変更されない
+    subgraph "modify_value関数のメモリ"
+        B1["x = 10<br/>(コピー)"]
+        B2["x = 100<br/>(変更後)"]
+    end
+
+    A1 -.->|"値をコピー"| B1
+    B1 -->|"x = 100に変更"| B2
+    A1 -.->|"影響なし"| A2
+
+    style A1 fill:#ffd,stroke:#333,stroke-width:2px
+    style A2 fill:#ffd,stroke:#333,stroke-width:2px
+    style B1 fill:#dff,stroke:#333,stroke-width:2px
+    style B2 fill:#fdd,stroke:#333,stroke-width:2px
 ```
 
 ##### 値渡しの実例
@@ -2093,15 +2199,16 @@ int main(void)
 {
     int num = 10;
     printf("呼び出し前: num = %d\n", num);
-    
+
     modify_value(num);
-    
+
     printf("呼び出し後: num = %d\n", num);  /* 10のまま */
     return 0;
 }
 ```
 
 ##### 値渡しの利点と欠点
+
 **利点：**
 
 - 元の変数が保護される（予期しない変更を防げる）
@@ -2115,24 +2222,28 @@ int main(void)
 - 関数内で元の変数を変更できない
 
 #### 参照渡し（Call by Reference）
-ポインタを使用して、変数のアドレスを渡すことで元の変数を変更できます。
+
+ポインターを使用して、変数のアドレスを渡すことで元の変数を変更できます。
 
 ##### 参照渡しのメカニズム
 
-```
-関数呼び出し時のメモリの様子：
+```mermaid
+graph LR
+    subgraph "main関数のメモリ"
+        A1["num = 10<br/>アドレス: 1000"]
+        A2["num = 100<br/>アドレス: 1000<br/>(直接変更される)"]
+    end
 
-main関数のメモリ:                    modify_value関数のメモリ:
-+---------------+                  +------------------+
-| num = 10      |<--アドレスを指す-- | x = &num         |
-| アドレス:1000 |                   +------------------+
-+---------------+                      ↓ *x = 100でnumを変更
-                                
-+---------------+               
-| num = 100     |               
-| アドレス:1000 |               
-+---------------+               
-※numが直接変更される
+    subgraph "modify_value関数のメモリ"
+        B1["x = &num<br/>(アドレスを保持)"]
+    end
+
+    B1 -->|"アドレスを指す"| A1
+    B1 -->|"*x = 100で変更"| A2
+
+    style A1 fill:#ffd,stroke:#333,stroke-width:2px
+    style A2 fill:#dfd,stroke:#333,stroke-width:3px
+    style B1 fill:#dff,stroke:#333,stroke-width:2px
 ```
 
 ##### 参照渡しの実例
@@ -2149,15 +2260,16 @@ int main(void)
 {
     int num = 10;
     printf("呼び出し前: num = %d\n", num);
-    
+
     modify_value(&num);  /* &でアドレスを渡す */
-    
+
     printf("呼び出し後: num = %d\n", num);  /* 100に変更されている */
     return 0;
 }
 ```
 
 ##### 参照渡しの利点と欠点
+
 **利点：**
 
 - 関数内で元の変数を変更できる
@@ -2166,11 +2278,12 @@ int main(void)
 
 **欠点：**
 
-- ポインタの理解が必要
+- ポインターの理解が必要
 - 意図しない変更の可能性がある
-- NULLポインタのチェックが必要
+- NULLポインターのチェックが必要
 
 #### 配列の引数渡し
+
 配列を関数に渡す場合、特別な動作をします。
 
 ##### 配列は常に「参照渡し」になる
@@ -2188,21 +2301,21 @@ int main(void)
 {
     int numbers[5] = {1, 2, 3, 4, 5};
     int i;
-    
+
     printf("変更前: ");
     for (i = 0; i < 5; i++) {
         printf("%d ", numbers[i]);
     }
     printf("\n");
-    
+
     modify_array(numbers, 5);
-    
+
     printf("変更後: ");
     for (i = 0; i < 5; i++) {
         printf("%d ", numbers[i]);  /* 値が2倍になっている */
     }
     printf("\n");
-    
+
     return 0;
 }
 ```
@@ -2210,7 +2323,7 @@ int main(void)
 ##### なぜ配列は参照渡しになるのか？
 
 ```
-配列名は配列の先頭要素へのポインタとして扱われる：
+配列名は配列の先頭要素へのポインターとして扱われる：
 
 numbers[5] = {1, 2, 3, 4, 5}
 
@@ -2222,6 +2335,7 @@ numbers → [1][2][3][4][5]
 ```
 
 #### 構造体の引数渡し
+
 構造体は値渡しと参照渡しの両方が可能です。
 
 ##### 構造体の値渡し
@@ -2254,6 +2368,7 @@ void move_point_ref(struct Point *p)
 プログラミングでは、状況に応じて値渡しと参照渡しを使い分けることが重要です。ここでは、実際によく使われるパターンを詳しく見ていきましょう。
 
 ##### 1. swap関数（値の交換）
+
 2つの変数の値を交換する関数は、参照渡しの必要性を理解する最も分かりやすい例です。
 
 ```c
@@ -2277,34 +2392,52 @@ void swap_correct(int *a, int *b)
 int main(void)
 {
     int x = 5, y = 10;
-    
+
     printf("交換前: x=%d, y=%d\n", x, y);
-    
+
     swap_wrong(x, y);
     printf("swap_wrong後: x=%d, y=%d\n", x, y);  /* 5, 10のまま */
-    
+
     swap_correct(&x, &y);
     printf("swap_correct後: x=%d, y=%d\n", x, y);  /* 10, 5に交換 */
-    
+
     return 0;
 }
 ```
 
 **なぜswap_wrongは動作しないのか？**
 
-```
-swap_wrong呼び出し時：
-main: x=5, y=10  →コピー→  swap_wrong: a=5, b=10
-                             ↓交換
-main: x=5, y=10  ←影響なし  swap_wrong: a=10, b=5（関数終了で消滅）
+```mermaid
+flowchart LR
+    subgraph "main関数"
+        A1["x=5, y=10"]
+        A2["x=5, y=10<br/>(変更なし)"]
+    end
+
+    subgraph "swap_wrong関数"
+        B1["a=5, b=10<br/>(コピー)"]
+        B2["a=10, b=5<br/>(交換後)"]
+        B3["関数終了で<br/>消滅"]
+    end
+
+    A1 -->|"値をコピー"| B1
+    B1 -->|"交換"| B2
+    B2 -->|"終了"| B3
+    A1 -.->|"影響なし"| A2
+
+    style A1 fill:#ffd,stroke:#333,stroke-width:2px
+    style A2 fill:#ffd,stroke:#333,stroke-width:2px
+    style B2 fill:#fdd,stroke:#333,stroke-width:2px
+    style B3 fill:#ccc,stroke:#333,stroke-width:2px,stroke-dasharray: 5 5
 ```
 
 ##### 2. 複数の値を返す関数
+
 C言語の関数は通常1つの値しか返せませんが、参照渡しを使うと複数の値を返すことができます。
 
 ```c
 /* 商と余りを同時に返す */
-void divide_with_remainder(int dividend, int divisor, 
+void divide_with_remainder(int dividend, int divisor,
                           int *quotient, int *remainder)
 {
     if (divisor == 0) {
@@ -2313,29 +2446,29 @@ void divide_with_remainder(int dividend, int divisor,
         if (remainder) *remainder = 0;
         return;
     }
-    
+
     *quotient = dividend / divisor;
     *remainder = dividend % divisor;
 }
 
 /* 統計情報を一度に計算する */
-void calculate_stats(int arr[], int size, 
+void calculate_stats(int arr[], int size,
                     int *min, int *max, double *average)
 {
     int i, sum = 0;
-    
+
     if (size <= 0 || arr == NULL) {
         return;  /* エラー処理 */
     }
-    
+
     *min = *max = arr[0];
-    
+
     for (i = 0; i < size; i++) {
         if (arr[i] < *min) *min = arr[i];
         if (arr[i] > *max) *max = arr[i];
         sum += arr[i];
     }
-    
+
     *average = (double)sum / size;
 }
 
@@ -2345,28 +2478,29 @@ int main(void)
     int numbers[] = {23, 67, 12, 89, 45};
     int minimum, maximum;
     double avg;
-    
+
     /* 除算の例 */
     divide_with_remainder(17, 5, &q, &r);
     printf("17 ÷ 5 = %d 余り %d\n", q, r);  /* 3 余り 2 */
-    
+
     /* 統計計算の例 */
     calculate_stats(numbers, 5, &minimum, &maximum, &avg);
-    printf("最小値: %d, 最大値: %d, 平均: %.1f\n", 
+    printf("最小値: %d, 最大値: %d, 平均: %.1f\n",
            minimum, maximum, avg);
-    
+
     return 0;
 }
 ```
 
 ##### 3. 安全な参照渡し（エラー処理）
-ポインタを受け取る関数では、必ずNULLチェックを行うべきです。
+
+ポインターを受け取る関数では、必ずNULLチェックを行うべきです。
 
 ```c
 /* 基本的なNULLチェック */
 void safe_increment(int *ptr)
 {
-    if (ptr != NULL) {  /* NULLポインタチェック */
+    if (ptr != NULL) {  /* NULLポインターチェック */
         (*ptr)++;
     }
 }
@@ -2375,18 +2509,18 @@ void safe_increment(int *ptr)
 int safe_string_copy(char *dest, const char *src, int dest_size)
 {
     int i;
-    
+
     /* 引数の検証 */
     if (dest == NULL || src == NULL || dest_size <= 0) {
         return -1;  /* エラー */
     }
-    
+
     /* 安全にコピー */
     for (i = 0; i < dest_size - 1 && src[i] != '\0'; i++) {
         dest[i] = src[i];
     }
     dest[i] = '\0';  /* null終端を保証 */
-    
+
     return i;  /* コピーした文字数を返す */
 }
 
@@ -2396,17 +2530,18 @@ int safe_divide(int a, int b, int *result)
     if (result == NULL) {
         return -1;  /* 引数エラー */
     }
-    
+
     if (b == 0) {
         return -2;  /* ゼロ除算エラー */
     }
-    
+
     *result = a / b;
     return 0;  /* 成功 */
 }
 ```
 
 ##### 4. 大きなデータ構造の効率的な処理
+
 構造体が大きくなると、値渡しのコピーコストが無視できなくなります。
 
 ```c
@@ -2426,11 +2561,11 @@ void print_student_by_value(struct StudentRecord student)
     printf("GPA: %.2f\n", student.gpa);
 }
 
-/* 参照渡し（効率的） - ポインタ（4-8バイト）のみコピー */
+/* 参照渡し（効率的） - ポインター（4-8バイト）のみコピー */
 void print_student_by_reference(const struct StudentRecord *student)
 {
     if (student == NULL) return;
-    
+
     printf("名前: %s\n", student->name);
     printf("GPA: %.2f\n", student->gpa);
 }
@@ -2439,14 +2574,15 @@ void print_student_by_reference(const struct StudentRecord *student)
 void update_gpa(struct StudentRecord *student, double new_gpa)
 {
     if (student == NULL) return;
-    
+
     student->gpa = new_gpa;
-    printf("%sのGPAを%.2fに更新しました\n", 
+    printf("%sのGPAを%.2fに更新しました\n",
            student->name, new_gpa);
 }
 ```
 
 ##### 5. 配列操作の実践例
+
 配列は自動的に参照渡しになりますが、安全に扱うためのテクニックがあります。
 
 ```c
@@ -2454,9 +2590,9 @@ void update_gpa(struct StudentRecord *student, double new_gpa)
 void fill_array(int arr[], int size, int value)
 {
     int i;
-    
+
     if (arr == NULL || size <= 0) return;
-    
+
     for (i = 0; i < size; i++) {
         arr[i] = value;
     }
@@ -2466,30 +2602,30 @@ void fill_array(int arr[], int size, int value)
 int compare_arrays(const int arr1[], const int arr2[], int size)
 {
     int i;
-    
+
     if (arr1 == NULL || arr2 == NULL || size <= 0) {
         return -1;  /* エラー */
     }
-    
+
     for (i = 0; i < size; i++) {
         if (arr1[i] != arr2[i]) {
             return 0;  /* 異なる */
         }
     }
-    
+
     return 1;  /* 同じ */
 }
 
 /* 配列の一部を別の配列にコピー */
-void copy_array_range(int dest[], const int src[], 
+void copy_array_range(int dest[], const int src[],
                      int start, int count, int dest_size)
 {
     int i;
-    
+
     if (dest == NULL || src == NULL) return;
     if (start < 0 || count <= 0) return;
     if (count > dest_size) count = dest_size;  /* 安全性確保 */
-    
+
     for (i = 0; i < count; i++) {
         dest[i] = src[start + i];
     }
@@ -2497,6 +2633,7 @@ void copy_array_range(int dest[], const int src[],
 ```
 
 ##### 6. 関数の戻り値と参照渡しの組み合わせ
+
 戻り値でステータスを返し、参照渡しで実際の値を返すパターンはよく使われます。
 
 ```c
@@ -2506,14 +2643,14 @@ int string_to_int(const char *str, int *result)
     int value = 0;
     int sign = 1;
     int i = 0;
-    
+
     if (str == NULL || result == NULL) {
         return -1;  /* 引数エラー */
     }
-    
+
     /* 空白をスキップ */
     while (str[i] == ' ') i++;
-    
+
     /* 符号の処理 */
     if (str[i] == '-') {
         sign = -1;
@@ -2521,18 +2658,18 @@ int string_to_int(const char *str, int *result)
     } else if (str[i] == '+') {
         i++;
     }
-    
+
     /* 数字でない場合はエラー */
     if (str[i] < '0' || str[i] > '9') {
         return -2;  /* フォーマットエラー */
     }
-    
+
     /* 数値に変換 */
     while (str[i] >= '0' && str[i] <= '9') {
         value = value * 10 + (str[i] - '0');
         i++;
     }
-    
+
     *result = value * sign;
     return 0;  /* 成功 */
 }
@@ -2542,14 +2679,14 @@ int main(void)
 {
     int num;
     int status;
-    
+
     status = string_to_int("123", &num);
     if (status == 0) {
         printf("変換成功: %d\n", num);
     } else {
         printf("変換失敗: エラーコード %d\n", status);
     }
-    
+
     return 0;
 }
 ```
@@ -2577,6 +2714,7 @@ int main(void)
 - APIの意図を明確にしたい場合
 
 #### const修飾子による保護
+
 参照渡しでも、値を変更したくない場合はconstを使います。
 
 ```c
@@ -2584,13 +2722,13 @@ int main(void)
 int array_sum(const int arr[], int size)
 {
     int i, sum = 0;
-    
+
     /* arr[i] = 0;  コンパイルエラー（constで保護） */
-    
+
     for (i = 0; i < size; i++) {
         sum += arr[i];  /* 読み取りはOK */
     }
-    
+
     return sum;
 }
 ```
@@ -2619,9 +2757,11 @@ int array_sum(const int arr[], int size)
    - 変更しない場合はconstを付ける
 
 ### 様々な関数の種類
+
 関数にはいろいろな種類があります。用途に応じて使い分けましょう。
 
 #### 戻り値のない関数（void関数）
+
 処理だけ行って、結果を返さない関数です。
 
 ```c
@@ -2645,12 +2785,12 @@ void greet_user(char *name)
 int array_sum(int arr[], int size)
 {
     int i, sum = 0;
-    
+
     for (i = 0; i < size; i++)
     {
         sum += arr[i];
     }
-    
+
     return sum;
 }
 
@@ -2658,7 +2798,7 @@ int array_sum(int arr[], int size)
 void initialize_array(int arr[], int size, int value)
 {
     int i;
-    
+
     for (i = 0; i < size; i++)
     {
         arr[i] = value;
@@ -2667,9 +2807,11 @@ void initialize_array(int arr[], int size, int value)
 ```
 
 ### 再帰関数
+
 再帰関数は自分自身を呼び出す関数です。
 
 #### 再帰を理解する日常例
+
 **ロシア人形（マトリョーシカ）**を想像してください。
 
 1. 一番外側の人形を開ける
@@ -2711,9 +2853,11 @@ int fibonacci(int n)
 3. **問題の分割** - 元の問題をより小さな問題に分割
 
 ### 関数のスコープと生存期間
+
 変数には「見える範囲」と「生きている期間」があります。これを理解することで、バグを防げます。
 
 #### ローカル変数とグローバル変数
+
 **家族の例で考えてみましょう：**
 
 - **ローカル変数**：自分の部屋にあるもの（他の人は使えない）
@@ -2722,6 +2866,7 @@ int fibonacci(int n)
 この違いを理解することは、バグの少ない、保守しやすいプログラムを書くために非常に重要です。
 
 #### ローカル変数の詳細
+
 ローカル変数は関数内で宣言され、その関数内でのみ使用できる変数です。
 
 ##### ローカル変数の特徴
@@ -2730,29 +2875,39 @@ int fibonacci(int n)
 void function_example(void)
 {
     int local_var = 10;  /* この関数内でのみ有効 */
-    
+
     {  /* ブロックスコープ */
         int block_var = 20;  /* このブロック内でのみ有効 */
         printf("block_var = %d\n", block_var);
     }  /* block_varはここで破棄される */
-    
+
     /* printf("%d\n", block_var); エラー：block_varは見えない */
-    
+
 }  /* local_varはここで破棄される */
-``` 
+```
 
 ##### ローカル変数のメモリ配置
 
-```
-スタックメモリの様子：
+```mermaid
+graph TB
+    subgraph "関数呼び出し時"
+        A1["main()の変数"]
+        A2["function()の<br/>local_var = 10"]
+        A1 --> A2
+    end
 
-関数呼び出し時:              関数終了時:
-+----------------+           +----------------+
-| main()の変数    |           | main()の変数    |
-+----------------+           +----------------+
-| function()の   |           |     （空）      |
-| local_var = 10 |           |                |
-+----------------+           +----------------+
+    subgraph "関数終了時"
+        B1["main()の変数"]
+        B2["（空）"]
+        B1 --> B2
+    end
+
+    A2 -.->|"関数終了で破棄"| B2
+
+    style A1 fill:#ffd,stroke:#333,stroke-width:2px
+    style A2 fill:#dff,stroke:#333,stroke-width:2px
+    style B1 fill:#ffd,stroke:#333,stroke-width:2px
+    style B2 fill:#eee,stroke:#333,stroke-width:2px,stroke-dasharray: 5 5
 ```
 
 ##### 同名のローカル変数
@@ -2775,16 +2930,17 @@ void func2(void)
 int main(void)
 {
     int count = 50;  /* mainのcount */
-    
+
     func1();  /* func1のcountを使用 */
     func2();  /* func2のcountを使用 */
-    
+
     printf("main: count = %d\n", count);  /* 50（変更されない） */
     return 0;
 }
 ```
 
 #### グローバル変数の詳細
+
 グローバル変数は関数の外で宣言され、プログラム全体で使用できる変数です。
 
 ##### グローバル変数の宣言と使用
@@ -2811,10 +2967,10 @@ int main(void)
     increment_counter();
     increment_counter();
     print_counter();     /* カウンター: 2 */
-    
+
     global_count = 10;   /* main関数からも変更可能 */
     print_counter();     /* カウンター: 10 */
-    
+
     return 0;
 }
 ```
@@ -2837,6 +2993,7 @@ char g_string[] = "Hello, Global!";
 ```
 
 #### 変数の可視性（スコープ）と名前の隠蔽
+
 同じ名前の変数が複数ある場合、最も内側のスコープの変数が優先されます。
 
 ```c
@@ -2845,15 +3002,15 @@ int value = 100;  /* グローバル変数 */
 void test_scope(void)
 {
     printf("1: value = %d\n", value);  /* 100（グローバル） */
-    
+
     int value = 200;  /* ローカル変数（グローバルを隠蔽） */
     printf("2: value = %d\n", value);  /* 200（ローカル） */
-    
+
     {
         int value = 300;  /* ブロック内変数（ローカルを隠蔽） */
         printf("3: value = %d\n", value);  /* 300（ブロック内） */
     }
-    
+
     printf("4: value = %d\n", value);  /* 200（ローカル） */
 }
 
@@ -2930,11 +3087,11 @@ double calculate_average(int arr[], int size)
 {
     int i;
     int sum = 0;  /* ローカル変数 */
-    
+
     for (i = 0; i < size; i++) {
         sum += arr[i];
     }
-    
+
     return (double)sum / size;
 }
 
@@ -2942,7 +3099,7 @@ double calculate_average(int arr[], int size)
 void print_multiplication_table(int n)
 {
     int i, j;  /* ループカウンタはローカル変数 */
-    
+
     for (i = 1; i <= n; i++) {
         for (j = 1; j <= n; j++) {
             printf("%4d", i * j);
@@ -3057,17 +3214,19 @@ void counter_function(void)
 }
 ```
 
-### 関数ポインタの基礎
-関数へのポインタを使うことで、関数を変数のように扱えます。これは少し高度な話題ですが、基本だけ紹介します。
+### 関数ポインターの基礎
 
-#### 関数ポインタのイメージ
+関数へのポインターを使うことで、関数を変数のように扱えます。これは少し高度な話題ですが、基本だけ紹介します。
+
+#### 関数ポインターのイメージ
+
 テレビのリモコンを想像してください。
 
-- リモコンのボタン = 関数ポインタ
+- リモコンのボタン = 関数ポインター
 - ボタンを押す = 関数を実行
 - ボタンの割り当てを変える = 別の関数を指すようにする
 
-#### 基本的な関数ポインタ
+#### 基本的な関数ポインター
 
 ```c
 /* 関数の定義 */
@@ -3083,21 +3242,22 @@ int multiply(int a, int b)
 
 int main(void)
 {
-    /* 関数ポインタの宣言 */
+    /* 関数ポインターの宣言 */
     int (*operation)(int, int);
-    
-    /* 関数ポインタに関数を代入 */
+
+    /* 関数ポインターに関数を代入 */
     operation = add;
     printf("加算: %d\n", operation(5, 3));
-    
+
     operation = multiply;
     printf("乗算: %d\n", operation(5, 3));
-    
+
     return 0;
 }
 ```
 
 ## 実例コード
+
 完全な実装例は以下のファイルを参照してください。
 
 ### 基本的な関数の使い方
@@ -3113,26 +3273,33 @@ int main(void)
 ## コンパイルと実行
 
 ```bash
+
 # 基本的な関数の例をコンパイル
+
 gcc -Wall -Wextra -pedantic -std=c90 examples/function_basics.c -o function_basics
+
 # 実行
+
 ./function_basics
 
 # C99版をコンパイル
+
 gcc -Wall -Wextra -pedantic -std=c99 examples/function_basics_c99.c -o function_basics_c99
 
 # 数学関数を使う場合は-lmを追加
+
 gcc -Wall -Wextra -pedantic examples/advanced_functions.c -lm -o advanced_functions
 ```
 
 ## 注意事項
+
 初心者が関数で間違えやすいポイント。
 
 1. **関数プロトタイプ**: main関数より後に定義する関数は、必ずプロトタイプ宣言が必要
 
    ```c
    /* NG: プロトタイプなし */
-   int main() { 
+   int main() {
        add(1, 2);  /* エラー！ */
    }
    int add(int a, int b) { return a + b; }
@@ -3143,7 +3310,7 @@ gcc -Wall -Wextra -pedantic examples/advanced_functions.c -lm -o advanced_functi
    ```c
    /* NG: サイズが分からない */
    void print_array(int arr[]) { /* 要素数不明 */ }
-   
+
    /* OK: サイズも渡す */
    void print_array(int arr[], int size) { /* OK */ }
    ```
@@ -3155,10 +3322,11 @@ gcc -Wall -Wextra -pedantic examples/advanced_functions.c -lm -o advanced_functi
 5. **static変数**: 関数内でstatic変数を使うと、値が保持される
 
 ## 次のステップ
+
 関数の基本を理解したら、以下のトピックに進みましょう。
 
 1. より複雑な関数の設計パターン
-2. 関数ポインタと高階関数
+2. 関数ポインターと高階関数
 3. 可変長引数関数（stdarg.h）
 4. インライン関数（C99以降）
 5. ライブラリ関数の作成
@@ -3168,31 +3336,38 @@ gcc -Wall -Wextra -pedantic examples/advanced_functions.c -lm -o advanced_functi
 ### 推奨学習順序
 
 1. **理論学習**: README.mdで基本概念を理解
-2. **サンプルコード**: examples/の基本例を確認  
+2. **サンプルコード**: examples/の基本例を確認
 3. **演習課題**: exercises/README.mdで課題を確認
 4. **実装練習**: solutions/の解答例を参考に自分で実装
 
 ### Makefileを使用したコンパイル
 
 ```bash
+
 # 全てのプログラムをコンパイル
+
 make all
 
 # 特定のプログラムをコンパイル
+
 make function_basics
 
 # C99版をコンパイル
+
 make function_basics_c99
 
 # プログラムを実行
+
 make run-all
 
 # クリーンアップ
+
 make clean
 ```
 
 ## 次の章へ
-[構造体とポインタ](../structures/README.md)
+
+[構造体とポインター](../structures/README.md)
 
 ## 参考資料
 
@@ -3216,7 +3391,7 @@ make clean
 応用編を通じて、以下のスキルを習得しました：
 
 - 配列を使った効率的なデータ管理
-- ポインタによるメモリの直接操作
+- ポインターによるメモリの直接操作
 - 文字列の柔軟な処理
 - 関数による構造化プログラミング
 
@@ -3225,9 +3400,8 @@ make clean
 応用編を修了したら、上級編に進んでください。上級編では以下の内容を学習します：
 
 - ビット操作とビットフィールド
-- 構造体とポインタ
-- 関数ポインタ
+- 構造体とポインター
+- 関数ポインター
 - 複数ファイルプログラミング
 
 これらの技術を習得することで、より大規模で実践的なプログラムを作成できるようになります。
-

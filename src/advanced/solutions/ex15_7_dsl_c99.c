@@ -349,7 +349,7 @@ void dispatch_event_advanced(void *handlers, const char *event_name, void *data)
             if (handler_array[i].priority == p &&
                 strcmp(handler_array[i].name, event_name) == 0) {
                 
-                /* フィルタチェック */
+                /* フィルターチェック */
                 if (handler_array[i].filter && 
                     !handler_array[i].filter(data)) {
                     DEBUG_PRINT("イベント %s がフィルタで除外されました", event_name);
@@ -569,7 +569,7 @@ void test_event_system_c99(void)
     dispatch_event_advanced(System_handlers, "SensorEvent", &events[1]);
     dispatch_event_advanced(System_handlers, "TimerEvent", &events[2]);
     
-    /* 低優先度センサーイベント（フィルタでブロック） */
+    /* 低優先度センサーイベント（フィルターでブロック） */
     SystemEvent low_priority_sensor = {
         .type = SENSOR_EVENT,
         .data.sensor = { .id = 3, .value = 10.0 },

@@ -25,7 +25,7 @@ void display_point(const struct Point2D *point, const char *name)
     printf("%s: (%.2f, %.2f)\n", name, point->x, point->y);
 }
 
-/* 2点間の距離を計算する関数（ポインタ引数） */
+/* 2点間の距離を計算する関数（ポインター引数） */
 double calculate_distance(const struct Point2D *p1, const struct Point2D *p2)
 {
     double dx, dy;
@@ -41,7 +41,7 @@ double calculate_distance(const struct Point2D *p1, const struct Point2D *p2)
     return sqrt(dx * dx + dy * dy);
 }
 
-/* 座標を移動する関数（ポインタで更新） */
+/* 座標を移動する関数（ポインターで更新） */
 void move_point(struct Point2D *point, double dx, double dy)
 {
     if (point == NULL) {

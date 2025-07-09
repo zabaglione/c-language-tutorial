@@ -7,29 +7,35 @@
 各章の例題で使用するソースコードを説明しやすいように分割し、以下のファイルを作成しました：
 
 #### 📁 introduction (導入・環境構築)
+
 - `hello_world.c` / `hello_world_c99.c` - 基本的なHello Worldプログラム
-- `compiler_test.c` / `compiler_test_c99.c` - コンパイラテストプログラム
+- `compiler_test.c` / `compiler_test_c99.c` - コンパイラーテストプログラム
 
 #### 📁 basics-syntax (基本文法)
+
 - `hello_world_basic.c` / `hello_world_basic_c99.c` - プログラムの基本構造説明用
 - `formatted_output_demo.c` / `formatted_output_demo_c99.c` - printf関数のフォーマット出力デモ
 - `escape_sequences.c` / `escape_sequences_c99.c` - エスケープシーケンスのデモ
 
 #### 📁 data-types (データ型と変数)
+
 - `basic_types.c` / `basic_types_c99.c` - 基本データ型のデモ
 - `sizeof_demo.c` / `sizeof_demo_c99.c` - sizeof演算子のデモ
 - `arithmetic_operations.c` / `arithmetic_operations_c99.c` - 基本演算のデモ
 
 #### 📁 operators (演算子)
+
 - `comparison_operators.c` / `comparison_operators_c99.c` - 比較演算子のデモ
 - `logical_operators.c` / `logical_operators_c99.c` - 論理演算子のデモ
 
 #### 📁 control-if (条件分岐)
+
 - `basic_if.c` / `basic_if_c99.c` - 基本的なif文のデモ
 - `if_else.c` / `if_else_c99.c` - if-else文のデモ
 - `grade_system.c` / `grade_system_c99.c` - 成績判定システム（if-else if）
 
 #### 📁 control-loop (繰り返し処理)
+
 - `basic_for.c` / `basic_for_c99.c` - 基本的なfor文のデモ
 - `while_loop.c` / `while_loop_c99.c` - while文のデモ
 - `nested_loops.c` / `nested_loops_c99.c` - ネストしたループのデモ
@@ -39,26 +45,31 @@
 各章に標準化されたMakefileを作成し、以下の機能を実装：
 
 #### 🔧 ビルド機能
+
 - `make all` - 全てのC90プログラムをビルド
 - `make c99` - 全てのC99プログラムをビルド
 - `make [program_name]` - 個別プログラムのビルド
 
 #### 🧪 テスト機能
+
 - `make test` - C90とC99の両方でコンパイルテスト
 - `make test-c90` - C90準拠でのコンパイルテスト
 - `make test-c99` - C99準拠でのコンパイルテスト
 
 #### 🚀 実行機能
+
 - `make run-all` - 全プログラムのビルドと実行
 - `make run-[program_name]` - 個別プログラムの実行
 
 #### 🧹 メンテナンス機能
+
 - `make clean` - ビルドディレクトリのクリーンアップ
 - `make help` - 利用可能なターゲットの表示
 
 ### 3. ビルドテスト結果
 
 #### ✅ C90準拠コンパイルテスト
+
 - **introduction**: 3/3 プログラム成功
 - **basics-syntax**: 5/5 プログラム成功
 - **data-types**: 4/4 プログラム成功
@@ -69,6 +80,7 @@
 **合計**: 29/29 プログラム（100%成功率）
 
 #### ✅ C99準拠コンパイルテスト
+
 - **introduction**: 2/2 プログラム成功
 - **basics-syntax**: 5/5 プログラム成功
 - **data-types**: 4/4 プログラム成功
@@ -85,11 +97,13 @@
 #### 🖥️ 実行テスト例
 
 **hello_world.c**
+
 ```
 Hello, World!
 ```
 
 **formatted_output_demo.c**
+
 ```
 === フォーマット出力デモ ===
 こんにちは、世界！
@@ -100,6 +114,7 @@ Hello, World!
 ```
 
 **basic_types.c**
+
 ```
 === 基本データ型 ===
 int: 25
@@ -112,34 +127,41 @@ unsigned int: 100
 ```
 
 **nested_loops.c**
+
 ```
 === ネストしたループ ===
 3x3の九九:
- 1  2  3 
- 2  4  6 
- 3  6  9 
+ 1  2  3
+ 2  4  6
+ 3  6  9
 
 三角形パターン:
-* 
-* * 
-* * * 
-* * * * 
+
+*
+
+* *
+* * *
+* * * *
 * * * * *
+
 ```
 
 ## 🎯 達成された学習目標
 
 ### 📚 説明しやすさの向上
+
 - 各コンセプトを独立したプログラムで学習可能
 - プログラム名で内容が即座に理解できる
 - 段階的な学習が可能（基本→応用）
 
 ### 🔧 ビルドと実行の容易さ
+
 - 統一されたMakefile仕様
 - C90/C99両方での動作確認
 - 個別実行とまとめて実行の両方に対応
 
 ### ✅ 品質保証
+
 - 全プログラムのコンパイル確認済み
 - 実行時エラーなし
 - 適切な出力が得られることを確認
@@ -149,16 +171,20 @@ unsigned int: 100
 各章で以下のコマンドが利用可能：
 
 ```bash
+
 # 基本的な使用方法
+
 cd src/[章名]
 make all          # 全プログラムをビルド
 make run-all      # 全プログラムを実行
 
 # 個別プログラムの使用
+
 make hello_world  # 個別ビルド
 make run-hello_world  # 個別実行
 
 # テスト
+
 make test         # コンパイルテスト
 make clean        # クリーンアップ
 ```

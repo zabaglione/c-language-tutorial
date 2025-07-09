@@ -30,7 +30,7 @@ int* find_max(int *arr, int size) {
     /* 配列の全要素を走査 */
     for (i = 1; i < size; i++) {
         /*
-         * ポインタ演算を使った要素アクセス
+         * ポインター演算を使った要素アクセス
          * arr + i は i番目の要素のアドレス
          * *(arr + i) でその値を取得
          */
@@ -53,7 +53,7 @@ int* find_min(int *arr, int size) {
     
     /* 配列の全要素を走査 */
     for (i = 1; i < size; i++) {
-        /* ポインタを使った比較 */
+        /* ポインターを使った比較 */
         if (*(arr + i) < *min_ptr) {
             min_ptr = arr + i;  /* 新しい最小値のアドレスを記録 */
         }
@@ -71,9 +71,9 @@ double calculate_average(int *arr, int size) {
     int sum = 0;
     int i;
     
-    /* ポインタを使った要素の合計計算 */
+    /* ポインターを使った要素の合計計算 */
     for (i = 0; i < size; i++) {
-        sum += *(arr + i);  /* ポインタ演算で各要素にアクセス */
+        sum += *(arr + i);  /* ポインター演算で各要素にアクセス */
     }
     
     /* 平均値を計算して返す（double型にキャスト） */
@@ -120,8 +120,8 @@ void print_statistics(int *arr, int size) {
     average = calculate_average(arr, size);
     printf("平均値: %.2f\n\n", average);
     
-    /* ポインタ解析情報 */
-    printf("ポインタ解析:\n");
+    /* ポインター解析情報 */
+    printf("ポインター解析:\n");
     printf("  配列の先頭アドレス: %p\n", (void*)arr);
     printf("  最大値と先頭の差: %ld要素\n", (long)(max_ptr - arr));
     printf("  最小値と先頭の差: %ld要素\n", (long)(min_ptr - arr));
@@ -167,12 +167,12 @@ int main(void) {
     
     printf("\n");
     
-    /* ポインタ概念の説明 */
-    printf("ポインタの重要な概念:\n");
+    /* ポインター概念の説明 */
+    printf("ポインターの重要な概念:\n");
     printf("--------------------\n");
     printf("1. 配列名は配列の先頭要素へのポインタとして扱われる\n");
     printf("2. 関数に配列を渡すと、実際にはポインタが渡される\n");
-    printf("3. ポインタ演算により配列要素にアクセスできる\n");
+    printf("3. ポインター演算により配列要素にアクセスできる\n");
     printf("4. 関数からポインタを返すことで、配列内の特定要素を指示できる\n");
     
     return 0;

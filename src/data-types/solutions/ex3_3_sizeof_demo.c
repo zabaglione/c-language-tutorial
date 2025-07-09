@@ -42,7 +42,7 @@ int main(void)
         printf("  配列要素数    : %lu 個\n", sizeof(array) / sizeof(array[0]));
     }
     
-    /* ポインタのサイズ */
+    /* ポインターのサイズ */
     printf("\nポインタのサイズ:\n");
     printf("  char*         : %lu バイト\n", sizeof(char*));
     printf("  int*          : %lu バイト\n", sizeof(int*));
@@ -107,7 +107,7 @@ int main(void)
 2. limits.hヘッダで整数型の範囲定数を取得
 3. float.hヘッダで浮動小数点型の特性を取得
 4. 配列のサイズと要素数の計算方法
-5. ポインタのサイズはシステム依存（32bit: 4バイト、64bit: 8バイト）
+5. ポインターのサイズはシステム依存（32bit: 4バイト、64bit: 8バイト）
 
 重要な定数:
 - CHAR_MIN/MAX: char型の範囲

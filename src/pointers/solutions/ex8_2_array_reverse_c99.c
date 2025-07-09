@@ -1,7 +1,7 @@
 /*
  * ファイル名: ex8_2_array_reverse_c99.c
  * 演習8-2: 配列とポインタ
- * 説明: ポインタ演算を使って配列の要素を逆順に表示
+ * 説明: ポインター演算を使って配列の要素を逆順に表示
  * 規格: C99準拠
  */
 
@@ -20,30 +20,30 @@ static inline void print_array_index(int arr[], int size, const char *label)
     printf("\n");
 }
 
-// ポインタ記法で配列を表示
+// ポインター記法で配列を表示
 static inline void print_array_pointer(int *ptr, int size, const char *label)
 {
-    printf("%s (ポインタ記法): ", label);
+    printf("%s (ポインター記法): ", label);
     for (int i = 0; i < size; i++) {
         printf("%d ", *(ptr + i));
     }
     printf("\n");
 }
 
-// ポインタ演算で配列を逆順表示
+// ポインター演算で配列を逆順表示
 void print_array_reverse_pointer(int *ptr, int size)
 {
     int *last_ptr = ptr + size - 1;  // 最後の要素を指す
     
-    printf("逆順表示 (ポインタ演算): ");
+    printf("逆順表示 (ポインター演算): ");
     for (int i = 0; i < size; i++) {
         printf("%d ", *last_ptr);
-        last_ptr--;  // ポインタを前の要素に移動
+        last_ptr--;  // ポインターを前の要素に移動
     }
     printf("\n");
 }
 
-// ポインタインクリメントで配列を逆順表示
+// ポインターインクリメントで配列を逆順表示
 void print_array_reverse_increment(int *ptr, int size)
 {
     int *reverse_ptr = ptr + size - 1;  // 最後の要素から開始
@@ -69,7 +69,7 @@ void show_address_info(int *arr, int size)
     
     printf("\n各要素のアドレスと値:\n");
     for (int i = 0; i < size; i++) {
-        printf("  arr[%d]: アドレス=%p, 値=%d, ポインタ記法=*(arr+%d)=%d\n",
+        printf("  arr[%d]: アドレス=%p, 値=%d, ポインター記法=*(arr+%d)=%d\n",
                i, (void*)&arr[i], arr[i], i, *(arr + i));
     }
     
@@ -81,10 +81,10 @@ void show_address_info(int *arr, int size)
     printf("  int型のサイズ: %zu バイト\n", sizeof(int));
 }
 
-// ポインタ演算の詳細確認
+// ポインター演算の詳細確認
 void demonstrate_pointer_arithmetic(int *arr, int size)
 {
-    printf("\n=== ポインタ演算の詳細 ===\n");
+    printf("\n=== ポインター演算の詳細 ===\n");
     int *ptr = arr;
     printf("基準ポインタ ptr = %p\n", (void*)ptr);
     
@@ -158,7 +158,7 @@ void reverse_copy_restrict(int * restrict dest, int * restrict src, int size)
 
 int main(void)
 {
-    printf("===== ポインタ演算による配列の逆順表示 =====\n\n");
+    printf("===== ポインター演算による配列の逆順表示 =====\n\n");
     
     // C99: 初期化リスト
     int numbers[] = {10, 20, 30, 40, 50, 60};
@@ -183,7 +183,7 @@ int main(void)
     // アドレス情報の表示
     show_address_info(numbers, size);
     
-    // ポインタ演算の詳細
+    // ポインター演算の詳細
     demonstrate_pointer_arithmetic(numbers, size);
     
     // 実際の逆順並び替え
@@ -217,7 +217,7 @@ int main(void)
     }
     printf("\n");
     
-    printf("ポインタ演算: ");
+    printf("ポインター演算: ");
     int *partial_end = numbers + end_index;
     for (int i = 0; i < partial_size; i++) {
         printf("%d ", *(partial_end - i));
@@ -264,12 +264,12 @@ int main(void)
    - 配列名は先頭要素のポインタと同等
    - arr[i] と *(arr + i) は同じ意味
 
-2. ポインタ演算による逆順アクセス:
+2. ポインター演算による逆順アクセス:
    - ptr + size - 1 で最後の要素を指す
    - デクリメントで前の要素に移動
 
 3. アドレス演算の理解:
-   - ポインタ演算は型サイズを自動考慮
+   - ポインター演算は型サイズを自動考慮
    - 要素間のアドレス差は型サイズと一致
 
 4. 実用的な配列操作:
@@ -279,11 +279,11 @@ int main(void)
 
 5. メモリレイアウトの可視化:
    - 各要素のアドレス表示
-   - ポインタ演算の詳細確認
+   - ポインター演算の詳細確認
 
 6. 安全な境界チェック:
    - 配列の境界チェック (start < end)
-   - ポインタの有効性確認
+   - ポインターの有効性確認
    - オーバーフロー・アンダーフローの防止
 
 7. C99での拡張:
@@ -299,7 +299,7 @@ int main(void)
 
 注意点:
 - 配列の範囲外アクセスは未定義動作
-- ポインタ演算は型サイズを自動考慮
+- ポインター演算は型サイズを自動考慮
 - sizeof演算子は配列全体のサイズを返す
 - restrict修飾子は重複しないポインタにのみ使用
 */

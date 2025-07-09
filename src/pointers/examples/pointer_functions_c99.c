@@ -35,7 +35,7 @@ int sum_array(int * restrict arr, int size)
     int sum = 0;
     
     for (int i = 0; i < size; i++) {  // C99: forループ内で変数宣言
-        sum += *(arr + i);  // ポインタ記法
+        sum += *(arr + i);  // ポインター記法
     }
     
     return sum;
@@ -98,7 +98,7 @@ void init_array(int *arr, int size, int initial_value)
     }
 }
 
-// ポインタを使った文字列の長さ計算
+// ポインターを使った文字列の長さ計算
 int string_length_ptr(const char *str)
 {
     if (str == NULL) return 0;  // NULLチェック
@@ -111,7 +111,7 @@ int string_length_ptr(const char *str)
     return length;
 }
 
-// ポインタを使った文字列のコピー
+// ポインターを使った文字列のコピー
 void string_copy_ptr(char *dest, const char *src)
 {
     if (dest == NULL || src == NULL) return;  // NULLチェック
@@ -171,7 +171,7 @@ bool is_array_sorted(int *arr, int size)
 
 int main(void)
 {
-    printf("===== ポインタを引数とする関数 =====\n");
+    printf("===== ポインターを引数とする関数 =====\n");
     
     // swap関数のテスト
     int x = 10, y = 20;
@@ -204,7 +204,7 @@ int main(void)
     modify_array(numbers, size, 3);
     print_array("main関数内での変更後", numbers, size);
     
-    printf("\n===== ポインタを戻り値とする関数 =====\n");
+    printf("\n===== ポインターを戻り値とする関数 =====\n");
     
     int data[] = {45, 67, 23, 89, 12, 56, 78};
     int data_size = sizeof(data) / sizeof(data[0]);
@@ -245,9 +245,9 @@ int main(void)
     string_copy_ptr(copy_buffer, original);
     printf("コピーした文字列: \"%s\"\n", copy_buffer);
     
-    printf("\n===== ポインタによる高度な操作 =====\n");
+    printf("\n===== ポインターによる高度な操作 =====\n");
     
-    // ポインタの配列を使った複数の文字列
+    // ポインターの配列を使った複数の文字列
     char *fruits[] = {"Apple", "Banana", "Cherry", "Date"};
     int fruit_count = sizeof(fruits) / sizeof(fruits[0]);
     
@@ -325,7 +325,7 @@ int main(void)
 
 3. 配列操作の効率性:
    - メモリコピーなしで配列を渡せる
-   - ポインタ演算による高速アクセス
+   - ポインター演算による高速アクセス
    - インデックス記法とポインタ記法の使い分け
 
 4. 文字列操作:
@@ -345,6 +345,6 @@ int main(void)
 - ローカル変数のアドレスを返してはいけない
 - 配列の範囲外アクセスに注意
 - NULLポインタの参照は避ける
-- ポインタ演算の境界を意識する
+- ポインター演算の境界を意識する
 - restrict修飾子は重複しないポインタにのみ使用
 */

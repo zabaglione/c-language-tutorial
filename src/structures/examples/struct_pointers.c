@@ -144,7 +144,7 @@ void calculate_department_stats(struct Employee employees[], int count,
     }
 }
 
-/* 構造体のスワップ（ポインタのみ交換） */
+/* 構造体のスワップ（ポインターのみ交換） */
 void swap_employees(struct Employee **emp1, struct Employee **emp2)
 {
     struct Employee *temp = *emp1;
@@ -171,12 +171,12 @@ int main(void)
     printf("間接参照とドット: %s\n", (*emp_ptr).name);
     printf("\n");
     
-    /* 2. ポインタを使った関数呼び出し */
-    printf("2. ポインタを使った関数呼び出し\n");
+    /* 2. ポインターを使った関数呼び出し */
+    printf("2. ポインターを使った関数呼び出し\n");
     print_employee(emp_ptr);
     
-    /* 3. ポインタを通じた構造体の更新 */
-    printf("3. ポインタを通じた構造体の更新\n");
+    /* 3. ポインターを通じた構造体の更新 */
+    printf("3. ポインターを通じた構造体の更新\n");
     update_salary(emp_ptr, 10.0);  /* 10%昇給 */
     printf("\n");
     
@@ -201,8 +201,8 @@ int main(void)
                highest_paid->name, highest_paid->salary);
     }
     
-    /* 5. ポインタ配列 */
-    printf("5. ポインタ配列\n");
+    /* 5. ポインター配列 */
+    printf("5. ポインター配列\n");
     
     struct Employee *dept_members[5];
     int dept_count = 0;
@@ -241,8 +241,8 @@ int main(void)
     calculate_department_stats(employees, emp_count, "開発部");
     calculate_department_stats(employees, emp_count, "営業部");
     
-    /* 8. ポインタのスワップ */
-    printf("8. ポインタのスワップ\n");
+    /* 8. ポインターのスワップ */
+    printf("8. ポインターのスワップ\n");
     
     struct Employee *ptr1 = &employees[0];
     struct Employee *ptr2 = &employees[1];
@@ -269,7 +269,7 @@ int main(void)
 アロー演算子: 田中太郎
 間接参照とドット: 田中太郎
 
-2. ポインタを使った関数呼び出し
+2. ポインターを使った関数呼び出し
 === 従業員情報 ===
 ID: 1001
 名前: 田中太郎
@@ -277,7 +277,7 @@ ID: 1001
 給与: 350000円
 勤続年数: 5年
 
-3. ポインタを通じた構造体の更新
+3. ポインターを通じた構造体の更新
 田中太郎 の給与を更新しました
 変更前: 350000円 → 変更後: 385000円 (10.0%)
 
@@ -285,7 +285,7 @@ ID: 1001
 最高給与の従業員:
 名前: 伊藤良子, 給与: 450000円
 
-5. ポインタ配列
+5. ポインター配列
 開発部のメンバー:
 - 山田次郎 (ID: 2002)
 - 伊藤良子 (ID: 2005)
@@ -310,7 +310,7 @@ ID: 101
 平均給与: 290000円
 平均勤続年数: 2.5年
 
-8. ポインタのスワップ
+8. ポインターのスワップ
 スワップ前:
 ptr1 → 佐藤花子
 ptr2 → 山田次郎

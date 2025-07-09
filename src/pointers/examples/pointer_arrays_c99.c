@@ -1,6 +1,6 @@
 /*
  * pointer_arrays_c99.c
- * ポインタと配列の関係、ポインタ演算を学習
+ * ポインターと配列の関係、ポインター演算を学習
  * C99準拠 - //コメント、bool型、変数宣言位置の自由化、可変長配列
  */
 
@@ -21,7 +21,7 @@ static inline void print_array_with_index(int arr[], int size)
 
 static inline void print_array_with_pointer(int *ptr, int size)
 {
-    printf("ポインタ記法: ");
+    printf("ポインター記法: ");
     for (int i = 0; i < size; i++) {
         printf("%d ", *(ptr + i));
     }
@@ -33,7 +33,7 @@ static inline void print_array_with_increment(int *ptr, int size)
     printf("インクリメント: ");
     for (int i = 0; i < size; i++) {
         printf("%d ", *ptr);
-        ptr++;  // ポインタを次の要素に進める
+        ptr++;  // ポインターを次の要素に進める
     }
     printf("\n");
 }
@@ -57,9 +57,9 @@ void demonstrate_vla(int size)
     }
     printf("\n");
     
-    // ポインタでアクセス
+    // ポインターでアクセス
     int *vla_ptr = vla;
-    printf("ポインタでアクセス: ");
+    printf("ポインターでアクセス: ");
     for (int i = 0; i < size; i++) {
         printf("%d ", *(vla_ptr + i));
     }
@@ -77,7 +77,7 @@ int main(void)
     
     printf("配列名numbers: %p\n", (void*)numbers);
     printf("&numbers[0]: %p\n", (void*)&numbers[0]);
-    printf("ポインタptr: %p\n", (void*)ptr);
+    printf("ポインターptr: %p\n", (void*)ptr);
     
     // C99: bool型による比較
     bool addresses_equal = (numbers == &numbers[0]);
@@ -87,11 +87,11 @@ int main(void)
     print_array_with_index(numbers, size);
     print_array_with_pointer(ptr, size);
     
-    // ポインタをリセット（print_array_with_incrementでptrが変更されるため）
+    // ポインターをリセット（print_array_with_incrementでptrが変更されるため）
     ptr = numbers;
     print_array_with_increment(ptr, size);
     
-    printf("\n===== ポインタ演算の詳細 =====\n");
+    printf("\n===== ポインター演算の詳細 =====\n");
     ptr = numbers;  // 先頭に戻す
     
     for (int i = 0; i < size; i++) {  // C99: forループ内で変数宣言
@@ -108,22 +108,22 @@ int main(void)
     printf("アドレス差: %td バイト\n", byte_diff);  // C99: %td for ptrdiff_t
     printf("int型のサイズ: %zu バイト\n", sizeof(int));
     
-    printf("\n===== ポインタによる配列の逆順表示 =====\n");
+    printf("\n===== ポインターによる配列の逆順表示 =====\n");
     ptr = numbers + size - 1;  // 最後の要素を指す
     printf("逆順: ");
     for (int i = 0; i < size; i++) {
         printf("%d ", *ptr);
-        ptr--;  // ポインタを前の要素に戻す
+        ptr--;  // ポインターを前の要素に戻す
     }
     printf("\n");
     
-    printf("\n===== ポインタ同士の演算 =====\n");
+    printf("\n===== ポインター同士の演算 =====\n");
     int *start = &numbers[1];  // numbers[1]を指す
     int *end = &numbers[4];    // numbers[4]を指す
     
     printf("start が指す値: %d (numbers[1])\n", *start);
     printf("end が指す値: %d (numbers[4])\n", *end);
-    printf("ポインタの差: %td (要素数)\n", end - start);  // C99: %td
+    printf("ポインターの差: %td (要素数)\n", end - start);  // C99: %td
     printf("バイト差: %td バイト\n", (char*)end - (char*)start);
     
     printf("\n===== 文字列（文字配列）とポインタ =====\n");
@@ -160,11 +160,11 @@ int main(void)
         }
     }
     
-    printf("\n===== ポインタ配列の例 =====\n");
+    printf("\n===== ポインター配列の例 =====\n");
     int a = 100, b = 200, c = 300;
     int *ptr_array[3] = {&a, &b, &c};  // C99: 初期化リストで配列を初期化
     
-    printf("ポインタ配列の内容:\n");
+    printf("ポインター配列の内容:\n");
     for (int i = 0; i < 3; i++) {
         printf("ptr_array[%d] = %p, *ptr_array[%d] = %d\n",
                i, (void*)ptr_array[i], i, *ptr_array[i]);
@@ -203,13 +203,13 @@ int main(void)
 /*
 学習ポイント:
 1. 配列名とポインタの等価性
-2. ポインタ演算による配列要素アクセス
+2. ポインター演算による配列要素アクセス
 3. インデックス記法とポインタ記法の関係
 4. 配列の境界を意識したポインタ操作
 5. 文字列とポインタの関係
 6. 多次元配列のポインタ表現
 7. 2次元配列も1次元ポインタで扱える
-8. ポインタの配列の活用
+8. ポインターの配列の活用
 
 C99での拡張:
 9. //コメントの使用
@@ -223,7 +223,7 @@ C99での拡張:
 
 重要な概念:
 - 配列の記法とポインタ記法の等価性
-- ポインタ演算の自動的な型サイズ調整
+- ポインター演算の自動的な型サイズ調整
 - メモリレイアウトの理解
 - 安全な境界チェックの重要性
 - C99の新機能による柔軟な配列操作

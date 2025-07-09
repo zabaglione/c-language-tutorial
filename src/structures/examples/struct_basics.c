@@ -58,7 +58,7 @@ void display_student(struct Student s)
     printf("\n");
 }
 
-/* 商品情報を更新する関数（ポインタ使用） */
+/* 商品情報を更新する関数（ポインター使用） */
 void update_stock(struct Product *p, int quantity)
 {
     if (p != NULL) {
@@ -108,7 +108,7 @@ int main(void)
     /* 3. 構造体と関数 */
     printf("3. 構造体と関数\n");
     print_point_by_value(p1);     /* 値渡し */
-    print_point_by_pointer(&p2);  /* ポインタ渡し */
+    print_point_by_pointer(&p2);  /* ポインター渡し */
     printf("\n");
     
     /* 4. 文字列を含む構造体 */
@@ -143,7 +143,7 @@ int main(void)
     struct Product *prod_ptr = &products[0];
     
     /* アロー演算子でメンバーアクセス */
-    printf("ポインタ経由でアクセス: %s (%.0f円)\n", 
+    printf("ポインター経由でアクセス: %s (%.0f円)\n", 
            prod_ptr->name, prod_ptr->price);
     
     /* 在庫の更新 */
@@ -209,7 +209,7 @@ GPA: 3.50
 商品コード: 103, 名前: キーボード, 価格: 4500円, 在庫: 15
 
 6. 構造体ポインタの使用
-ポインタ経由でアクセス: ノートPC (98000円)
+ポインター経由でアクセス: ノートPC (98000円)
 ノートPC の在庫を 3 個追加しました。現在の在庫: 8
 マウス の在庫を 5 個減らしました。現在の在庫: 15
 

@@ -48,8 +48,8 @@ int main(void)
     }
     printf("配列の合計: %.1f\n", sum);
     
-    /* ポインタ型での使用 */
-    printf("\n--- ポインタ型での使用 ---\n");
+    /* ポインター型での使用 */
+    printf("\n--- ポインター型での使用 ---\n");
     
     char *str = "Hello";
     typeof(str) copy = "World";  /* copyはchar*型 */
@@ -117,7 +117,7 @@ int main(void)
  * --- 複雑な型での使用 ---
  * 配列の合計: 16.5
  * 
- * --- ポインタ型での使用 ---
+ * --- ポインター型での使用 ---
  * str = Hello, copy = World
  * 
  * --- 型安全なSWAPマクロ ---

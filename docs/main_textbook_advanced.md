@@ -24,7 +24,7 @@ numbersections: true
 
 上級編を学習する前に、以下の内容を十分に理解していることが必要です：
 
-- 配列とポインタの関係
+- 配列とポインターの関係
 - 文字列処理の基本
 - 関数の定義と使用
 - メモリの概念
@@ -34,8 +34,8 @@ numbersections: true
 上級編では以下の内容を扱います：
 
 - 第12章: ビット操作とビットフィールド
-- 第13章: 構造体とポインタ
-- 第14章: 関数ポインタ
+- 第13章: 構造体とポインター
+- 第14章: 関数ポインター
 - 第15章: 複数ファイル・発展技術
 - 第16章: C23の新機能（オプション）
 
@@ -50,20 +50,19 @@ numbersections: true
 
 ---
 
-
 ```{=openxml}
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
 ```
 
-
 # ビット操作とビットフィールド
 
-##  対応C規格
+## 対応C規格
 
 - **主要対象:** C90
 - **学習内容:** ビット演算、ビットマスク、ビットフィールド、実践的なビット操作技術
 
-##  学習目標
+## 学習目標
+
 この章を完了すると、以下のことができるようになります。
 
 - ビット演算子を使いこなせる
@@ -72,13 +71,14 @@ numbersections: true
 - メモリ効率的なプログラムを作成できる
 - ハードウェア制御の基礎を理解する
 
-##  概要と詳細
+## 概要と詳細
 
 ### ビット操作とは？
 
 ビット操作は、データの最小単位であるビットを直接操作する技術です。これは、メモリ効率的なプログラミング、ハードウェア制御、高速な演算処理などで重要な役割を果たします。
 
 #### 日常生活でのビット操作
+
 身近な例を考えてみましょう。
 
 1. **スイッチパネル**
@@ -116,30 +116,38 @@ numbersections: true
 
 #### ビット演算の真理値表
 
-```
-AND演算（&）
-A | B | A & B
---|---|------
-0 | 0 |   0
-0 | 1 |   0
-1 | 0 |   0
-1 | 1 |   1
+```mermaid
+graph LR
+    subgraph "AND演算（&）"
+        AND["両方が1の時のみ1"]
+        A1["0 & 0 = 0"]
+        A2["0 & 1 = 0"]
+        A3["1 & 0 = 0"]
+        A4["1 & 1 = 1"]
+    end
 
-OR演算（|）
-A | B | A | B
---|---|------
-0 | 0 |   0
-0 | 1 |   1
-1 | 0 |   1
-1 | 1 |   1
+    subgraph "OR演算（|）"
+        OR["どちらかが1なら1"]
+        O1["0 | 0 = 0"]
+        O2["0 | 1 = 1"]
+        O3["1 | 0 = 1"]
+        O4["1 | 1 = 1"]
+    end
 
-XOR演算（^）
-A | B | A ^ B
---|---|------
-0 | 0 |   0
-0 | 1 |   1
-1 | 0 |   1
-1 | 1 |   0
+    subgraph "XOR演算（^）"
+        XOR["異なる時のみ1"]
+        X1["0 ^ 0 = 0"]
+        X2["0 ^ 1 = 1"]
+        X3["1 ^ 0 = 1"]
+        X4["1 ^ 1 = 0"]
+    end
+
+    style A4 fill:#dfd,stroke:#333,stroke-width:2px
+    style O2 fill:#dfd,stroke:#333,stroke-width:2px
+    style O3 fill:#dfd,stroke:#333,stroke-width:2px
+    style O4 fill:#dfd,stroke:#333,stroke-width:2px
+    style X2 fill:#dfd,stroke:#333,stroke-width:2px
+    style X3 fill:#dfd,stroke:#333,stroke-width:2px
 ```
 
 ### ビットマスクの活用
@@ -284,11 +292,11 @@ struct Date {
 
 int main(void) {
     struct Date today = {15, 12, 24};  /* 2024年12月15日 */
-    
-    printf("日付: %d年%d月%d日\n", 
+
+    printf("日付: %d年%d月%d日\n",
            2000 + today.year, today.month, today.day);
     printf("サイズ: %lu バイト\n", sizeof(struct Date));
-    
+
     return 0;
 }
 ```
@@ -423,6 +431,7 @@ if ((flags & BIT0) == 0)
 ```
 
 ## 実例コード
+
 完全な実装例は以下のファイルを参照してください。
 
 ### ビット操作の基本
@@ -447,10 +456,11 @@ if ((flags & BIT0) == 0)
 3. **効率性の意識**: ビット操作による高速化・省メモリ化
 4. **ビットフィールドの適用**: 適切な使用場面を判断できる
 
-##  次の章へ
-ビット操作を理解したら、[構造体とポインタ](../structures/README.md) に進んでください。構造体でビットフィールドをより効果的に活用できます。
+## 次の章へ
 
-##  参考資料
+ビット操作を理解したら、[構造体とポインター](../structures/README.md) に進んでください。構造体でビットフィールドをより効果的に活用できます。
+
+## 参考資料
 
 - [ビット演算](https://en.cppreference.com/w/c/language/operator_arithmetic)
 - [ビットフィールド](https://en.cppreference.com/w/c/language/struct)
@@ -467,19 +477,19 @@ if ((flags & BIT0) == 0)
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
 ```
 
-
-# 構造体とポインタ
+# 構造体とポインター
 
 ## 対応C規格
 
 - **主要対象:** C90/C11
-- **学習内容:** 構造体の基本、構造体とポインタ、構造体配列、複雑なデータ構造の構築
+- **学習内容:** 構造体の基本、構造体とポインター、構造体配列、複雑なデータ構造の構築
 
 ## 学習目標
+
 この章を完了すると、以下のことができるようになります。
 
 - 構造体の定義と使用ができる
-- 構造体ポインタを適切に操作できる
+- 構造体ポインターを適切に操作できる
 - 構造体配列を効果的に活用できる
 - 複雑なデータ構造を設計・実装できる
 - 実際のプロジェクトで構造体を活用できる
@@ -491,6 +501,7 @@ if ((flags & BIT0) == 0)
 構造体（structure）は、関連する複数のデータを一つの単位としてまとめる仕組みです。現実世界の「もの」をプログラムで表現するための重要な機能です。
 
 #### 日常生活での構造体
+
 構造体を理解するために、身近な例を考えてみましょう。
 
 1. **学生の情報**
@@ -590,6 +601,7 @@ s.gpa = 3.5;
 ### 構造体メンバのアクセス
 
 #### ドット演算子（.）
+
 構造体変数のメンバにアクセスします。
 
 ```c
@@ -603,7 +615,8 @@ p.y = 40;
 ```
 
 #### アロー演算子（->）
-構造体ポインタのメンバにアクセスします。
+
+構造体ポインターのメンバにアクセスします。
 
 ```c
 struct point p = {10, 20};
@@ -612,13 +625,13 @@ struct point *ptr = &p;
 printf("x座標: %d\n", ptr->x);
 printf("y座標: %d\n", ptr->y);
 
-ptr->x = 50;  /* ポインタ経由でメンバを変更 */
+ptr->x = 50;  /* ポインター経由でメンバを変更 */
 ptr->y = 60;
 ```
 
-### 構造体とポインタ
+### 構造体とポインター
 
-#### 構造体ポインタの基本
+#### 構造体ポインターの基本
 
 ```c
 struct student s = {"田中花子", 67890, 19, 3.8};
@@ -630,9 +643,9 @@ printf("名前: %s\n", ptr->name);
 printf("名前: %s\n", (*ptr).name);
 ```
 
-#### 構造体ポインタの利点
+#### 構造体ポインターの利点
 
-1. **効率性**: 大きな構造体をコピーせず、ポインタだけを渡す
+1. **効率性**: 大きな構造体をコピーせず、ポインターだけを渡す
 2. **メモリ節約**: 構造体のコピーを作らない
 3. **元データの変更**: 関数で元の構造体を直接変更可能
 
@@ -654,7 +667,7 @@ int main(void)
 }
 ```
 
-#### 構造体ポインタを渡す関数
+#### 構造体ポインターを渡す関数
 
 ```c
 void print_point_ptr(struct point *p)
@@ -719,7 +732,7 @@ int i;
 
 /* 全学生の情報を表示 */
 for (i = 0; i < 3; i++) {
-    printf("学生%d: %s (ID: %d)\n", 
+    printf("学生%d: %s (ID: %d)\n",
            i+1, class[i].name, class[i].id);
 }
 
@@ -756,7 +769,7 @@ struct person p = {
     33
 };
 
-printf("生年月日: %d年%d月%d日\n", 
+printf("生年月日: %d年%d月%d日\n",
        p.birthday.year, p.birthday.month, p.birthday.day);
 ```
 
@@ -836,6 +849,7 @@ Date today = {2024, 12, 25};
 ### 共用体（union）
 
 #### 共用体の基本概念
+
 共用体は、同じメモリ領域を複数のメンバで共有します。
 
 ```c
@@ -867,7 +881,7 @@ printf("float: %.2f\n", d.f);
 ```c
 typedef struct node {
     int data;
-    struct node *next;  /* 自分自身の型へのポインタ */
+    struct node *next;  /* 自分自身の型へのポインター */
 } Node;
 
 /* リンクリストの簡単な例 */
@@ -878,7 +892,7 @@ new_node->next = head;
 head = new_node;
 ```
 
-#### 関数ポインタを含む構造体
+#### 関数ポインターを含む構造体
 
 ```c
 typedef struct {
@@ -901,6 +915,7 @@ int result = ops[0].calculate(5, 3);  /* add(5, 3) */
 ### よくある間違いとデバッグ
 
 #### 1. 構造体の比較
+
 **問題:** 構造体を直接比較しようとする
 
 ```c
@@ -921,6 +936,7 @@ if (points_equal(p1, p2)) { /* 正しい */ }
 ```
 
 #### 2. 未初期化構造体の使用
+
 **問題:** 構造体メンバが未初期化
 
 ```c
@@ -937,6 +953,7 @@ memset(&s, 0, sizeof(s));
 ```
 
 #### 3. 文字列の代入ミス
+
 **問題:** 文字列を直接代入しようとする
 
 ```c
@@ -951,12 +968,13 @@ struct student s;
 strcpy(s.name, "山田太郎");  /* strcpy を使用 */
 ```
 
-#### 4. 構造体ポインタの初期化忘れ
-**問題:** NULLポインタの使用
+#### 4. 構造体ポインターの初期化忘れ
+
+**問題:** NULLポインターの使用
 
 ```c
 struct student *s;
-s->name = "太郎";  /* 危険！未初期化ポインタ */
+s->name = "太郎";  /* 危険！未初期化ポインター */
 ```
 
 **対策:**
@@ -1002,6 +1020,7 @@ struct good {
 ```
 
 ## 実例コード
+
 完全な実装例は以下のファイルを参照してください。
 
 ### 構造体の基本操作
@@ -1009,7 +1028,7 @@ struct good {
 - [struct_basics.c](examples/struct_basics.c) - C90準拠版
 - [struct_basics_c99.c](examples/struct_basics_c99.c) - C99準拠版
 
-### 構造体とポインタ
+### 構造体とポインター
 
 - [struct_pointers.c](examples/struct_pointers.c) - C90準拠版
 - [struct_pointers_c99.c](examples/struct_pointers_c99.c) - C99準拠版
@@ -1030,15 +1049,25 @@ gcc -std=c90 -Wall -Wextra -pedantic struct_basics.c -o struct_basics
 ### Makefileを使用した場合
 
 ```bash
+
 # 全てのプログラムをコンパイル
+
 make all
+
 # 特定のプログラムをコンパイル
+
 make struct_basics
+
 # C99版をコンパイル
+
 make struct_basics_c99
+
 # プログラムを実行
+
 make run-all
+
 # クリーンアップ
+
 make clean
 ```
 
@@ -1055,7 +1084,7 @@ make clean
 
 1. **実際のデータでモデリング**: 身近なものを構造体で表現
 2. **段階的構築**: 単純な構造体から複雑なものへ
-3. **メモリ図の描画**: ポインタと構造体の関係を視覚化
+3. **メモリ図の描画**: ポインターと構造体の関係を視覚化
 4. **実用例の実装**: 学生管理システムなどの小さなプロジェクト
 
 ## C90とC11の違い
@@ -1073,7 +1102,8 @@ make clean
 - `_Static_assert` での構造体サイズチェック
 
 ## 次の章へ
-[第12章: 関数ポインタ](../function-pointers/README.md)
+
+[第12章: 関数ポインター](../function-pointers/README.md)
 
 ## 参考資料
 
@@ -1095,64 +1125,65 @@ make clean
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
 ```
 
-
-# 関数ポインタ
+# 関数ポインター
 
 ## 対応C規格
 
 - **主要対象:** C90
-- **学習内容:** 関数ポインタの基本、関数ポインタ配列、コールバック関数、高階関数の実装
+- **学習内容:** 関数ポインターの基本、関数ポインター配列、コールバック関数、高階関数の実装
 
 ## 学習目標
+
 この章を完了すると、以下のことができるようになります。
 
-- 関数ポインタの概念を理解し、適切に宣言・使用できる
-- 関数ポインタを引数として渡す関数を作成できる
-- 関数ポインタ配列を使った効率的なプログラムを書ける
+- 関数ポインターの概念を理解し、適切に宣言・使用できる
+- 関数ポインターを引数として渡す関数を作成できる
+- 関数ポインター配列を使った効率的なプログラムを書ける
 - コールバック関数の仕組みを理解し、実装できる
 - より柔軟で拡張性のあるプログラム設計ができる
 
 ## 概要と詳細
 
-### 関数ポインタとは？
+### 関数ポインターとは？
 
-関数ポインタは、関数のアドレスを格納する変数です。関数も実際にはメモリ上の特定の場所に配置されており、その場所を指すポインタを作ることができます。
+関数ポインターは、関数のアドレスを格納する変数です。関数も実際にはメモリ上の特定の場所に配置されており、その場所を指すポインターを作ることができます。
 
-#### 日常生活での関数ポインタ
-関数ポインタを理解するために、身近な例を考えてみましょう。
+#### 日常生活での関数ポインター
+
+関数ポインターを理解するために、身近な例を考えてみましょう。
 
 1. **リモコンのボタン**
 
-   - ボタン = 関数ポインタ
+   - ボタン = 関数ポインター
    - ボタンを押す = 関数を実行
-   - 設定でボタンの機能を変更 = 関数ポインタの値を変更
+   - 設定でボタンの機能を変更 = 関数ポインターの値を変更
 
 2. **電話の短縮ダイヤル**
 
-   - 短縮番号1 = 関数ポインタ
+   - 短縮番号1 = 関数ポインター
    - 番号1を押す = 関数を呼び出す
-   - 登録先を変更 = 関数ポインタを別の関数に変更
+   - 登録先を変更 = 関数ポインターを別の関数に変更
 
 3. **イベントハンドラ**
 
-   - ボタンクリック時の処理 = 関数ポインタ
+   - ボタンクリック時の処理 = 関数ポインター
    - クリックイベント = 関数の呼び出し
    - 処理を変更 = 別の関数を割り当て
 
-#### なぜ関数ポインタが必要なの？
+#### なぜ関数ポインターが必要なの？
 
 1. **柔軟性**: 実行時に呼び出す関数を変更できる
 2. **再利用性**: 同じコードで異なる処理を実行できる
 3. **拡張性**: 新しい機能を簡単に追加できる
-4. **効率性**: switch文の代わりに関数ポインタ配列を使用
+4. **効率性**: switch文の代わりに関数ポインター配列を使用
 5. **コールバック**: 他の関数に処理を委譲できる
 
-### 関数ポインタの基本概念
+### 関数ポインターの基本概念
 
-#### 関数ポインタの宣言
+#### 関数ポインターの宣言
 
 ```c
-戻り値の型 (*ポインタ名)(引数リスト);
+戻り値の型 (*ポインター名)(引数リスト);
 ```
 
 #### 基本的な例
@@ -1171,23 +1202,23 @@ int multiply(int a, int b)
 
 int main(void)
 {
-    /* 関数ポインタの宣言 */
+    /* 関数ポインターの宣言 */
     int (*operation)(int, int);
-    
-    /* 関数ポインタに関数を代入 */
+
+    /* 関数ポインターに関数を代入 */
     operation = add;
     printf("5 + 3 = %d\n", operation(5, 3));
-    
+
     operation = multiply;
     printf("5 * 3 = %d\n", operation(5, 3));
-    
+
     return 0;
 }
 ```
 
-### 関数ポインタの様々な形式
+### 関数ポインターの様々な形式
 
-#### 引数なし・戻り値なしの関数ポインタ
+#### 引数なし・戻り値なしの関数ポインター
 
 ```c
 void (*func_ptr)(void);
@@ -1201,10 +1232,10 @@ func_ptr = hello;
 func_ptr();  /* hello()と同じ */
 ```
 
-#### 複雑な引数を持つ関数ポインタ
+#### 複雑な引数を持つ関数ポインター
 
 ```c
-/* 文字列を引数に取る関数ポインタ */
+/* 文字列を引数に取る関数ポインター */
 void (*string_func)(const char *);
 
 void print_upper(const char *str)
@@ -1217,10 +1248,10 @@ string_func = print_upper;
 string_func("hello");
 ```
 
-#### 関数ポインタを返す関数
+#### 関数ポインターを返す関数
 
 ```c
-/* 関数ポインタを返す関数 */
+/* 関数ポインターを返す関数 */
 int (*get_operation(int choice))(int, int)
 {
     if (choice == 1) {
@@ -1235,9 +1266,9 @@ int (*op)(int, int) = get_operation(1);
 int result = op(10, 20);
 ```
 
-### 関数ポインタ配列
+### 関数ポインター配列
 
-#### 基本的な関数ポインタ配列
+#### 基本的な関数ポインター配列
 
 ```c
 int add(int a, int b) { return a + b; }
@@ -1245,7 +1276,7 @@ int subtract(int a, int b) { return a - b; }
 int multiply(int a, int b) { return a * b; }
 int divide(int a, int b) { return a / b; }
 
-/* 関数ポインタ配列 */
+/* 関数ポインター配列 */
 int (*operations[4])(int, int) = {add, subtract, multiply, divide};
 
 /* 使用例 */
@@ -1257,7 +1288,7 @@ for (i = 0; i < 4; i++) {
 }
 ```
 
-#### 関数ポインタ配列を使った計算機
+#### 関数ポインター配列を使った計算機
 
 ```c
 typedef struct {
@@ -1278,7 +1309,7 @@ int execute_operation(char op, int a, int b)
 {
     int i;
     int size = sizeof(calc) / sizeof(calc[0]);
-    
+
     for (i = 0; i < size; i++) {
         if (calc[i].symbol == op) {
             return calc[i].func(a, b);
@@ -1291,6 +1322,7 @@ int execute_operation(char op, int a, int b)
 ### コールバック関数
 
 #### コールバック関数の概念
+
 コールバック関数は、他の関数に引数として渡される関数です。呼び出される側が適切なタイミングで「呼び戻す（コールバック）」ことからこの名前が付いています。
 
 #### 基本的なコールバック関数
@@ -1353,9 +1385,9 @@ array_foreach(numbers, 5, double_value);   /* 各要素を2倍 */
 array_foreach(numbers, 5, square_value);   /* 各要素を2乗 */
 ```
 
-### より高度な関数ポインタ
+### より高度な関数ポインター
 
-#### 関数ポインタの構造体
+#### 関数ポインターの構造体
 
 ```c
 typedef struct {
@@ -1385,7 +1417,7 @@ void run_module(Module *mod, int data)
 }
 ```
 
-#### 関数ポインタチェーン
+#### 関数ポインターチェーン
 
 ```c
 typedef struct filter {
@@ -1403,12 +1435,12 @@ int apply_filters(int input, Filter *chain)
 {
     int result = input;
     Filter *current = chain;
-    
+
     while (current != NULL) {
         result = current->process(result);
         current = current->next;
     }
-    
+
     return result;
 }
 
@@ -1536,16 +1568,18 @@ void execute_all_plugins(const char *command)
 
 ### よくある間違いとデバッグ
 
-#### 1. 関数ポインタの間違った宣言
+#### 1. 関数ポインターの間違った宣言
+
 **問題:** 括弧の位置が間違っている
 
 ```c
-int *func(int, int);     /* 関数（ポインタを返す） */
-int (*func)(int, int);   /* 関数ポインタ（正しい） */
+int *func(int, int);     /* 関数（ポインターを返す） */
+int (*func)(int, int);   /* 関数ポインター（正しい） */
 ```
 
-#### 2. NULLポインタの呼び出し
-**問題:** 未初期化の関数ポインタを呼び出す
+#### 2. NULLポインターの呼び出し
+
+**問題:** 未初期化の関数ポインターを呼び出す
 
 ```c
 int (*func)(int, int);
@@ -1562,14 +1596,16 @@ if (func != NULL) {
 ```
 
 #### 3. 関数の型の不一致
-**問題:** 関数ポインタの型と実際の関数の型が異なる
+
+**問題:** 関数ポインターの型と実際の関数の型が異なる
 
 ```c
 int add(int a, int b) { return a + b; }
 void (*func)(int, int) = add;  /* 戻り値の型が違う */
 ```
 
-#### 4. 関数ポインタ配列の初期化ミス
+#### 4. 関数ポインター配列の初期化ミス
+
 **問題:** 配列のサイズと関数の数が一致しない
 
 ```c
@@ -1578,7 +1614,7 @@ int (*ops[3])(int, int) = {add, subtract, multiply, divide};  /* 4つの関数 *
 
 ### パフォーマンスの考慮事項
 
-#### 関数ポインタ呼び出しのオーバーヘッド
+#### 関数ポインター呼び出しのオーバーヘッド
 
 - 直接関数呼び出しより若干遅い
 - 分岐予測が困難な場合がある
@@ -1586,19 +1622,20 @@ int (*ops[3])(int, int) = {add, subtract, multiply, divide};  /* 4つの関数 *
 
 #### 最適化のヒント
 
-- 頻繁に呼び出される関数ポインタはローカル変数に格納
-- コンパイラの最適化オプションを活用
+- 頻繁に呼び出される関数ポインターはローカル変数に格納
+- コンパイラーの最適化オプションを活用
 - プロファイリングでボトルネックを特定
 
 ## 実例コード
+
 完全な実装例は以下のファイルを参照してください。
 
-### 基本的な関数ポインタ
+### 基本的な関数ポインター
 
 - [function_pointer_basics.c](examples/function_pointer_basics.c) - C90準拠版
 - [function_pointer_basics_c99.c](examples/function_pointer_basics_c99.c) - C99準拠版
 
-### 関数ポインタ配列と計算機
+### 関数ポインター配列と計算機
 
 - [calculator.c](examples/calculator.c) - C90準拠版
 - [calculator_c99.c](examples/calculator_c99.c) - C99準拠版
@@ -1619,15 +1656,25 @@ gcc -std=c90 -Wall -Wextra -pedantic function_pointer_basics.c -o function_point
 ### Makefileを使用した場合
 
 ```bash
+
 # 全てのプログラムをコンパイル
+
 make all
+
 # 特定のプログラムをコンパイル
+
 make calculator
+
 # C99版をコンパイル
+
 make calculator_c99
+
 # プログラムを実行
+
 make run-all
+
 # クリーンアップ
+
 make clean
 ```
 
@@ -1644,7 +1691,7 @@ make clean
 
 1. **段階的理解**: 基本→配列→コールバック→高度な応用の順で学習
 2. **実用例の実装**: 計算機、イベントシステムなどを実際に作成
-3. **デバッグ技術**: 関数ポインタの値をprintfで確認
+3. **デバッグ技術**: 関数ポインターの値をprintfで確認
 4. **パターンの習得**: よくある設計パターンを覚える
 
 ## 実践的な応用分野
@@ -1674,6 +1721,7 @@ make clean
 - 通信プロトコル処理
 
 ## 次の章へ
+
 [第13章: 複数ファイル・発展技術](../advanced/README.md)
 
 ## 参考資料
@@ -1682,7 +1730,7 @@ make clean
 - exercises/ - 演習問題
 - solutions/ - 解答例
 - [C標準ライブラリリファレンス](https://en.cppreference.com/w/c)
-- [関数ポインタ設計パターン](https://stackoverflow.com/questions/tagged/c+function-pointers)
+- [関数ポインター設計パターン](https://stackoverflow.com/questions/tagged/c+function-pointers)
 
 ## 演習問題
 
@@ -1696,15 +1744,15 @@ make clean
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
 ```
 
-
 # 複数ファイル・発展技術
 
-##  対応C規格
+## 対応C規格
 
 - **主要対象:** C90/C99/C11/C17
 - **学習内容:** 分割コンパイル、extern宣言、プリプロセッサ、モジュール設計、ライブラリ作成、高度な演算子テクニック
 
-##  学習目標
+## 学習目標
+
 この章を完了すると、以下のことができるようになります。
 
 - 複数ファイルに分割したプログラムを作成できる
@@ -1716,7 +1764,7 @@ make clean
 - 短絡評価を使った安全なプログラミングができる
 - 共用体（union）を理解し活用できる
 
-##  概要と詳細
+## 概要と詳細
 
 ### 高度なトピックとは？
 
@@ -1739,10 +1787,12 @@ make clean
    - 機能ごとにファイルを分けて管理
    - バグの特定と修正が容易
 
-### 分割コンパイルの基本 
+### 分割コンパイルの基本
+
 大きなプログラムを複数のソースファイルに分割することで、保守性と再利用性が向上します。
 
 #### 分割コンパイルの日常例
+
 レストランの厨房を考えてみましょう。
 
 - **前菜担当** → string_utils.c（文字列処理）
@@ -1800,11 +1850,11 @@ int main(void)
     int sum = add(10, 20);
     int product = multiply(5, 6);
     double area = circle_area(3.0);
-    
+
     printf("合計: %d\n", sum);
     printf("積: %d\n", product);
     printf("円の面積: %.2f\n", area);
-    
+
     return 0;
 }
 ```
@@ -1937,6 +1987,7 @@ typedef unsigned int u32;
 ### モジュール設計の原則
 
 #### 単一責任の原則
+
 各モジュールは1つの明確な責任を持つべきです。
 
 ```c
@@ -1987,14 +2038,18 @@ double point_distance(const Point *p1, const Point *p2);
 #### ライブラリの構築手順
 
 ```bash
+
 # オブジェクトファイルの作成
+
 gcc -c math_utils.c -o math_utils.o
 gcc -c string_utils.c -o string_utils.o
 
 # 静的ライブラリの作成
+
 ar rcs libmyutils.a math_utils.o string_utils.o
 
 # ライブラリの使用
+
 gcc main.c -L. -lmyutils -o main
 ```
 
@@ -2007,24 +2062,26 @@ AR = ar
 ARFLAGS = rcs
 
 # ライブラリのソースファイル
+
 LIB_SOURCES = math_utils.c string_utils.c file_utils.c
 LIB_OBJECTS = $(LIB_SOURCES:.c=.o)
 LIB_TARGET = libmyutils.a
 
 # メインプログラム
+
 MAIN_SOURCE = main.c
 MAIN_TARGET = main
 
 all: $(LIB_TARGET) $(MAIN_TARGET)
 
 $(LIB_TARGET): $(LIB_OBJECTS)
-	$(AR) $(ARFLAGS) $@ $^
+    $(AR) $(ARFLAGS) $@ $^
 
 $(MAIN_TARGET): $(MAIN_SOURCE) $(LIB_TARGET)
-	$(CC) $(CFLAGS) $< -L. -lmyutils -o $@
+    $(CC) $(CFLAGS) $< -L. -lmyutils -o $@
 
 clean:
-	rm -f *.o $(LIB_TARGET) $(MAIN_TARGET)
+    rm -f *.o $(LIB_TARGET) $(MAIN_TARGET)
 ```
 
 ### 大規模プロジェクトの構成
@@ -2226,7 +2283,7 @@ inline double square_inline(double x)
 }
 ```
 
-#### コンパイラ最適化の活用
+#### コンパイラー最適化の活用
 
 ```c
 /* 最適化ヒントの提供 */
@@ -2247,6 +2304,7 @@ if (LIKELY(ptr != NULL)) {
 ```
 
 ## 実例コード
+
 完全な実装例は以下のファイルを参照してください。
 
 ### 基本的な分割コンパイル
@@ -2269,39 +2327,50 @@ if (LIKELY(ptr != NULL)) {
 ### 基本的な分割コンパイル
 
 ```bash
+
 # 個別にコンパイル
+
 gcc -c math_utils.c -o math_utils.o
 gcc -c main.c -o main.o
 gcc math_utils.o main.o -o main
 
 # 一括コンパイル
+
 gcc math_utils.c main.c -o main
 ```
 
 ### 静的ライブラリの作成と使用
 
 ```bash
+
 # ライブラリ作成
+
 gcc -c *.c
 ar rcs libmyutils.a *.o
 
 # ライブラリ使用
+
 gcc main.c -L. -lmyutils -o main
 ```
 
 ### Makefileを使用した場合
 
 ```bash
+
 # 全てのターゲットをビルド
+
 make all
 
 # 特定のターゲットをビルド
+
 make library
 
 # クリーンアップ
+
 make clean
 
 # インストール
+
 make install
 ```
 
@@ -2351,9 +2420,9 @@ make install
 
 短絡評価（ショートサーキット）は、論理演算子（`&&`、`||`）の特性を活用して、安全で効率的なコードを書くための重要なテクニックです。
 
-##### 配列とポインタの安全な操作
+##### 配列とポインターの安全な操作
 
-C言語では配列の境界チェックが自動的に行われないため、プログラマが明示的にチェックする必要があります。
+C言語では配列の境界チェックが自動的に行われないため、プログラマーが明示的にチェックする必要があります。
 
 ```c
 /* 配列の境界チェック */
@@ -2372,7 +2441,7 @@ if (row >= 0 && row < 5 && col >= 0 && col < 5 && matrix[row][col] != 0) {
     process_element(matrix[row][col]);
 }
 
-/* 動的配列（ポインタ）の安全な操作 */
+/* 動的配列（ポインター）の安全な操作 */
 int *data = malloc(size * sizeof(int));
 if (data && size > 0 && initialize_array(data, size)) {
     /* メモリ確保成功、かつ初期化成功の場合のみ使用 */
@@ -2416,22 +2485,22 @@ void process_data_file(const char *filename)
     FILE *fp = NULL;
     char *buffer = NULL;
     int *data = NULL;
-    
+
     /* リソースの段階的確保 */
     if ((fp = fopen(filename, "rb")) &&
         (buffer = malloc(BUFFER_SIZE)) &&
         (data = malloc(sizeof(int) * MAX_ITEMS)) &&
         read_file_to_buffer(fp, buffer, BUFFER_SIZE) &&
         parse_buffer_to_data(buffer, data, MAX_ITEMS)) {
-        
+
         /* すべてのリソースが正常に確保され、処理が成功 */
         analyze_data(data, MAX_ITEMS);
-        
+
     } else {
         /* どこかでエラーが発生した */
         printf("エラー: データ処理に失敗しました\n");
     }
-    
+
     /* クリーンアップ（NULL チェック不要） */
     free(data);
     free(buffer);
@@ -2467,19 +2536,19 @@ union Data {
 
 int main(void) {
     union Data data;
-    
+
     /* 整数として使用 */
     data.i = 42;
     printf("整数: %d\n", data.i);
-    
+
     /* 浮動小数点として使用（前の値は上書きされる） */
     data.f = 3.14f;
     printf("浮動小数点: %f\n", data.f);
-    
+
     /* 文字列として使用 */
     strcpy(data.str, "Hello");
     printf("文字列: %s\n", data.str);
-    
+
     printf("共用体のサイズ: %zu バイト\n", sizeof(union Data));
     return 0;
 }
@@ -2502,7 +2571,7 @@ union FloatConverter {
 void analyze_float(float value) {
     union FloatConverter conv;
     conv.f = value;
-    
+
     printf("浮動小数点数: %f\n", conv.f);
     printf("ビットパターン: 0x%08X\n", conv.u);
     printf("符号: %u, 指数部: %u, 仮数部: 0x%06X\n",
@@ -2522,9 +2591,9 @@ union IPAddress {
 void print_ip_address(unsigned int ip) {
     union IPAddress addr;
     addr.addr = ip;
-    
+
     printf("IPアドレス: %u.%u.%u.%u\n",
-           addr.octets[3], addr.octets[2], 
+           addr.octets[3], addr.octets[2],
            addr.octets[1], addr.octets[0]);
 }
 ```
@@ -2595,16 +2664,16 @@ int get_expensive_value(Cache *cache, int param)
     if (cache && cache->is_cached && cache->cache_value) {
         return cache->cache_value;
     }
-    
+
     /* 高コストな計算 */
     int result = expensive_calculation(param);
-    
+
     /* キャッシュに保存 */
     if (cache) {
         cache->is_cached = 1;
         cache->cache_value = result;
     }
-    
+
     return result;
 }
 
@@ -2614,8 +2683,8 @@ int can_access_resource(User *user, Resource *resource)
     /* 管理者は常にアクセス可能（高速パス） */
     return (user && user->is_admin) ||
            /* 一般ユーザーは詳細な権限チェック */
-           (user && 
-            resource && 
+           (user &&
+            resource &&
             user->level >= resource->required_level &&
             has_permission(user, resource->type) &&
             !is_blocked(user, resource));
@@ -2623,6 +2692,7 @@ int can_access_resource(User *user, Resource *resource)
 ```
 
 ## 次の章へ
+
 これでC言語の主要トピックは完了です。さらに学習を続けたい場合は。
 
 - [C23の新機能](../c23-features/README.md)（オプション）
@@ -2649,7 +2719,6 @@ int can_access_resource(User *user, Resource *resource)
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
 ```
 
-
 # C23の新機能
 
 ## 対応C規格
@@ -2658,6 +2727,7 @@ int can_access_resource(User *user, Resource *resource)
 - **学習内容:** bool型、typeof演算子、nullptr、2進数リテラル、その他の新機能
 
 ## 学習目標
+
 この章を完了すると、以下のことができるようになります。
 
 - C23で標準化されたbool型を使用できる
@@ -2673,6 +2743,7 @@ int can_access_resource(User *user, Resource *resource)
 C23は、C言語の最新の規格（2024年予定）です。「なぜ新しい規格が必要なの？」と思うかもしれません。実は、プログラミングの世界も日々進化しているのです！
 
 #### 新しい規格が生まれる理由
+
 プログラミング言語の規格は、スマートフォンのOSアップデートのようなものです。
 
 1. **新しいニーズへの対応**
@@ -2694,9 +2765,11 @@ C23は、C言語の最新の規格（2024年予定）です。「なぜ新しい
    - セキュリティ要求の高まり
 
 ### 主要な新機能
+
 C23では、初心者にも嬉しい機能がたくさん追加されました！
 
 #### 1. bool型の標準化 - 真偽値がより使いやすく
+
 これまでC言語でtrue/falseを使うには、特別なヘッダーファイルが必要でした。C23では、それが不要になります！
 
 **日常生活での例え**。
@@ -2720,6 +2793,7 @@ bool is_student = true;  /* ヘッダー不要！すぐ使える */
 - 初心者にも直感的
 
 #### 2. typeof演算子 - 型を自動で判別
+
 変数の型を自動的に取得できる便利な機能です。
 
 **日常生活での例え**。
@@ -2750,8 +2824,9 @@ int x = 10, y = 20;
 SWAP(x, y);  /* xとyの値が入れ替わる */
 ```
 
-#### 3. nullptr定数 - より安全なNULLポインタ
-ポインタが「何も指していない」ことを示す、より安全な方法です。
+#### 3. nullptr定数 - より安全なNULLポインター
+
+ポインターが「何も指していない」ことを示す、より安全な方法です。
 
 **日常生活での例え**。
 
@@ -2763,7 +2838,7 @@ SWAP(x, y);  /* xとyの値が入れ替わる */
 int *p1 = NULL;     /* NULLは実は0かもしれない */
 
 /* C23の新しい方法 */
-int *p2 = nullptr;  /* 明確にポインタ用のnull値 */
+int *p2 = nullptr;  /* 明確にポインター用のnull値 */
 ```
 
 **なぜ安全？**
@@ -2771,14 +2846,15 @@ int *p2 = nullptr;  /* 明確にポインタ用のnull値 */
 ```c
 /* 従来の問題 */
 void func(int x) { printf("整数: %d\n", x); }
-void func(int *p) { printf("ポインタ\n"); }
+void func(int *p) { printf("ポインター\n"); }
 func(NULL);  /* どちらが呼ばれる？曖昧！ */
 
 /* C23では */
-func(nullptr);  /* 確実にポインタ版が呼ばれる */
+func(nullptr);  /* 確実にポインター版が呼ばれる */
 ```
 
 #### 4. 2進数リテラル - ビット操作が直感的に
+
 2進数を直接書けるようになりました！
 
 **日常生活での例え**。
@@ -2809,9 +2885,11 @@ int user_permissions = READ_PERMISSION | WRITE_PERMISSION;  /* 読み書き可�
 ```
 
 ### その他の新機能
+
 C23には他にも多くの新機能があります。
 
 #### 5. auto型推論（制限付き）
+
 変数の型を自動的に推論する機能（ただし制限あり）。
 
 ```c
@@ -2820,6 +2898,7 @@ auto y = 3.14;    /* yはdouble型と推論される */
 ```
 
 #### 6. constexpr - コンパイル時定数
+
 コンパイル時に値が確定する定数を定義できます。
 
 ```c
@@ -2828,6 +2907,7 @@ int array[ARRAY_SIZE];  /* コンパイル時にサイズが決まる */
 ```
 
 #### 7. 新しいプリプロセッサ機能
+
 条件付きコンパイルがより便利に。
 
 ```c
@@ -2841,10 +2921,10 @@ int array[ARRAY_SIZE];  /* コンパイル時にサイズが決まる */
 
 ### 初心者が陥りやすい間違い
 
-#### 1. コンパイラのサポート確認を忘れる
+#### 1. コンパイラーのサポート確認を忘れる
 
 ```c
-/* NG: コンパイラがC23をサポートしていない場合 */
+/* NG: コンパイラーがC23をサポートしていない場合 */
 bool flag = true;  /* エラー: 'bool' undeclared */
 
 /* OK: サポート確認とフォールバック */
@@ -2889,7 +2969,7 @@ unsigned char byte = 0b1111_1111;  /* 見やすい！ */
    - 慣れたらtypeof演算子を試す
    - 最後に高度な機能へ
 
-2. **コンパイラの確認**
+2. **コンパイラーの確認**
 
    - 使用するコンパイラのバージョンを確認
    - C23サポート状況をチェック
@@ -2902,11 +2982,13 @@ unsigned char byte = 0b1111_1111;  /* 見やすい！ */
    - 動作を確認しながら理解を深める
 
 ### まとめ
+
 C23の新機能は、C言語をより使いやすく、安全にするためのものです。すべてを一度に覚える必要はありません。まずは基本的な機能（bool型、2進数リテラル）から始めて、徐々に高度な機能を学んでいきましょう。
 
 新しい機能を使うことで、より読みやすく、バグの少ないプログラムが書けるようになります！
 
 ## 実例コード
+
 完全な実装例は以下のファイルを参照してください。
 
 ### C23新機能のデモ
@@ -2917,20 +2999,25 @@ C23の新機能は、C言語をより使いやすく、安全にするための�
 - [binary_literals.c](examples/binary_literals.c) - 2進数リテラルの実例
 
 ## コンパイル方法
+
 この章はC23専用です。以下のコマンドでコンパイルしてください。
 
 ```bash
+
 # 個別ファイルのコンパイル
+
 gcc -std=c23 -Wall -Wextra -pedantic source.c -o output
 
 # Makefileを使用
+
 make all          # すべてコンパイル
 make test         # C23サポートテスト
 make run-all      # すべて実行
 ```
 
-### コンパイラサポート状況
-C23は新しい規格のため、コンパイラサポートは発展途上です。
+### コンパイラーサポート状況
+
+C23は新しい規格のため、コンパイラーサポートは発展途上です。
 
 - **GCC**: 13以降で部分サポート（`-std=c23`）
 - **Clang**: 16以降で部分サポート（`-std=c23`）
@@ -2947,7 +3034,7 @@ C23は新しい規格のため、コンパイラサポートは発展途上で�
 
 ## 注意事項
 
-1. **コンパイラ依存**: すべてのC23機能がサポートされているとは限りません
+1. **コンパイラー依存**: すべてのC23機能がサポートされているとは限りません
 2. **移植性**: 古いコンパイラでは動作しません
 3. **学習順序**: C90/C99の基礎を理解してから学習することを推奨
 
@@ -2969,7 +3056,7 @@ bool flag = true;
 bool flag = true;  /* ヘッダー不要 */
 ```
 
-### NULLポインタ
+### NULLポインター
 
 ```c
 /* C90/C99/C11 */
@@ -3001,7 +3088,7 @@ typeof(x) y;  /* xと同じ型 */
 - solutions/ - 解答例
 - [C23規格ドラフト](https://www.open-std.org/jtc1/sc22/wg14/www/docs/n3096.pdf)
 - [C23新機能の概要](https://en.cppreference.com/w/c/23)
-- コンパイラのドキュメント（GCC、Clang）
+- コンパイラーのドキュメント（GCC、Clang）
 
 ## 演習問題
 
@@ -3020,7 +3107,7 @@ C言語プログラミング教材の全課程を修了おめでとうござい�
 本教材を通じて、以下のスキルを習得しました：
 
 - C言語の基本から高度な機能まで
-- メモリ管理とポインタ操作
+- メモリ管理とポインター操作
 - 構造化プログラミング
 - ビット操作による効率的な処理
 - 大規模プログラムの設計手法
@@ -3047,4 +3134,3 @@ C言語の学習はここで終わりではありません。以下のような�
 プログラミングは実践が最も重要です。学んだ知識を活かして、様々なプログラムを作成してください。困ったときは、本教材を参考書として活用してください。
 
 皆さんのプログラミング人生が実り多いものになることを願っています。
-
