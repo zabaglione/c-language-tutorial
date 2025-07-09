@@ -455,6 +455,14 @@ if ((flags & BIT0) == 0)
 - [ビット演算](https://en.cppreference.com/w/c/language/operator_arithmetic)
 - [ビットフィールド](https://en.cppreference.com/w/c/language/struct)
 
+## 演習問題
+
+この章の内容を理解したら、[演習問題](exercises/)に挑戦してみましょう。
+
+- 基礎問題：基本的な文法や概念の確認
+- 応用問題：より実践的なプログラムの作成
+- チャレンジ問題：高度な理解と実装力が必要な問題
+
 ```{=openxml}
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
 ```
@@ -1075,6 +1083,14 @@ make clean
 - [C標準ライブラリリファレンス](https://en.cppreference.com/w/c)
 - [構造体設計ベストプラクティス](https://stackoverflow.com/questions/tagged/c+struct)
 
+## 演習問題
+
+この章の内容を理解したら、[演習問題](exercises/)に挑戦してみましょう。
+
+- 基礎問題：基本的な文法や概念の確認
+- 応用問題：より実践的なプログラムの作成
+- チャレンジ問題：高度な理解と実装力が必要な問題
+
 ```{=openxml}
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
 ```
@@ -1667,6 +1683,14 @@ make clean
 - solutions/ - 解答例
 - [C標準ライブラリリファレンス](https://en.cppreference.com/w/c)
 - [関数ポインタ設計パターン](https://stackoverflow.com/questions/tagged/c+function-pointers)
+
+## 演習問題
+
+この章の内容を理解したら、[演習問題](exercises/)に挑戦してみましょう。
+
+- 基礎問題：基本的な文法や概念の確認
+- 応用問題：より実践的なプログラムの作成
+- チャレンジ問題：高度な理解と実装力が必要な問題
 
 ```{=openxml}
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
@@ -2613,6 +2637,14 @@ int can_access_resource(User *user, Resource *resource)
 - [C標準ライブラリリファレンス](https://en.cppreference.com/w/c)
 - [GNU Make Manual](https://www.gnu.org/software/make/manual/)
 
+## 演習問題
+
+この章の内容を理解したら、[演習問題](exercises/)に挑戦してみましょう。
+
+- 基礎問題：基本的な文法や概念の確認
+- 応用問題：より実践的なプログラムの作成
+- チャレンジ問題：高度な理解と実装力が必要な問題
+
 ```{=openxml}
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
 ```
@@ -2970,6 +3002,14 @@ typeof(x) y;  /* xと同じ型 */
 - [C23規格ドラフト](https://www.open-std.org/jtc1/sc22/wg14/www/docs/n3096.pdf)
 - [C23新機能の概要](https://en.cppreference.com/w/c/23)
 - コンパイラのドキュメント（GCC、Clang）
+
+## 演習問題
+
+この章の内容を理解したら、[演習問題](exercises/)に挑戦してみましょう。
+
+- 基礎問題：基本的な文法や概念の確認
+- 応用問題：より実践的なプログラムの作成
+- チャレンジ問題：高度な理解と実装力が必要な問題
 
 # 終わりに
 

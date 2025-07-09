@@ -461,6 +461,14 @@ arr2 = arr1;  /* エラー：配列は直接代入不可 */
 - [C90規格書](https://www.iso.org/standard/17782.html)
 - [C99規格書](https://www.iso.org/standard/29237.html)
 
+## 演習問題
+
+この章の内容を理解したら、[演習問題](exercises/)に挑戦してみましょう。
+
+- 基礎問題：基本的な文法や概念の確認
+- 応用問題：より実践的なプログラムの作成
+- チャレンジ問題：高度な理解と実装力が必要な問題
+
 ```{=openxml}
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
 ```
@@ -981,6 +989,14 @@ make clean
 - [C標準ライブラリリファレンス](https://en.cppreference.com/w/c)
 - [セキュアコーディング標準](https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=87152177)
 
+## 演習問題
+
+この章の内容を理解したら、[演習問題](exercises/)に挑戦してみましょう。
+
+- 基礎問題：基本的な文法や概念の確認
+- 応用問題：より実践的なプログラムの作成
+- チャレンジ問題：高度な理解と実装力が必要な問題
+
 ```{=openxml}
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
 ```
@@ -1363,6 +1379,14 @@ void process(int arr[]) {
 - [C90規格書](https://www.iso.org/standard/17782.html)
 - [ポインタと配列の詳細](https://en.cppreference.com/w/c/language/array)
 
+## 演習問題
+
+この章の内容を理解したら、[演習問題](exercises/)に挑戦してみましょう。
+
+- 基礎問題：基本的な文法や概念の確認
+- 応用問題：より実践的なプログラムの作成
+- チャレンジ問題：高度な理解と実装力が必要な問題
+
 ```{=openxml}
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
 ```
@@ -1624,7 +1648,7 @@ char fruits[5][20] = {
 - 文字列の変更が可能
 - サイズ = 行数 × 列数 × sizeof(char)
 
-#### 文字列ポインタ配列（char*配列）
+#### 文字列ポインタ配列（char* 配列）
 
 ```c
 char *fruits[] = {"Apple", "Banana", "Orange"};
@@ -1643,7 +1667,7 @@ char *months[] = {
 - 文字列リテラルの変更は不可
 - サイズ = ポインタ数 × sizeof(char*)
 
-#### char配列 vs char*配列の使い分け
+#### char配列 vs char* 配列の使い分け
 
 **char配列を選ぶべき場合:**
 
@@ -1651,7 +1675,7 @@ char *months[] = {
 - メモリ使用量を予測したい
 - 全ての文字列が同程度の長さ
 
-**char*配列を選ぶべき場合:**
+**char\* 配列を選ぶべき場合:**
 
 - 文字列を変更しない（読み取り専用）
 - メモリ効率を重視する
@@ -1929,6 +1953,14 @@ make clean
 
 - [C標準ライブラリリファレンス](https://en.cppreference.com/w/c/string/byte)
 - [セキュアコーディング標準](https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=87152177)
+
+## 演習問題
+
+この章の内容を理解したら、[演習問題](exercises/)に挑戦してみましょう。
+
+- 基礎問題：基本的な文法や概念の確認
+- 応用問題：より実践的なプログラムの作成
+- チャレンジ問題：高度な理解と実装力が必要な問題
 
 ```{=openxml}
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
@@ -3166,6 +3198,14 @@ make clean
 
 - [C90規格書](https://www.iso.org/standard/17782.html)
 - [C99規格書](https://www.iso.org/standard/29237.html)
+
+## 演習問題
+
+この章の内容を理解したら、[演習問題](exercises/)に挑戦してみましょう。
+
+- 基礎問題：基本的な文法や概念の確認
+- 応用問題：より実践的なプログラムの作成
+- チャレンジ問題：高度な理解と実装力が必要な問題
 
 # 終わりに
 

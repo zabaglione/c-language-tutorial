@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a comprehensive C programming tutorial written in Japanese (C言語学習教材). The project teaches C programming from basics to advanced topics through 14 structured chapters, supporting multiple C standards (C90, C99, C11, C17, C23).
+This is a comprehensive C programming tutorial written in Japanese (C言語学習教材). The project teaches C programming from basics to advanced topics through 16 main chapters plus 2 supplementary chapters, supporting multiple C standards (C90, C99, C11, C17, C23).
 
 **Primary Purpose**: Educational material for learning C programming, designed for Japanese learners from beginner to advanced levels.
 
@@ -12,10 +12,25 @@ This is a comprehensive C programming tutorial written in Japanese (C言語学�
 
 ```
 c-language-tutorial/
-├── src/                 # Tutorial chapters (14 chapters)
-│   ├── introduction/    # 第1章: 導入・環境構築
+├── src/                 # Tutorial chapters (18 chapters)
+│   ├── introduction/    # 第1章: はじめてのC言語
 │   ├── basics-syntax/   # 第2章: 基本文法・Hello World
-│   └── ...             # Chapters 3-14
+│   ├── data-types/      # 第3章: データ型・変数
+│   ├── operators/       # 第4章: 演算子
+│   ├── control-if/      # 第5章: 条件分岐（if文）
+│   ├── control-loop/    # 第6章: 繰り返し処理（ループ）
+│   ├── arrays-basics/   # 第7章: 配列の基礎
+│   ├── arrays-pointers/ # 第8章: 配列とポインタ
+│   ├── strings/         # 第9章: 文字列処理
+│   ├── pointers/        # 第10章: ポインタの基礎と応用
+│   ├── functions/       # 第11章: 関数
+│   ├── bit-operations/  # 第12章: ビット演算
+│   ├── structures/      # 第13章: 構造体
+│   ├── advanced/        # 第14章: 高度なC言語機能
+│   ├── function-pointers/# 第15章: 関数ポインタ
+│   ├── c23-features/    # 第16章: C23の新機能
+│   ├── c-standards/     # 補章1: C言語の規格と歴史
+│   └── development-environment/ # 補章2: 開発環境の詳細設定
 ├── scripts/            # Document generation scripts
 ├── output/             # Generated documents
 │   ├── word/          # Word documents (.docx)
@@ -67,6 +82,10 @@ make test
 
 # Test with different C standards (introduction chapter)
 make test-standards
+
+# Run comprehensive build and execution tests across all chapters
+cd scripts
+python3 test_all_builds.py
 ```
 
 ### Direct Compilation (without Make)
@@ -135,9 +154,10 @@ chapter-name/
 | Level | Chapters | Topics | Key Files |
 |-------|----------|---------|-----------|
 | 🟢 Beginner | 1-6 | Introduction through loops | Basic syntax, data types, operators |
-| 🟡 Intermediate | 7-10 | Arrays through pointers | Memory concepts, string handling |
-| 🔴 Advanced | 11-13 | Structures through multi-file | Complex data structures, modular programming |
-| 🟣 Optional | 14 | C23 features | Modern C language features |
+| 🟡 Intermediate | 7-11 | Arrays through function basics | Memory concepts, string handling |
+| 🔴 Advanced | 12-15 | Bit operations through function pointers | Complex data structures, modular programming |
+| 🟣 Optional | 16 | C23 features | Modern C language features |
+| 📚 Supplementary | 補章1-2 | Standards & Environment | C language history, detailed setup |
 
 ## Code Architecture and Conventions
 
@@ -231,6 +251,8 @@ When fixing code issues, address in this order:
 - **function-pointers**: Uses separate `bin/` directory for build outputs
 - **advanced**: Demonstrates C11/C17 features like `_Generic` and `_Static_assert`
 - **c23-features**: Optional chapter requiring modern compiler (gcc 13+ with -std=c23)
+- **bit-operations**: Advanced bit manipulation techniques with practical examples
+- **structures**: Complex data structures and memory layout concepts
 
 ## Generated Documentation
 
@@ -242,7 +264,10 @@ The project maintains multiple documentation formats:
 - `complete_tutorial.md` - Everything combined
 
 **Generated Outputs** (in `output/`):
-- Word: `C言語プログラミング教材_メインテキスト.docx` (main textbook)
+- Word: Main textbook split into 3 volumes:
+  - `C言語プログラミング教材_基礎編.docx` (Chapters 1-6: Beginner)
+  - `C言語プログラミング教材_応用編.docx` (Chapters 7-11: Intermediate)
+  - `C言語プログラミング教材_上級編.docx` (Chapters 12-16: Advanced)
 - Word: `C言語プログラミング教材_演習問題集.docx` (exercise workbook)
 - PDF: Various PDF versions for different use cases
 - HTML: Web-viewable versions

@@ -17,7 +17,7 @@ C言語の基礎から応用まで、体系的に学習できる教材です。�
 ```
 c-language-tutorial/
 ├── src/                  # ソースコード（教材本体）
-│   ├── introduction/     # 第1章: 導入・環境構築
+│   ├── introduction/     # 第1章: はじめてのC言語
 │   ├── basics-syntax/    # 第2章: 基本文法・Hello World
 │   ├── data-types/       # 第3章: データ型と変数
 │   ├── operators/        # 第4章: 演算子
@@ -32,7 +32,9 @@ c-language-tutorial/
 │   ├── structures/       # 第13章: 構造体とポインタ
 │   ├── function-pointers/# 第14章: 関数ポインタ
 │   ├── advanced/         # 第15章: 複数ファイル・発展技術
-│   └── c23-features/     # 第16章: C23の新機能（オプション）
+│   ├── c23-features/     # 第16章: C23の新機能（オプション）
+│   ├── c-standards/      # 補章1: C言語の規格と歴史
+│   └── development-environment/ # 補章2: 開発環境の詳細設定
 ├── scripts/              # 支援スクリプト
 │   ├── create_main_textbook_basic.sh     # 基礎編テキスト生成
 │   ├── create_main_textbook_intermediate.sh # 応用編テキスト生成
@@ -64,7 +66,7 @@ c-language-tutorial/
 
 | 章 | タイトル | 主要な学習内容 | 対象規格 |
 |---|---------|---------------|---------|
-| 1 | [導入・環境構築](src/introduction/README.md) | C言語とは、開発環境構築、規格解説 | 全規格 |
+| 1 | [はじめてのC言語](src/introduction/README.md) | C言語の簡単な紹介、環境構築、Hello World | 全規格 |
 | 2 | [基本文法・Hello World](src/basics-syntax/README.md) | プログラム構造、printf関数 | C90 |
 | 3 | [データ型と変数](src/data-types/README.md) | 基本データ型、変数宣言、スコープ、生存期間 | C90/C99 |
 | 4 | [演算子](src/operators/README.md) | 算術・比較・論理・ビット演算子 | C90 |
@@ -98,6 +100,14 @@ C23対応コンパイラが利用可能な場合
 | 章 | タイトル | 主要な学習内容 | 対象規格 |
 |---|---------|---------------|---------|
 | 16 | [C23の新機能](src/c23-features/README.md) | bool型、typeof、nullptr、2進数リテラル | C23 |
+
+### 補章
+より深い理解のための追加資料
+
+| 章 | タイトル | 主要な学習内容 | 対象規格 |
+|---|---------|---------------|---------|
+| 補1 | [C言語の規格と歴史](src/c-standards/README.md) | C言語の歴史、各規格の詳細比較 | 全規格 |
+| 補2 | [開発環境の詳細設定](src/development-environment/README.md) | 環境構築の詳細、コンパイル過程、トラブルシューティング | 全規格 |
 
 ##  開発環境
 
