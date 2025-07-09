@@ -19,26 +19,26 @@
 ### 必須ツールの詳細
 
 1. **テキストエディター**
-   - Visual Studio Code（推奨）
-   - Sublime Text
-   - Atom
-   - Vim/Emacs（上級者向け）
+    - Visual Studio Code（推奨）
+    - Sublime Text
+    - Atom
+    - Vim/Emacs（上級者向け）
 
 2. **コンパイラー**
-   - GCC（GNU Compiler Collection）
-   - Clang/LLVM
-   - Microsoft Visual C++
-   - Intel C++ Compiler
+    - GCC（GNU Compiler Collection）
+    - Clang/LLVM
+    - Microsoft Visual C++
+    - Intel C++ Compiler
 
 3. **デバッガー**
-   - GDB（GNU Debugger）
-   - LLDB（LLVM Debugger）
-   - Visual Studio Debugger
+    - GDB（GNU Debugger）
+    - LLDB（LLVM Debugger）
+    - Visual Studio Debugger
 
 4. **ビルドツール**
-   - Make
-   - CMake
-   - Ninja
+    - Make
+    - CMake
+    - Ninja
 
 ### OS別の詳細設定
 
@@ -48,9 +48,9 @@
 
 1. インストーラーのダウンロード
 2. インストール時の設定：
-   - Architecture: x86_64（64ビット版）
-   - Threads: posix（C11スレッド対応）
-   - Exception: seh（構造化例外処理）
+    - Architecture: x86_64（64ビット版）
+    - Threads: posix（C11スレッド対応）
+    - Exception: seh（構造化例外処理）
 
 3. 環境変数の設定：
 
@@ -140,9 +140,9 @@ sudo pacman -S cmake
    gcc -E source.c -o source.i
    ```
 
-   - `#include`の展開
-   - `#define`の置換
-   - 条件付きコンパイルの処理
+    - `#include`の展開
+    - `#define`の置換
+    - 条件付きコンパイルの処理
 
 2. **コンパイル（狭義）**
 
@@ -150,9 +150,9 @@ sudo pacman -S cmake
    gcc -S source.i -o source.s
    ```
 
-   - C言語からアセンブリ言語へ変換
-   - 構文解析と意味解析
-   - 最適化の実行
+    - C言語からアセンブリ言語へ変換
+    - 構文解析と意味解析
+    - 最適化の実行
 
 3. **アセンブル**
 
@@ -160,8 +160,8 @@ sudo pacman -S cmake
    gcc -c source.s -o source.o
    ```
 
-   - アセンブリ言語から機械語へ変換
-   - オブジェクトファイルの生成
+    - アセンブリ言語から機械語へ変換
+    - オブジェクトファイルの生成
 
 4. **リンク**
 
@@ -169,9 +169,9 @@ sudo pacman -S cmake
    gcc source.o -o program
    ```
 
-   - オブジェクトファイルの結合
-   - ライブラリの結合
-   - 実行ファイルの生成
+    - オブジェクトファイルの結合
+    - ライブラリの結合
+    - 実行ファイルの生成
 
 ### コンパイラーオプションの詳細
 
@@ -301,20 +301,20 @@ void check_endianness(void) {
 ### よくあるエラーと対処法
 
 1. **"gcc: command not found"**
-   - 原因：コンパイラーがインストールされていない
-   - 対処：環境構築の手順を再確認
+    - 原因：コンパイラーがインストールされていない
+    - 対処：環境構築の手順を再確認
 
 2. **"undefined reference to `main'"**
-   - 原因：main関数が定義されていない
-   - 対処：main関数を追加
+    - 原因：main関数が定義されていない
+    - 対処：main関数を追加
 
 3. **"fatal error: stdio.h: No such file or directory"**
-   - 原因：標準ライブラリが見つからない
-   - 対処：開発環境の再インストール
+    - 原因：標準ライブラリが見つからない
+    - 対処：開発環境の再インストール
 
 4. **文字化け**
-   - 原因：文字エンコーディングの不一致
-   - 対処：UTF-8に統一
+    - 原因：文字エンコーディングの不一致
+    - 対処：UTF-8に統一
 
 ### デバッグ手法
 
@@ -349,9 +349,9 @@ void check_endianness(void) {
 ## 環境設定のベストプラクティス
 
 1. **エディターの設定**
-   - インデント：スペース4つ
-   - 文字エンコーディング：UTF-8
-   - 改行コード：LF（Unix形式）
+    - インデント：スペース4つ
+    - 文字エンコーディング：UTF-8
+    - 改行コード：LF（Unix形式）
 
 2. **コンパイラーの警告設定**
 

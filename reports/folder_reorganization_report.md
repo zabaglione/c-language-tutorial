@@ -23,20 +23,20 @@
    ```
 
 2. **ファイルの移動**
-   - `output/docs/*.docx` → `output/word/`
-   - `output/*.html` → `output/html/`
-   - `output/*.pdf` → `output/pdf/`（既存）
-   - `docs/*報告*.md` → `reports/`
-   - `docs/*report*.md` → `reports/`
+    - `output/docs/*.docx` → `output/word/`
+    - `output/*.html` → `output/html/`
+    - `output/*.pdf` → `output/pdf/`（既存）
+    - `docs/*報告*.md` → `reports/`
+    - `docs/*report*.md` → `reports/`
 
 3. **スクリプトの更新**
-   - すべてのシェルスクリプトで `output/docs` → `output/word` に変更
-   - Pythonスクリプトも同様に更新
-   - PDF生成スクリプトを `output/pdf/` に出力するよう更新
+    - すべてのシェルスクリプトで `output/docs` → `output/word` に変更
+    - Pythonスクリプトも同様に更新
+    - PDF生成スクリプトを `output/pdf/` に出力するよう更新
 
 4. **ドキュメントの更新**
-   - `CLAUDE.md` - プロジェクト構造の説明を更新
-   - `FOLDER_STRUCTURE.md` - 新規作成（詳細なフォルダ構造の説明）
+    - `CLAUDE.md` - プロジェクト構造の説明を更新
+    - `FOLDER_STRUCTURE.md` - 新規作成（詳細なフォルダ構造の説明）
 
 ### 結果
 

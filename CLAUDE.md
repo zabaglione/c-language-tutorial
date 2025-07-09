@@ -161,15 +161,15 @@ chapter-name/
 ### Build System Architecture
 
 1. **Makefile Pattern**: Each chapter has a standardized Makefile that:
-   - Auto-discovers source files using `$(wildcard *.c)`
-   - Supports multiple C standards via `STANDARD` variable
-   - Provides consistent targets across all chapters
-   - Handles both C90 base files and C99 variants (`*_c99.c`)
+    - Auto-discovers source files using `$(wildcard *.c)`
+    - Supports multiple C standards via `STANDARD` variable
+    - Provides consistent targets across all chapters
+    - Handles both C90 base files and C99 variants (`*_c99.c`)
 
 2. **Special Cases**:
-   - `function-pointers` chapter uses a `bin/` directory for outputs
-   - `introduction` chapter includes `test-standards` target
-   - `c23-features` chapter requires C23 compiler support
+    - `function-pointers` chapter uses a `bin/` directory for outputs
+    - `introduction` chapter includes `test-standards` target
+    - `c23-features` chapter requires C23 compiler support
 
 ### Learning Path Structure
 
@@ -186,14 +186,14 @@ chapter-name/
 ### Coding Standards
 
 1. **Language Convention**:
-   - Documentation/comments: Japanese (日本語)
-   - Code identifiers: English
-   - Error messages: Japanese
+    - Documentation/comments: Japanese (日本語)
+    - Code identifiers: English
+    - Error messages: Japanese
 
 2. **File Naming**:
-   - Base files: C90 standard (e.g., `hello.c`)
-   - C99 versions: `_c99` suffix (e.g., `hello_c99.c`)
-   - Exercise solutions: `ex[chapter]_[number]_[description].c`
+    - Base files: C90 standard (e.g., `hello.c`)
+    - C99 versions: `_c99` suffix (e.g., `hello_c99.c`)
+    - Exercise solutions: `ex[chapter]_[number]_[description].c`
 
 3. **Code Style Requirements**:
 
@@ -217,8 +217,8 @@ chapter-name/
    ```
 
 4. **Compiler Flags**:
-   - Always use: `-Wall -Wextra -pedantic`
-   - Educational focus: prioritize warnings/errors for learning
+    - Always use: `-Wall -Wextra -pedantic`
+    - Educational focus: prioritize warnings/errors for learning
 
 ### Error Fixing Priority
 
@@ -291,9 +291,9 @@ The project maintains multiple documentation formats:
 **Generated Outputs** (in `output/`):
 
 - Word: Main textbook split into 3 volumes:
-  - `C言語プログラミング教材_基礎編.docx` (Chapters 1-6: Beginner)
-  - `C言語プログラミング教材_応用編.docx` (Chapters 7-11: Intermediate)
-  - `C言語プログラミング教材_上級編.docx` (Chapters 12-16: Advanced)
+    - `C言語プログラミング教材_基礎編.docx` (Chapters 1-6: Beginner)
+    - `C言語プログラミング教材_応用編.docx` (Chapters 7-11: Intermediate)
+    - `C言語プログラミング教材_上級編.docx` (Chapters 12-16: Advanced)
 - Word: `C言語プログラミング教材_演習問題集.docx` (exercise workbook)
 - PDF: Various PDF versions for different use cases
 - HTML: Web-viewable versions

@@ -193,8 +193,8 @@ const pi = 3.141593
 - 浮動小数点演算の精度に注意
 - ユーザーフレンドリーな入出力
 - 変換公式。
-  - 華氏 = 摂氏 × 9/5 + 32
-  - ケルビン = 摂氏 + 273.15
+    - 華氏 = 摂氏 × 9/5 + 32
+    - ケルビン = 摂氏 + 273.15
 
 **期待される出力例:**
 
@@ -235,11 +235,11 @@ gcc -std=c90 -Wall -Wextra -pedantic ex_variables.c -o ex_variables
 ## ヒント
 
 - printf関数の書式指定子を正しく使用する
-  - %d: int
-  - %u: unsigned int
-  - %ld: long
-  - %f: float/double
-  - %c: char
+    - %d: int
+    - %u: unsigned int
+    - %ld: long
+    - %f: float/double
+    - %c: char
 - 初期化されていない変数の使用に注意
 - 型の範囲を超えないよう注意
 - sizeof演算子の戻り値はsize_t型（%luで出力）

@@ -7,60 +7,60 @@
 ### 基礎問題
 
 1. **演習4-1: 四則演算計算機**
-   - [ex4_1_calculator.c](ex4_1_calculator.c) - C90準拠版
-   - [ex4_1_calculator_c99.c](ex4_1_calculator_c99.c) - C99準拠版
-   - 2つの整数に対する基本的な算術演算を実行
+    - [ex4_1_calculator.c](ex4_1_calculator.c) - C90準拠版
+    - [ex4_1_calculator_c99.c](ex4_1_calculator_c99.c) - C99準拠版
+    - 2つの整数に対する基本的な算術演算を実行
 
 2. **演習4-2: 比較と論理演算**
-   - [ex4_2_comparison.c](ex4_2_comparison.c) - C90準拠版
-   - [ex4_2_comparison_c99.c](ex4_2_comparison_c99.c) - C99準拠版
-   - 条件演算子のみで最大値・最小値を求める
+    - [ex4_2_comparison.c](ex4_2_comparison.c) - C90準拠版
+    - [ex4_2_comparison_c99.c](ex4_2_comparison_c99.c) - C99準拠版
+    - 条件演算子のみで最大値・最小値を求める
 
 3. **演習4-3: インクリメント・デクリメント**
-   - [ex4_3_increment.c](ex4_3_increment.c) - C90準拠版
-   - [ex4_3_increment_c99.c](ex4_3_increment_c99.c) - C99準拠版
-   - 前置と後置の違いを詳細に確認
+    - [ex4_3_increment.c](ex4_3_increment.c) - C90準拠版
+    - [ex4_3_increment_c99.c](ex4_3_increment_c99.c) - C99準拠版
+    - 前置と後置の違いを詳細に確認
 
 ### 応用問題
 
 1. **演習4-4: ビット操作**
-   - [ex4_4_bitwise.c](ex4_4_bitwise.c) - C90準拠版
-   - [ex4_4_bitwise_c99.c](ex4_4_bitwise_c99.c) - C99準拠版
-   - ビット演算子を使った各種操作の実装
+    - [ex4_4_bitwise.c](ex4_4_bitwise.c) - C90準拠版
+    - [ex4_4_bitwise_c99.c](ex4_4_bitwise_c99.c) - C99準拠版
+    - ビット演算子を使った各種操作の実装
 
 2. **演習4-5: 条件演算子の活用**
-   - [ex4_5_conditional.c](ex4_5_conditional.c) - C90準拠版
-   - [ex4_5_conditional_c99.c](ex4_5_conditional_c99.c) - C99準拠版
-   - 3つの数値を条件演算子のみで昇順に並び替え
+    - [ex4_5_conditional.c](ex4_5_conditional.c) - C90準拠版
+    - [ex4_5_conditional_c99.c](ex4_5_conditional_c99.c) - C99準拠版
+    - 3つの数値を条件演算子のみで昇順に並び替え
 
 3. **演習4-6: 演算子優先順位**
-   - [ex4_6_precedence.c](ex4_6_precedence.c) - C90準拠版
-   - [ex4_6_precedence_c99.c](ex4_6_precedence_c99.c) - C99準拠版
-   - 複雑な式での演算子優先順位の確認
+    - [ex4_6_precedence.c](ex4_6_precedence.c) - C90準拠版
+    - [ex4_6_precedence_c99.c](ex4_6_precedence_c99.c) - C99準拠版
+    - 複雑な式での演算子優先順位の確認
 
 ## 学習のポイント
 
 ### C90版とC99版の主な違い
 
 1. **変数宣言位置**
-   - C90: ブロックの先頭でのみ宣言可能
-   - C99: 使用箇所で宣言可能
+    - C90: ブロックの先頭でのみ宣言可能
+    - C99: 使用箇所で宣言可能
 
 2. **bool型の使用**
-   - C90: int型で真偽値を表現
-   - C99: stdbool.hによるbool型の使用
+    - C90: int型で真偽値を表現
+    - C99: stdbool.hによるbool型の使用
 
 3. **inline関数**
-   - C90: 未対応
-   - C99: inline関数による効率化
+    - C90: 未対応
+    - C99: inline関数による効率化
 
 4. **コメントスタイル**
-   - C90: /* */ のみ
-   - C99: // も使用可能
+    - C90: /* */ のみ
+    - C99: // も使用可能
 
 5. **固定幅整数型**
-   - C90: 標準整数型のみ
-   - C99: stdint.hによるuint8_t等の使用
+    - C90: 標準整数型のみ
+    - C99: stdint.hによるuint8_t等の使用
 
 ### 各演習の重要概念
 
