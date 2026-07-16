@@ -1,9 +1,9 @@
-# 構造体とポインターー
+# 構造体とポインター
 
 ## 対応C規格
 
-- **主要対象:** C90/C11
-- **学習内容:** 構造体の基本、構造体とポインターー、構造体配列、複雑なデータ構造の構築
+- **主要対象：** C90/C11
+- **学習内容：** 構造体の基本、構造体とポインター、構造体配列、複雑なデータ構造の構築
 
 ## 学習目標
 
@@ -11,48 +11,29 @@
 
 - 構造体の定義と使用ができる
 - 構造体ポインターを適切に操作できる
-- 構造体配列を効果的に活用できる
-- 複雑なデータ構造を設計・実装できる
-- 実際のプロジェクトで構造体を活用できる
+- 構造体配列を操作できる
+- 構造体の値渡しとポインター値の受け渡しを区別できる
+- パディングを考慮して構造体のサイズを確認できる
 
 ## 概要と詳細
 
-### 構造体とは？
+### 構造体とは
 
-構造体（structure）は、関連する複数のデータを一つの単位としてまとめる仕組みです。現実世界の「もの」をプログラムで表現するための重要な機能です。
+構造体は、型の異なる複数のメンバを一つのオブジェクトにまとめる集成体型です。
+座標の`x`と`y`のように、同時に扱う値へ一つの型名を与えられます。
 
-#### 日常生活での構造体
-
-構造体を理解するために、身近な例を考えてみましょう。
-
-1. **学生の情報**
-
-    - 名前、学籍番号、年齢、成績
-    - これらをまとめて「学生」という構造体
-
-2. **商品の情報**
-
-    - 商品名、価格、在庫数、カテゴリ
-    - これらをまとめて「商品」という構造体
-
-3. **座標の情報**
-
-    - x座標、y座標
-    - これらをまとめて「点」という構造体
-
-#### なぜ構造体が必要なの？
+#### 構造体で関連する値をまとめる
 
 構造体がないと、関連するデータをバラバラに管理することになります。
 
 ```c
-/* 構造体を使わない場合（学生10人分） */
-char name1[50], name2[50], ..., name10[50];
-int id1, id2, ..., id10;
-int age1, age2, ..., age10;
-/* 管理が大変！ */
+/* 構造体を使わない場合は、値の対応関係を添字で管理する */
+char names[10][50];
+int ids[10];
+int ages[10];
 
-/* 構造体を使う場合 */
-struct student students[10];  /* すっきり！ */
+/* 構造体を使う場合は、学生ごとの値を一つの要素にまとめる */
+struct student students[10];
 ```
 
 ### 構造体の基本概念
@@ -128,8 +109,8 @@ s.gpa = 3.5;
 ```c
 struct point p = {10, 20};
 
-printf("x座標: %d\n", p.x);
-printf("y座標: %d\n", p.y);
+printf("x: %d\n", p.x);
+printf("y: %d\n", p.y);
 
 p.x = 30;  /* メンバの値を変更 */
 p.y = 40;
@@ -143,14 +124,14 @@ p.y = 40;
 struct point p = {10, 20};
 struct point *ptr = &p;
 
-printf("x座標: %d\n", ptr->x);
-printf("y座標: %d\n", ptr->y);
+printf("x: %d\n", ptr->x);
+printf("y: %d\n", ptr->y);
 
-ptr->x = 50;  /* ポインターー経由でメンバを変更 */
+ptr->x = 50;  /* ポインター経由でメンバを変更 */
 ptr->y = 60;
 ```
 
-### 構造体とポインターー
+### 構造体とポインター
 
 #### 構造体ポインターの基本
 
@@ -159,16 +140,16 @@ struct student s = {"田中花子", 67890, 19, 3.8};
 struct student *ptr = &s;
 
 /* 以下は同じ結果 */
-printf("名前: %s\n", s.name);
-printf("名前: %s\n", ptr->name);
-printf("名前: %s\n", (*ptr).name);
+printf("Name: %s\n", s.name);
+printf("Name: %s\n", ptr->name);
+printf("Name: %s\n", (*ptr).name);
 ```
 
 #### 構造体ポインターの利点
 
-1. **効率性**: 大きな構造体をコピーせず、ポインターーだけを渡す
-2. **メモリ節約**: 構造体のコピーを作らない
-3. **元データの変更**: 関数で元の構造体を直接変更可能
+1. **コピーの回避**：構造体の値ではなく、構造体へのポインター値を渡せます
+2. **呼び出し側の変更**：間接参照を通じて、呼び出し側の構造体を変更できます
+3. **読み取り専用の指定**：`const struct point *`のように、変更しない契約を型で示せます
 
 ### 構造体と関数
 
@@ -177,7 +158,7 @@ printf("名前: %s\n", (*ptr).name);
 ```c
 void print_point(struct point p)
 {
-    printf("座標: (%d, %d)\n", p.x, p.y);
+    printf("Point: (%d, %d)\n", p.x, p.y);
 }
 
 int main(void)
@@ -191,9 +172,9 @@ int main(void)
 #### 構造体ポインターを渡す関数
 
 ```c
-void print_point_ptr(struct point *p)
+void print_point_ptr(const struct point *p)
 {
-    printf("座標: (%d, %d)\n", p->x, p->y);
+    printf("Point: (%d, %d)\n", p->x, p->y);
 }
 
 void move_point(struct point *p, int dx, int dy)
@@ -253,14 +234,14 @@ int i;
 
 /* 全学生の情報を表示 */
 for (i = 0; i < 3; i++) {
-    printf("学生%d: %s (ID: %d)\n",
+    printf("Student %d: %s (ID: %d)\n",
            i+1, class[i].name, class[i].id);
 }
 
 /* 特定の学生を検索 */
 for (i = 0; i < 3; i++) {
     if (class[i].id == 12346) {
-        printf("見つかりました: %s\n", class[i].name);
+        printf("Found: %s\n", class[i].name);
         break;
     }
 }
@@ -290,7 +271,7 @@ struct person p = {
     33
 };
 
-printf("生年月日: %d年%d月%d日\n",
+printf("Birthday: %04d-%02d-%02d\n",
        p.birthday.year, p.birthday.month, p.birthday.day);
 ```
 
@@ -302,10 +283,10 @@ printf("生年月日: %d年%d月%d日\n",
 #include <stdlib.h>
 
 /* 単一の構造体を動的確保 */
-struct student *s = (struct student*)malloc(sizeof(struct student));
+struct student *s = malloc(sizeof *s);
 
 if (s == NULL) {
-    printf("メモリ確保に失敗\n");
+    fprintf(stderr, "Allocation failed\n");
     return 1;
 }
 
@@ -320,15 +301,20 @@ s = NULL;
 
 /* 構造体配列を動的確保 */
 int size = 100;
-struct student *students = (struct student*)malloc(size * sizeof(struct student));
+struct student *students = malloc((size_t)size * sizeof *students);
 
-/* 使用後は解放 */
-free(students);
+if (students != NULL) {
+    /* 構造体配列を使用 */
+    free(students);
+}
 ```
+
+Cでは`void *`からオブジェクトへのポインターへ暗黙に変換できるため、`malloc`の戻り値をキャストする必要はありません。
+`sizeof *s`の形式なら、ポインターの型を変更したときも確保サイズが追従します。
 
 ### typedefを使った構造体
 
-#### typedef の利点
+#### `typedef`の利点
 
 ```c
 /* typedef なし */
@@ -344,10 +330,10 @@ typedef struct {
     int y;
 } Point;
 
-Point p1, p2;  /* すっきり！ */
+Point p1, p2;
 ```
 
-#### typedef の使用例
+#### `typedef`の使用例
 
 ```c
 typedef struct {
@@ -384,16 +370,18 @@ union data d;
 d.i = 10;
 printf("int: %d\n", d.i);
 
-d.f = 3.14;
+d.f = 3.14f;
 printf("float: %.2f\n", d.f);
-/* この時点で d.i の値は無効 */
+/* 最後に格納したメンバはd.f */
 ```
+
+最後に値を格納したメンバとは異なるメンバを読むと、格納した値のオブジェクト表現を別の型として解釈します。
+結果は型や処理系に依存し、トラップ表現を生成する可能性もあるため、移植可能な型変換の代わりには使えません。
 
 #### 共用体の用途
 
-- メモリ節約
-- 異なる型でのデータ解釈
-- バリアント型の実装
+- 同時には一つしか使わない複数の表現で記憶域を共有する
+- 別のタグメンバと組み合わせて、現在有効なメンバを管理する
 
 ### 構造体の高度な使用法
 
@@ -407,10 +395,12 @@ typedef struct node {
 
 /* リンクリストの簡単な例 */
 Node *head = NULL;
-Node *new_node = (Node*)malloc(sizeof(Node));
-new_node->data = 42;
-new_node->next = head;
-head = new_node;
+Node *new_node = malloc(sizeof *new_node);
+if (new_node != NULL) {
+    new_node->data = 42;
+    new_node->next = head;
+    head = new_node;
+}
 ```
 
 #### 関数ポインターを含む構造体
@@ -437,15 +427,15 @@ int result = ops[0].calculate(5, 3);  /* add(5, 3) */
 
 #### 1. 構造体の比較
 
-**問題:** 構造体を直接比較しようとする
+**問題：** 構造体を直接比較しようとする
 
 ```c
 struct point p1 = {10, 20};
 struct point p2 = {10, 20};
-if (p1 == p2) { /* エラー！構造体は直接比較不可 */ }
+if (p1 == p2) { /* 制約違反：構造体には==を適用できない */ }
 ```
 
-**対策:**
+**対策：**
 
 ```c
 int points_equal(struct point p1, struct point p2)
@@ -458,14 +448,14 @@ if (points_equal(p1, p2)) { /* 正しい */ }
 
 #### 2. 未初期化構造体の使用
 
-**問題:** 構造体メンバが未初期化
+**問題：** 構造体メンバが未初期化
 
 ```c
 struct student s;
-printf("名前: %s\n", s.name);  /* 未初期化データ */
+printf("Name: %s\n", s.name);  /* 未初期化データ */
 ```
 
-**対策:**
+**対策：**
 
 ```c
 struct student s = {0};  /* ゼロ初期化 */
@@ -475,14 +465,14 @@ memset(&s, 0, sizeof(s));
 
 #### 3. 文字列の代入ミス
 
-**問題:** 文字列を直接代入しようとする
+**問題：** 文字列を直接代入しようとする
 
 ```c
 struct student s;
-s.name = "山田太郎";  /* エラー！配列に直接代入不可 */
+s.name = "山田太郎";  /* 制約違反：配列には代入できない */
 ```
 
-**対策:**
+**対策：**
 
 ```c
 struct student s;
@@ -491,17 +481,17 @@ strcpy(s.name, "山田太郎");  /* strcpy を使用 */
 
 #### 4. 構造体ポインターの初期化忘れ
 
-**問題:** NULLポインターの使用
+**問題：** NULLポインターの使用
 
 ```c
 struct student *s;
-s->name = "太郎";  /* 危険！未初期化ポインター */
+strcpy(s->name, "太郎");  /* 未初期化ポインターの間接参照は未定義動作 */
 ```
 
-**対策:**
+**対策：**
 
 ```c
-struct student *s = (struct student*)malloc(sizeof(struct student));
+struct student *s = malloc(sizeof *s);
 if (s != NULL) {
     strcpy(s->name, "太郎");
 }
@@ -513,32 +503,36 @@ if (s != NULL) {
 
 ```c
 struct example {
-    char c;     /* 1バイト */
-    /* 3バイトのパディング */
-    int i;      /* 4バイト */
-    char c2;    /* 1バイト */
-    /* 3バイトのパディング */
+    char c;
+    int i;
+    char c2;
 };
-/* 合計: 12バイト（パディング含む） */
 ```
+
+処理系は、各メンバの間や構造体の末尾にパディングを挿入できます。
+たとえば`sizeof(int) == 4`で`int`を4バイト境界に配置する処理系では、この構造体が12バイトになる場合があります。
+実際のサイズは`sizeof(struct example)`で確認します。
 
 #### メモリ効率の改善
 
 ```c
-/* 効率の悪い配置 */
+/* パディングが増える場合がある配置 */
 struct bad {
     char c1;
     int i;
     char c2;
 };
 
-/* 効率の良い配置 */
+/* パディングが減る場合がある配置 */
 struct good {
     int i;
     char c1;
     char c2;
 };
 ```
+
+メンバ順の変更がサイズを減らすかどうかは、各型のサイズとアラインメントに依存します。
+外部形式やABIとの互換性が必要な構造体では、サイズだけを理由にメンバ順を変更してはいけません。
 
 ## 実例コード
 
@@ -549,7 +543,7 @@ struct good {
 - [struct_basics.c](examples/struct_basics.c) - C90準拠版
 - [struct_basics_c99.c](examples/struct_basics_c99.c) - C99準拠版
 
-### 構造体とポインターー
+### 構造体とポインター
 
 - [struct_pointers.c](examples/struct_pointers.c) - C90準拠版
 - [struct_pointers_c99.c](examples/struct_pointers_c99.c) - C99準拠版
@@ -605,7 +599,7 @@ make clean
 
 1. **実際のデータでモデリング**: 身近なものを構造体で表現
 2. **段階的構築**: 単純な構造体から複雑なものへ
-3. **メモリ図の描画**: ポインターーと構造体の関係を視覚化
+3. **メモリ図の描画**: ポインターと構造体の関係を視覚化
 4. **実用例の実装**: 学生管理システムなどの小さなプロジェクト
 
 ## C90とC11の違い
@@ -613,18 +607,19 @@ make clean
 ### C90での制限
 
 - メンバ指定初期化なし
-- 変数宣言は関数の先頭のみ
+- ブロック内の宣言は、そのブロックの文より前に置く
 - コメントは `/* */` のみ
 
 ### C11での拡張
 
 - 匿名構造体・共用体
-- より柔軟な初期化
 - `_Static_assert` での構造体サイズチェック
+
+メンバ指定初期化はC99で追加された機能であり、C11固有ではありません。
 
 ## 次の章へ
 
-[第12章: 関数ポインター](../function-pointers/README.md)
+[第12章：関数ポインター](../function-pointers/README.md)
 
 ## 参考資料
 
@@ -636,7 +631,7 @@ make clean
 
 ## 演習問題
 
-この章の内容を理解したら、[演習問題](exercises/)に挑戦してみましょう。
+[演習問題](exercises/)では、構造体の値渡し、ポインターによる操作、配列、パディングを確認できます。
 
 - 基礎問題：基本的な文法や概念の確認
 - 応用問題：より実践的なプログラムの作成

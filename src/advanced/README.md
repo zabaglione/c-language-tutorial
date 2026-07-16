@@ -2,8 +2,8 @@
 
 ## 対応C規格
 
-- **主要対象:** C90/C99/C11/C17
-- **学習内容:** 分割コンパイル、extern宣言、プリプロセッサ、モジュール設計、ライブラリ作成、高度な演算子テクニック
+- **主要対象：** C90/C99/C11/C17
+- **学習内容：** 分割コンパイル、extern宣言、プリプロセッサ、モジュール設計、ライブラリ作成、高度な演算子テクニック
 
 ## 学習目標
 
@@ -15,21 +15,22 @@
 - 再利用可能なモジュールを設計できる
 - 静的ライブラリを作成・使用できる
 - 大規模プロジェクトの構成を理解する
-- 短絡評価を使った安全なプログラミングができる
+- 短絡評価の評価順序を利用して、事前条件を検査できる
 - 共用体（union）を理解し活用できる
 
 ## 概要と詳細
 
-### 高度なトピックとは？
+### 複数ファイルへ分割する目的
 
-これまで学んできたC言語の基礎を活かして、より実践的なプログラミング技術を学びます。実際の開発現場で使われる技術です！
+ソースファイルを機能ごとに分けると、公開する宣言と内部の実装を分離できます。
+変更時に再コンパイルする範囲も翻訳単位ごとに限定できます。
 
-#### なぜ高度なトピックを学ぶのか？
+#### 分割によって得られる性質
 
 1. **大規模プログラムの開発**
 
-    - 1つのファイルに全てを書くのは非現実的
-    - チーム開発では分割が必須
+    - 機能ごとに宣言と定義を配置できる
+    - 担当範囲と変更範囲を分けられる
 
 2. **コードの再利用**
 
@@ -45,20 +46,9 @@
 
 大きなプログラムを複数のソースファイルに分割することで、保守性と再利用性が向上します。
 
-#### 分割コンパイルの日常例
-
-レストランの厨房を考えてみましょう。
-
-- **前菜担当** → string_utils.c（文字列処理）
-- **メイン担当** → math_utils.c（数値計算）
-- **デザート担当** → file_utils.c（ファイル処理）
-- **総料理長** → main.c（全体の統括）
-
-各担当が独立して作業し、最後に組み合わせて完成！
-
 #### 基本的な分割例
 
-**math_utils.h（ヘッダーファイル）**
+#### `math_utils.h`（ヘッダーファイル）
 
 ```c
 #ifndef MATH_UTILS_H
@@ -71,7 +61,7 @@ double circle_area(double radius);
 #endif
 ```
 
-**math_utils.c（実装ファイル）**
+#### `math_utils.c`（実装ファイル）
 
 ```c
 #include "math_utils.h"
@@ -93,7 +83,7 @@ double circle_area(double radius)
 }
 ```
 
-**main.c（メインプログラム）**
+#### `main.c`（メインプログラム）
 
 ```c
 #include <stdio.h>
@@ -105,9 +95,9 @@ int main(void)
     int product = multiply(5, 6);
     double area = circle_area(3.0);
 
-    printf("合計: %d\n", sum);
-    printf("積: %d\n", product);
-    printf("円の面積: %.2f\n", area);
+    printf("Sum: %d\n", sum);
+    printf("Product: %d\n", product);
+    printf("Circle area: %.2f\n", area);
 
     return 0;
 }
@@ -134,7 +124,7 @@ int debug_level = 1;
 char app_name[] = "MyApplication";
 ```
 
-#### グローバル変数の適切な使用
+#### 外部リンケージを持つ変数の宣言
 
 ```c
 /* logger.h */
@@ -168,38 +158,46 @@ void log_message(LogLevel level, const char *message);
 
 #### 条件付きコンパイル
 
+可変個引数マクロはC99で追加されました。
+次の形式は、`DEBUG_PRINT("value=%d\n", value)`のように書式文字列を含む引数を渡します。
+
 ```c
 #ifdef DEBUG
-    #define DEBUG_PRINT(fmt, ...) \
-        printf("[DEBUG] " fmt "\n", ##__VA_ARGS__)
+    #define DEBUG_PRINT(...) fprintf(stderr, __VA_ARGS__)
 #else
-    #define DEBUG_PRINT(fmt, ...)
+    #define DEBUG_PRINT(...) ((void)0)
 #endif
 
-#ifdef WINDOWS
+#if defined(_WIN32)
     #include <windows.h>
-#elif defined(LINUX)
+#elif defined(__linux__)
     #include <unistd.h>
 #endif
 ```
 
-#### 複雑なマクロ
+`_WIN32`や`__linux__`は処理系が定義するマクロであり、C規格が定めるマクロではありません。
+利用するコンパイラの定義を確認します。
+
+#### マクロと関数の選択
 
 ```c
-/* 安全な除算マクロ */
-#define SAFE_DIVIDE(a, b, result) \
-    do { \
-        if ((b) != 0) { \
-            *(result) = (a) / (b); \
-        } else { \
-            printf("エラー: ゼロ除算\n"); \
-            *(result) = 0; \
-        } \
-    } while (0)
+/* 引数を一度ずつ評価し、状態を戻り値で返す */
+int safe_divide(int a, int b, int *result)
+{
+    if (b == 0 || result == NULL) {
+        return 0;
+    }
+
+    *result = a / b;
+    return 1;
+}
 
 /* 配列サイズ取得マクロ */
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
 ```
+
+関数形式なら、引数に副作用のある式を渡しても各引数を一度だけ評価します。
+`ARRAY_SIZE`は配列オブジェクトにだけ使用でき、ポインターへ適用すると要素数を求められません。
 
 ### ヘッダーファイルの設計
 
@@ -214,7 +212,7 @@ void log_message(LogLevel level, const char *message);
 #endif /* MODULE_NAME_H */
 ```
 
-#### プリコンパイルされたヘッダー
+#### 共通ヘッダー
 
 ```c
 /* common.h - よく使われるヘッダーをまとめる */
@@ -237,6 +235,9 @@ typedef unsigned int u32;
 
 #endif
 ```
+
+`u8`、`u16`、`u32`が正確に8、16、32ビットを表す保証はありません。
+C99以降で幅を固定する必要がある場合は、処理系が提供する`<stdint.h>`の`uint8_t`、`uint16_t`、`uint32_t`を使用します。
 
 ### モジュール設計の原則
 
@@ -342,7 +343,7 @@ clean:
 
 #### 推奨ディレクトリ構造
 
-```
+```text
 project/
 ├── src/           # ソースファイル
 │   ├── main.c
@@ -387,7 +388,7 @@ void logger_set_level(LogLevel level);
 LogLevel logger_get_level(void);
 ```
 
-### C11/C17の新機能
+### C11で追加された機能
 
 #### _Static_assert
 
@@ -407,6 +408,9 @@ _Static_assert(sizeof(Buffer) == 64, "Buffer size must be exactly 64 bytes");
 #### _Generic（型汎用選択）
 
 ```c
+#include <math.h>
+#include <stdlib.h>
+
 #define abs_generic(x) _Generic((x), \
     int: abs, \
     long: labs, \
@@ -471,6 +475,8 @@ void config_cleanup(void);
 
 #### デバッグマクロの活用
 
+次の`__func__`と可変個引数マクロはC99以降で使用できます。
+
 ```c
 /* debug.h */
 #ifndef DEBUG_H
@@ -479,12 +485,11 @@ void config_cleanup(void);
 #ifdef DEBUG_MODE
     #define DBG_ENTER() printf("ENTER: %s\n", __func__)
     #define DBG_EXIT() printf("EXIT: %s\n", __func__)
-    #define DBG_PRINT(fmt, ...) \
-        printf("[%s:%d] " fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__)
+    #define DBG_PRINT(...) fprintf(stderr, __VA_ARGS__)
 #else
-    #define DBG_ENTER()
-    #define DBG_EXIT()
-    #define DBG_PRINT(fmt, ...)
+    #define DBG_ENTER() ((void)0)
+    #define DBG_EXIT() ((void)0)
+    #define DBG_PRINT(...) ((void)0)
 #endif
 
 #endif
@@ -530,14 +535,14 @@ static inline int max_inline(int a, int b)
     return (a > b) ? a : b;
 }
 
-/* ヘッダーファイルでのinline関数定義 */
-inline double square_inline(double x)
+/* ヘッダーファイルでは内部リンケージにすると定義を完結させやすい */
+static inline double square_inline(double x)
 {
     return x * x;
 }
 ```
 
-#### コンパイラー最適化の活用
+#### コンパイラ最適化の活用
 
 ```c
 /* 最適化ヒントの提供 */
@@ -659,20 +664,24 @@ make install
 - 指定初期化子
 - 複合リテラル
 
-### C11/C17の新機能
+### C11の機能とC17
 
 - _Static_assert
 - _Generic
 - _Alignas/_Alignof
 - _Thread_local
 
-### 高度な演算子テクニック
+C17はC11に対する不具合修正が中心で、新しい言語機能は追加していません。
 
-プログラムの安全性と効率性を向上させる、演算子の高度な活用方法を学びます。これらのテクニックは、実際の開発現場で頻繁に使われる重要な技術です。
+### 短絡評価と共用体
+
+論理AND演算子`&&`は左オペランドが0なら右オペランドを評価しません。
+論理OR演算子`||`は左オペランドが0以外なら右オペランドを評価しません。
+この評価順序を使うと、ポインターや添字の事前条件を検査してから対象の式を評価できます。
 
 #### 短絡評価による安全なプログラミング
 
-短絡評価（ショートサーキット）は、論理演算子（`&&`、`||`）の特性を活用して、安全で効率的なコードを書くための重要なテクニックです。
+短絡評価を使う場合は、左から右へ事前条件が成立する順に式を並べます。
 
 ##### 配列とポインターの安全な操作
 
@@ -684,7 +693,7 @@ int array[10];
 int index = 15;
 if (index >= 0 && index < 10 && array[index] > 0) {
     /* index が範囲外なので、array[index] へのアクセスは行われない */
-    printf("有効な値: %d\n", array[index]);
+    printf("Valid value: %d\n", array[index]);
 }
 
 /* 多次元配列の安全なアクセス */
@@ -695,9 +704,12 @@ if (row >= 0 && row < 5 && col >= 0 && col < 5 && matrix[row][col] != 0) {
     process_element(matrix[row][col]);
 }
 
-/* 動的配列（ポインター）の安全な操作 */
-int *data = malloc(size * sizeof(int));
-if (data && size > 0 && initialize_array(data, size)) {
+/* 動的配列（ポインター）の操作 */
+int *data = NULL;
+if (size > 0 && (size_t)size <= ((size_t)-1) / sizeof *data) {
+    data = malloc((size_t)size * sizeof *data);
+}
+if (data != NULL && initialize_array(data, size)) {
     /* メモリ確保成功、かつ初期化成功の場合のみ使用 */
     use_array(data, size);
 }
@@ -711,7 +723,7 @@ free(data);  /* free()はNULLに対して安全 */
 char *str = get_string();  /* NULL を返す可能性がある */
 if (str && strlen(str) > 0 && str[0] == 'A') {
     /* str が NULL の場合、strlen や str[0] は評価されない */
-    printf("文字列は 'A' で始まります\n");
+    printf("String starts with 'A'\n");
 }
 
 /* 文字列の詳細な検証 */
@@ -727,9 +739,11 @@ if (input && *input && strlen(input) < MAX_LENGTH && is_valid_format(input)) {
 ```c
 /* ファイル操作の連鎖的エラーチェック */
 FILE *fp = fopen("data.txt", "r");
-if (fp && read_header(fp) && validate_data(fp)) {
+if (fp != NULL && read_header(fp) && validate_data(fp)) {
     /* 各段階でエラーがあれば、後続の処理はスキップされる */
     process_file(fp);
+}
+if (fp != NULL) {
     fclose(fp);
 }
 
@@ -741,9 +755,9 @@ void process_data_file(const char *filename)
     int *data = NULL;
 
     /* リソースの段階的確保 */
-    if ((fp = fopen(filename, "rb")) &&
-        (buffer = malloc(BUFFER_SIZE)) &&
-        (data = malloc(sizeof(int) * MAX_ITEMS)) &&
+    if ((fp = fopen(filename, "rb")) != NULL &&
+        (buffer = malloc(BUFFER_SIZE)) != NULL &&
+        (data = malloc(sizeof *data * MAX_ITEMS)) != NULL &&
         read_file_to_buffer(fp, buffer, BUFFER_SIZE) &&
         parse_buffer_to_data(buffer, data, MAX_ITEMS)) {
 
@@ -752,13 +766,13 @@ void process_data_file(const char *filename)
 
     } else {
         /* どこかでエラーが発生した */
-        printf("エラー: データ処理に失敗しました\n");
+        fprintf(stderr, "Data processing failed\n");
     }
 
     /* クリーンアップ（NULL チェック不要） */
     free(data);
     free(buffer);
-    if (fp) fclose(fp);
+    if (fp != NULL) fclose(fp);
 }
 ```
 
@@ -766,7 +780,7 @@ void process_data_file(const char *filename)
 
 ビット演算の詳細な解説、ビットマスクを使った高度なテクニック、ビットフィールドによるメモリ最適化については、専用の章を設けています。
 
-**詳細な学習**: [第12章: ビット操作とビットフィールド](../bit-operations/README.md)では、以下の内容を詳しく説明しています：
+[第12章：ビット操作とビットフィールド](../bit-operations/README.md)では、次の内容を説明しています。
 
 - ビット演算子の詳細と活用法
 - フラグ管理システムの実装
@@ -776,7 +790,8 @@ void process_data_file(const char *filename)
 
 #### 共用体（union）
 
-共用体は、同じメモリ領域を複数の異なる型で共有する仕組みです。メモリを効率的に使用したい場合や、異なる解釈でデータを扱いたい場合に使用します。
+共用体は、複数のメンバが同じ記憶域を共有する型です。
+同時には一つの表現だけを保持するデータを、タグと組み合わせて表す場合に使います。
 
 ##### 基本的な共用体の使い方
 
@@ -793,64 +808,62 @@ int main(void) {
 
     /* 整数として使用 */
     data.i = 42;
-    printf("整数: %d\n", data.i);
+    printf("Integer: %d\n", data.i);
 
     /* 浮動小数点として使用（前の値は上書きされる） */
     data.f = 3.14f;
-    printf("浮動小数点: %f\n", data.f);
+    printf("Floating: %f\n", data.f);
 
     /* 文字列として使用 */
     strcpy(data.str, "Hello");
-    printf("文字列: %s\n", data.str);
+    printf("String: %s\n", data.str);
 
-    printf("共用体のサイズ: %zu バイト\n", sizeof(union Data));
+    printf("Union size: %lu bytes\n", (unsigned long)sizeof(union Data));
     return 0;
 }
 ```
 
-##### 型変換とビットパターン解析
+##### オブジェクト表現の取得
 
 ```c
-/* 浮動小数点数のビットパターンを調べる */
-union FloatConverter {
-    float f;
-    unsigned int u;
-    struct {
-        unsigned int fraction : 23;
-        unsigned int exponent : 8;
-        unsigned int sign : 1;
-    } parts;
-};
+/* floatのオブジェクト表現を1バイトずつ表示する */
+#include <stddef.h>
+#include <stdio.h>
+#include <string.h>
 
-void analyze_float(float value) {
-    union FloatConverter conv;
-    conv.f = value;
+void print_float_representation(float value)
+{
+    unsigned char bytes[sizeof value];
+    size_t i;
 
-    printf("浮動小数点数: %f\n", conv.f);
-    printf("ビットパターン: 0x%08X\n", conv.u);
-    printf("符号: %u, 指数部: %u, 仮数部: 0x%06X\n",
-           conv.parts.sign, conv.parts.exponent, conv.parts.fraction);
+    memcpy(bytes, &value, sizeof value);
+    for (i = 0; i < sizeof bytes; i++) {
+        printf("%02X ", (unsigned int)bytes[i]);
+    }
+    putchar('\n');
 }
 ```
 
-##### ネットワークプログラミングでの活用
+`unsigned char`の配列へ`memcpy`すると、別の共用体メンバを読む方法に依存せずオブジェクト表現を取得できます。
+ただし、`float`の形式やバイト順序は処理系に依存するため、表示結果をIEEE 754の各フィールドとみなせるとは限りません。
+
+##### 32ビット値からオクテットを取り出す
 
 ```c
-/* IPアドレスの表現 */
-union IPAddress {
-    unsigned int addr;
-    unsigned char octets[4];
-};
+#include <stdint.h>
 
-void print_ip_address(unsigned int ip) {
-    union IPAddress addr;
-    addr.addr = ip;
-
-    printf("IPアドレス: %u.%u.%u.%u\n",
-           addr.octets[3], addr.octets[2],
-           addr.octets[1], addr.octets[0]);
+void print_ipv4_value(uint32_t ip)
+{
+    printf("%u.%u.%u.%u\n",
+           (unsigned int)((ip >> 24) & UINT32_C(0xff)),
+           (unsigned int)((ip >> 16) & UINT32_C(0xff)),
+           (unsigned int)((ip >> 8) & UINT32_C(0xff)),
+           (unsigned int)(ip & UINT32_C(0xff)));
 }
 ```
+
+整数と文字配列を共用体で重ねる方法は、処理系のバイト順序と`unsigned int`の幅に依存します。
+外部形式の順序が決まっている場合は、幅が明確な整数型とシフト演算で各部分を取り出します。
 
 ##### タグ付き共用体（判別共用体）
 
@@ -874,13 +887,13 @@ typedef struct {
 void print_variant(const Variant *var) {
     switch (var->type) {
         case TYPE_INT:
-            printf("整数: %d\n", var->value.i);
+            printf("Integer: %d\n", var->value.i);
             break;
         case TYPE_FLOAT:
-            printf("浮動小数点: %f\n", var->value.f);
+            printf("Floating: %f\n", var->value.f);
             break;
         case TYPE_STRING:
-            printf("文字列: %s\n", var->value.s);
+            printf("String: %s\n", var->value.s);
             break;
     }
 }
@@ -888,14 +901,14 @@ void print_variant(const Variant *var) {
 
 ##### 共用体の注意点
 
-1. **一度に1つのメンバーのみ有効**
+1. **現在の表現を管理する**
 
-    - 最後に代入したメンバーのみが有効
-    - 他のメンバーの値は不定
+    - 最後に値を格納したメンバをタグで記録する
+    - 別のメンバを読む処理は型や処理系に依存するため、移植可能な型変換には使わない
 
 2. **メモリサイズ**
 
-    - 最大のメンバーのサイズになる
+    - 最大のメンバを格納できる大きさ以上になる
     - パディングの影響を受ける
 
 3. **初期化**
@@ -903,7 +916,7 @@ void print_variant(const Variant *var) {
     - C90では最初のメンバーでのみ初期化可能
     - C99では指定初期化子が使用可能
 
-##### パフォーマンス最適化テクニック
+##### 条件の評価順序を使った処理
 
 ```c
 /* 条件付き処理の最適化 */
@@ -914,16 +927,18 @@ typedef struct {
 
 int get_expensive_value(Cache *cache, int param)
 {
-    /* キャッシュがあればそれを使用、なければ計算 */
-    if (cache && cache->is_cached && cache->cache_value) {
+    int result;
+
+    /* キャッシュ済みなら、値が0でもその値を返す */
+    if (cache != NULL && cache->is_cached) {
         return cache->cache_value;
     }
 
     /* 高コストな計算 */
-    int result = expensive_calculation(param);
+    result = expensive_calculation(param);
 
     /* キャッシュに保存 */
-    if (cache) {
+    if (cache != NULL) {
         cache->is_cached = 1;
         cache->cache_value = result;
     }
@@ -934,11 +949,11 @@ int get_expensive_value(Cache *cache, int param)
 /* 権限チェックの最適化 */
 int can_access_resource(User *user, Resource *resource)
 {
-    /* 管理者は常にアクセス可能（高速パス） */
-    return (user && user->is_admin) ||
+    /* 管理者の場合は、右辺の詳細な権限検査を評価しない */
+    return (user != NULL && user->is_admin) ||
            /* 一般ユーザーは詳細な権限チェック */
-           (user &&
-            resource &&
+           (user != NULL &&
+            resource != NULL &&
             user->level >= resource->required_level &&
             has_permission(user, resource->type) &&
             !is_blocked(user, resource));
@@ -947,11 +962,9 @@ int can_access_resource(User *user, Resource *resource)
 
 ## 次の章へ
 
-これでC言語の主要トピックは完了です。さらに学習を続けたい場合は。
+規格ごとの機能差を続けて確認する場合は、[C23の新機能](../c23-features/README.md)を参照してください。
 
 - [C23の新機能](../c23-features/README.md)（オプション）
-- プロジェクト実践
-- 他の言語への応用
 
 ## 参考資料
 
@@ -963,7 +976,7 @@ int can_access_resource(User *user, Resource *resource)
 
 ## 演習問題
 
-この章の内容を理解したら、[演習問題](exercises/)に挑戦してみましょう。
+[演習問題](exercises/)では、分割コンパイル、リンケージ、マクロ、短絡評価、共用体を確認できます。
 
 - 基礎問題：基本的な文法や概念の確認
 - 応用問題：より実践的なプログラムの作成

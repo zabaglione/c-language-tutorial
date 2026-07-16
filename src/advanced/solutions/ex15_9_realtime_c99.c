@@ -11,6 +11,7 @@
 #include <assert.h>
 #include <time.h>
 #include <limits.h>
+#include <stdarg.h>
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -27,10 +28,20 @@
 #define DEBUG_REALTIME 1
 
 #if DEBUG_REALTIME
-#define RT_DEBUG(fmt, ...) \
-    printf("[RT:%s] " fmt "\n", __func__, ##__VA_ARGS__)
+static void rt_debug_log(const char *function, const char *format, ...)
+{
+    va_list args;
+
+    printf("[RT:%s] ", function);
+    va_start(args, format);
+    vprintf(format, args);
+    va_end(args);
+    putchar('\n');
+}
+
+#define RT_DEBUG(...) rt_debug_log(__func__, __VA_ARGS__)
 #else
-#define RT_DEBUG(fmt, ...)
+#define RT_DEBUG(...) ((void)0)
 #endif
 
 /* C99: 静的アサーション */
@@ -120,11 +131,6 @@ static inline void rt_enable_interrupts(void)
     g_rt_allocator.preemption_disabled = false;
 }
 
-static inline bool is_power_of_two(size_t n)
-{
-    return n > 0 && (n & (n - 1)) == 0;
-}
-
 static inline size_t next_power_of_two(size_t n)
 {
     n--;
@@ -183,7 +189,6 @@ static int rt_partition_heap(void)
     
     /* C99: 可変長配列で一時的な割り当て計画を作成 */
     size_t allocations[RT_SIZE_CLASSES];
-    size_t total_needed = 0;
     
     /* 各サイズクラスへの割り当て量を決定 */
     for (int i = 0; i < RT_SIZE_CLASSES; i++) {
@@ -203,7 +208,6 @@ static int rt_partition_heap(void)
             allocations[i] = 1;
         }
         
-        total_needed += allocations[i] * block_size;
     }
     
     /* 実際の割り当て */
@@ -284,7 +288,7 @@ int rt_allocator_init(uint64_t tick_rate)
     
     RT_DEBUG("リアルタイムアロケーターを初期化しました");
     RT_DEBUG("ヒープ: %zu KB, ティックレート: %lu Hz",
-             RT_HEAP_SIZE / 1024, (unsigned long)tick_rate);
+             (size_t)(RT_HEAP_SIZE / 1024), (unsigned long)tick_rate);
     
     return 0;
 }
@@ -503,6 +507,15 @@ uint64_t rt_get_wcet_free(size_t size)
     return UINT64_MAX;
 }
 
+typedef struct RTSizeClassStats {
+    size_t size;
+    size_t free_count;
+    size_t total_count;
+    uint64_t wcet_alloc;
+    uint64_t wcet_free;
+    double utilization;
+} RTSizeClassStats;
+
 /* C99: 高度な統計情報取得 */
 typedef struct RTStats {
     size_t heap_size;
@@ -510,14 +523,7 @@ typedef struct RTStats {
     size_t peak_usage;
     uint64_t deadline_misses;
     uint64_t allocation_failures;
-    struct {
-        size_t size;
-        size_t free_count;
-        size_t total_count;
-        uint64_t wcet_alloc;
-        uint64_t wcet_free;
-        double utilization;
-    } size_classes[RT_SIZE_CLASSES];
+    RTSizeClassStats size_classes[RT_SIZE_CLASSES];
 } RTStats;
 
 void rt_get_stats(RTStats *stats)
@@ -535,7 +541,7 @@ void rt_get_stats(RTStats *stats)
     
     for (int i = 0; i < RT_SIZE_CLASSES; i++) {
         RTSizeClass *sc = &g_rt_allocator.size_classes[i];
-        stats->size_classes[i] = (typeof(stats->size_classes[0])){
+        stats->size_classes[i] = (RTSizeClassStats){
             .size = sc->size,
             .free_count = sc->free_count,
             .total_count = sc->total_count,

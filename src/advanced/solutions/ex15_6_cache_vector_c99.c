@@ -13,6 +13,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stddef.h>
+#include <math.h>
 
 /* キャッシュラインサイズ（一般的な値） */
 #define CACHE_LINE_SIZE 64
@@ -65,7 +66,7 @@ typedef struct CacheVector {
     
     /* C99: bool型の使用 */
     bool is_aligned;        /* アライメント済みフラグ */
-} CACHE_ALIGNED CacheVector;
+} CacheVector;
 
 /* C99: inline関数プロトタイプ */
 static inline double get_time_sec(void);
@@ -101,7 +102,7 @@ static inline size_t align_up(size_t size, size_t alignment)
 static inline void *aligned_alloc_wrapper(size_t alignment, size_t size)
 {
 #if __STDC_VERSION__ >= 201112L
-    return aligned_alloc(alignment, size);
+    return aligned_alloc(alignment, align_up(size, alignment));
 #else
     /* posix_memalignを使用（POSIX環境） */
     void *ptr = NULL;
@@ -195,6 +196,71 @@ static int vector_adjust_capacity(CacheVector *restrict vec, size_t required_cap
     vec->capacity = new_capacity;
     
     return 0;
+}
+
+int vector_reserve(CacheVector *vec, size_t new_capacity)
+{
+    void *new_data;
+
+    if (!vec || new_capacity < vec->size) {
+        return -1;
+    }
+
+    if (new_capacity < VECTOR_MIN_CAPACITY) {
+        new_capacity = VECTOR_MIN_CAPACITY;
+    }
+
+    if (new_capacity == vec->capacity) {
+        return 0;
+    }
+
+    new_data = aligned_alloc_wrapper(
+        CACHE_LINE_SIZE,
+        new_capacity * vec->element_size);
+    if (!new_data) {
+        return -1;
+    }
+
+    if (vec->size > 0) {
+        memcpy(new_data, vec->data, vec->size * vec->element_size);
+    }
+
+    free(vec->data);
+    vec->data = new_data;
+    vec->capacity = new_capacity;
+    return 0;
+}
+
+int vector_resize(CacheVector *vec, size_t new_size)
+{
+    size_t old_size;
+
+    if (!vec) {
+        return -1;
+    }
+
+    old_size = vec->size;
+    if (new_size > vec->capacity &&
+        vector_adjust_capacity(vec, new_size) < 0) {
+        return -1;
+    }
+
+    if (new_size > old_size) {
+        memset(
+            (char *)vec->data + old_size * vec->element_size,
+            0,
+            (new_size - old_size) * vec->element_size);
+    }
+
+    vec->size = new_size;
+    return 0;
+}
+
+void vector_clear(CacheVector *vec)
+{
+    if (vec) {
+        vec->size = 0;
+    }
 }
 
 /* 要素追加 */
@@ -367,7 +433,7 @@ void vector_optimize_cache(CacheVector *vec)
     /* C99: 可変長配列を使用したテスト */
     size_t test_sizes[] = {2, 4, 8, 16};
     double best_time = INFINITY;
-    size_t best_distance = vec->prefetch_distance;
+    size_t best_distance = optimal_prefetch;
     
     for (size_t i = 0; i < sizeof(test_sizes)/sizeof(test_sizes[0]); i++) {
         vec->prefetch_distance = test_sizes[i] * vec->cache_line_elements;
@@ -378,7 +444,7 @@ void vector_optimize_cache(CacheVector *vec)
         for (size_t j = 0; j < vec->size; j++) {
             void *elem = vector_at(vec, j);
             if (elem) {
-                dummy += *(size_t*)elem & 1;
+                dummy += *(const unsigned char *)elem & 1u;
             }
         }
         double elapsed = get_time_sec() - start;

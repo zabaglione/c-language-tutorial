@@ -1,453 +1,346 @@
-# 配列（基本編）
+# 第7章：配列の基本
 
-## 対応C規格
+## 対応するC規格
 
-- **主要対象:** C90
-- **学習内容:** 一次元配列、多次元配列、配列の初期化、基本的な配列操作
+- **主要対象**：C90
+- **学習内容**：1次元配列、多次元配列、初期化、走査、検索、集計
 
 ## 学習目標
 
-この章を完了すると、以下のことができるようになります。
+この章では、同じ型のオブジェクトを連続して保持する配列を学びます。
 
-- 一次元配列の宣言・初期化・使用ができる
-- 多次元配列を理解して活用できる
-- 数値配列の基本操作（検索、統計計算）ができる
-- 配列を使った実践的なプログラムを作成できる
+- 配列を宣言し、初期化できる
+- 有効な添字の範囲を説明できる
+- ループで配列を検索・集計できる
+- 2次元配列の行と列を正しく処理できる
+- 配列とポインタを同一視せず、変換が起こる場面を説明できる
 
-## 概要と詳細
+## 配列とは
 
-### 配列とは？
-
-配列（はいれつ）は、プログラミングで最も重要なデータ構造の一つです。
-
-#### 日常生活での配列
-
-配列を理解するために、身近な例を考えてみましょう。
-
-1. **教室の座席**
-
-    - 5行6列の座席 = 2次元配列
-    - 各座席には生徒が座る = 配列の要素
-    - 「3行目の4番目の席」= 配列の[3][4]
-
-2. **アパートの部屋番号**
-
-    - 101号室、102号室... = 1次元配列
-    - 各部屋に住人がいる = 配列の要素
-
-3. **カレンダー**
-
-    - 曜日×週 = 2次元配列
-    - 各マスに日付 = 配列の要素
-
-#### なぜ配列が必要なの？
-
-配列がないと、たくさんのデータを扱うのが大変になります。例えば5人の点数を管理する場合、配列なしでは変数を5つ作る必要がありますが、配列を使えば1つの変数で管理でき、100人でも1000人でも簡単に管理できます。
-
-### 配列の基本概念
-
-配列は同じデータ型の要素を連続したメモリ領域に格納するデータ構造です。
-
-#### 配列の3つの重要な特徴
-
-1. **同じ型の集まり**
-
-    - すべての要素が同じデータ型でなければならない
-    - int型の配列にはint型の値のみ格納可能
-
-2. **連続したメモリ領域**
-
-    - 要素は隣り合ったメモリ上に配置される
-    - このため高速なアクセスが可能
-
-3. **固定サイズ**
-
-    - 配列のサイズは宣言時に決まり、後から変更できない
-    - 動的なサイズ変更が必要な場合は動的メモリ確保を使用
-
-#### 配列のメモリ上の配置
-
-```mermaid
-graph LR
-    subgraph "配列 int numbers[5] のメモリ配置"
-        A["[0]\n10"]
-        B["[1]\n20"]
-        C["[2]\n30"]
-        D["[3]\n40"]
-        E["[4]\n50"]
-
-        A ---|連続| B
-        B ---|連続| C
-        C ---|連続| D
-        D ---|連続| E
-    end
-
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style B fill:#f9f,stroke:#333,stroke-width:2px
-    style C fill:#f9f,stroke:#333,stroke-width:2px
-    style D fill:#f9f,stroke:#333,stroke-width:2px
-    style E fill:#f9f,stroke:#333,stroke-width:2px
-```
-
-#### 1次元配列の宣言
+配列は、同じ型の要素を連続して並べたオブジェクトです。
+次の宣言は、`int`型の要素を5個持つ配列`values`を定義します。
 
 ```c
-データ型 配列名[要素数];
+int values[5];
 ```
 
-例えば、5つの整数を格納する配列は以下のように宣言します。
+要素の添字は0から始まります。
+要素数が5なら、有効な添字は0から4までです。
 
 ```c
-int numbers[5];  /* 5つのint型要素を持つ配列 */
+values[0] = 10;
+values[4] = 50;
 ```
 
-### 配列の初期化
+`values[5]`へのアクセスは配列の範囲外であり、動作は未定義です。
+Cは実行時に添字を自動検査しません。
 
-配列を使用する前に適切な値で初期化することが重要です。
+## 配列の宣言
 
-#### 宣言時の初期化
+C90の固定長配列では、要素数に0より大きい整数定数式を指定します。
 
 ```c
-int numbers[5] = {10, 20, 30, 40, 50};
+#define SCORE_COUNT 5
+
+int scores[SCORE_COUNT];
 ```
 
-#### 部分的な初期化
+配列の要素型は完全オブジェクト型である必要があります。
+要素数を後から変更することはできません。
+
+## 配列の初期化
+
+すべての要素を列挙できます。
 
 ```c
-int numbers[5] = {10, 20};  /* 残りの3つは0で初期化される */
+int values[5] = { 10, 20, 30, 40, 50 };
 ```
 
-#### サイズを省略した初期化
+初期化子が要素数より少ない場合、残りの要素は0で初期化されます。
 
 ```c
-int numbers[] = {10, 20, 30, 40, 50};  /* コンパイラーが自動的にサイズを決定 */
+int values[5] = { 1, 2 }; /* { 1, 2, 0, 0, 0 } */
 ```
 
-### 配列の操作
-
-配列の要素にアクセスするには、添字（インデックス）を使用します。
-
-#### 要素へのアクセス
+要素数を省略すると、初期化子から要素数が決まります。
 
 ```c
-numbers[0] = 10;    /* 最初の要素に値を代入 */
-int value = numbers[2];  /* 3番目の要素の値を取得 */
+int values[] = { 10, 20, 30 };
 ```
 
-**重要な注意点：**
-
-- 配列の添字は0から始まります
-- 要素数がnの配列の有効な添字は0からn-1まで
-- 範囲外アクセスは未定義動作を引き起こします
-
-### 配列の基本操作
-
-数値配列では以下のような操作が頻繁に行われます。
-
-#### 配列内の値を検索する
+すべての要素を0で初期化する一般的な書き方です。
 
 ```c
+int values[100] = { 0 };
+```
+
+初期化後の配列へ別の配列を代入することはできません。
+
+```c
+int a[3] = { 1, 2, 3 };
+int b[3];
+
+/* b = a; */ /* Constraint violation. */
+```
+
+要素をコピーするには、ループまたは適切なライブラリ関数を使います。
+
+```c
+int i;
+
+for (i = 0; i < 3; i++) {
+    b[i] = a[i];
+}
+```
+
+## 配列を走査する
+
+配列全体を処理するループでは、添字を0から要素数未満まで進めます。
+
+```c
+#include <stddef.h>
 #include <stdio.h>
 
-int main(void) {
-    int numbers[10] = {3, 7, 1, 9, 4, 6, 8, 2, 5, 0};
-    int target = 6;  /* 探したい値 */
-    int found = -1;  /* 見つかった位置（-1は見つからない） */
-    int i;
+int main(void)
+{
+    int values[] = { 10, 20, 30, 40, 50 };
+    size_t count = sizeof values / sizeof values[0];
+    size_t i;
 
-    /* 配列を検索 */
-    for (i = 0; i < 10; i++) {
-        if (numbers[i] == target) {
-            found = i;  /* 見つかった位置を記録 */
-            break;      /* 見つかったらループを抜ける */
-        }
-    }
-
-    /* 結果を表示 */
-    if (found != -1) {
-        printf("%d は位置 %d にあります\n", target, found);
-    } else {
-        printf("%d は配列内にありません\n", target);
+    for (i = 0; i < count; i++) {
+        printf("%d\n", values[i]);
     }
 
     return 0;
 }
 ```
 
-#### 配列の統計計算（最大値・最小値・平均）
+`sizeof values / sizeof values[0]`は、`values`が配列として見えている場所で要素数を求めます。
+関数仮引数として宣言した配列には使えません。
+
+## 線形探索
+
+配列を先頭から調べ、目的の値が見つかった位置を返します。
+見つからない場合は、添字として使わない負の値を返します。
 
 ```c
-#include <stdio.h>
-
-int main(void) {
-    int scores[5] = {85, 92, 78, 96, 88};
-    int max, min, sum;
-    double average;
+int find_value(const int values[], int count, int target)
+{
     int i;
 
-    /* 初期値の設定 */
-    max = scores[0];
-    min = scores[0];
-    sum = scores[0];
-
-    /* 2番目の要素から比較開始 */
-    for (i = 1; i < 5; i++) {
-        /* 最大値の更新 */
-        if (scores[i] > max) {
-            max = scores[i];
+    for (i = 0; i < count; i++) {
+        if (values[i] == target) {
+            return i;
         }
-
-        /* 最小値の更新 */
-        if (scores[i] < min) {
-            min = scores[i];
-        }
-
-        /* 合計に加算 */
-        sum += scores[i];
     }
 
-    /* 平均値の計算 */
-    average = (double)sum / 5;
-
-    /* 結果を表示 */
-    printf("最大値: %d\n", max);
-    printf("最小値: %d\n", min);
-    printf("合計: %d\n", sum);
-    printf("平均値: %.1f\n", average);
-
-    return 0;
+    return -1;
 }
 ```
 
-#### 配列の要素を逆順にする
+関数仮引数の`const int values[]`は、`const int *values`へ調整されます。
+配列全体の要素数は関数へ自動では渡らないため、`count`を別の引数として渡します。
+
+## 最大値、最小値、平均
+
+最初の要素を初期値に使う場合、要素数が1以上であることを先に確認します。
 
 ```c
-#include <stdio.h>
+#include <stddef.h>
 
-int main(void) {
-    int arr[6] = {1, 2, 3, 4, 5, 6};
-    int temp;
+int max_value(const int values[], int count, int *result)
+{
     int i;
+    int max;
 
-    /* 元の配列を表示 */
-    printf("元の配列: ");
-    for (i = 0; i < 6; i++) {
-        printf("%d ", arr[i]);
-    }
-    printf("\n");
-
-    /* 配列を逆順にする */
-    for (i = 0; i < 6 / 2; i++) {
-        /* 前後の要素を交換 */
-        temp = arr[i];
-        arr[i] = arr[5 - i];
-        arr[5 - i] = temp;
+    if (values == NULL || result == NULL || count <= 0) {
+        return 0;
     }
 
-    /* 逆順にした配列を表示 */
-    printf("逆順配列: ");
-    for (i = 0; i < 6; i++) {
-        printf("%d ", arr[i]);
-    }
-    printf("\n");
+    max = values[0];
 
-    return 0;
+    for (i = 1; i < count; i++) {
+        if (values[i] > max) {
+            max = values[i];
+        }
+    }
+
+    *result = max;
+    return 1;
 }
 ```
 
-### 多次元配列
-
-配列の配列を作ることで、表やマトリックスのような構造を表現できます。
-
-#### 2次元配列の宣言
+平均を求める場合は、0による除算を避けます。
+加算結果が型の範囲を超える可能性も考慮し、データの範囲に応じて集計用の型を選びます。
 
 ```c
-int matrix[3][4];  /* 3行4列の配列 */
+#include <stddef.h>
+
+double average(const int values[], int count)
+{
+    long sum = 0;
+    int i;
+
+    if (values == NULL || count <= 0) {
+        return 0.0;
+    }
+
+    for (i = 0; i < count; i++) {
+        sum += values[i];
+    }
+
+    return (double)sum / count;
+}
 ```
 
-#### 2次元配列の初期化
+この例でも、要素数と値の範囲によっては`long`の加算がオーバーフローします。
+実際の入力上限を定めてから型を選んでください。
+
+## 要素を逆順に並べる
+
+配列の両端から要素を交換します。
+
+```c
+void reverse(int values[], int count)
+{
+    int left = 0;
+    int right = count - 1;
+
+    while (left < right) {
+        int temporary = values[left];
+        values[left] = values[right];
+        values[right] = temporary;
+        left++;
+        right--;
+    }
+}
+```
+
+このコードはC90でも有効です。
+`temporary`は`while`本体の複合文で、文より前に宣言されています。
+
+## 2次元配列
+
+2次元配列は、配列を要素に持つ配列です。
+次の`matrix`は、3個の「`int`を4個持つ配列」を要素に持ちます。
+
+```c
+int matrix[3][4];
+```
+
+`matrix[row][column]`で要素へアクセスします。
+有効な行添字は0から2、列添字は0から3です。
 
 ```c
 int matrix[2][3] = {
-    {1, 2, 3},
-    {4, 5, 6}
+    { 1, 2, 3 },
+    { 4, 5, 6 }
 };
 ```
 
-#### 2次元配列のアクセス
+Cの多次元配列は行優先で連続配置されます。
+この例では、`matrix[0][0]`から`matrix[0][2]`が並び、その後に2行目が続きます。
 
 ```c
-#include <stdio.h>
+int row;
+int column;
 
-int main(void) {
-    int matrix[3][3] = {
-        {1, 2, 3},
-        {4, 5, 6},
-        {7, 8, 9}
-    };
-    int i, j;
-
-    /* 2次元配列の全要素を表示 */
-    printf("行列の内容:\n");
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3; j++) {
-            printf("%2d ", matrix[i][j]);
-        }
-        printf("\n");
+for (row = 0; row < 2; row++) {
+    for (column = 0; column < 3; column++) {
+        printf("%d ", matrix[row][column]);
     }
 
-    return 0;
+    printf("\n");
 }
 ```
 
-#### 3次元配列
+2次元配列を関数へ渡すときは、ポインタ演算に必要な列数を型に含めます。
 
 ```c
-int cube[2][3][4];  /* 2×3×4の3次元配列 */
+void print_matrix(const int matrix[][3], int rows)
+{
+    int row;
+    int column;
+
+    for (row = 0; row < rows; row++) {
+        for (column = 0; column < 3; column++) {
+            printf("%d ", matrix[row][column]);
+        }
+
+        printf("\n");
+    }
+}
 ```
 
-### 配列の実践的応用
+## 配列からポインタへの変換
 
-配列は様々な場面で活用できます。
+配列式は、多くの式の中で先頭要素へのポインタに変換されます。
+ただし、`sizeof`のオペランドや単項`&`のオペランドなどでは、この変換は起こりません。
 
-1. **統計計算** - 数値の集合から平均、最大値、最小値を計算
-2. **データ検索** - 特定の値を配列から探す
-3. **ソート** - データを昇順や降順に並べ替える
-4. **行列演算** - 数学的な行列計算
-5. **画像処理** - 画素データの管理
-
-## 実例コード
-
-完全な実装例は以下のファイルを参照してください。
-
-### 基本的な配列操作
-
-- [array_basics.c](examples/array_basics.c) - C90準拠版
-- [array_basics_c99.c](examples/array_basics_c99.c) - C99準拠版
-
-### 多次元配列の活用
-
-- [multidimensional_arrays.c](examples/multidimensional_arrays.c) - C90準拠版
-- [multidimensional_arrays_c99.c](examples/multidimensional_arrays_c99.c) - C99準拠版
-
-## コンパイル方法
-
-### 基本的なコンパイル（C90準拠）
-
-```bash
-gcc -std=c90 -Wall -Wextra -pedantic array_basics.c -o array_basics
+```c
+int values[5];
+int *first = values;       /* &values[0] */
+size_t bytes = sizeof values;
 ```
 
-### Makefileを使用した場合
+配列とポインタは別の型であり、同じオブジェクトではありません。
+この違いは、次章で詳しく扱います。
+
+## よくある誤り
+
+### 範囲外アクセス
+
+```c
+int values[5] = { 0 };
+values[5] = 10; /* Undefined behavior. */
+```
+
+### 初期化前の読み取り
+
+```c
+int values[5];
+printf("%d\n", values[0]); /* Indeterminate value. */
+```
+
+### バイト数と要素数の混同
+
+```c
+int values[10];
+size_t bytes = sizeof values;
+size_t count = sizeof values / sizeof values[0];
+```
+
+`bytes`はバイト数、`count`は要素数です。
+
+## コンパイル
 
 ```bash
+gcc -std=c90 -Wall -Wextra -pedantic examples/array_basics.c -o array_basics
+./array_basics
+```
 
-# 全てのプログラムをコンパイル
+Makefileを使う場合は、次のコマンドを実行します。
 
+```bash
 make all
-
-# 特定のプログラムをコンパイル
-
-make array_basics
-
-# C99版をコンパイル
-
-make array_basics_c99
-
-# プログラムを実行
-
 make run-all
-
-# クリーンアップ
-
 make clean
 ```
 
-## 学習フローとコンパイル方法
+実装例は、次のファイルにあります。
 
-### 推奨学習順序
+- [array_basics.c](examples/array_basics.c)
+- [multidimensional_arrays.c](examples/multidimensional_arrays.c)
 
-1. **理論学習**: README.mdで基本概念を理解
-2. **サンプルコード**: examples/の基本例を確認
-3. **演習課題**: exercises/README.mdで課題を確認
-4. **実装練習**: solutions/の解答例を参考に自分で実装
+## C99で追加された配列機能
 
-## C90とC99の違い
-
-### C90の特徴（このチュートリアルの基準）
-
-- **変数宣言**: 関数の先頭でまとめて宣言する必要がある
-- **配列サイズ**: コンパイル時に決定される固定サイズのみ
-- **初期化**: 宣言と同時に行う必要がある
-- **コメント**: `/* */` 形式のみ使用可能
-
-### C99の拡張機能
-
-- **変数宣言**: 使用する場所で宣言可能
-- **可変長配列（VLA）**: 実行時にサイズを決定可能
-- **配列の指定初期化**: `arr[5] = {[2] = 10, [4] = 20}`
-- **行コメント**: `//` 形式のコメントが使用可能
-
-## よくある間違いとデバッグ方法
-
-### 1. 配列の境界外アクセス
-
-**問題:** 配列のサイズを超えた添字でアクセス
+C99では、指定初期化子、複合リテラル、可変長配列が追加されました。
+C11とC17では可変長配列への対応が処理系の任意機能です。
 
 ```c
-int arr[5] = {1, 2, 3, 4, 5};
-int value = arr[5];  /* エラー：添字は0-4が有効 */
+int values[10] = { [2] = 5, [7] = 9 };
 ```
-
-**対策:**
-
-- 常に配列のサイズを意識する
-- ループの条件を正しく設定する
-- デバッガーやランタイムチェックツールを使用
-
-### 2. 配列の初期化忘れ
-
-**問題:** 配列が適切に初期化されていない
-
-```c
-int arr[10];
-/* arr[0]から arr[9]の値は不定 */
-```
-
-**対策:**
-
-- 使用前に必ず初期化する
-- 宣言時に初期化を同時に行う
-- ループで初期値を設定する
-
-### 3. 配列代入の間違い
-
-**問題:** 配列全体を直接代入しようとする
-
-```c
-int arr1[5] = {1, 2, 3, 4, 5};
-int arr2[5];
-arr2 = arr1;  /* エラー：配列は直接代入不可 */
-```
-
-**対策:**
-
-- ループを使用して要素を1つずつコピー
-- 標準ライブラリの関数を使用（後の章で学習）
-
-## 次の章へ
-
-配列の基本を理解したら、[第8章: ポインター基礎](../pointers/README.md) に進んでください。ポインターを学ぶことで、配列のより深い理解が得られます。
-
-## 参考資料
-
-- [C90規格書](https://www.iso.org/standard/17782.html)
-- [C99規格書](https://www.iso.org/standard/29237.html)
 
 ## 演習問題
 
-この章の内容を理解したら、[演習問題](exercises/)に挑戦してみましょう。
-
-- 基礎問題：基本的な文法や概念の確認
-- 応用問題：より実践的なプログラムの作成
-- チャレンジ問題：高度な理解と実装力が必要な問題
+[演習問題](exercises/)では、探索、集計、並べ替え、多次元配列を練習します。

@@ -1,386 +1,271 @@
-# 開発環境の詳細設定
+# C言語の開発環境
 
 ## 対応C規格
 
-- **主要対象:** 全規格共通
-- **学習内容:** 開発環境の詳細設定、環境診断、コンパイル過程の理解
+- **主要対象：** 全規格
+- **学習内容：** 必要なツール、翻訳工程、警告、規格モード、デバッグ
 
 ## 学習目標
 
-この章を完了すると、以下のことができるようになります。
+この章を完了すると、次のことができるようになります。
 
-- 開発環境の詳細な設定方法を理解する
-- コンパイル過程の各段階を理解する
-- 環境固有の情報を取得・確認できる
-- トラブルシューティングができるようになる
+- エディタ、コンパイラ、リンカ、デバッガの役割を説明できる
+- プリプロセス、コンパイル、アセンブル、リンクの各段階を確認できる
+- 規格モードと警告を指定してプログラムをビルドできる
+- コンパイルエラーとリンクエラーを区別できる
+- デバッグ情報を付けてデバッガを起動できる
 
-## 開発環境の詳細
+## 最小構成
 
-### 必須ツールの詳細
+Cプログラムの作成に必要なのは、ソースファイルを編集するエディタと、ソースコードを実行ファイルへ変換する処理系です。
+複数ファイルの管理やデバッグが必要になったら、ビルドツールとデバッガを追加します。
 
-1. **テキストエディター**
-    - Visual Studio Code（推奨）
-    - Sublime Text
-    - Atom
-    - Vim/Emacs（上級者向け）
+1. **エディタ**：プレーンテキストのソースファイルを編集します
+2. **C処理系**：コンパイラ、アセンブラ、リンカ、標準ライブラリを提供します
+3. **デバッガ**：停止位置の設定、変数の確認、1ステップ実行を行います
+4. **ビルドツール**：複数の翻訳単位と依存関係をまとめてビルドします
 
-2. **コンパイラー**
-    - GCC（GNU Compiler Collection）
-    - Clang/LLVM
-    - Microsoft Visual C++
-    - Intel C++ Compiler
+特定のエディタやビルドツールは必須ではありません。
+プロジェクトですでに使われている処理系とビルド手順がある場合は、その構成を優先します。
 
-3. **デバッガー**
-    - GDB（GNU Debugger）
-    - LLDB（LLVM Debugger）
-    - Visual Studio Debugger
+## 処理系を確認する
 
-4. **ビルドツール**
-    - Make
-    - CMake
-    - Ninja
-
-### OS別の詳細設定
-
-#### Windows
-
-**MinGW-w64の詳細設定:**
-
-1. インストーラーのダウンロード
-2. インストール時の設定：
-    - Architecture: x86_64（64ビット版）
-    - Threads: posix（C11スレッド対応）
-    - Exception: seh（構造化例外処理）
-
-3. 環境変数の設定：
-
-   ```batch
-   setx PATH "%PATH%;C:\mingw64\bin"
-   ```
-
-**Visual Studio Community:**
-
-- C++開発ワークロードをインストール
-- Windows SDK を含める
-- CMakeサポートを追加
-
-#### macOS
-
-**Xcode Command Line Toolsの詳細:**
+GCC系またはClang系の処理系では、次のコマンドで実行ファイルとバージョンを確認できます。
 
 ```bash
-
-# インストール
-
-xcode-select --install
-
-# 確認
-
-xcode-select -p
-
-# バージョン確認
-
-gcc --version
-clang --version
+cc --version
+cc -v
 ```
 
-**Homebrewでの追加ツール:**
+`cc`が利用できない場合は、環境が提供する`gcc`、`clang`などのコマンド名を確認します。
+インストール方法やパッケージ名はOSと配布元によって変わるため、利用する環境の管理手順に従います。
+
+## 翻訳工程
+
+Cのソースコードは、概念上、前処理、翻訳、アセンブル、リンクを経て実行ファイルになります。
+処理系は複数の段階を一つのコマンドで実行できますが、中間結果を出力すると問題の発生箇所を確認できます。
+
+### 前処理
 
 ```bash
-
-# Homebrewのインストール
-
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-# 開発ツールのインストール
-
-brew install gcc
-brew install gdb
-brew install cmake
+cc -E source.c -o source.i
 ```
 
-#### Linux
+前処理では、`#include`、マクロ置換、条件付きインクルージョンなどを処理します。
+生成された`source.i`を調べると、展開後の宣言やマクロを確認できます。
 
-**各ディストリビューション別:**
-
-**Ubuntu/Debian:**
+### アセンブリコードの生成
 
 ```bash
-sudo apt update
-sudo apt install build-essential
-sudo apt install gdb
-sudo apt install cmake
-sudo apt install valgrind
+cc -S source.c -o source.s
 ```
 
-**Fedora/RHEL:**
+`-S`はリンクを行わず、処理系が生成したアセンブリコードを出力します。
+最適化による変化を調べる場合は、最適化オプションを明示します。
+
+### オブジェクトファイルの生成
 
 ```bash
-sudo dnf groupinstall "Development Tools"
-sudo dnf install gcc
-sudo dnf install gdb
-sudo dnf install cmake
+cc -c source.c -o source.o
 ```
 
-**Arch Linux:**
+`-c`はリンクを行わず、翻訳単位ごとのオブジェクトファイルを生成します。
+
+### リンク
 
 ```bash
-sudo pacman -S base-devel
-sudo pacman -S gdb
-sudo pacman -S cmake
+cc main.o utility.o -o program
 ```
 
-## コンパイル過程の詳細
+リンクでは、複数のオブジェクトファイルと必要なライブラリから実行ファイルを作ります。
+宣言だけがあり定義が見つからない場合や、同じ外部定義が複数ある場合は、この段階で診断されます。
 
-### コンパイルの各段階
+## 警告と規格モード
 
-1. **プリプロセッサ処理**
-
-   ```bash
-   gcc -E source.c -o source.i
-   ```
-
-    - `#include`の展開
-    - `#define`の置換
-    - 条件付きコンパイルの処理
-
-2. **コンパイル（狭義）**
-
-   ```bash
-   gcc -S source.i -o source.s
-   ```
-
-    - C言語からアセンブリ言語へ変換
-    - 構文解析と意味解析
-    - 最適化の実行
-
-3. **アセンブル**
-
-   ```bash
-   gcc -c source.s -o source.o
-   ```
-
-    - アセンブリ言語から機械語へ変換
-    - オブジェクトファイルの生成
-
-4. **リンク**
-
-   ```bash
-   gcc source.o -o program
-   ```
-
-    - オブジェクトファイルの結合
-    - ライブラリの結合
-    - 実行ファイルの生成
-
-### コンパイラーオプションの詳細
-
-#### 警告オプション
+GCCやClangでは、次のように規格モードと警告を指定できます。
 
 ```bash
--Wall          # 基本的な警告をすべて有効化
--Wextra        # 追加の警告を有効化
--Werror        # 警告をエラーとして扱う
--pedantic      # 規格に厳密に従う
--Wno-unused    # 未使用変数の警告を無効化
+cc -std=c17 -Wall -Wextra -Wpedantic source.c -o program
 ```
 
-#### 最適化オプション
+- **`-std=c17`**：C17を基準に翻訳します
+- **`-Wall`**：よく使われる警告群を有効にします。「すべての警告」という意味ではありません
+- **`-Wextra`**：追加の警告群を有効にします
+- **`-Wpedantic`**：選択した規格から外れる構文や機能の診断を増やします
+
+警告を無効にする前に、警告が示すコード上の問題を確認します。
+`-Werror`は警告をエラーとして扱うため、継続的インテグレーションでは有用ですが、処理系の更新で新しい警告が増える影響も考慮します。
+
+### 規格モードの例
 
 ```bash
--O0            # 最適化なし（デフォルト）
--O1            # 基本的な最適化
--O2            # 推奨される最適化
--O3            # 積極的な最適化
--Os            # サイズ最適化
--Og            # デバッグ向け最適化
+cc -std=c90 -Wall -Wextra -Wpedantic source.c -o program
+cc -std=c99 -Wall -Wextra -Wpedantic source.c -o program
+cc -std=c11 -Wall -Wextra -Wpedantic source.c -o program
+cc -std=c17 -Wall -Wextra -Wpedantic source.c -o program
+cc -std=c23 -Wall -Wextra -Wpedantic source.c -o program
 ```
 
-#### デバッグオプション
+受け付けるオプション名は処理系によって異なります。
+C23への移行期の処理系では、`-std=c2x`を使う場合があります。
+
+## 最適化とデバッグ情報
+
+開発中は、デバッグ情報と、デバッグを妨げにくい最適化を指定できます。
 
 ```bash
--g             # デバッグ情報を含める
--g3            # マクロ情報も含める
--ggdb          # GDB用の詳細情報
+cc -std=c17 -Wall -Wextra -Wpedantic -g -Og source.c -o program
 ```
 
-#### その他の重要なオプション
+- **`-g`**：デバッガが利用する情報を出力します
+- **`-O0`**：最適化を抑えます
+- **`-Og`**：デバッグ可能性を考慮した最適化を行います
+- **`-O2`**：一般的な最適化を有効にします
+- **`-O3`**：より積極的な最適化を試みます
+- **`-Os`**：コードサイズを抑える最適化を試みます
 
-```bash
--std=c99       # C99規格を使用
--D DEBUG       # DEBUGマクロを定義
--I /path       # インクルードパスを追加
--L /path       # ライブラリパスを追加
--l library     # ライブラリをリンク
--fPIC          # 位置独立コード生成
--shared        # 共有ライブラリ作成
+最適化レベルが高いと、変数が除去されたり、ソースコードの行と実行順序が対応しにくくなったりします。
+性能を比較する場合は、同じ入力とビルド条件で計測します。
+
+## 実装の性質を確認する
+
+型のサイズや範囲は処理系によって異なります。
+次のプログラムは、`sizeof`の結果と整数型の範囲を表示します。
+
+```c
+#include <limits.h>
+#include <stdio.h>
+
+int main(void)
+{
+    printf("CHAR_BIT: %d\n", CHAR_BIT);
+    printf("sizeof(char): %lu\n", (unsigned long)sizeof(char));
+    printf("sizeof(short): %lu\n", (unsigned long)sizeof(short));
+    printf("sizeof(int): %lu\n", (unsigned long)sizeof(int));
+    printf("sizeof(long): %lu\n", (unsigned long)sizeof(long));
+    printf("sizeof(void *): %lu\n", (unsigned long)sizeof(void *));
+    printf("INT_MIN: %d\n", INT_MIN);
+    printf("INT_MAX: %d\n", INT_MAX);
+    printf("LONG_MIN: %ld\n", LONG_MIN);
+    printf("LONG_MAX: %ld\n", LONG_MAX);
+    return 0;
+}
 ```
 
-## 環境情報の取得
+`sizeof(char)`は常に1ですが、1バイトが8ビットとは限りません。
+1バイトのビット数は`CHAR_BIT`で確認します。
 
-### システム情報の確認
+### 規格版と処理系を確認する
+
+処理系固有のマクロは、対応する処理系でだけ使用します。
+ClangはGCC互換マクロも定義するため、Clangの判定を先に置きます。
 
 ```c
 #include <stdio.h>
-#include <limits.h>
-#include <float.h>
 
-void print_system_info(void) {
-    printf("=== システム情報 ===\n");
-
-    /* データ型のサイズ */
-    printf("\nデータ型のサイズ:\n");
-    printf("char: %lu bytes\n", sizeof(char));
-    printf("short: %lu bytes\n", sizeof(short));
-    printf("int: %lu bytes\n", sizeof(int));
-    printf("long: %lu bytes\n", sizeof(long));
-    printf("long long: %lu bytes\n", sizeof(long long));
-    printf("float: %lu bytes\n", sizeof(float));
-    printf("double: %lu bytes\n", sizeof(double));
-    printf("pointer: %lu bytes\n", sizeof(void*));
-
-    /* 整数型の範囲 */
-    printf("\n整数型の範囲:\n");
-    printf("CHAR: %d ~ %d\n", CHAR_MIN, CHAR_MAX);
-    printf("SHORT: %d ~ %d\n", SHRT_MIN, SHRT_MAX);
-    printf("INT: %d ~ %d\n", INT_MIN, INT_MAX);
-    printf("LONG: %ld ~ %ld\n", LONG_MIN, LONG_MAX);
-
-    /* 浮動小数点の情報 */
-    printf("\n浮動小数点の情報:\n");
-    printf("FLT_MIN: %e\n", FLT_MIN);
-    printf("FLT_MAX: %e\n", FLT_MAX);
-    printf("DBL_MIN: %e\n", DBL_MIN);
-    printf("DBL_MAX: %e\n", DBL_MAX);
-}
-```
-
-### コンパイラー情報の取得
-
-```c
-void print_compiler_info(void) {
-    printf("=== コンパイラー情報 ===\n");
-
-#ifdef __GNUC__
-    printf("GCC version: %d.%d.%d\n",
-           __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__);
-#endif
-
-#ifdef __clang__
-    printf("Clang version: %d.%d.%d\n",
+int main(void)
+{
+#if defined(__clang__)
+    printf("Clang: %d.%d.%d\n",
            __clang_major__, __clang_minor__, __clang_patchlevel__);
+#elif defined(__GNUC__)
+    printf("GCC: %d.%d.%d\n",
+           __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__);
+#elif defined(_MSC_VER)
+    printf("MSVC: %d\n", _MSC_VER);
+#else
+    printf("Compiler: unknown\n");
 #endif
 
-#ifdef _MSC_VER
-    printf("Microsoft Visual C++ version: %d\n", _MSC_VER);
+#if defined(__STDC_VERSION__)
+    printf("__STDC_VERSION__: %ld\n", __STDC_VERSION__);
+#else
+    printf("__STDC_VERSION__: not defined\n");
 #endif
 
-#ifdef __STDC_VERSION__
-    printf("C Standard: %ld\n", __STDC_VERSION__);
-#endif
+    return 0;
 }
 ```
 
-### エンディアンの確認
+処理系固有マクロは、言語規格ではなく処理系の機能を判定するために使います。
 
-```c
-void check_endianness(void) {
-    unsigned int x = 1;
-    char *c = (char*)&x;
+## エラーを段階で分類する
 
-    if (*c) {
-        printf("システムはリトルエンディアンです\n");
-    } else {
-        printf("システムはビッグエンディアンです\n");
-    }
-}
+### コンパイル時の診断
+
+構文、型、宣言に問題がある場合は、オブジェクトファイルを生成する前に診断されます。
+最初の診断が後続の診断を引き起こすことがあるため、先頭のエラーから確認します。
+
+### リンク時の診断
+
+`undefined reference`などの診断は、必要な定義を含むオブジェクトファイルやライブラリがリンク対象にない場合に発生します。
+関数の宣言を追加するだけでは解決せず、その関数の定義をリンクする必要があります。
+
+### 実行時の問題
+
+境界外アクセス、解放済み領域の使用、未初期化値の使用などは、翻訳に成功しても実行時に問題になります。
+デバッガや、処理系が提供するサニタイザを利用して原因を絞り込みます。
+
+```bash
+cc -std=c17 -Wall -Wextra -Wpedantic -g \
+  -fsanitize=address,undefined source.c -o program
 ```
 
-## トラブルシューティング
+サニタイザはC規格の機能ではなく、処理系の拡張です。
+利用可能な種類と対応環境は、使用する処理系で確認します。
 
-### よくあるエラーと対処法
+## デバッガの基本操作
 
-1. **"gcc: command not found"**
-    - 原因：コンパイラーがインストールされていない
-    - 対処：環境構築の手順を再確認
+GDBを使う場合は、デバッグ情報を付けてビルドし、実行ファイルを指定して起動します。
 
-2. **"undefined reference to `main'"**
-    - 原因：main関数が定義されていない
-    - 対処：main関数を追加
+```bash
+cc -g -Og source.c -o program
+gdb ./program
+```
 
-3. **"fatal error: stdio.h: No such file or directory"**
-    - 原因：標準ライブラリが見つからない
-    - 対処：開発環境の再インストール
+代表的な操作は次のとおりです。
 
-4. **文字化け**
-    - 原因：文字エンコーディングの不一致
-    - 対処：UTF-8に統一
+```text
+break main
+run
+next
+step
+print variable
+continue
+backtrace
+quit
+```
 
-### デバッグ手法
+LLDBなど別のデバッガではコマンドが異なります。
 
-1. **printf デバッグ**
+## Makefileの最小例
 
-   ```c
-   printf("DEBUG: 変数x = %d\n", x);
-   ```
+複数の翻訳単位を扱う場合は、依存関係をビルドツールへ記述します。
+Makefileのレシピ行は、先頭をタブ文字にします。
 
-2. **アサーション**
+<!-- markdownlint-disable MD010 -->
 
-   ```c
-   #include <assert.h>
-   assert(x > 0);  /* 条件が偽なら停止 */
-   ```
+```makefile
+CC = cc
+CFLAGS = -std=c17 -Wall -Wextra -Wpedantic -g
 
-3. **GDBの基本的な使い方**
+program: main.o utility.o
+	$(CC) $(CFLAGS) -o $@ $^
 
-   ```bash
-   gcc -g program.c -o program
-   gdb ./program
+main.o: main.c utility.h
+	$(CC) $(CFLAGS) -c main.c
 
-   # GDB内のコマンド
-   break main     # ブレークポイント設定
-   run           # プログラム実行
-   step          # 1行実行
-   print x       # 変数の値を表示
-   continue      # 実行継続
-   quit          # 終了
-   ```
+utility.o: utility.c utility.h
+	$(CC) $(CFLAGS) -c utility.c
 
-## 環境設定のベストプラクティス
+clean:
+	rm -f main.o utility.o program
+```
 
-1. **エディターの設定**
-    - インデント：スペース4つ
-    - 文字エンコーディング：UTF-8
-    - 改行コード：LF（Unix形式）
+<!-- markdownlint-enable MD010 -->
 
-2. **コンパイラーの警告設定**
-
-   ```bash
-   alias gcc='gcc -Wall -Wextra -pedantic'
-   ```
-
-3. **Makefileの活用**
-
-   ```makefile
-   CC = gcc
-   CFLAGS = -Wall -Wextra -pedantic -std=c99
-
-   all: program
-
-   program: main.o utils.o
-       $(CC) $(CFLAGS) -o $@ $^
-
-   %.o: %.c
-       $(CC) $(CFLAGS) -c $<
-
-   clean:
-       rm -f *.o program
-   ```
-
-## 次の章へ
-
-開発環境の詳細設定について理解できました。メインの学習に戻りましょう。
+ビルドコマンドをシェルのエイリアスへ埋め込むより、Makefileなどプロジェクト内の設定へ記録する方が、他の環境と同じ条件を再現しやすくなります。
 
 ## 演習問題
 
-この章の内容を理解したら、[演習問題](exercises/)に挑戦してみましょう。
+[演習問題](exercises/)では、翻訳工程、警告、リンクエラー、デバッグ情報を確認できます。

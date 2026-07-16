@@ -26,15 +26,15 @@
         STATE_ENUM(name),
 
 /* 状態機械の終了 */
-#define END_STATE_MACHINE(name) \
+#define END_STATE_MACHINE(machine_type) \
         STATE_ENUM(COUNT) \
-    } name##_State; \
+    } machine_type##_State; \
     \
     typedef struct { \
-        name##_State current_state; \
+        machine_type##_State current_state; \
         const char *name; \
         void *context; \
-    } name##_Machine;
+    } machine_type##_Machine;
 
 /* イベント定義の開始 */
 #define EVENTS(name) \
@@ -256,26 +256,36 @@ void dispatch_event(void *handlers, const char *event_name, void *data)
 
 /* より複雑な状態機械の例: 自動販売機 */
 
-STATE_MACHINE(VendingMachine)
-    STATE(Idle)
-    STATE(CoinInserted)
-    STATE(ProductSelected)
-    STATE(Dispensing)
-    STATE(Change)
-    STATE(OutOfOrder)
-END_STATE_MACHINE(VendingMachine)
+typedef enum {
+    VENDING_STATE_INVALID = -1,
+    VENDING_STATE_IDLE,
+    VENDING_STATE_COIN_INSERTED,
+    VENDING_STATE_PRODUCT_SELECTED,
+    VENDING_STATE_DISPENSING,
+    VENDING_STATE_CHANGE,
+    VENDING_STATE_OUT_OF_ORDER,
+    VENDING_STATE_COUNT
+} VendingMachine_State;
 
-EVENTS(VendingMachine)
-    EVENT(InsertCoin)
-    EVENT(SelectProduct)
-    EVENT(Dispense)
-    EVENT(ReturnChange)
-    EVENT(Cancel)
-    EVENT(Maintenance)
-END_EVENTS(VendingMachine)
+typedef struct {
+    VendingMachine_State current_state;
+    const char *name;
+    void *context;
+} VendingMachine_Machine;
+
+typedef enum {
+    VENDING_EVENT_NONE = 0,
+    VENDING_EVENT_INSERT_COIN,
+    VENDING_EVENT_SELECT_PRODUCT,
+    VENDING_EVENT_DISPENSE,
+    VENDING_EVENT_RETURN_CHANGE,
+    VENDING_EVENT_CANCEL,
+    VENDING_EVENT_MAINTENANCE,
+    VENDING_EVENT_COUNT
+} VendingMachine_Event;
 
 /* コンパイル時検証 */
-STATIC_ASSERT_STATE_COUNT(TrafficLight, 4);  /* INVALID + 3状態 + COUNT */
+STATIC_ASSERT_STATE_COUNT(TrafficLight, 3);  /* 3 states before COUNT */
 STATIC_ASSERT_EVENT_COUNT(TrafficLight, 4);  /* NONE + 3イベント + COUNT */
 
 /* テスト関数群 */

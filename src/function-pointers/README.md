@@ -1,62 +1,39 @@
-# 関数ポインターーー
+# 関数ポインター
 
 ## 対応C規格
 
-- **主要対象:** C90
-- **学習内容:** 関数ポインターーーの基本、関数ポインターーー配列、コールバック関数、高階関数の実装
+- **主要対象：** C90
+- **学習内容：** 関数ポインターの基本、関数ポインター配列、コールバック関数、高階関数の実装
 
 ## 学習目標
 
 この章を完了すると、以下のことができるようになります。
 
-- 関数ポインターーーの概念を理解し、適切に宣言・使用できる
-- 関数ポインターーーを引数として渡す関数を作成できる
-- 関数ポインターーー配列を使った効率的なプログラムを書ける
+- 関数ポインターの概念を理解し、適切に宣言・使用できる
+- 関数ポインターを引数として渡す関数を作成できる
+- 関数ポインター配列を使った表駆動の分岐を書ける
 - コールバック関数の仕組みを理解し、実装できる
-- より柔軟で拡張性のあるプログラム設計ができる
+- 互換性のある関数型を見分けられる
 
 ## 概要と詳細
 
-### 関数ポインターーーとは？
+### 関数ポインターとは
 
-関数ポインターーーは、関数のアドレスを格納する変数です。関数も実際にはメモリ上の特定の場所に配置されており、その場所を指すポインターを作ることができます。
+関数ポインターは、特定の関数型を持つ関数を指すポインターです。
+指している関数は、通常の関数呼び出しと同じ形式で呼び出せます。
 
-#### 日常生活での関数ポインターーー
+#### 関数ポインターを使う場面
 
-関数ポインターーーを理解するために、身近な例を考えてみましょう。
+1. **実行時の選択**：互換性のある複数の関数から、呼び出す関数を選びます
+2. **表駆動の分岐**：番号や演算子と処理を表の要素として対応させます
+3. **コールバック**：処理の一部を関数引数として受け取ります
 
-1. **リモコンのボタン**
+### 関数ポインターの基本概念
 
-    - ボタン = 関数ポインターーー
-    - ボタンを押す = 関数を実行
-    - 設定でボタンの機能を変更 = 関数ポインターーーの値を変更
-
-2. **電話の短縮ダイヤル**
-
-    - 短縮番号1 = 関数ポインターーー
-    - 番号1を押す = 関数を呼び出す
-    - 登録先を変更 = 関数ポインターーーを別の関数に変更
-
-3. **イベントハンドラ**
-
-    - ボタンクリック時の処理 = 関数ポインターーー
-    - クリックイベント = 関数の呼び出し
-    - 処理を変更 = 別の関数を割り当て
-
-#### なぜ関数ポインターーーが必要なの？
-
-1. **柔軟性**: 実行時に呼び出す関数を変更できる
-2. **再利用性**: 同じコードで異なる処理を実行できる
-3. **拡張性**: 新しい機能を簡単に追加できる
-4. **効率性**: switch文の代わりに関数ポインターーー配列を使用
-5. **コールバック**: 他の関数に処理を委譲できる
-
-### 関数ポインターーーの基本概念
-
-#### 関数ポインターーーの宣言
+#### 関数ポインターの宣言
 
 ```c
-戻り値の型 (*ポインターー名)(引数リスト);
+戻り値の型 (*ポインター名)(引数リスト);
 ```
 
 #### 基本的な例
@@ -75,10 +52,10 @@ int multiply(int a, int b)
 
 int main(void)
 {
-    /* 関数ポインターーーの宣言 */
+    /* 関数ポインターの宣言 */
     int (*operation)(int, int);
 
-    /* 関数ポインターーーに関数を代入 */
+    /* 関数ポインターに関数を代入 */
     operation = add;
     printf("5 + 3 = %d\n", operation(5, 3));
 
@@ -89,9 +66,9 @@ int main(void)
 }
 ```
 
-### 関数ポインターーーの様々な形式
+### 関数ポインターの宣言形式
 
-#### 引数なし・戻り値なしの関数ポインターーー
+#### 引数なし・戻り値なしの関数ポインター
 
 ```c
 void (*func_ptr)(void);
@@ -105,10 +82,10 @@ func_ptr = hello;
 func_ptr();  /* hello()と同じ */
 ```
 
-#### 複雑な引数を持つ関数ポインターーー
+#### 複雑な引数を持つ関数ポインター
 
 ```c
-/* 文字列を引数に取る関数ポインターーー */
+/* 文字列を引数に取る関数ポインター */
 void (*string_func)(const char *);
 
 void print_upper(const char *str)
@@ -121,11 +98,14 @@ string_func = print_upper;
 string_func("hello");
 ```
 
-#### 関数ポインターーーを返す関数
+#### 関数ポインターを返す関数
+
+`typedef`で関数ポインター型に名前を付けると、戻り値の型を読みやすくできます。
 
 ```c
-/* 関数ポインターーーを返す関数 */
-int (*get_operation(int choice))(int, int)
+typedef int (*operation_t)(int, int);
+
+operation_t get_operation(int choice)
 {
     if (choice == 1) {
         return add;
@@ -135,13 +115,13 @@ int (*get_operation(int choice))(int, int)
 }
 
 /* 使用例 */
-int (*op)(int, int) = get_operation(1);
+operation_t op = get_operation(1);
 int result = op(10, 20);
 ```
 
-### 関数ポインターーー配列
+### 関数ポインター配列
 
-#### 基本的な関数ポインターーー配列
+#### 基本的な関数ポインター配列
 
 ```c
 int add(int a, int b) { return a + b; }
@@ -149,7 +129,7 @@ int subtract(int a, int b) { return a - b; }
 int multiply(int a, int b) { return a * b; }
 int divide(int a, int b) { return a / b; }
 
-/* 関数ポインターーー配列 */
+/* 関数ポインター配列 */
 int (*operations[4])(int, int) = {add, subtract, multiply, divide};
 
 /* 使用例 */
@@ -157,38 +137,51 @@ int a = 10, b = 5;
 int i;
 
 for (i = 0; i < 4; i++) {
-    printf("結果: %d\n", operations[i](a, b));
+    printf("Result: %d\n", operations[i](a, b));
 }
 ```
 
-#### 関数ポインターーー配列を使った計算機
+この例では`b`が0でないことを前提とします。
+除算を含む表では、呼び出し前に除数を検査するか、関数側からエラーを返す設計が必要です。
+
+#### 関数ポインター配列を使った計算機
 
 ```c
+#include <stddef.h>
+
 typedef struct {
     char symbol;
     int (*func)(int, int);
-    char *name;
+    const char *name;
 } Calculator;
 
 Calculator calc[] = {
-    {'+', add, "加算"},
-    {'-', subtract, "減算"},
-    {'*', multiply, "乗算"},
-    {'/', divide, "除算"}
+    {'+', add, "add"},
+    {'-', subtract, "subtract"},
+    {'*', multiply, "multiply"},
+    {'/', divide, "divide"}
 };
 
 /* 操作の検索と実行 */
-int execute_operation(char op, int a, int b)
+int execute_operation(char op, int a, int b, int *result)
 {
-    int i;
-    int size = sizeof(calc) / sizeof(calc[0]);
+    size_t i;
+    size_t size = sizeof(calc) / sizeof(calc[0]);
+
+    if (result == NULL) {
+        return 0;
+    }
 
     for (i = 0; i < size; i++) {
         if (calc[i].symbol == op) {
-            return calc[i].func(a, b);
+            if (op == '/' && b == 0) {
+                return 0;
+            }
+            *result = calc[i].func(a, b);
+            return 1;
         }
     }
-    return 0;  /* 無効な操作 */
+    return 0;
 }
 ```
 
@@ -196,7 +189,7 @@ int execute_operation(char op, int a, int b)
 
 #### コールバック関数の概念
 
-コールバック関数は、他の関数に引数として渡される関数です。呼び出される側が適切なタイミングで「呼び戻す（コールバック）」ことからこの名前が付いています。
+コールバック関数は、別の関数へ関数ポインターとして渡し、その関数の処理中に呼び出してもらう関数です。
 
 #### 基本的なコールバック関数
 
@@ -207,12 +200,12 @@ typedef void (*callback_t)(int);
 /* コールバック関数の例 */
 void print_result(int result)
 {
-    printf("結果: %d\n", result);
+    printf("Result: %d\n", result);
 }
 
 void log_result(int result)
 {
-    printf("ログ: 計算結果は %d です\n", result);
+    printf("Log result: %d\n", result);
 }
 
 /* コールバック関数を受け取る関数 */
@@ -243,13 +236,13 @@ void array_foreach(int *arr, int size, void (*callback)(int*, int))
 void double_value(int *value, int index)
 {
     *value *= 2;
-    printf("要素%d: %d\n", index, *value);
+    printf("Element %d: %d\n", index, *value);
 }
 
 void square_value(int *value, int index)
 {
     *value *= *value;
-    printf("要素%d: %d\n", index, *value);
+    printf("Element %d: %d\n", index, *value);
 }
 
 /* 使用例 */
@@ -258,22 +251,22 @@ array_foreach(numbers, 5, double_value);   /* 各要素を2倍 */
 array_foreach(numbers, 5, square_value);   /* 各要素を2乗 */
 ```
 
-### より高度な関数ポインターーー
+### より高度な関数ポインター
 
-#### 関数ポインターーーの構造体
+#### 関数ポインターの構造体
 
 ```c
 typedef struct {
-    char *name;
+    const char *name;
     int (*init)(void);
     void (*process)(int);
     void (*cleanup)(void);
 } Module;
 
 /* モジュールの実装例 */
-int module_a_init(void) { printf("Module A 初期化\n"); return 0; }
-void module_a_process(int data) { printf("Module A: %d を処理\n", data); }
-void module_a_cleanup(void) { printf("Module A クリーンアップ\n"); }
+int module_a_init(void) { printf("Module A init\n"); return 0; }
+void module_a_process(int data) { printf("Module A data: %d\n", data); }
+void module_a_cleanup(void) { printf("Module A cleanup\n"); }
 
 Module modules[] = {
     {"ModuleA", module_a_init, module_a_process, module_a_cleanup},
@@ -290,7 +283,7 @@ void run_module(Module *mod, int data)
 }
 ```
 
-#### 関数ポインターーーチェーン
+#### 関数ポインターチェーン
 
 ```c
 typedef struct filter {
@@ -304,10 +297,10 @@ int add_ten_filter(int x) { return x + 10; }
 int square_filter(int x) { return x * x; }
 
 /* フィルターチェーンの実行 */
-int apply_filters(int input, Filter *chain)
+int apply_filters(int input, const Filter *chain)
 {
     int result = input;
-    Filter *current = chain;
+    const Filter *current = chain;
 
     while (current != NULL) {
         result = current->process(result);
@@ -359,14 +352,16 @@ qsort(numbers, size, sizeof(int), compare_int_desc); /* 降順 */
 ```c
 int compare_string(const void *a, const void *b)
 {
-    return strcmp(*(const char**)a, *(const char**)b);
+    const char *const *sa = a;
+    const char *const *sb = b;
+    return strcmp(*sa, *sb);
 }
 
 /* 文字列配列のソート */
 const char *names[] = {"Alice", "Bob", "Charlie", "David"};
-int name_count = sizeof(names) / sizeof(names[0]);
+size_t name_count = sizeof(names) / sizeof(names[0]);
 
-qsort(names, name_count, sizeof(char*), compare_string);
+qsort(names, name_count, sizeof names[0], compare_string);
 ```
 
 ### 実用的な応用例
@@ -410,8 +405,8 @@ void trigger_event(int event_type, int data)
 
 ```c
 typedef struct {
-    char *name;
-    char *version;
+    const char *name;
+    const char *version;
     int (*init)(void);
     void (*execute)(const char*);
     void (*shutdown)(void);
@@ -423,6 +418,9 @@ int plugin_count = 0;
 
 int load_plugin(Plugin *plugin)
 {
+    if (plugin == NULL || plugin_count >= MAX_PLUGINS) {
+        return -1;
+    }
     if (plugin->init() == 0) {
         plugins[plugin_count++] = plugin;
         return 0;
@@ -441,25 +439,25 @@ void execute_all_plugins(const char *command)
 
 ### よくある間違いとデバッグ
 
-#### 1. 関数ポインターーーの間違った宣言
+#### 1. 関数ポインターの間違った宣言
 
-**問題:** 括弧の位置が間違っている
+**問題：** 括弧の位置が間違っている
 
 ```c
-int *func(int, int);     /* 関数（ポインターーを返す） */
-int (*func)(int, int);   /* 関数ポインターーー（正しい） */
+int *func(int, int);     /* 関数（ポインターを返す） */
+int (*func)(int, int);   /* 関数ポインター（正しい） */
 ```
 
 #### 2. NULLポインターの呼び出し
 
-**問題:** 未初期化の関数ポインターーーを呼び出す
+**問題：** 未初期化の関数ポインターを呼び出す
 
 ```c
 int (*func)(int, int);
-int result = func(5, 3);  /* 危険！未初期化 */
+int result = func(5, 3);  /* 未初期化の値を使うため未定義動作 */
 ```
 
-**対策:**
+**対策：**
 
 ```c
 int (*func)(int, int) = NULL;
@@ -470,45 +468,36 @@ if (func != NULL) {
 
 #### 3. 関数の型の不一致
 
-**問題:** 関数ポインターーーの型と実際の関数の型が異なる
+**問題：** 関数ポインターの型と実際の関数の型が異なる
 
 ```c
 int add(int a, int b) { return a + b; }
 void (*func)(int, int) = add;  /* 戻り値の型が違う */
 ```
 
-#### 4. 関数ポインターーー配列の初期化ミス
+#### 4. 関数ポインター配列の初期化ミス
 
-**問題:** 配列のサイズと関数の数が一致しない
+**問題：** 配列のサイズと関数の数が一致しない
 
 ```c
 int (*ops[3])(int, int) = {add, subtract, multiply, divide};  /* 4つの関数 */
 ```
 
-### パフォーマンスの考慮事項
+### 性能を評価する場合
 
-#### 関数ポインターーー呼び出しのオーバーヘッド
-
-- 直接関数呼び出しより若干遅い
-- 分岐予測が困難な場合がある
-- ただし、柔軟性の利益の方が大きい場合が多い
-
-#### 最適化のヒント
-
-- 頻繁に呼び出される関数ポインターーーはローカル変数に格納
-- コンパイラーの最適化オプションを活用
-- プロファイリングでボトルネックを特定
+間接呼び出しを直接呼び出しと同じように最適化できるかは、コンパイラが呼び出し先を特定できるかによって変わります。
+性能上の問題が疑われる場合は、最適化を有効にした実際のプログラムを計測して判断します。
 
 ## 実例コード
 
 完全な実装例は以下のファイルを参照してください。
 
-### 基本的な関数ポインターーー
+### 基本的な関数ポインター
 
 - [function_pointer_basics.c](examples/function_pointer_basics.c) - C90準拠版
 - [function_pointer_basics_c99.c](examples/function_pointer_basics_c99.c) - C99準拠版
 
-### 関数ポインターーー配列と計算機
+### 関数ポインター配列と計算機
 
 - [calculator.c](examples/calculator.c) - C90準拠版
 - [calculator_c99.c](examples/calculator_c99.c) - C99準拠版
@@ -564,7 +553,7 @@ make clean
 
 1. **段階的理解**: 基本→配列→コールバック→高度な応用の順で学習
 2. **実用例の実装**: 計算機、イベントシステムなどを実際に作成
-3. **デバッグ技術**: 関数ポインターーーの値をprintfで確認
+3. **デバッグ技術**：代入した関数名と、呼び出しに使う添字や条件を確認
 4. **パターンの習得**: よくある設計パターンを覚える
 
 ## 実践的な応用分野
@@ -575,7 +564,7 @@ make clean
 - 割り込み処理関数
 - システムコールハンドラ
 
-### GUI プログラミング
+### GUIプログラミング
 
 - イベントハンドラ
 - ボタンのクリック処理
@@ -595,7 +584,7 @@ make clean
 
 ## 次の章へ
 
-[第13章: 複数ファイル・発展技術](../advanced/README.md)
+[第13章：複数ファイル・発展技術](../advanced/README.md)
 
 ## 参考資料
 
@@ -603,11 +592,11 @@ make clean
 - exercises/ - 演習問題
 - solutions/ - 解答例
 - [C標準ライブラリリファレンス](https://en.cppreference.com/w/c)
-- [関数ポインターーー設計パターン](https://stackoverflow.com/questions/tagged/c+function-pointers)
+- [関数ポインター設計パターン](https://stackoverflow.com/questions/tagged/c+function-pointers)
 
 ## 演習問題
 
-この章の内容を理解したら、[演習問題](exercises/)に挑戦してみましょう。
+[演習問題](exercises/)では、宣言の読み方、互換性のある関数型、コールバック、表駆動の分岐を確認できます。
 
 - 基礎問題：基本的な文法や概念の確認
 - 応用問題：より実践的なプログラムの作成

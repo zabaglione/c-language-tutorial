@@ -20,8 +20,8 @@
 #define MEDIUM_POOL_CAPACITY 256
 #define LARGE_POOL_CAPACITY 64
 
-#define ALLOCATOR_MAGIC 0xAL0CAT0R
-#define BLOCK_MAGIC 0xB10CK5
+#define ALLOCATOR_MAGIC 0xA110CA70u
+#define BLOCK_MAGIC 0xB10C0005u
 
 /* デバッグモード */
 #define DEBUG_ALLOCATOR 1
@@ -308,6 +308,7 @@ void *custom_malloc(size_t size)
 void custom_free(void *ptr)
 {
     BlockHeader *header;
+    size_t allocated_size;
     double start_time;
     
     if (!ptr) return;
@@ -330,6 +331,9 @@ void custom_free(void *ptr)
         fprintf(stderr, "二重解放の検出\n");
         return;
     }
+
+    allocated_size = header->size;
+    header->is_free = 1;
     
     /* プールタイプに応じた解放 */
     switch (header->pool_type) {
@@ -360,11 +364,9 @@ void custom_free(void *ptr)
     }
     
     /* 統計更新 */
-    g_allocator.stats.total_freed += header->size;
-    g_allocator.stats.current_usage -= header->size;
+    g_allocator.stats.total_freed += allocated_size;
+    g_allocator.stats.current_usage -= allocated_size;
     g_allocator.stats.total_free_time += get_time_sec() - start_time;
-    
-    header->is_free = 1;
 }
 
 /* 統計情報の表示 */

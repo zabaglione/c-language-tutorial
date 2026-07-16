@@ -160,6 +160,8 @@ static inline size_t safe_multiply(size_t a, size_t b)
 
 /* 実装関数群 */
 
+void safe_free_impl(void *ptr, const char *file, int line, const char *func);
+
 /* メモリ追跡の初期化 */
 void init_memory_tracker(void)
 {

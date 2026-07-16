@@ -10,6 +10,7 @@
 #include <string.h>
 #include <assert.h>
 #include <time.h>
+#include <stdarg.h>
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -24,10 +25,20 @@
 #define DEBUG_GC 1
 
 #if DEBUG_GC
-#define GC_DEBUG(fmt, ...) \
-    printf("[GC:%s] " fmt "\n", __func__, ##__VA_ARGS__)
+static void gc_debug_log(const char *function, const char *format, ...)
+{
+    va_list args;
+
+    printf("[GC:%s] ", function);
+    va_start(args, format);
+    vprintf(format, args);
+    va_end(args);
+    putchar('\n');
+}
+
+#define GC_DEBUG(...) gc_debug_log(__func__, __VA_ARGS__)
 #else
-#define GC_DEBUG(fmt, ...)
+#define GC_DEBUG(...) ((void)0)
 #endif
 
 /* C99: 静的アサーション */
@@ -55,12 +66,15 @@ typedef struct GCHeader {
     uint8_t age;
     bool is_root;
     int32_t ref_count;
-    /* C99: フレキシブル配列メンバー */
-    char data[];
 } GCHeader;
 
 /* GCオブジェクト（実際のデータはヘッダーの後に続く） */
 typedef GCHeader GCObject;
+
+static void *gc_object_data(GCObject *obj)
+{
+    return (unsigned char *)obj + sizeof(GCHeader);
+}
 
 /* 配列オブジェクト */
 typedef struct GCArray {
@@ -125,6 +139,8 @@ typedef struct GarbageCollector {
 /* グローバルGCインスタンス */
 static GarbageCollector g_gc = {0};
 
+void gc_collect(void);
+
 /* C99: inline関数 */
 static inline double get_time_sec(void)
 {
@@ -184,7 +200,7 @@ int gc_init(void)
     }
     
     GC_DEBUG("ガベージコレクターを初期化しました (ヒープ: %zu KB)",
-             GC_HEAP_SIZE / 1024);
+             (size_t)(GC_HEAP_SIZE / 1024));
     
     return 0;
 }
@@ -659,7 +675,7 @@ GCObject *gc_new_int(int value)
 {
     GCObject *obj = gc_alloc(sizeof(int), OBJ_INT);
     if (obj) {
-        *(int *)obj->data = value;
+        *(int *)gc_object_data(obj) = value;
     }
     return obj;
 }
@@ -776,7 +792,7 @@ void test_closure_gc(void)
     
     /* クロージャとキャプチャ変数 */
     GCObject *captured1 = gc_new_int(42);
-    GCObject *captured2 = gc_new_string("captured");
+    GCObject *captured2 = (GCObject *)gc_new_string("captured");
     
     GCClosure *closure = gc_new_closure(NULL, 2);
     if (closure) {

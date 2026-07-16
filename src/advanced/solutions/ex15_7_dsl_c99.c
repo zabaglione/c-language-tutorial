@@ -28,12 +28,12 @@
 #define EVENT_ENUM(name) EVENT_##name
 
 /* C99: 可変引数マクロで複数の状態を一度に定義 */
-#define STATES(...) \
+#define STATES(type_name, ...) \
     typedef enum { \
         STATE_ENUM(INVALID) = -1, \
         __VA_ARGS__ \
         STATE_ENUM(COUNT) \
-    }
+    } type_name;
 
 #define STATE(name) STATE_ENUM(name),
 
@@ -43,22 +43,22 @@
         EVENT_ENUM(NONE) = 0, \
         __VA_ARGS__ \
         EVENT_ENUM(COUNT) \
-    } name##_Event
+    } name##_Event;
 
 #define EVENT(name) EVENT_ENUM(name),
 
 /* C99: ジェネリックな状態機械構造体 */
-#define DEFINE_STATE_MACHINE(name) \
+#define DEFINE_STATE_MACHINE(machine_type) \
     typedef struct { \
-        name##_State current_state; \
-        name##_State previous_state; \
+        machine_type##_State current_state; \
+        machine_type##_State previous_state; \
         const char *name; \
         void *context; \
         /* C99: 統計情報 */ \
         uint32_t transition_count; \
         uint32_t error_count; \
         double total_time; \
-    } name##_Machine
+    } machine_type##_Machine;
 
 /* 遷移テーブルの定義（C99改良版） */
 #define TRANSITION_TABLE(machine_name) \
@@ -105,15 +105,15 @@
     }
 
 /* C99: イベントハンドラDSL改良版 */
-#define EVENT_HANDLER_TABLE(name) \
+#define EVENT_HANDLER_TABLE(table_name) \
     typedef struct { \
         const char *name; \
         void (*handler)(void *data); \
         bool (*filter)(const void *data); \
         int priority; \
-    } name##_EventHandler; \
+    } table_name##_EventHandler; \
     \
-    static name##_EventHandler name##_handlers[] = {
+    static table_name##_EventHandler table_name##_handlers[] = {
 
 #define EVENT_HANDLER(event_name, handler_func, filter_func, prio) \
     { event_name, handler_func, filter_func, prio },
@@ -124,7 +124,7 @@
 
 /* C99: コンパイル時検証マクロ改良版 */
 #define STATIC_ASSERT_STATE_COUNT(machine_name, expected) \
-    _Static_assert(STATE_ENUM(COUNT) == expected + 1, \
+    _Static_assert(STATE_ENUM(COUNT) == expected, \
                    "State count mismatch for " #machine_name)
 
 #define STATIC_ASSERT_EVENT_COUNT(machine_name, expected) \
@@ -382,7 +382,7 @@ void dispatch_event_advanced(void *handlers, const char *event_name, void *data)
 #define WORKFLOW_NODE(id, desc, cond, act, ...) \
     { id, desc, cond, act, { __VA_ARGS__ } },
 
-#define TRANSITION_TO(target, cond) { target, cond },
+#define TRANSITION_TO(target, cond) { target, cond }
 #define END_WORKFLOW_GRAPH { NULL, NULL, NULL, NULL, {{NULL, NULL}} } };
 
 /* ワークフロー条件・アクション */

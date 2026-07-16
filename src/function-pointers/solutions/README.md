@@ -1,42 +1,43 @@
-# 第14章: 関数ポインター - 演習解答例
+# 第14章「関数ポインター」の解答例
 
-このディレクトリには、第14章の演習問題の解答例が含まれています。各解答例はC90標準準拠版とC99版の両方を提供し、すべて非対話型のデモ版として実装されています。
+このディレクトリには、第14章の演習問題の解答例が含まれています。
+各解答例にはC90準拠版とC99版があり、いずれも非対話型のデモとして実装しています。
 
 ## 解答例一覧
 
-### 演習14-1: 関数ポインターの基本操作
+### 演習14-1：関数ポインターの基本操作
 
-- **C90版**: [ex14_1_basic_function_pointer.c](ex14_1_basic_function_pointer.c)
-- **C99版**: [ex14_1_basic_function_pointer_c99.c](ex14_1_basic_function_pointer_c99.c)
-- **内容**: 関数ポインターを使った動的関数呼び出しのデモ（maximum, minimum, power関数）
-- **学習ポイント**: 関数ポインターの宣言、初期化、呼び出し、配列での管理
+- **C90版**：[ex14_1_basic_function_pointer.c](ex14_1_basic_function_pointer.c)
+- **C99版**：[ex14_1_basic_function_pointer_c99.c](ex14_1_basic_function_pointer_c99.c)
+- **内容**：関数ポインターを使った動的関数呼び出しのデモ（maximum, minimum, power関数）
+- **学習ポイント**：関数ポインターの宣言、初期化、呼び出し、配列での管理
 
-### 演習14-2: 関数選択システム
+### 演習14-2：関数選択システム
 
-- **C90版**: [ex14_2_function_selector.c](ex14_2_function_selector.c)
-- **C99版**: [ex14_2_function_selector_c99.c](ex14_2_function_selector_c99.c)
-- **内容**: 文字に基づく関数選択システム（構造体による関数ポインター管理）
-- **学習ポイント**: 構造体と関数ポインターの組み合わせ、エラーハンドリング
+- **C90版**：[ex14_2_function_selector.c](ex14_2_function_selector.c)
+- **C99版**：[ex14_2_function_selector_c99.c](ex14_2_function_selector_c99.c)
+- **内容**：文字に基づく関数選択システム（構造体による関数ポインター管理）
+- **学習ポイント**：構造体と関数ポインターの組み合わせ、エラー処理
 
-### 演習14-3: 配列処理のコールバック
+### 演習14-3：配列処理のコールバック
 
-- **C90版**: [ex14_3_array_callback.c](ex14_3_array_callback.c)
-- **C99版**: [ex14_3_array_callback_c99.c](ex14_3_array_callback_c99.c)
-- **内容**: コールバック関数を使った配列要素処理（倍加、減算、符号反転）
-- **学習ポイント**: コールバック関数の概念、関数ポインターを引数として渡す方法
+- **C90版**：[ex14_3_array_callback.c](ex14_3_array_callback.c)
+- **C99版**：[ex14_3_array_callback_c99.c](ex14_3_array_callback_c99.c)
+- **内容**：コールバック関数を使った配列要素処理（倍加、減算、符号反転）
+- **学習ポイント**：コールバック関数の概念、関数ポインターを引数として渡す方法
 
-### 演習14-4: 関数ポインター配列を使った計算機
+### 演習14-4：関数ポインター配列を使った計算機
 
-- **C90版**: [ex14_4_calculator_function_array.c](ex14_4_calculator_function_array.c)
-- **C99版**: [ex14_4_calculator_function_array_c99.c](ex14_4_calculator_function_array_c99.c)
-- **内容**: 関数ポインター配列による計算機（履歴管理、統計機能付き）
-- **学習ポイント**: 関数ポインター配列、履歴管理、連続計算
+- **C90版**：[ex14_4_calculator_function_array.c](ex14_4_calculator_function_array.c)
+- **C99版**：[ex14_4_calculator_function_array_c99.c](ex14_4_calculator_function_array_c99.c)
+- **内容**：関数ポインター配列による計算機（履歴管理、統計機能付き）
+- **学習ポイント**：関数ポインター配列、履歴管理、連続計算
 
 ## 実装上の特徴
 
 ### 非対話型デモ版について
 
-すべての解答例は、クラッシュを避けるため scanf() による対話型入力を排除し、予め定義された値を使用するデモ版として実装されています。
+すべての解答例は、クラッシュを避けるためscanf() による対話型入力を排除し、あらかじめ定義された値を使用するデモ版として実装されています。
 
 ### 教育的配慮
 
@@ -100,7 +101,7 @@ gcc -Wall -Wextra -pedantic -std=c99 -o program_name source_file_c99.c
     - 状態マシンパターン
 
 4. **実践的な活用**
-    - エラーハンドリング
+    - エラー処理
     - 拡張性の高い設計
     - 保守性を考慮したコード構造
 
@@ -108,5 +109,5 @@ gcc -Wall -Wextra -pedantic -std=c99 -o program_name source_file_c99.c
 
 - これらの解答例は一つの実装方法を示したものです
 - 実際の開発では、要件に応じて適切な実装を選択してください
-- エラーハンドリングは基本的なレベルに留めています
+- エラー処理は基本的なレベルに留めています
 - メモリ管理が必要な場合は、適切な解放処理を追加してください

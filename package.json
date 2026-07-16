@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "description": "C言語学習教材",
   "scripts": {
+    "docs:publish": "uv run --script scripts/build_book.py --render",
+    "docs:check": "uv run --script scripts/build_book.py",
+    "lint:ja": "uv run --script scripts/build_book.py --audit-only",
+    "c:check": "python3 scripts/check_c_examples.py",
     "lint:md": "markdownlint '**/*.md' --ignore node_modules --ignore output",
     "lint:md:fix": "markdownlint '**/*.md' --ignore node_modules --ignore output --fix",
-    "check": "npm run lint:md",
+    "check": "npm run lint:ja && npm run lint:md && npm run c:check && npm run docs:check",
     "fix": "npm run lint:md:fix"
   },
   "devDependencies": {

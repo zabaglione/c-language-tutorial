@@ -133,6 +133,8 @@ static int g_free_count = 0;
 
 /* 実装関数群 */
 
+void safe_free_impl(void *ptr, const char *file, int line);
+
 /* メモリ追跡の初期化 */
 void init_memory_tracker(void)
 {

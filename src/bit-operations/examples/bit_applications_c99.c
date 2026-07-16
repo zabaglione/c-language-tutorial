@@ -9,6 +9,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <assert.h>
+#include <stdlib.h>
 
 /* ======================= */
 /* 1. 高度なビットベクタ   */
@@ -90,7 +91,8 @@ uint32_t murmur_hash32(const void *key, size_t len, uint32_t seed)
     const uint8_t *data = (const uint8_t *)key;
     
     while (len >= 4) {
-        uint32_t k = *(uint32_t *)data;
+        uint32_t k;
+        memcpy(&k, data, sizeof(k));
         
         k *= m;
         k ^= k >> r;
@@ -126,6 +128,8 @@ typedef struct {
     DynamicBitVector *bits;
     size_t hash_count;
 } BloomFilter;
+
+void bloom_destroy(BloomFilter *bf);
 
 /* ブルームフィルタの作成 */
 BloomFilter* bloom_create(size_t bit_count, size_t hash_count)

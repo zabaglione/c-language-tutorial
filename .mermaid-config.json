@@ -25,8 +25,5 @@
       "actorMargin": 60,
       "noteMargin": 15
     }
-  },
-  "puppeteerConfig": {
-    "args": ["--no-sandbox", "--disable-setuid-sandbox"]
   }
 }

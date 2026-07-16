@@ -1,638 +1,288 @@
-# 条件分岐
+# 第5章：条件分岐
 
-## 対応C規格
+## 対応するC規格
 
-- **主要対象:** C90
-- **学習内容:** if文、else文、switch文、条件演算子による分岐処理
+- **主要対象**：C90
+- **学習内容**：`if`、`else`、`switch`、条件演算子、条件式の注意点
 
 ## 学習目標
 
-この章を完了すると、以下のことができるようになります。
+この章では、条件に応じて実行する処理を選ぶ方法を学びます。
 
-- if文を使った条件分岐ができる
-- else if文で複数条件を処理できる
-- switch文による多分岐処理ができる
-- 条件演算子を適切に使える
-- ネストした条件分岐を理解する
+- `if`文と`if-else`文を記述できる
+- 複数の条件を検査する順序を設計できる
+- `switch`文の`case`、`break`、フォールスルーを説明できる
+- 代入と比較、浮動小数点比較の誤りを避けられる
 
-## 概要と詳細
+## 条件式
 
-### 条件分岐の世界へようこそ
-
-私たちは日常生活で常に「もし〜なら」という判断をしています。「もし雨が降ったら傘を持つ」「もし電車が遅れたらバスで行く」など、状況に応じて行動を変えています。
-
-プログラミングでも同じように、条件によって処理を変える必要があります。この章では、C言語で条件分岐を実現する方法を学びます。
-
-### なぜ条件分岐が必要なのか？
-
-条件分岐がないプログラムは、いつも同じ処理しかできません。それでは。
-
-- ユーザーの入力に応じた処理ができない
-- エラーが発生しても対処できない
-- 状況に応じた最適な処理を選べない
-
-条件分岐を使うことで、プログラムに「知能」を与えることができます。
-
-### if文の基本（もし〜なら）
-
-if文は最も基本的な条件分岐です。日本語の「もし〜なら〜する」をそのままプログラムで表現できます。
-
-#### 基本構文
+C90では、条件式の値が0なら偽、0以外なら真です。
+関係演算子と論理演算子の結果は、`int`の0または1になります。
 
 ```c
-if (条件式) {
-    /* 条件が真（正しい）の場合に実行される処理 */
+if (count > 0) {
+    printf("items available\n");
 }
 ```
 
-**重要なポイント**。
+## `if`文
 
-- 条件式は括弧 `()` で囲む
-- 処理部分は波括弧 `{}` で囲む（1行でも推奨）
-- 条件が偽（正しくない）の場合は、if文の中は実行されない
-
-#### 実生活に例えた単純なif文
+`if`文は、条件が真の場合に文を実行します。
 
 ```c
-int temperature = 28;
-if (temperature > 25) {
-    printf("暑いのでエアコンをつけます\n");
+if (condition) {
+    statement;
 }
 ```
 
-#### 波括弧の重要性
+本体が1文だけでも波括弧を付けると、後から文を追加したときの誤りを防ぎやすくなります。
 
 ```c
-/* 危険な書き方（波括弧なし） */
-if (score >= 80)
-    printf("合格です\n");
-    printf("おめでとう！\n");  /* これは常に実行される！ */
-
-/* 安全な書き方（波括弧あり） */
-if (score >= 80) {
-    printf("合格です\n");
-    printf("おめでとう！\n");  /* 両方とも条件が真の時だけ実行 */
+if (score >= 60) {
+    printf("passed\n");
+    passed_count++;
 }
 ```
 
-### if-else文（そうでなければ）
-
-現実の判断では「もし〜なら〜する、そうでなければ〜する」という二者択一の場面がよくあります。if-else文はまさにこの状況を表現します。
-
-#### 基本構文
+波括弧がない場合、`if`が制御するのは直後の1文だけです。
 
 ```c
-if (条件式) {
-    /* 条件が真（正しい）の場合の処理 */
+if (score >= 60)
+    printf("passed\n");
+passed_count++; /* Always executed. */
+```
+
+## `if-else`文
+
+`if-else`文は、条件が真なら最初の文を、偽なら`else`側の文を実行します。
+
+```c
+if (age >= 18) {
+    printf("adult\n");
 } else {
-    /* 条件が偽（正しくない）の場合の処理 */
+    printf("minor\n");
 }
 ```
 
-**ポイント**。
-
-- どちらか一方の処理が必ず実行される
-- elseは「それ以外すべて」を意味する
-
-#### 実用的なif-else文の例
+入力値を前提とする処理では、正常系より先に不正値を処理すると、入れ子を浅くできます。
 
 ```c
-/* 成人判定 */
-int age = 19;
-if (age >= 20) {
-    printf("成人です\n");
-printf("選挙権があります\n");
+if (amount <= 0) {
+    printf("invalid amount\n");
+} else if (amount > balance) {
+    printf("insufficient balance\n");
 } else {
-    printf("未成年です\n");
-    printf("あと%d年で成人です\n", 20 - age);
-}
-/* パスワード認証 */
-int password = 1234;
-int input = 1235;
-if (password == input) {
-    printf("ログイン成功！\n");
-printf("ようこそ！\n");
-} else {
-    printf("パスワードが違います\n");
-printf("もう一度お試しください\n");
-}
-/* 営業判定 */
-int hour = 18;
-if (hour >= 9 && hour < 17) {
-    printf("営業中です\n");
-} else {
-    printf("営業時間外です\n");
+    balance -= amount;
+    printf("withdrawal completed\n");
 }
 ```
 
-#### よくある使い方：エラー処理
+## `else if`による複数分岐
+
+条件は上から順に評価され、最初に真になった分岐だけを実行します。
+範囲が重なる場合は、より限定された条件または大きい境界から並べます。
 
 ```c
-int balance = 1000;  /* 残高 */
-int withdraw = 1500; /* 引き出し額 */
-if (balance >= withdraw) {
-    balance -= withdraw;
-    printf("引き出し成功\n");
-    printf("残高: %d円\n", balance);
-} else {
-    printf("残高不足です\n");
-    printf("現在の残高: %d円\n", balance);
-}
-```
-
-### if-else if文（複数の選択肢）
-
-3つ以上の選択肢から選ぶ場面では、if-else if文を使います。上から順番に条件をチェックし、最初に真になった処理を実行します。
-
-#### 基本構文
-
-```c
-if (条件1) {
-    /* 条件1が真の場合 */
-} else if (条件2) {
-    /* 条件1は偽で、条件2が真の場合 */
-} else if (条件3) {
-    /* 条件1,2は偽で、条件3が真の場合 */
-} else {
-    /* すべての条件が偽の場合 */
-}
-```
-
-**重要な特徴**。
-
-- 上から順番にチェックされる
-- 最初に真になった部分だけ実行される
-- それ以降の条件はチェックされない
-
-#### 成績判定システムの例
-
-```c
-int score = 85;
-printf("点数: %d点\n", score);
 if (score >= 90) {
-    printf("成績: A（優秀）\n");
-    printf("素晴らしい成績です！\n");
+    grade = 'A';
 } else if (score >= 80) {
-    printf("成績: B（良好）\n");
-    printf("よく頑張りました！\n");
+    grade = 'B';
 } else if (score >= 70) {
-    printf("成績: C（普通）\n");
-    printf("合格です\n");
+    grade = 'C';
 } else if (score >= 60) {
-    printf("成績: D（可）\n");
-    printf("ギリギリ合格です\n");
+    grade = 'D';
 } else {
-    printf("成績: F（不可）\n");
-    printf("もう少し頑張りましょう\n");
+    grade = 'F';
 }
 ```
 
-#### 時間帯による挨拶の例
+`score >= 60`を最初に置くと、90点もその分岐で処理されます。
+各条件がどの範囲を担当するかを確認してください。
+
+## 入れ子の`if`文
+
+条件の中で追加条件を検査する場合は、`if`文を入れ子にできます。
 
 ```c
-int hour = 14;  /* 14時（午後2時） */
-if (hour >= 5 && hour < 12) {
-    printf("おはようございます\n");
-} else if (hour >= 12 && hour < 17) {
-    printf("こんにちは\n");
-} else if (hour >= 17 && hour < 21) {
-    printf("こんばんは\n");
-} else {
-    printf("夜遅いですね、お疲れさまです\n");
-}
-```
-
-#### 順序が重要な理由
-
-```c
-/* 間違った順序 */
-int age = 15;
-if (age >= 0) {
-    printf("生まれています\n");  /* 15歳でもここで止まる！ */
-} else if (age >= 13) {
-    printf("中学生以上\n");  /* 実行されない */
-} else if (age >= 18) {
-    printf("成人\n");  /* 実行されない */
-}
-
-/* 正しい順序（厳しい条件から） */
-if (age >= 18) {
-    printf("成人\n");
-} else if (age >= 13) {
-    printf("中学生以上\n");
-} else if (age >= 0) {
-    printf("生まれています\n");
-}
-```
-
-### ネストしたif文（入れ子構造）
-
-if文の中にさらにif文を書くことで、より複雑な条件判断ができます。
-
-```c
-/* 天気と気温による服装アドバイス */
-int temperature = 25;
-int is_raining = 0;  /* 0:晴れ、1:雨 */
 if (temperature >= 25) {
-    printf("暖かい日です\n");
     if (is_raining) {
-        printf("半袖で傘を持っていきましょう\n");
+        printf("warm and rainy\n");
     } else {
-        printf("半袖で大丈夫です\n");
-    }
-} else if (temperature >= 15) {
-    printf("過ごしやすい気温です\n");
-    if (is_raining) {
-        printf("長袖で傘を持っていきましょう\n");
-    } else {
-        printf("長袖がおすすめです\n");
-    }
-} else {
-    printf("寒い日です\n");
-    if (is_raining) {
-        printf("コートと傘が必要です\n");
-    } else {
-        printf("コートを着ていきましょう\n");
+        printf("warm and dry\n");
     }
 }
 ```
 
-#### ネストを避ける工夫
+波括弧を省略した入れ子では、`else`は対応可能な最も近い`if`へ結び付きます。
+意図を明確にするため、入れ子では波括弧を省略しません。
 
-ネストが深くなると読みにくくなるので、論理演算子を使って簡潔に書くこともできます。
+条件を論理演算子でまとめた方が読みやすい場合もあります。
 
 ```c
-/* ネストを使った場合 */
-if (age >= 18) {
-    if (has_license) {
-        printf("運転できます\n");
-    }
-}
-
-/* 論理演算子を使った場合 */
 if (age >= 18 && has_license) {
-    printf("運転できます\n");
+    printf("eligible\n");
 }
 ```
 
-### 条件式の詳細
+ただし、条件ごとに異なるエラーを示す必要がある場合は、分岐を分けます。
 
-#### 比較演算子
+## `switch`文
+
+`switch`文は、整数型または列挙型の式の値に応じて処理を選びます。
+各`case`には、変換後に重複しない整数定数式を指定します。
 
 ```c
-int a = 5, b = 3;
-if (a == b)   printf("等しい\n");
-if (a != b)   printf("等しくない\n");
-if (a < b)    printf("a は b より小さい\n");
-if (a <= b)   printf("a は b 以下\n");
-if (a > b)    printf("a は b より大きい\n");
-if (a >= b)   printf("a は b 以上\n");
+switch (choice) {
+case 1:
+    printf("option 1\n");
+    break;
+case 2:
+    printf("option 2\n");
+    break;
+default:
+    printf("unknown option\n");
+    break;
+}
 ```
 
-#### 論理演算子の組み合わせ
+`break`を実行すると、最も内側の`switch`文から抜けます。
+`break`がなければ、次の`case`へ処理が続きます。
+
+### 意図的なフォールスルー
+
+複数の値を同じ処理へまとめる場合は、文を置かずに`case`を連続させます。
 
 ```c
-int age = 25;
-int income = 300000;
-
-/* AND演算子 */
-if (age >= 20 && income >= 200000) {
-    printf("ローン審査に通りました\n");
-}
-
-/* OR演算子 */
-if (age < 6 || age > 65) {
-    printf("特別料金が適用されます\n");
-}
-
-/* NOT演算子 */
-if (!(age >= 18)) {
-    printf("18歳未満です\n");
+switch (letter) {
+case 'a':
+case 'e':
+case 'i':
+case 'o':
+case 'u':
+    printf("vowel\n");
+    break;
+default:
+    printf("not a lowercase vowel\n");
+    break;
 }
 ```
 
-### switch文
-
-複数の値に対する分岐処理を効率的に記述できます。
-
-#### switch文って何？
-
-プログラムを書いていると、「この変数の値が1なら処理A、2なら処理B、3なら処理C...」というように、一つの変数の値によって多くの分岐をしたい場面があります。
-これをif-else ifで書くと。
+処理を実行した後で次の`case`へ続ける場合は、その意図をコメントで示します。
 
 ```c
-if (choice == 1) {
-    printf("処理A\n");
-} else if (choice == 2) {
-    printf("処理B\n");
-} else if (choice == 3) {
-    printf("処理C\n");
-} else if (choice == 4) {
-    printf("処理D\n");
-} else {
-    printf("その他の処理\n");
+switch (level) {
+case 2:
+    enable_advanced_mode();
+    /* Fall through. */
+case 1:
+    enable_basic_mode();
+    break;
+default:
+    break;
 }
 ```
 
-このように長くなってしまいます。switch文を使うと、もっとスッキリ書けます！
-
-#### 日常生活での例え
-
-switch文は「自動販売機」のようなものです。
-
-1. ボタンを押す（変数の値）
-2. 押したボタンに応じて違う商品が出る（caseごとの処理）
-3. 存在しないボタンを押したら何も出ない（default処理）
+C90では宣言そのものは文ではないため、`case`ラベルの直後で変数を宣言したい場合はブロックを作ります。
 
 ```c
-int button = 2;  /* 2番のボタンを押した */
-switch (button) {
-    case 1:
-        printf("コーラが出ました\n");
-        break;
-    case 2:
-        printf("オレンジジュースが出ました\n");
-        break;
-    case 3:
-        printf("お茶が出ました\n");
-        break;
-    default:
-        printf("そのボタンには商品がありません\n");
-        break;
+switch (choice) {
+case 1: {
+    int value = read_value();
+    use_value(value);
+    break;
+}
+default:
+    break;
 }
 ```
 
-#### 基本構文
+## 条件演算子
+
+条件演算子`?:`は、条件に応じて2つの式の一方を評価します。
 
 ```c
-switch (変数または式) {
-    case 値1:
-        /* 値1の場合の処理 */
-        break;
-    case 値2:
-        /* 値2の場合の処理 */
-        break;
-    case 値3:
-        /* 値3の場合の処理 */
-        break;
-    default:
-        /* どの値にも一致しない場合の処理 */
-        break;
-}
+int max = a > b ? a : b;
 ```
 
-#### 曜日判定の例
+値を選ぶ短い式に適しています。
+複数の文や副作用を含む処理は、`if-else`文で記述します。
+
+## 条件式の注意点
+
+### 代入と比較
+
+`=`は代入、`==`は比較です。
 
 ```c
-int day = 3;
-switch (day) {
-    case 1:
-        printf("月曜日\n");
-        break;
-    case 2:
-        printf("火曜日\n");
-        break;
-    case 3:
-        printf("水曜日\n");
-        break;
-    case 4:
-        printf("木曜日\n");
-        break;
-    case 5:
-        printf("金曜日\n");
-        break;
-    case 6:
-        printf("土曜日\n");
-        break;
-    case 7:
-        printf("日曜日\n");
-        break;
-    default:
-        printf("無効な曜日です\n");
-        break;
+if (x = 10) {  /* Assigns 10, then tests it as true. */
+    printf("executed\n");
 }
 ```
 
-#### break文の重要性
-
-break文を忘れると、次のcaseも実行されます（フォールスルー）。
-**初心者がよくやるミス：breakを忘れる**
-switch文で最も多いミスが「break文の書き忘れ」です。これは本当によくあるミスなので、必ず確認しましょう！
+比較する場合は`==`を使います。
 
 ```c
-int grade = 'B';
-switch (grade) {
-    case 'A':
-        printf("優秀\n");
-        /* break がないので次のcaseも実行される */
-    case 'B':
-        printf("良好\n");
-        /* break がないので次のcaseも実行される */
-    case 'C':
-        printf("普通\n");
-        break;
-    default:
-        printf("要努力\n");
-        break;
+if (x == 10) {
+    printf("x is 10\n");
 }
-/* grade が 'B' の場合、"良好" と "普通" の両方が出力される */
 ```
 
-#### 意図的なフォールスルー
+### 浮動小数点数の比較
 
-時には意図的にbreakを省略することもあります。
-**フォールスルーが便利な場面**
-「複数の値で同じ処理をしたい」ときは、あえてbreakを書かないことで、コードを簡潔に書けます。
+0.1や0.2のような値は、一般的な2進浮動小数点形式で正確に表現できない場合があります。
+計算結果を比較するときは、要求精度と値の大きさに応じた方法を選びます。
 
 ```c
-char ch = 'a';
-switch (ch) {
-    case 'a':
-    case 'e':
-    case 'i':
-    case 'o':
-    case 'u':
-        printf("母音です\n");
-        break;
-    default:
-        printf("子音です\n");
-        break;
+#include <math.h>
+
+if (fabs(a - b) <= tolerance) {
+    printf("close\n");
 }
 ```
 
-### 条件演算子（三項演算子）の復習
+固定の許容誤差だけでは、非常に大きい値や非常に小さい値に適さない場合があります。
+用途に応じて絶対誤差と相対誤差を組み合わせます。
 
-条件分岐の簡潔な書き方として条件演算子があります。
+### 条件式の末尾に置くセミコロン
+
+次のコードでは、`if`が制御する文は空文です。
+後続のブロックは条件に関係なく実行されます。
 
 ```c
-int a = 5, b = 3;
-int max;
-
-/* if-else文での記述 */
-if (a > b) {
-    max = a;
- } else {
-    max = b;
-}
-
-/* 条件演算子での記述 */
-max = (a > b) ? a : b;
-printf("最大値: %d\n", max);
-```
-
-### 条件式での注意点
-
-初心者が陥りやすい間違いをいくつか紹介します。これらを知っておけば、デバッグ時間を大幅に短縮できます！
-
-#### 代入と比較の混同
-
-```c
-int x = 5;
-
-/* NG: 代入になってしまう */
-if (x = 10) {  /* ← これは間違い！ */
-    printf("常に実行される\n");  /* x に 10 が代入され、常に真 */
-}
-
-/* OK: 比較演算子を使用 */
-if (x == 10) {  /* ← 正しい書き方 */
-    printf("x が 10 の場合のみ実行\n");
-}
-
-/* 防御的プログラミング：定数を左側に書く */
-if (10 == x) {  /* もし = を1つしか書かなかったらコンパイルエラーになる */
-    printf("x が 10 の場合のみ実行\n");
+if (condition); /* Empty statement. */
+{
+    printf("always executed\n");
 }
 ```
 
-#### 浮動小数点数の比較
-
-コンピューターでは小数を完全に正確に表現できないことがあります。これは初心者にとって意外な落とし穴です。
-
-```c
-double d = 0.1 + 0.2;
-
-/* NG: 浮動小数点の誤差で期待通りにならない可能性 */
-if (d == 0.3) {
-    printf("等しい\n");  /* 実行されないかも！ */
-}
-
-/* OK: 誤差を考慮した比較 */
-if (d >= 0.299999 && d <= 0.300001) {
-    printf("ほぼ等しい\n");
-}
-
-/* より実践的な方法：許容誤差を定義 */
-#define EPSILON 0.00001
-if (fabs(d - 0.3) < EPSILON) {
-    printf("実質的に等しい\n");
-}
-```
-
-**なぜこんなことが起きるの？**
-コンピューターは2進数で計算するため、10進数の0.1や0.2を正確に表現できません。人間にとっての「0.1」は、コンピューターにとっては「0.1に限りなく近い値」なのです。
-
-## コンパイル方法
-
-この章では以下のMakefileを使用してコンパイルができます。
+## コンパイル
 
 ```bash
+gcc -std=c90 -Wall -Wextra -pedantic examples/basic_if.c -o basic_if
+./basic_if
+```
 
-# 全ての例題をコンパイル
+Makefileを使う場合は、次のコマンドを実行します。
 
+```bash
 make all
-
-# 特定のプログラムをコンパイル
-
-make if_basic
-
-# 実行
-
-make run
-
-# クリーンアップ
-
+make run-all
 make clean
 ```
 
-## 規格による違い
+実装例は、次のファイルにあります。
 
-### C90での制限事項
+- [basic_if.c](examples/basic_if.c)
+- [if_else.c](examples/if_else.c)
+- [grade_system.c](examples/grade_system.c)
+- [switch_basic.c](examples/switch_basic.c)
+- [conditional_operator.c](examples/conditional_operator.c)
 
-- switch文の case ラベルは整数定数のみ
-- 複合文内での変数宣言は先頭のみ
+## C99以降との違い
 
-### C99以降の拡張
-
-- switch文でlong long型が使用可能
-- ブロック内での変数宣言位置の制限緩和
-
-## よくある間違い
-
-### 1. セミコロンの位置
-
-```c
-/* NG: if文の後にセミコロン */
-if (condition);
-{
-    printf("常に実行される\n");  /* 条件に関係なく実行 */
-}
-
-/* OK: 正しい記述 */
-if (condition) {
-    printf("条件が真の場合のみ実行\n");
-```
-
-### 1. switch文でのbreak忘れ
-
-```c
-/* NG: break忘れでフォールスルー */
-switch (value) {
-    case 1:
-        printf("1です\n");
-        /* break; を忘れると次のcaseも実行される */
-    case 2:
-        printf("2です\n");
-        break;
-}
-
-/* OK: 適切なbreak文 */
-switch (value) {
-    case 1:
-        printf("1です\n");
-        break;
-    case 2:
-        printf("2です\n");
-        break;
-}
-```
-
-### 1. 複雑な条件式での括弧不足
-
-```c
-/* NG: 意図しない優先順位 */
-if (a == 1 || b == 2 && c == 3)
-    /* && が || より優先される */
-
-/* OK: 括弧で明示 */
-if ((a == 1) || (b == 2 && c == 3))
-    /* 意図が明確 */
-```
-
-## 次の章へ
-
-条件分岐を理解したら、[制御構造（ループ）](../control-loop/README.md) に進んでください。
-
-## 参考資料
-
-- [if文詳細](https://ja.cppreference.com/w/c/language/if)
-- [switch文詳細](https://ja.cppreference.com/w/c/language/switch)
-- [条件演算子](https://ja.cppreference.com/w/c/language/operator_other)
+C99以降では、文の後や`for`文の初期化部でも変数を宣言できます。
+条件分岐そのものの基本構文と、0を偽・0以外を真とする規則はC90と共通です。
 
 ## 演習問題
 
-この章の内容を理解したら、[演習問題](exercises/)に挑戦してみましょう。
-
-- 基礎問題：基本的な文法や概念の確認
-- 応用問題：より実践的なプログラムの作成
-- チャレンジ問題：高度な理解と実装力が必要な問題
+[演習問題](exercises/)では、範囲判定、入力検査、`switch`文、条件演算子を練習します。

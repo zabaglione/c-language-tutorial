@@ -1,42 +1,42 @@
-# 第2章 解答例: 基本文法・Hello World
+# 第2章「基本文法・Hello World」の解答例
 
 ## 解答例一覧
 
-### 演習2-1: 自己紹介プログラム
+### 演習2-1：自己紹介プログラム
 
-- **ファイル**: [`ex2_1_hello_intro.c`](ex2_1_hello_intro.c), [`ex2_1_hello_intro_c99.c`](ex2_1_hello_intro_c99.c)
-- **学習内容**: printf文の基本的な使い方、改行文字の使用
-- **ポイント**: 複数行の出力とフォーマットの基本
+- **ファイル**：[`ex2_1_hello_intro.c`](ex2_1_hello_intro.c), [`ex2_1_hello_intro_c99.c`](ex2_1_hello_intro_c99.c)
+- **学習内容**：printf関数の基本的な使い方、改行文字の使用
+- **ポイント**：複数行の出力とフォーマットの基本
 
-### 演習2-2: 個人データ表示
+### 演習2-2：個人データ表示
 
-- **ファイル**: [`ex2_2_personal_data.c`](ex2_2_personal_data.c), [`ex2_2_personal_data_c99.c`](ex2_2_personal_data_c99.c)
-- **学習内容**: 変数の宣言と初期化、各種データ型の使用
-- **ポイント**: int, float, char型の実用的な使い方
+- **ファイル**：[`ex2_2_personal_data.c`](ex2_2_personal_data.c), [`ex2_2_personal_data_c99.c`](ex2_2_personal_data_c99.c)
+- **学習内容**：変数の宣言と初期化、各種データ型の使用
+- **ポイント**：int, float, char型の実用的な使い方
 
-### 演習2-3: 年齢計算プログラム
+### 演習2-3：年齢計算プログラム
 
-- **ファイル**: [`ex2_3_age_calculator.c`](ex2_3_age_calculator.c), [`ex2_3_age_calculator_c99.c`](ex2_3_age_calculator_c99.c)
-- **学習内容**: scanf関数による入力、計算処理
-- **ポイント**: ユーザー入力を受け取って計算結果を表示
+- **ファイル**：[`ex2_3_age_calculator.c`](ex2_3_age_calculator.c), [`ex2_3_age_calculator_c99.c`](ex2_3_age_calculator_c99.c)
+- **学習内容**：scanf関数による入力、計算処理
+- **ポイント**：ユーザー入力を受け取って計算結果を表示
 
-### 演習2-4: フォーマット指定子の実践
+### 演習2-4：フォーマット指定子の実践
 
-- **ファイル**: [`ex2_4_format_demo.c`](ex2_4_format_demo.c), [`ex2_4_format_demo_c99.c`](ex2_4_format_demo_c99.c)
-- **学習内容**: printf文の書式指定子、桁数指定
-- **ポイント**: %d, %f, %c, %sの実用的な使い方
+- **ファイル**：[`ex2_4_format_demo.c`](ex2_4_format_demo.c), [`ex2_4_format_demo_c99.c`](ex2_4_format_demo_c99.c)
+- **学習内容**：printf関数の書式指定子、桁数指定
+- **ポイント**：%d, %f, %c, %sの実用的な使い方
 
-### 演習2-5: 簡単な計算機
+### 演習2-5：簡単な計算機
 
-- **ファイル**: [`ex2_5_simple_calculator.c`](ex2_5_simple_calculator.c), [`ex2_5_simple_calculator_c99.c`](ex2_5_simple_calculator_c99.c)
-- **学習内容**: 四則演算、浮動小数点数の処理
-- **ポイント**: 複数の入力と計算結果の表示
+- **ファイル**：[`ex2_5_simple_calculator.c`](ex2_5_simple_calculator.c), [`ex2_5_simple_calculator_c99.c`](ex2_5_simple_calculator_c99.c)
+- **学習内容**：四則演算、浮動小数点数の処理
+- **ポイント**：複数の入力と計算結果の表示
 
-### 演習2-6: ASCII文字探索
+### 演習2-6：ASCII文字探索
 
-- **ファイル**: [`ex2_6_ascii_explorer.c`](ex2_6_ascii_explorer.c), [`ex2_6_ascii_explorer_c99.c`](ex2_6_ascii_explorer_c99.c)
-- **学習内容**: 文字と数値の変換、ASCIIコードの理解
-- **ポイント**: char型と整数型の関係性
+- **ファイル**：[`ex2_6_ascii_explorer.c`](ex2_6_ascii_explorer.c), [`ex2_6_ascii_explorer_c99.c`](ex2_6_ascii_explorer_c99.c)
+- **学習内容**：文字と数値の変換、ASCIIコードの理解
+- **ポイント**：char型と整数型の関係性
 
 ## C90版とC99版の違い
 
@@ -71,28 +71,28 @@ gcc -Wall -Wextra -pedantic -std=c99 hello_intro_c99.c -o hello_intro_c99
 ### Makefileを使用
 
 ```bash
-make all           # 全ての解答例をコンパイル
+make all           # すべての解答例をコンパイル
 make clean         # 実行ファイルを削除
 make run-hello     # hello_introを実行
 ```
 
 ## 学習のポイント
 
-1. **基本的な出力**: printf文の正しい使い方を習得
-2. **変数の扱い**: 各種データ型の特徴を理解
-3. **入力処理**: scanf関数の安全な使用方法
-4. **書式指定**: 適切なフォーマット指定子の選択
-5. **エラー処理**: 基本的な入力検証の考え方
+1. **基本的な出力**：printf関数の正しい使い方を習得
+2. **変数の扱い**：各種データ型の特徴を理解
+3. **入力処理**：scanf関数の安全な使用方法
+4. **書式指定**：適切なフォーマット指定子の選択
+5. **エラー処理**：基本的な入力検証の考え方
 
 ## 注意事項
 
 - すべての解答例は教育目的で作成されています
-- 実際の開発では、より厳密なエラーハンドリングが必要です
+- 実際の開発では、より厳密なエラー処理が必要です
 - C90版を基本として学習し、C99版で現代的な書き方を確認してください
 
 ## 次のステップ
 
 この章をマスターしたら、次は以下の章に進みましょう。
 
-- [第3章: データ型と演算子](../data-types/)
-- [第4章: 制御構造（条件分岐）](../control-if/)
+- [第3章：データ型・変数・スコープ](../data-types/)
+- [第5章：制御構造（条件分岐）](../control-if/)

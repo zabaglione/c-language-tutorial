@@ -2,8 +2,8 @@
 
 ## 対応C規格
 
-- **主要対象:** C90
-- **学習内容:** 関数の基本、引数と戻り値、関数のスコープ、再帰関数、関数プロトタイプ
+- **主要対象：** C90
+- **学習内容：** 関数の基本、引数と戻り値、関数のスコープ、再帰関数、関数プロトタイプ
 
 ## 学習目標
 
@@ -17,39 +17,23 @@
 
 ## 概要と詳細
 
-### 関数とは？
+### 関数とは
 
-関数は、プログラムを「部品」に分けるための仕組みです。大きな問題を小さな部分に分割して解決する「分割統治」の考え方を実現します。
-
-#### 日常生活での関数
-
-関数を理解するために、料理を例に考えてみましょう。
-
-**カレーライスを作る場合：**
-
-1. ご飯を炊く（関数1）
-2. 野菜を切る（関数2）
-3. 肉を炒める（関数3）
-4. カレーを煮込む（関数4）
-5. 盛り付ける（関数5）
-
-それぞれの作業を「関数」として独立させることで。
-
-- 同じ作業（ご飯を炊く）を他の料理でも使える
-- 問題があったとき、どの工程か特定しやすい
-- 複数人で分担できる
+関数は、プログラムを「部品」に分けるための仕組みです。
+大きな問題を小さな部分に分割して解決する「分割統治」の考え方を実現します。
 
 ### 関数の基本概念
 
-関数は特定の処理をまとめたコードブロックで、プログラムの再利用性と保守性を向上させます。
+関数は、名前を付けた処理の単位です。
+入力を仮引数で受け取り、必要に応じて戻り値を返します。
+処理を関数へ分けると、同じ処理を再利用でき、修正やテストの範囲も限定できます。
 
 #### 関数を使う理由
 
-1. **コードの再利用性**: 同じ処理を何度も書く必要がない
-2. **プログラムの構造化**: 複雑な問題を小さな部分に分割
-3. **保守性の向上**: 修正が必要な箇所を特定しやすい
-4. **可読性の向上**: プログラムの意図が明確になる
-5. **デバッグの容易さ**: 問題のある部分を特定しやすい
+1. **再利用**：同じ処理を複数の場所から呼び出せます
+2. **分割**：大きな処理を、入力と出力が明確な単位へ分けられます
+3. **保守**：修正やテストの対象を関数単位で絞れます
+4. **可読性**：関数名によって処理の目的を示せます
 
 #### 関数の構成要素
 
@@ -65,9 +49,10 @@
 
 関数を使うには、「宣言」と「定義」を理解する必要があります。
 
-#### なぜ関数プロトタイプが必要？
+#### 関数プロトタイプが必要な理由
 
-C言語では「使う前に宣言する」というルールがあります。関数プロトタイプは「この関数がありますよ」とコンパイラに教える役割があります。
+関数プロトタイプは、関数の戻り値の型と仮引数の型を呼び出しより前にコンパイラへ知らせます。
+コンパイラはこの情報を使って、引数の個数や型を検査します。
 
 #### 関数プロトタイプ（前方宣言）
 
@@ -92,13 +77,16 @@ void print_message(void)
 }
 ```
 
-### 引数の渡し方
+### 引数は常に値渡し
 
-関数に値を渡す方法は2つあります。この違いを理解することは非常に重要です！
+Cの関数呼び出しでは、すべての実引数が値渡しされます。
+ポインターを実引数にした場合も、関数が受け取るのはポインター値のコピーです。
+コピーしたポインターを間接参照すると、呼び出し側のオブジェクトを変更できます。
 
 #### 値渡し（Call by Value）
 
-C言語では、通常の変数を渡すと「値のコピー」が渡されます。これはC言語の基本的な動作です。
+整数などの値を渡すと、仮引数はその値で初期化されます。
+仮引数を変更しても、呼び出し側のオブジェクトには影響しません。
 
 ##### 値渡しのメカニズム
 
@@ -129,42 +117,35 @@ graph LR
 ```c
 void modify_value(int x)
 {
-    printf("関数内（変更前）: x = %d\n", x);
+    printf("Inside before: x = %d\n", x);
     x = 100;  /* 元の変数には影響しない */
-    printf("関数内（変更後）: x = %d\n", x);
+    printf("Inside after: x = %d\n", x);
 }
 
 int main(void)
 {
     int num = 10;
-    printf("呼び出し前: num = %d\n", num);
+    printf("Before call: num = %d\n", num);
 
     modify_value(num);
 
-    printf("呼び出し後: num = %d\n", num);  /* 10のまま */
+    printf("After call: num = %d\n", num);  /* 10のまま */
     return 0;
 }
 ```
 
-##### 値渡しの利点と欠点
+##### 値渡しの性質
 
-**利点：**
+値渡しでは、仮引数への代入が呼び出し側のオブジェクトを直接変更しません。
+構造体も値渡しできますが、値が大きい場合はコピーのコストが判断材料になります。
+複数の結果は、構造体を戻り値にするか、出力先を指すポインターを渡して返せます。
 
-- 元の変数が保護される（予期しない変更を防げる）
-- 理解しやすく、バグが起きにくい
-- 関数の独立性が高い
+#### ポインター値を渡す場合
 
-**欠点：**
+オブジェクトのアドレスを表すポインター値を渡すと、関数は間接参照によってそのオブジェクトを読み書きできます。
+これは参照渡しという別の呼び出し方式ではなく、ポインター値の値渡しです。
 
-- 大きなデータ構造では非効率（コピーに時間がかかる）
-- 複数の値を返すことができない
-- 関数内で元の変数を変更できない
-
-#### 参照渡し（Call by Reference）
-
-ポインターを使用して、変数のアドレスを渡すことで元の変数を変更できます。
-
-##### 参照渡しのメカニズム
+##### ポインター値がコピーされる仕組み
 
 ```mermaid
 graph LR
@@ -185,47 +166,39 @@ graph LR
     style B1 fill:#dff,stroke:#333,stroke-width:2px
 ```
 
-##### 参照渡しの実例
+##### ポインターを使った変更例
 
 ```c
 void modify_value(int *x)
 {
-    printf("関数内（変更前）: *x = %d\n", *x);
+    printf("Inside before: *x = %d\n", *x);
     *x = 100;  /* 元の変数を変更 */
-    printf("関数内（変更後）: *x = %d\n", *x);
+    printf("Inside after: *x = %d\n", *x);
 }
 
 int main(void)
 {
     int num = 10;
-    printf("呼び出し前: num = %d\n", num);
+    printf("Before call: num = %d\n", num);
 
     modify_value(&num);  /* &でアドレスを渡す */
 
-    printf("呼び出し後: num = %d\n", num);  /* 100に変更されている */
+    printf("After call: num = %d\n", num);  /* 100に変更されている */
     return 0;
 }
 ```
 
-##### 参照渡しの利点と欠点
+##### ポインターを渡す場合の性質
 
-**利点：**
-
-- 関数内で元の変数を変更できる
-- 大きなデータ構造でも効率的（アドレスだけ渡す）
-- 複数の値を返すことができる
-
-**欠点：**
-
-- ポインターの理解が必要
-- 意図しない変更の可能性がある
-- NULLポインターのチェックが必要
+ポインターを介すと、呼び出し側のオブジェクトを変更したり、複数の出力先へ結果を書き込んだりできます。
+一方、関数はポインターが指す範囲や有効期間を型だけでは判定できません。
+呼び出し側と関数側で、NULLを許すか、何要素を参照できるか、書き込み可能かという契約をそろえる必要があります。
 
 #### 配列の引数渡し
 
-配列を関数に渡す場合、特別な動作をします。
+配列を表す式は、関数呼び出しでは通常、先頭要素へのポインターに変換されます。
 
-##### 配列は常に「参照渡し」になる
+##### 配列式と仮引数の型調整
 
 ```c
 void modify_array(int arr[], int size)
@@ -241,7 +214,7 @@ int main(void)
     int numbers[5] = {1, 2, 3, 4, 5};
     int i;
 
-    printf("変更前: ");
+    printf("Before: ");
     for (i = 0; i < 5; i++) {
         printf("%d ", numbers[i]);
     }
@@ -249,7 +222,7 @@ int main(void)
 
     modify_array(numbers, 5);
 
-    printf("変更後: ");
+    printf("After: ");
     for (i = 0; i < 5; i++) {
         printf("%d ", numbers[i]);  /* 値が2倍になっている */
     }
@@ -259,10 +232,10 @@ int main(void)
 }
 ```
 
-##### なぜ配列は参照渡しになるのか？
+##### 関数が受け取る値
 
-```
-配列名は配列の先頭要素へのポインターとして扱われる：
+```text
+配列式は先頭要素へのポインターに変換される：
 
 numbers[5] = {1, 2, 3, 4, 5}
 
@@ -270,12 +243,16 @@ numbers → [1][2][3][4][5]
           ↑
      先頭要素のアドレス
 
-関数に渡されるのは、この先頭要素のアドレス
+関数には、このポインター値のコピーが渡される
 ```
+
+関数仮引数に書いた`int arr[]`は`int *arr`に調整されます。
+配列全体や要素数は渡されないため、要素数は別の引数で指定します。
 
 #### 構造体の引数渡し
 
-構造体は値渡しと参照渡しの両方が可能です。
+構造体そのものを渡すと、構造体の値がコピーされます。
+構造体へのポインターを渡すと、ポインター値がコピーされ、間接参照によって呼び出し側の構造体を操作できます。
 
 ##### 構造体の値渡し
 
@@ -292,7 +269,7 @@ void move_point(struct Point p)
 }
 ```
 
-##### 構造体の参照渡し
+##### 構造体へのポインターを渡す場合
 
 ```c
 void move_point_ref(struct Point *p)
@@ -302,13 +279,13 @@ void move_point_ref(struct Point *p)
 }
 ```
 
-#### 引数渡しの実践的な使い分け
+#### ポインターを引数にする例
 
-プログラミングでは、状況に応じて値渡しと参照渡しを使い分けることが重要です。ここでは、実際によく使われるパターンを詳しく見ていきましょう。
+呼び出し側のオブジェクトを変更する関数や、複数の結果を書き込む関数は、出力先へのポインターを引数にします。
 
 ##### 1. swap関数（値の交換）
 
-2つの変数の値を交換する関数は、参照渡しの必要性を理解する最も分かりやすい例です。
+2つの変数を交換するには、それぞれの変数へのポインターを関数へ渡します。
 
 ```c
 /* 値渡しでは交換できない（間違い例） */
@@ -320,7 +297,7 @@ void swap_wrong(int a, int b)
     /* 関数内でコピーを交換しただけ */
 }
 
-/* 参照渡しで正しく交換 */
+/* 変数へのポインターを渡して交換 */
 void swap_correct(int *a, int *b)
 {
     int temp = *a;
@@ -332,19 +309,19 @@ int main(void)
 {
     int x = 5, y = 10;
 
-    printf("交換前: x=%d, y=%d\n", x, y);
+    printf("Before: x=%d, y=%d\n", x, y);
 
     swap_wrong(x, y);
-    printf("swap_wrong後: x=%d, y=%d\n", x, y);  /* 5, 10のまま */
+    printf("After swap_wrong: x=%d, y=%d\n", x, y);  /* 5, 10のまま */
 
     swap_correct(&x, &y);
-    printf("swap_correct後: x=%d, y=%d\n", x, y);  /* 10, 5に交換 */
+    printf("After swap_correct: x=%d, y=%d\n", x, y);  /* 10, 5に交換 */
 
     return 0;
 }
 ```
 
-**なぜswap_wrongは動作しないのか？**
+**`swap_wrong`が呼び出し側を変更できない理由**
 
 ```mermaid
 flowchart LR
@@ -372,32 +349,40 @@ flowchart LR
 
 ##### 2. 複数の値を返す関数
 
-C言語の関数は通常1つの値しか返せませんが、参照渡しを使うと複数の値を返すことができます。
+Cの関数が直接返す戻り値は一つです。
+複数の出力先へのポインターを渡すと、それぞれのオブジェクトへ結果を書き込めます。
 
 ```c
-/* 商と余りを同時に返す */
-void divide_with_remainder(int dividend, int divisor,
+#include <limits.h>
+#include <stddef.h>
+#include <stdio.h>
+
+/* 商と余りを出力引数へ書き込む */
+int divide_with_remainder(int dividend, int divisor,
                           int *quotient, int *remainder)
 {
-    if (divisor == 0) {
-        /* エラー処理 */
-        if (quotient) *quotient = 0;
-        if (remainder) *remainder = 0;
-        return;
+    if (quotient == NULL || remainder == NULL) {
+        return -1;
+    }
+    if (divisor == 0 || (dividend == INT_MIN && divisor == -1)) {
+        return -2;
     }
 
     *quotient = dividend / divisor;
     *remainder = dividend % divisor;
+    return 0;
 }
 
 /* 統計情報を一度に計算する */
-void calculate_stats(int arr[], int size,
+int calculate_stats(const int arr[], int size,
                     int *min, int *max, double *average)
 {
-    int i, sum = 0;
+    int i;
+    double sum = 0.0;
 
-    if (size <= 0 || arr == NULL) {
-        return;  /* エラー処理 */
+    if (size <= 0 || arr == NULL || min == NULL ||
+        max == NULL || average == NULL) {
+        return -1;
     }
 
     *min = *max = arr[0];
@@ -409,6 +394,7 @@ void calculate_stats(int arr[], int size,
     }
 
     *average = (double)sum / size;
+    return 0;
 }
 
 int main(void)
@@ -419,23 +405,28 @@ int main(void)
     double avg;
 
     /* 除算の例 */
-    divide_with_remainder(17, 5, &q, &r);
-    printf("17 ÷ 5 = %d 余り %d\n", q, r);  /* 3 余り 2 */
+    if (divide_with_remainder(17, 5, &q, &r) == 0) {
+        printf("17 / 5 = %d, remainder %d\n", q, r);  /* 3 余り 2 */
+    }
 
     /* 統計計算の例 */
-    calculate_stats(numbers, 5, &minimum, &maximum, &avg);
-    printf("最小値: %d, 最大値: %d, 平均: %.1f\n",
-           minimum, maximum, avg);
+    if (calculate_stats(numbers, 5, &minimum, &maximum, &avg) == 0) {
+        printf("Minimum: %d, maximum: %d, average: %.1f\n",
+               minimum, maximum, avg);
+    }
 
     return 0;
 }
 ```
 
-##### 3. 安全な参照渡し（エラー処理）
+##### 3. ポインター引数の検証とエラー処理
 
-ポインターを受け取る関数では、必ずNULLチェックを行うべきです。
+NULLを受け取る可能性がある関数は、間接参照の前にNULLかどうかを検査します。
+NULLを許可しない契約にする場合は、その事前条件をAPIの利用者へ明示します。
 
 ```c
+#include <limits.h>
+
 /* 基本的なNULLチェック */
 void safe_increment(int *ptr)
 {
@@ -470,7 +461,7 @@ int safe_divide(int a, int b, int *result)
         return -1;  /* 引数エラー */
     }
 
-    if (b == 0) {
+    if (b == 0 || (a == INT_MIN && b == -1)) {
         return -2;  /* ゼロ除算エラー */
     }
 
@@ -493,19 +484,19 @@ struct StudentRecord {
     char address[100];
 };
 
-/* 値渡し（非効率） - 約200バイトをコピー */
+/* 構造体の値を渡す */
 void print_student_by_value(struct StudentRecord student)
 {
-    printf("名前: %s\n", student.name);
+    printf("Name: %s\n", student.name);
     printf("GPA: %.2f\n", student.gpa);
 }
 
-/* 参照渡し（効率的） - ポインター（4-8バイト）のみコピー */
+/* const修飾した構造体へのポインター値を渡す */
 void print_student_by_reference(const struct StudentRecord *student)
 {
     if (student == NULL) return;
 
-    printf("名前: %s\n", student->name);
+    printf("Name: %s\n", student->name);
     printf("GPA: %.2f\n", student->gpa);
 }
 
@@ -515,14 +506,15 @@ void update_gpa(struct StudentRecord *student, double new_gpa)
     if (student == NULL) return;
 
     student->gpa = new_gpa;
-    printf("%sのGPAを%.2fに更新しました\n",
+    printf("Updated %s GPA to %.2f\n",
            student->name, new_gpa);
 }
 ```
 
 ##### 5. 配列操作の実践例
 
-配列は自動的に参照渡しになりますが、安全に扱うためのテクニックがあります。
+配列式から変換されたポインターだけでは、参照できる要素数が分かりません。
+配列を処理する関数には、要素数や処理範囲も渡します。
 
 ```c
 /* 配列の要素をすべて特定の値に設定 */
@@ -556,60 +548,52 @@ int compare_arrays(const int arr1[], const int arr2[], int size)
 }
 
 /* 配列の一部を別の配列にコピー */
-void copy_array_range(int dest[], const int src[],
-                     int start, int count, int dest_size)
+int copy_array_range(int dest[], int dest_size,
+                     const int src[], int src_size,
+                     int start, int count)
 {
     int i;
 
-    if (dest == NULL || src == NULL) return;
-    if (start < 0 || count <= 0) return;
-    if (count > dest_size) count = dest_size;  /* 安全性確保 */
+    if (dest == NULL || src == NULL || start < 0 || count < 0) return -1;
+    if (start > src_size || count > src_size - start) return -1;
+    if (count > dest_size) return -1;
 
     for (i = 0; i < count; i++) {
         dest[i] = src[start + i];
     }
+    return 0;
 }
 ```
 
-##### 6. 関数の戻り値と参照渡しの組み合わせ
+このコピー関数は、コピー元とコピー先の範囲が重ならないことを前提とします。
 
-戻り値でステータスを返し、参照渡しで実際の値を返すパターンはよく使われます。
+##### 6. 戻り値と出力引数の組み合わせ
+
+戻り値で処理結果の状態を返し、ポインターで指定された出力先へ値を書き込む設計があります。
 
 ```c
+#include <errno.h>
+#include <limits.h>
+#include <stdlib.h>
+
 /* 文字列を整数に変換（エラーチェック付き） */
 int string_to_int(const char *str, int *result)
 {
-    int value = 0;
-    int sign = 1;
-    int i = 0;
+    char *end;
+    long value;
 
     if (str == NULL || result == NULL) {
         return -1;  /* 引数エラー */
     }
 
-    /* 空白をスキップ */
-    while (str[i] == ' ') i++;
-
-    /* 符号の処理 */
-    if (str[i] == '-') {
-        sign = -1;
-        i++;
-    } else if (str[i] == '+') {
-        i++;
+    errno = 0;
+    value = strtol(str, &end, 10);
+    if (end == str || *end != '\0' || errno == ERANGE ||
+        value < INT_MIN || value > INT_MAX) {
+        return -2;
     }
 
-    /* 数字でない場合はエラー */
-    if (str[i] < '0' || str[i] > '9') {
-        return -2;  /* フォーマットエラー */
-    }
-
-    /* 数値に変換 */
-    while (str[i] >= '0' && str[i] <= '9') {
-        value = value * 10 + (str[i] - '0');
-        i++;
-    }
-
-    *result = value * sign;
+    *result = (int)value;
     return 0;  /* 成功 */
 }
 
@@ -621,32 +605,31 @@ int main(void)
 
     status = string_to_int("123", &num);
     if (status == 0) {
-        printf("変換成功: %d\n", num);
+        printf("Converted: %d\n", num);
     } else {
-        printf("変換失敗: エラーコード %d\n", status);
+        printf("Conversion failed: %d\n", status);
     }
 
     return 0;
 }
 ```
 
-##### 7. 実践的な選択基準
+##### 7. 引数の型を選ぶ基準
 
-**値渡しを選ぶべき場合：**
+**オブジェクトの値を直接渡す例：**
 
 - 基本データ型（int, char, float, double）
-- 小さな構造体（数十バイト以下）
-- 元の値を保護したい場合
-- 関数の独立性を高めたい場合
+- コピーのコストを許容できる構造体
+- 関数から呼び出し側のオブジェクトを変更する必要がない場合
 
-**参照渡しを選ぶべき場合：**
+**オブジェクトへのポインターを渡す例：**
 
 - 大きな構造体や配列
 - 複数の値を返したい場合
 - 元の値を変更する必要がある場合
-- パフォーマンスが重要な場合
+- 構造体のコピーを避けたい場合
 
-**constを使った参照渡しを選ぶべき場合：**
+**`const`修飾した型へのポインターを渡す例：**
 
 - 大きなデータを読むだけの場合
 - 誤った変更を防ぎたい場合
@@ -654,7 +637,7 @@ int main(void)
 
 #### const修飾子による保護
 
-参照渡しでも、値を変更したくない場合はconstを使います。
+ポインターを介してオブジェクトを変更させない場合は、ポインターが指す型を`const`で修飾します。
 
 ```c
 /* 配列の内容を変更しない関数 */
@@ -677,18 +660,18 @@ int array_sum(const int arr[], int size)
 1. **基本データ型（int, char, floatなど）**
 
     - 通常は値渡しを使用
-    - 変更が必要な場合のみ参照渡し
+    - 呼び出し側の値を変更する場合は、そのオブジェクトへのポインターを渡す
 
 2. **配列**
 
-    - 自動的に参照渡しになる
+    - 配列式は先頭要素へのポインターに変換される
     - 変更しない場合はconstを付ける
 
 3. **構造体**
 
-    - 小さい構造体：値渡しでOK
-    - 大きい構造体：参照渡しで効率化
-    - 変更しない場合：const付き参照渡し
+    - コピーのコストを許容できる構造体：構造体の値を直接渡す
+    - コピーを避ける構造体：構造体へのポインターを渡す
+    - 変更しない場合：`const`修飾した型へのポインターを渡す
 
 4. **文字列**
 
@@ -697,7 +680,8 @@ int array_sum(const int arr[], int size)
 
 ### 様々な関数の種類
 
-関数にはいろいろな種類があります。用途に応じて使い分けましょう。
+関数は、戻り値や仮引数の有無によって宣言が変わります。
+用途に応じて関数型を選びます。
 
 #### 戻り値のない関数（void関数）
 
@@ -707,13 +691,13 @@ int array_sum(const int arr[], int size)
 void print_header(void)
 {
     printf("====================\n");
-    printf(" プログラム開始\n");
+    printf(" Program start\n");
     printf("====================\n");
 }
 
 void greet_user(char *name)
 {
-    printf("こんにちは、%sさん！\n", name);
+    printf("Hello, %s\n", name);
 }
 ```
 
@@ -749,18 +733,10 @@ void initialize_array(int arr[], int size, int value)
 
 再帰関数は自分自身を呼び出す関数です。
 
-#### 再帰を理解する日常例
-
-**ロシア人形（マトリョーシカ）**を想像してください。
-
-1. 一番外側の人形を開ける
-2. 中に人形があったら、それも開ける
-3. さらに中に人形があったら、それも開ける
-4. 最後の人形（これ以上開けない）に到達したら終了
-
-これが再帰の考え方です！
-
 #### 再帰関数の例
+
+再帰関数には、再帰を終了する基底条件と、問題を小さくする再帰呼び出しが必要です。
+次の`factorial`は`n - 1`を渡して問題を縮小し、`n <= 1`で呼び出しを止めます。
 
 ```c
 /* 階乗を計算する再帰関数 */
@@ -793,20 +769,18 @@ int fibonacci(int n)
 
 ### 関数のスコープと生存期間
 
-変数には「見える範囲」と「生きている期間」があります。これを理解することで、バグを防げます。
+変数を利用できるソースコード上の範囲を**スコープ**、オブジェクトが保持される期間を**記憶域期間**と呼びます。
+両者は別の概念です。
 
 #### ローカル変数とグローバル変数
 
-**家族の例で考えてみましょう：**
-
-- **ローカル変数**：自分の部屋にあるもの（他の人は使えない）
-- **グローバル変数**：リビングにあるもの（家族全員が使える）
-
-この違いを理解することは、バグの少ない、保守しやすいプログラムを書くために非常に重要です。
+関数内やブロック内で宣言した識別子の多くはブロックスコープを持ちます。
+関数の外で宣言した識別子はファイルスコープを持ちます。
 
 #### ローカル変数の詳細
 
-ローカル変数は関数内で宣言され、その関数内でのみ使用できる変数です。
+関数内で宣言したローカル変数は、宣言位置を含むブロック内で参照できます。
+通常のローカル変数は自動記憶域期間を持ち、ブロックへ入るたびにオブジェクトの生存期間が始まります。
 
 ##### ローカル変数の特徴
 
@@ -880,7 +854,9 @@ int main(void)
 
 #### グローバル変数の詳細
 
-グローバル変数は関数の外で宣言され、プログラム全体で使用できる変数です。
+関数の外で宣言した変数はファイルスコープを持ちます。
+外部リンケージを持つ変数は、別の翻訳単位から`extern`宣言を介して参照できます。
+`static`を付けた変数は内部リンケージを持ち、その翻訳単位だけで名前を参照できます。
 
 ##### グローバル変数の宣言と使用
 
@@ -897,7 +873,7 @@ void increment_counter(void)
 
 void print_counter(void)
 {
-    printf("カウンター: %d\n", global_count);
+    printf("Counter: %d\n", global_count);
 }
 
 int main(void)
@@ -928,7 +904,7 @@ int g_initialized = 100;
 char g_string[] = "Hello, Global!";
 
 /* 関数呼び出しによる初期化はできない */
-/* int g_value = get_value(); エラー！ */
+/* int g_value = get_value(); 定数式ではないため初期化できない */
 ```
 
 #### 変数の可視性（スコープ）と名前の隠蔽
@@ -942,15 +918,17 @@ void test_scope(void)
 {
     printf("1: value = %d\n", value);  /* 100（グローバル） */
 
-    int value = 200;  /* ローカル変数（グローバルを隠蔽） */
-    printf("2: value = %d\n", value);  /* 200（ローカル） */
-
     {
-        int value = 300;  /* ブロック内変数（ローカルを隠蔽） */
-        printf("3: value = %d\n", value);  /* 300（ブロック内） */
-    }
+        int value = 200;  /* グローバル変数を隠蔽 */
+        printf("2: value = %d\n", value);  /* 200 */
 
-    printf("4: value = %d\n", value);  /* 200（ローカル） */
+        {
+            int value = 300;  /* 外側のブロックの変数を隠蔽 */
+            printf("3: value = %d\n", value);  /* 300 */
+        }
+
+        printf("4: value = %d\n", value);  /* 200 */
+    }
 }
 
 int main(void)
@@ -975,7 +953,7 @@ void add_score(int points)
 
 void reset_score(void)
 {
-    total_score = 0;  /* 他の場所で使用中かもしれない！ */
+    total_score = 0;  /* 他の処理が共有している状態も変更する */
 }
 
 /* より良い設計：引数と戻り値を使用 */
@@ -1010,7 +988,7 @@ int calculate_area_safe(int width, int height)
 int counter = 0;  /* グローバル変数 */
 
 /* file2.c */
-int counter = 0;  /* 同じ名前！リンクエラーになる */
+int counter = 0;  /* 同じ外部名の定義が重複し、リンクに失敗する */
 
 /* 対策：staticを使用してファイルスコープに限定 */
 static int counter = 0;  /* このファイル内でのみ有効 */
@@ -1121,7 +1099,7 @@ void add_score(int points)
 }
 ```
 
-#### まとめ：変数スコープのベストプラクティス
+#### 変数のスコープを限定する指針
 
 1. **可能な限りローカル変数を使用する**
 
@@ -1149,21 +1127,14 @@ void counter_function(void)
 {
     static int count = 0;  /* 初回のみ初期化 */
     count++;
-    printf("呼び出し回数: %d\n", count);
+    printf("Call count: %d\n", count);
 }
 ```
 
 ### 関数ポインターの基礎
 
-関数へのポインターを使うことで、関数を変数のように扱えます。これは少し高度な話題ですが、基本だけ紹介します。
-
-#### 関数ポインターのイメージ
-
-テレビのリモコンを想像してください。
-
-- リモコンのボタン = 関数ポインター
-- ボタンを押す = 関数を実行
-- ボタンの割り当てを変える = 別の関数を指すようにする
+関数ポインターは、指定した戻り値の型と仮引数の型を持つ関数を指します。
+同じ関数ポインター変数へ互換性のある別の関数を代入すると、呼び出す処理を実行時に選べます。
 
 #### 基本的な関数ポインター
 
@@ -1186,10 +1157,10 @@ int main(void)
 
     /* 関数ポインターに関数を代入 */
     operation = add;
-    printf("加算: %d\n", operation(5, 3));
+    printf("Add: %d\n", operation(5, 3));
 
     operation = multiply;
-    printf("乗算: %d\n", operation(5, 3));
+    printf("Multiply: %d\n", operation(5, 3));
 
     return 0;
 }
@@ -1232,19 +1203,20 @@ gcc -Wall -Wextra -pedantic examples/advanced_functions.c -lm -o advanced_functi
 
 ## 注意事項
 
-初心者が関数で間違えやすいポイント。
+関数を定義し、呼び出すときは次の点を確認します。
 
-1. **関数プロトタイプ**: main関数より後に定義する関数は、必ずプロトタイプ宣言が必要
+1. **関数プロトタイプ**：呼び出しより後で関数を定義する場合は、先にプロトタイプを宣言する
 
    ```c
-   /* NG: プロトタイプなし */
-   int main() {
-       add(1, 2);  /* エラー！ */
+   /* 不適切: 呼び出しより前に宣言がない */
+   int main(void) {
+       add(1, 2);
+       return 0;
    }
    int add(int a, int b) { return a + b; }
    ```
 
-2. **配列の扱い**: 配列を関数に渡すときは、サイズ情報も一緒に渡す
+2. **配列の扱い**：配列式から変換されたポインターと、処理する要素数を一緒に渡す
 
    ```c
    /* NG: サイズが分からない */
@@ -1254,11 +1226,11 @@ gcc -Wall -Wextra -pedantic examples/advanced_functions.c -lm -o advanced_functi
    void print_array(int arr[], int size) { /* OK */ }
    ```
 
-3. **再帰の深さ**: 再帰関数は深くなりすぎるとスタックオーバーフローを起こす
+3. **再帰の深さ**：再帰が深くなると、処理系が利用できる呼び出し用の記憶領域を使い切る可能性がある
 
-4. **グローバル変数**: できるだけ使用を避け、必要な場合は慎重に使用する
+4. **ファイルスコープ変数**：共有する範囲を限定し、必要なら`static`で内部リンケージにする
 
-5. **static変数**: 関数内でstatic変数を使うと、値が保持される
+5. **`static`変数**：ブロックを抜けても値が保持されるため、呼び出し間で状態を共有する意図を明確にする
 
 ## 次のステップ
 
@@ -1315,7 +1287,7 @@ make clean
 
 ## 演習問題
 
-この章の内容を理解したら、[演習問題](exercises/)に挑戦してみましょう。
+[演習問題](exercises/)では、プロトタイプ、値渡し、ポインター引数、再帰、スコープを確認できます。
 
 - 基礎問題：基本的な文法や概念の確認
 - 応用問題：より実践的なプログラムの作成

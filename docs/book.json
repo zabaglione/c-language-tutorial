@@ -1,0 +1,48 @@
+{
+  "title": "C言語プログラミング教材",
+  "subtitle": "基礎からC23までを段階的に学ぶ",
+  "author": "C言語学習教材プロジェクト",
+  "output": "output/pdf/C言語プログラミング教材.pdf",
+  "toc_title": "目次",
+  "navigation_heading": "次の章へ",
+  "validation": {
+    "malformed_patterns": ["ポインターー+"],
+    "forbidden_phrases": [
+      "詳しく見てみましょう",
+      "身近な例を考えてみましょう",
+      "おめでとうございます",
+      "頑張ってください"
+    ]
+  },
+  "parts": {
+    "textbook": "本文",
+    "exercises": "演習問題",
+    "solutions": "解答例"
+  },
+  "labels": {
+    "chapter": "第{number}章：{title}{suffix}",
+    "supplement": "{number}：{title}{suffix}",
+    "exercise_suffix": "の演習問題",
+    "solution_suffix": "の解答例"
+  },
+  "chapters": [
+    {"number": "1", "id": "introduction", "title": "C言語入門"},
+    {"number": "2", "id": "basics-syntax", "title": "基本構文"},
+    {"number": "3", "id": "data-types", "title": "データ型と変数"},
+    {"number": "4", "id": "operators", "title": "演算子"},
+    {"number": "5", "id": "control-if", "title": "条件分岐"},
+    {"number": "6", "id": "control-loop", "title": "繰り返し処理"},
+    {"number": "7", "id": "arrays-basics", "title": "配列"},
+    {"number": "8", "id": "pointers", "title": "ポインター"},
+    {"number": "9", "id": "arrays-pointers", "title": "配列とポインター"},
+    {"number": "10", "id": "strings", "title": "文字列"},
+    {"number": "11", "id": "functions", "title": "関数"},
+    {"number": "12", "id": "bit-operations", "title": "ビット操作"},
+    {"number": "13", "id": "structures", "title": "構造体"},
+    {"number": "14", "id": "function-pointers", "title": "関数ポインター"},
+    {"number": "15", "id": "advanced", "title": "分割コンパイルと発展技術"},
+    {"number": "16", "id": "c23-features", "title": "C23の機能"},
+    {"number": "補章1", "id": "c-standards", "title": "C言語規格の歴史"},
+    {"number": "補章2", "id": "development-environment", "title": "開発環境"}
+  ]
+}

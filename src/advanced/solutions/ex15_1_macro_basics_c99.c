@@ -105,8 +105,8 @@ typedef struct {
 } benchmark_t;
 
 /* C99: ベンチマーク用マクロ（スコープ付き） */
-#define BENCHMARK_BLOCK(name) \
-    for (benchmark_t bench = {.start = clock(), .name = #name}; \
+#define BENCHMARK_BLOCK(label) \
+    for (benchmark_t bench = {.start = clock(), .name = #label}; \
          bench.end == 0; \
          bench.end = clock(), \
          printf("ベンチマーク: %s (実行時間: %.6f秒)\n", \

@@ -12,6 +12,7 @@
 #include <assert.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <stddef.h>
 
 /* アロケーターの設定 */
 #define SMALL_OBJECT_SIZE 64
@@ -22,8 +23,8 @@
 #define MEDIUM_POOL_CAPACITY 256
 #define LARGE_POOL_CAPACITY 64
 
-#define ALLOCATOR_MAGIC 0xAL0CAT0R
-#define BLOCK_MAGIC 0xB10CK5
+#define ALLOCATOR_MAGIC UINT32_C(0xA110CA70)
+#define BLOCK_MAGIC UINT32_C(0xB10C0005)
 
 /* デバッグモード */
 #define DEBUG_ALLOCATOR 1
@@ -223,9 +224,9 @@ int allocator_init(void)
     g_allocator.initialized = true;
     
     ALLOC_DEBUG("カスタムアロケーターを初期化しました");
-    printf("  小プール: %zu x %zuバイト\n", SMALL_POOL_CAPACITY, (size_t)SMALL_OBJECT_SIZE);
-    printf("  中プール: %zu x %zuバイト\n", MEDIUM_POOL_CAPACITY, (size_t)MEDIUM_OBJECT_SIZE);
-    printf("  大プール: %zu x %zuバイト\n", LARGE_POOL_CAPACITY, (size_t)LARGE_OBJECT_SIZE);
+    printf("  Small pool: %zu x %zu bytes\n", (size_t)SMALL_POOL_CAPACITY, (size_t)SMALL_OBJECT_SIZE);
+    printf("  Medium pool: %zu x %zu bytes\n", (size_t)MEDIUM_POOL_CAPACITY, (size_t)MEDIUM_OBJECT_SIZE);
+    printf("  Large pool: %zu x %zu bytes\n", (size_t)LARGE_POOL_CAPACITY, (size_t)LARGE_OBJECT_SIZE);
     
     return 0;
 }
@@ -331,6 +332,8 @@ void *custom_malloc(size_t size)
 /* カスタムfree実装 */
 void custom_free(void *ptr)
 {
+    size_t allocated_size;
+
     if (!ptr) return;
     
     if (!g_allocator.initialized) {
@@ -351,6 +354,9 @@ void custom_free(void *ptr)
         fprintf(stderr, "二重解放の検出\n");
         return;
     }
+
+    allocated_size = header->size;
+    header->is_free = true;
     
     /* プールタイプに応じた解放 */
     switch (header->pool_type) {
@@ -381,11 +387,9 @@ void custom_free(void *ptr)
     }
     
     /* 統計更新 */
-    g_allocator.stats.total_freed += header->size;
-    g_allocator.stats.current_usage -= header->size;
+    g_allocator.stats.total_freed += allocated_size;
+    g_allocator.stats.current_usage -= allocated_size;
     g_allocator.stats.total_free_time += get_time_sec() - start_time;
-    
-    header->is_free = true;
 }
 
 /* C99: 可変長配列を使用した統計表示 */

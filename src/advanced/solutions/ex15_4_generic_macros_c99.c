@@ -11,6 +11,8 @@
 #include <assert.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdlib.h>
+#include <math.h>
 
 /* C99: _Generic で真の型判定 */
 #define TYPE_NAME(x) _Generic((x), \
@@ -24,39 +26,44 @@
     void*: "void*", \
     default: "unknown")
 
-/* C99: 型安全なスワップ */
+/* C17: 同じサイズのオブジェクトを1回ずつ評価するスワップ */
 #define SWAP(a, b) do { \
     _Static_assert(sizeof(a) == sizeof(b), "Types must have same size"); \
-    typeof(a) _temp = (a); \
-    (a) = (b); \
-    (b) = _temp; \
+    unsigned char swap_temp[sizeof(a)]; \
+    memcpy(swap_temp, &(a), sizeof(a)); \
+    memcpy(&(a), &(b), sizeof(a)); \
+    memcpy(&(b), swap_temp, sizeof(a)); \
 } while (0)
 
 /* C99: 可変引数マクロでのループ展開 */
 #define REPEAT_VA(n, ...) \
     for (int _i = 0; _i < (n); _i++) { __VA_ARGS__ }
 
-/* C99: 配列の要素数を型安全に取得 */
-#define ARRAY_SIZE(arr) \
-    (sizeof(arr) / sizeof((arr)[0]) + \
-     sizeof(typeof(int[1 - 2 * !!__builtin_types_compatible_p(typeof(arr), typeof(&arr[0]))])) * 0)
+/* 配列として見えている式に対して使用する要素数マクロ */
+#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
 
-/* C99: 型安全な最大・最小マクロ */
-#define MAX(a, b) ({ \
-    typeof(a) _a = (a); \
-    typeof(b) _b = (b); \
-    _Static_assert(__builtin_types_compatible_p(typeof(_a), typeof(_b)), \
-                   "MAX requires same types"); \
-    _a > _b ? _a : _b; \
-})
+static inline int max_int(int a, int b) { return a > b ? a : b; }
+static inline long max_long(long a, long b) { return a > b ? a : b; }
+static inline float max_float(float a, float b) { return a > b ? a : b; }
+static inline double max_double(double a, double b) { return a > b ? a : b; }
+static inline int min_int(int a, int b) { return a < b ? a : b; }
+static inline long min_long(long a, long b) { return a < b ? a : b; }
+static inline float min_float(float a, float b) { return a < b ? a : b; }
+static inline double min_double(double a, double b) { return a < b ? a : b; }
 
-#define MIN(a, b) ({ \
-    typeof(a) _a = (a); \
-    typeof(b) _b = (b); \
-    _Static_assert(__builtin_types_compatible_p(typeof(_a), typeof(_b)), \
-                   "MIN requires same types"); \
-    _a < _b ? _a : _b; \
-})
+#define MAX(a, b) _Generic(((a) + (b)), \
+    int: max_int, \
+    long: max_long, \
+    float: max_float, \
+    double: max_double \
+)((a), (b))
+
+#define MIN(a, b) _Generic(((a) + (b)), \
+    int: min_int, \
+    long: min_long, \
+    float: min_float, \
+    double: min_double \
+)((a), (b))
 
 /* C99: 可変引数デバッグマクロ */
 #ifdef DEBUG
@@ -67,10 +74,28 @@
 #define DEBUG_PRINT(fmt, ...)
 #endif
 
-/* C99: 複合リテラルを使用したマクロ */
-#define POINT(x, y) ((struct { double x, y; }){.x = (x), .y = (y)})
-#define RECT(x, y, w, h) ((struct { double x, y, width, height; }) \
-                          {.x = (x), .y = (y), .width = (w), .height = (h)})
+typedef struct {
+    double x;
+    double y;
+} Point;
+
+typedef struct {
+    double x;
+    double y;
+    double width;
+    double height;
+} Rectangle;
+
+/* 名前付き構造体により、複合リテラル同士を同じ型にする */
+#define POINT(x_value, y_value) \
+    ((Point){.x = (x_value), .y = (y_value)})
+#define RECT(x_value, y_value, width_value, height_value) \
+    ((Rectangle){ \
+        .x = (x_value), \
+        .y = (y_value), \
+        .width = (width_value), \
+        .height = (height_value) \
+    })
 
 /* C99: ビットフィールド操作の改良版 */
 #define BIT_FIELD(name, bits) \
@@ -118,19 +143,41 @@ static inline void benchmark_end(BenchmarkContext *ctx)
            ctx->name, elapsed, ctx->total_time / ctx->count);
 }
 
-/* C99: ジェネリック選択による型別処理 */
+static void print_int_value(const char *label, int value)
+{
+    printf("%s = %d (type: int)\n", label, value);
+}
+
+static void print_long_value(const char *label, long value)
+{
+    printf("%s = %ld (type: long)\n", label, value);
+}
+
+static void print_float_value(const char *label, float value)
+{
+    printf("%s = %f (type: float)\n", label, (double)value);
+}
+
+static void print_double_value(const char *label, double value)
+{
+    printf("%s = %g (type: double)\n", label, value);
+}
+
+static void print_string_value(const char *label, const char *value)
+{
+    printf("%s = \"%s\" (type: const char *)\n", label, value);
+}
+
+/* 選択後の関数だけへ値を渡すため、非選択式の型エラーを避ける */
 #define PRINT_VALUE(x) \
-    printf("%s = ", #x); \
     _Generic((x), \
-        int: printf("%d", x), \
-        long: printf("%ld", x), \
-        float: printf("%f", x), \
-        double: printf("%g", x), \
-        char: printf("'%c'", x), \
-        char*: printf("\"%s\"", (char*)x), \
-        default: printf("(unknown type)") \
-    ); \
-    printf(" (type: %s)\n", TYPE_NAME(x))
+        int: print_int_value, \
+        long: print_long_value, \
+        float: print_float_value, \
+        double: print_double_value, \
+        char *: print_string_value, \
+        const char *: print_string_value \
+    )(#x, (x))
 
 /* C99: リソース管理マクロ */
 #define WITH_RESOURCE(type, var, init, cleanup) \
@@ -209,21 +256,18 @@ void test_compound_literals(void)
     printf("=== 複合リテラルテスト ===\n");
     
     /* 一時的な構造体の作成 */
-    struct { double x, y; } p1 = POINT(3.0, 4.0);
+    Point p1 = POINT(3.0, 4.0);
     printf("点: (%.1f, %.1f)\n", p1.x, p1.y);
     
-    /* 関数引数として直接使用 */
-    double distance = ({ 
-        typeof(POINT(0, 0)) origin = POINT(0, 0);
-        typeof(POINT(3, 4)) point = POINT(3, 4);
-        double dx = point.x - origin.x;
-        double dy = point.y - origin.y;
-        sqrt(dx * dx + dy * dy);  /* 注: math.hが必要 */
-    });
+    Point origin = POINT(0, 0);
+    Point point = POINT(3, 4);
+    double dx = point.x - origin.x;
+    double dy = point.y - origin.y;
+    double distance = sqrt(dx * dx + dy * dy);
     printf("原点からの距離: %.2f\n", distance);
     
     /* 矩形の作成 */
-    typeof(RECT(0, 0, 0, 0)) rect = RECT(10, 20, 100, 50);
+    Rectangle rect = RECT(10, 20, 100, 50);
     printf("矩形: 位置(%.1f, %.1f) サイズ(%.1f x %.1f)\n",
            rect.x, rect.y, rect.width, rect.height);
     

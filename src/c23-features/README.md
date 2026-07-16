@@ -2,377 +2,230 @@
 
 ## 対応C規格
 
-- **主要対象:** C23
-- **学習内容:** bool型、typeof演算子、nullptr、2進数リテラル、その他の新機能
+- **主要対象：** C23
+- **学習内容：** `bool`、`typeof`、`nullptr`、2進整数定数、桁区切り、型推論、`constexpr`
 
 ## 学習目標
 
-この章を完了すると、以下のことができるようになります。
+この章を完了すると、次のことができるようになります。
 
-- C23で標準化されたbool型を使用できる
-- typeof演算子で型を扱える
-- nullptrを使った型安全なコードが書ける
-- 2進数リテラルを活用できる
-- C23の新機能を実践的に活用できる
+- C23の規格バージョンを機能テストマクロで判定できる
+- `bool`、`true`、`false`をキーワードとして使用できる
+- `typeof`と`typeof_unqual`の違いを説明できる
+- `nullptr`と整数定数`0`の違いを説明できる
+- 2進整数定数と桁区切りを正しい構文で記述できる
+- 利用する処理系が各機能を実装しているか確認できる
 
-## 概要と詳細
+## C23の位置づけ
 
-### C23とは？
-
-C23は、C言語の最新の規格（2024年予定）です。「なぜ新しい規格が必要なの？」と思うかもしれません。実は、プログラミングの世界も日々進化しているのです！
-
-#### 新しい規格が生まれる理由
-
-プログラミング言語の規格は、スマートフォンのOSアップデートのようなものです。
-
-1. **新しいニーズへの対応**
-
-    - より安全なプログラムを書きたい
-    - より短く、わかりやすいコードを書きたい
-    - 他の言語の便利な機能を取り入れたい
-
-2. **過去の問題の修正**
-
-    - これまでの規格で不便だった部分を改善
-    - よくあるバグを防ぐ機能の追加
-    - 開発者の要望を反映
-
-3. **時代の変化への適応**
-
-    - マルチコアCPUの普及
-    - より高度なコンパイラ技術
-    - セキュリティ要求の高まり
-
-### 主要な新機能
-
-C23では、初心者にも嬉しい機能がたくさん追加されました！
-
-#### 1. bool型の標準化 - 真偽値がより使いやすく
-
-これまでC言語でtrue/falseを使うには、特別なヘッダーファイルが必要でした。C23では、それが不要になります！
-
-**日常生活での例え**。
-
-- 従来：「はい」「いいえ」を使うために辞書が必要
-- C23：「はい」「いいえ」が最初から使える
+C23はC言語規格の通称です。
+国際規格はISO/IEC 9899:2024として2024年に発行されました。
+規格に準拠する処理系では、`__STDC_VERSION__`が`202311L`になります。
 
 ```c
-/* C90/C99 - これまでの書き方 */
-#include <stdbool.h>  /* このヘッダーが必要だった */
-bool is_student = true;
-
-/* C23 - 新しい書き方 */
-bool is_student = true;  /* ヘッダー不要！すぐ使える */
-```
-
-**なぜ便利？**
-
-- コードがシンプルになる
-- 他の言語（Java、C++など）と同じ感覚で使える
-- 初心者にも直感的
-
-#### 2. typeof演算子 - 型を自動で判別
-
-変数の型を自動的に取得できる便利な機能です。
-
-**日常生活での例え**。
-
-- 「この箱と同じサイズの箱をもう一つください」と言えるようになった
-- 箱のサイズを測る必要がない
-
-```c
-int age = 20;
-typeof(age) another_age = 25;  /* another_ageは自動的にint型になる */
-
-double price = 19.99;
-typeof(price) tax = 1.10;      /* taxは自動的にdouble型になる */
-```
-
-**よくある使い方**。
-
-```c
-/* 型安全なスワップマクロ */
-#define SWAP(a, b) do { \
-    typeof(a) temp = (a); \
-    (a) = (b); \
-    (b) = temp; \
-} while(0)
-
-/* 使用例 */
-int x = 10, y = 20;
-SWAP(x, y);  /* xとyの値が入れ替わる */
-```
-
-#### 3. nullptr定数 - より安全なNULLポインター
-
-ポインターが「何も指していない」ことを示す、より安全な方法です。
-
-**日常生活での例え**。
-
-- NULL：「住所なし」（でも0番地と区別がつかない）
-- nullptr：「住所なし」（明確に住所がないことを示す）
-
-```c
-/* 従来の方法 */
-int *p1 = NULL;     /* NULLは実は0かもしれない */
-
-/* C23の新しい方法 */
-int *p2 = nullptr;  /* 明確にポインター用のnull値 */
-```
-
-**なぜ安全？**
-
-```c
-/* 従来の問題 */
-void func(int x) { printf("整数: %d\n", x); }
-void func(int *p) { printf("ポインター\n"); }
-func(NULL);  /* どちらが呼ばれる？曖昧！ */
-
-/* C23では */
-func(nullptr);  /* 確実にポインター版が呼ばれる */
-```
-
-#### 4. 2進数リテラル - ビット操作が直感的に
-
-2進数を直接書けるようになりました！
-
-**日常生活での例え**。
-
-- 従来：「8個のスイッチで、1番目と3番目をON」→ 5と計算
-- C23：「8個のスイッチで、00000101」→ そのまま書ける
-
-```c
-/* 従来の書き方 */
-int flags = 5;           /* 何を表しているか分かりにくい */
-int mask = 0xAA;        /* 16進数で書く必要があった */
-
-/* C23の新しい書き方 */
-int flags = 0b00000101;  /* 1番目と3番目のビットがON、一目瞭然！ */
-int mask = 0b10101010;   /* ビットパターンが見やすい */
-```
-
-**実用例 - ファイルのアクセス権限**。
-
-```c
-/* 読み取り、書き込み、実行の権限を2進数で表現 */
-#define READ_PERMISSION  0b100  /* 読み取り可能 */
-#define WRITE_PERMISSION 0b010  /* 書き込み可能 */
-#define EXEC_PERMISSION  0b001  /* 実行可能 */
-
-/* 権限の組み合わせ */
-int user_permissions = READ_PERMISSION | WRITE_PERMISSION;  /* 読み書き可能 */
-```
-
-### その他の新機能
-
-C23には他にも多くの新機能があります。
-
-#### 5. auto型推論（制限付き）
-
-変数の型を自動的に推論する機能（ただし制限あり）。
-
-```c
-auto x = 42;      /* xはint型と推論される */
-auto y = 3.14;    /* yはdouble型と推論される */
-```
-
-#### 6. constexpr - コンパイル時定数
-
-コンパイル時に値が確定する定数を定義できます。
-
-```c
-constexpr int ARRAY_SIZE = 100;
-int array[ARRAY_SIZE];  /* コンパイル時にサイズが決まる */
-```
-
-#### 7. 新しいプリプロセッサ機能
-
-条件付きコンパイルがより便利に。
-
-```c
-/* マクロが定義されているかチェック */
-#elifdef DEBUG
-    printf("デバッグモード\n");
-#elifndef RELEASE
-    printf("リリースモードではない\n");
-#endif
-```
-
-### 初心者が陥りやすい間違い
-
-#### 1. コンパイラーのサポート確認を忘れる
-
-```c
-/* NG: コンパイラーがC23をサポートしていない場合 */
-bool flag = true;  /* エラー: 'bool' undeclared */
-
-/* OK: サポート確認とフォールバック */
-#if __STDC_VERSION__ >= 202300L
-    bool flag = true;  /* C23 */
+#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 202311L
+/* C23 mode */
 #else
-    #include <stdbool.h>
-    bool flag = true;  /* C99以前 */
+#error "C23 or later is required"
 #endif
 ```
 
-#### 2. 古い書き方と新しい書き方の混在
+規格モードを指定しても、処理系がすべての機能を実装済みとは限りません。
+コンパイル時の診断と処理系のリリースノートを併せて確認します。
+
+## `bool`、`true`、`false`
+
+C99では`_Bool`が言語の型として追加され、`<stdbool.h>`が`bool`、`true`、`false`をマクロとして提供しました。
+C23では`bool`、`true`、`false`が言語機能になったため、これらを使うためだけに`<stdbool.h>`をインクルードする必要はありません。
 
 ```c
-/* NG: 混在は避ける */
-int *p1 = NULL;     /* 古い書き方 */
-int *p2 = nullptr;  /* 新しい書き方 */
+bool is_ready = false;
 
-/* OK: 統一する */
-int *p1 = nullptr;
-int *p2 = nullptr;
+if (!is_ready) {
+    is_ready = true;
+}
 ```
 
-#### 3. 2進数リテラルの桁数ミス
+`bool`へ変換した値は0なら`false`、0以外なら`true`になります。
+`bool`は状態を表す型ですが、入力値の妥当性や処理の成功を自動的に保証するものではありません。
 
-```c
-/* NG: ビット数を間違えやすい */
-unsigned char byte = 0b111111111;  /* 9ビット！オーバーフロー */
-
-/* OK: 8ビットに収める */
-unsigned char byte = 0b11111111;   /* 8ビット、OK */
-
-/* より良い: アンダースコアで区切る（C23） */
-unsigned char byte = 0b1111_1111;  /* 見やすい！ */
-```
-
-### 学習のコツ
-
-1. **段階的に学ぶ**
-
-    - まずはbool型から始める
-    - 慣れたらtypeof演算子を試す
-    - 最後に高度な機能へ
-
-2. **コンパイラーの確認**
-
-    - 使用するコンパイラのバージョンを確認
-    - C23サポート状況をチェック
-    - 必要に応じて新しいバージョンをインストール
-
-3. **実際に試す**
-
-    - 小さなプログラムで新機能を試す
-    - エラーメッセージをよく読む
-    - 動作を確認しながら理解を深める
-
-### まとめ
-
-C23の新機能は、C言語をより使いやすく、安全にするためのものです。すべてを一度に覚える必要はありません。まずは基本的な機能（bool型、2進数リテラル）から始めて、徐々に高度な機能を学んでいきましょう。
-
-新しい機能を使うことで、より読みやすく、バグの少ないプログラムが書けるようになります！
-
-## 実例コード
-
-完全な実装例は以下のファイルを参照してください。
-
-### C23新機能のデモ
-
-- [bool_basics.c](examples/bool_basics.c) - bool型の基本使用
-- [typeof_demo.c](examples/typeof_demo.c) - typeof演算子の活用
-- [nullptr_example.c](examples/nullptr_example.c) - nullptrの使用例
-- [binary_literals.c](examples/binary_literals.c) - 2進数リテラルの実例
-
-## コンパイル方法
-
-この章はC23専用です。以下のコマンドでコンパイルしてください。
-
-```bash
-
-# 個別ファイルのコンパイル
-
-gcc -std=c23 -Wall -Wextra -pedantic source.c -o output
-
-# Makefileを使用
-
-make all          # すべてコンパイル
-make test         # C23サポートテスト
-make run-all      # すべて実行
-```
-
-### コンパイラーサポート状況
-
-C23は新しい規格のため、コンパイラーサポートは発展途上です。
-
-- **GCC**: 13以降で部分サポート（`-std=c23`）
-- **Clang**: 16以降で部分サポート（`-std=c23`）
-- **MSVC**: 未対応（2024年現在）
-
-## 学習フローとコンパイル方法
-
-### 推奨学習順序
-
-1. **理論学習**: README.mdで基本概念を理解
-2. **サンプルコード**: examples/の基本例を確認
-3. **演習課題**: exercises/README.mdで課題を確認
-4. **実装練習**: solutions/の解答例を参考に自分で実装
-
-## 注意事項
-
-1. **コンパイラー依存**: すべてのC23機能がサポートされているとは限りません
-2. **移植性**: 古いコンパイラでは動作しません
-3. **学習順序**: C90/C99の基礎を理解してから学習することを推奨
-
-## C90/C99/C11からの移行
-
-### bool型
+### 以前の規格との比較
 
 ```c
 /* C90 */
-#define TRUE 1
-#define FALSE 0
-int flag = TRUE;
+int is_ready = 0;
 
-/* C99 */
+/* C99以降 */
 #include <stdbool.h>
-bool flag = true;
+bool is_ready = false;
 
 /* C23 */
-bool flag = true;  /* ヘッダー不要 */
+bool is_ready = false;
 ```
 
-### NULLポインター
+## `typeof`と`typeof_unqual`
+
+`typeof`は、式または型名から型を得る演算子です。
+GNU Cなどが拡張として提供してきた綴りに相当する機能が、C23で標準化されました。
 
 ```c
-/* C90/C99/C11 */
-int *p = NULL;
+int count = 10;
+typeof(count) next_count = count + 1;
 
-/* C23 */
-int *p = nullptr;
+double price = 19.99;
+typeof(price) tax = 1.10;
 ```
 
-### 型の取得
+`typeof`は、対象の型に含まれる修飾子や原子型の性質を保持します。
+`typeof_unqual`は、結果の型から`const`、`volatile`、`restrict`、`_Atomic`に相当する修飾を除きます。
 
 ```c
-/* C11: _Generic */
-#define TYPE_NAME(x) _Generic((x), \
-    int: "int", \
-    double: "double", \
-    default: "other")
-
-/* C23: typeof */
-typeof(x) y;  /* xと同じ型 */
+const int limit = 100;
+typeof(limit) same_limit_type = 50;          /* const int */
+typeof_unqual(limit) mutable_limit = 50;     /* int */
 ```
 
-**注**: この章はオプション的な内容です。実務では、使用するコンパイラのC23サポート状況を確認してから活用してください。
+配列を対象にした`typeof`は、通常の式で起こる先頭要素へのポインター変換を行わず、配列型を得ます。
+
+```c
+int values[4] = {1, 2, 3, 4};
+typeof(values) copy = {5, 6, 7, 8};  /* int[4] */
+```
+
+## `nullptr`
+
+`nullptr`は、C23で追加された定義済み定数です。
+型は`nullptr_t`であり、オブジェクトへのポインター型、関数ポインター型、`bool`へ変換できます。
+
+```c
+#include <stddef.h>
+
+int *data = nullptr;
+nullptr_t no_address = nullptr;
+
+if (data == nullptr) {
+    /* data does not point to an object */
+}
+```
+
+従来のnullポインター定数である整数定数`0`や`NULL`も引き続き使用できます。
+`nullptr`は整数型の値としては扱えないため、ポインターを意図した値であることを型で区別できます。
+
+```c
+int *pointer_value = nullptr;  /* valid */
+bool flag = nullptr;           /* false */
+/* int integer_value = nullptr; */  /* constraint violation */
+```
+
+Cには関数オーバーロードがないため、C++のようなオーバーロード解決を`nullptr`の利点として説明することはできません。
+
+## 2進整数定数
+
+C23では、`0b`または`0B`で始まる2進整数定数を記述できます。
+ビット位置がそのまま表記に現れるため、フラグやマスクの確認に使えます。
+
+```c
+#define PERMISSION_READ    0b100U
+#define PERMISSION_WRITE   0b010U
+#define PERMISSION_EXECUTE 0b001U
+
+unsigned int permissions = PERMISSION_READ | PERMISSION_WRITE;
+```
+
+2進表記を使っても、整数型の幅や変換規則は変わりません。
+値が格納先の型で表現できるかを確認します。
+
+## 数値リテラルの桁区切り
+
+C23では、整数定数と浮動小数点定数の数字の間へ単一引用符`'`を置けます。
+区切り文字は値の計算では無視されます。
+
+```c
+unsigned int byte_mask = 0b1111'1111U;
+unsigned long population = 1'000'000UL;
+unsigned long color = 0xFF'80'20UL;
+```
+
+アンダースコアはC23の桁区切りではありません。
+接頭辞の直後や数字列の末尾にも単一引用符は置けません。
+
+## `auto`による型推論
+
+C23では、初期化子からオブジェクトの型を推論する宣言に`auto`を使えます。
+
+```c
+auto count = 42;       /* int */
+auto ratio = 3.14;     /* double */
+auto pointer = &count; /* int * */
+```
+
+初期化子は必須です。
+型を明示した方がインターフェースや変換の意図を伝えやすい場合は、従来どおり型名を書きます。
+
+## `constexpr`オブジェクト
+
+`constexpr`を指定したオブジェクトは、翻訳時に評価できる定数として定義します。
+
+```c
+constexpr int element_count = 100;
+int values[element_count];
+```
+
+初期化子は定数式の要件を満たす必要があります。
+単に実行中の変更を防ぐだけなら`const`、整数定数式など翻訳時の定数として使う必要があるなら`constexpr`という違いがあります。
+
+## 条件付きインクルージョンの追加構文
+
+`#elifdef`と`#elifndef`は、`#elif defined(...)`を短く書く構文です。
+
+```c
+#if defined(DEBUG)
+#define LOG_LEVEL 2
+#elifdef RELEASE
+#define LOG_LEVEL 0
+#elifndef LOG_LEVEL
+#define LOG_LEVEL 1
+#endif
+```
+
+## コンパイルと機能確認
+
+処理系が受け付ける規格モードを確認し、C23モードでコンパイルします。
+新しい処理系では`-std=c23`、移行期の処理系では`-std=c2x`というオプションを使う場合があります。
+
+```bash
+gcc -std=c23 -Wall -Wextra -pedantic source.c -o output
+```
+
+規格モードの名称と各機能の実装状況は、コンパイラとバージョンによって異なります。
+特定のバージョン番号だけで一括判定せず、必要な機能を含む小さなコードを警告付きでコンパイルして確認します。
+
+## 実例コード
+
+実装例は次のファイルにあります。
+
+- [bool_basics.c](examples/bool_basics.c)：`bool`の基本
+- [typeof_demo.c](examples/typeof_demo.c)：`typeof`の使用例
+- [nullptr_example.c](examples/nullptr_example.c)：`nullptr`の使用例
+- [binary_literals.c](examples/binary_literals.c)：2進整数定数の使用例
+
+## 以前の規格から移行するときの確認事項
+
+1. **処理系の対応**：使用するすべてのコンパイラが、採用するC23機能を実装しているか確認します
+2. **規格モード**：ビルドシステム、静的解析、エディタの設定を同じ規格モードにそろえます
+3. **公開ヘッダー**：利用側が古い規格を使う場合、公開APIにC23専用の構文を出さない設計も検討します
+4. **機械的な置換を避ける**：`NULL`をすべて`nullptr`へ置換する必要はなく、対応する処理系とコード規約に合わせます
 
 ## 参考資料
 
-- examples/ - 実装例（C23対応）
-- exercises/ - 演習問題
-- solutions/ - 解答例
-- [C23規格ドラフト](https://www.open-std.org/jtc1/sc22/wg14/www/docs/n3096.pdf)
-- [C23新機能の概要](https://en.cppreference.com/w/c/23)
-- コンパイラーのドキュメント（GCC、Clang）
+- [WG14公式サイト](https://www.open-std.org/jtc1/sc22/wg14/)
+- [C23最終公開ドラフトN3096](https://www.open-std.org/jtc1/sc22/wg14/www/docs/n3096.pdf)
+- [WG14のプロジェクト状況](https://www.open-std.org/jtc1/sc22/wg14/www/projects.html)
 
 ## 演習問題
 
-この章の内容を理解したら、[演習問題](exercises/)に挑戦してみましょう。
+[演習問題](exercises/)では、`__STDC_VERSION__`、`bool`、`typeof`、`nullptr`、2進整数定数、桁区切りを確認できます。
 
-- 基礎問題：基本的な文法や概念の確認
-- 応用問題：より実践的なプログラムの作成
-- チャレンジ問題：高度な理解と実装力が必要な問題
+- 基礎問題：構文と型の確認
+- 応用問題：以前の規格との条件付きコンパイル
+- チャレンジ問題：複数のC23機能を組み合わせた実装
