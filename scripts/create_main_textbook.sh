@@ -22,6 +22,9 @@ if command -v pandoc &> /dev/null; then
         -o "$OUTPUT_DOCX" \
         --from markdown \
         --to docx \
+        --filter mermaid-filter \
+        --reference-doc="$PROJECT_ROOT/templates/custom-reference.docx" \
+        --dpi=300 \
         --standalone \
         --toc \
         --toc-depth=3 \

@@ -195,16 +195,37 @@ output/word/ディレクトリに以下のWord文書が含まれています：
 
 ### 文書生成方法
 
+#### カスタムコマンドでの生成（推奨）
+
 ```bash
 cd scripts
 
 # すべての文書を一括生成
+./create_docx.sh --all
 
+# 個別生成
+./create_docx.sh main-basic        # 基礎編テキスト
+./create_docx.sh exercises-basic   # 基礎編演習問題集
+./create_docx.sh main-intermediate # 応用編テキスト
+./create_docx.sh exercises-intermediate # 応用編演習問題集
+./create_docx.sh main-advanced     # 上級編テキスト
+./create_docx.sh exercises-advanced # 上級編演習問題集
+./create_docx.sh supplementary     # 補章
+
+# ヘルプとオプション
+./create_docx.sh --help           # 使用方法を表示
+./create_docx.sh --verbose main-basic # 詳細出力
+./create_docx.sh --output /path/to/dir main-basic # 出力先指定
+```
+
+#### 従来のスクリプトでの生成
+
+```bash
+# すべての文書を一括生成
 ./create_main_textbook_basic.sh && ./create_main_textbook_intermediate.sh && ./create_main_textbook_advanced.sh
 ./create_exercises_basic.sh && ./create_exercises_intermediate.sh && ./create_exercises_advanced.sh
 
 # 個別生成
-
 ./create_main_textbook_basic.sh      # 基礎編テキスト
 ./create_exercises_basic.sh          # 基礎編演習問題集
 ```

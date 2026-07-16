@@ -164,18 +164,23 @@ if command -v pandoc &> /dev/null; then
     if [ -f "$PROJECT_ROOT/templates/custom-reference.docx" ]; then
         pandoc "$INPUT_MD" \
             -o "$OUTPUT_DOCX" \
-            --from markdown+raw_attribute+raw_html+fenced_divs+bracketed_spans \
-            --to docx+styles \
+            --from markdown \
+            --to docx \
+            --filter mermaid-filter \
             --standalone \
             --toc \
-            --reference-doc="$PROJECT_ROOT/templates/custom-reference.docx"
+            --reference-doc="$PROJECT_ROOT/templates/custom-reference.docx" \
+            --dpi=300
     else
         pandoc "$INPUT_MD" \
             -o "$OUTPUT_DOCX" \
-            --from markdown+raw_attribute+raw_html+fenced_divs+bracketed_spans \
-            --to docx+styles \
+            --from markdown \
+            --to docx \
+            --filter mermaid-filter \
             --standalone \
-            --toc
+            --toc \
+            --reference-doc="$PROJECT_ROOT/templates/custom-reference.docx" \
+            --dpi=300
     fi
     
     if [ $? -eq 0 ]; then

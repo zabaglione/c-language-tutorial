@@ -1,0 +1,32 @@
+{
+  "theme": "default",
+  "width": 1200,
+  "height": 800,
+  "backgroundColor": "white",
+  "scale": 1,
+  "mermaid": {
+    "theme": "default",
+    "themeVariables": {
+      "fontFamily": "Arial, sans-serif",
+      "fontSize": "16px",
+      "primaryColor": "#ffffff",
+      "primaryTextColor": "#000000",
+      "primaryBorderColor": "#333333",
+      "lineColor": "#000000"
+    },
+    "flowchart": {
+      "htmlLabels": false,
+      "curve": "basis",
+      "nodeSpacing": 60,
+      "rankSpacing": 60
+    },
+    "sequence": {
+      "htmlLabels": false,
+      "actorMargin": 60,
+      "noteMargin": 15
+    }
+  },
+  "puppeteerConfig": {
+    "args": ["--no-sandbox", "--disable-setuid-sandbox"]
+  }
+}

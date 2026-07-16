@@ -57,16 +57,21 @@ cat "$BASE_DIR/src/development-environment/README.md" >> "$TMP_FILE"
 # pandocでWord文書を生成
 echo "Pandocでdocxファイルを生成中..."
 
-if [ -f "$TEMPLATE_DIR/template.docx" ]; then
+if [ -f "$BASE_DIR/templates/custom-reference.docx" ]; then
     pandoc "$TMP_FILE" \
         -f markdown \
         -t docx \
-        --reference-doc="$TEMPLATE_DIR/template.docx" \
+        --filter mermaid-filter \
+        --reference-doc="$BASE_DIR/templates/custom-reference.docx" \
+        --dpi=300 \
         -o "$OUTPUT_DIR/C言語プログラミング教材_補章.docx"
 else
     pandoc "$TMP_FILE" \
         -f markdown \
         -t docx \
+        --filter mermaid-filter \
+        --reference-doc="$BASE_DIR/templates/custom-reference.docx" \
+        --dpi=300 \
         -o "$OUTPUT_DIR/C言語プログラミング教材_補章.docx"
 fi
 

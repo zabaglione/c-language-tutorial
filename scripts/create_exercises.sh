@@ -126,10 +126,13 @@ if command -v pandoc &> /dev/null; then
         -o "$OUTPUT_DOCX" \
         --from markdown \
         --to docx \
+        --filter mermaid-filter \
         --standalone \
         --toc \
         --toc-depth=3 \
-        --highlight-style=tango
+        --highlight-style=tango \
+        --reference-doc="$PROJECT_ROOT/templates/custom-reference.docx" \
+        --dpi=300
     
     if [ $? -eq 0 ]; then
         echo "✅ 演習問題集が生成されました: $OUTPUT_DOCX"

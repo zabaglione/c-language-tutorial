@@ -1,0 +1,31 @@
+/* Word文書互換性のためのスタイル */
+text {
+  font-family: Arial, sans-serif !important;
+  font-size: 16px !important;
+}
+
+.edgePath .path {
+  stroke-width: 2px !important;
+  fill: none !important;
+}
+
+.node rect, .node circle, .node ellipse {
+  fill: white !important;
+  stroke: black !important;
+  stroke-width: 2px !important;
+}
+
+.node {
+  filter: none !important;
+}
+
+/* 日本語フォント対応 */
+.nodeLabel {
+  font-family: "MS Gothic", "Arial", sans-serif !important;
+  font-size: 14px !important;
+}
+
+.edgeLabel {
+  font-family: "MS Gothic", "Arial", sans-serif !important;
+  font-size: 12px !important;
+}

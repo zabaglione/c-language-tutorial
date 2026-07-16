@@ -37,11 +37,14 @@ numbersections: true
 
 ---
 
+
 ```{=openxml}
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
 ```
 
+
 # 第1章: 導入・環境構築 - 演習問題
+
 
 ## 演習の目的
 
@@ -197,11 +200,14 @@ scanf("%d", &age);    /* 数字の入力（&必要） */
 
 演習問題お疲れさまでした！次は[第2章: 基本文法](../../basics-syntax/)に進みましょう。
 
+
 ```{=openxml}
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
 ```
 
+
 # 第2章: 基本文法・Hello World - 演習問題
+
 
 ## 基礎問題
 
@@ -298,7 +304,7 @@ scanf("%d", &age);    /* 数字の入力（&必要） */
 **要求事項**
 
 - `scanf`関数を使用すること
-- 適切なバッファーサイズを設定すること
+- 適切なバッファサイズを設定すること
 - 計算結果を変数に保存すること
 
 **期待される出力例:**
@@ -679,11 +685,14 @@ gcc -o age_calculator ex2_3_age_calculator.c
 
 演習問題お疲れさまでした！次は[第3章: データ型と変数](../../data-types/)に進みましょう。
 
+
 ```{=openxml}
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
 ```
 
+
 # 第3章: データ型と変数 - 演習問題
+
 
 ## 基礎問題
 
@@ -933,11 +942,14 @@ gcc -std=c90 -Wall -Wextra -pedantic ex_variables.c -o ex_variables
 
 演習問題お疲れさまでした！次は[第4章: 演算子](../../operators/)に進みましょう。
 
+
 ```{=openxml}
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
 ```
 
+
 # 第4章: 演算子 - 演習問題
+
 
 ## 基礎問題
 
@@ -1209,11 +1221,14 @@ gcc -std=c90 -Wall -Wextra -pedantic ex4_1_calculator.c -o ex4_1_calculator
 
 演習問題お疲れさまでした！次は[第5章: 制御構造（条件分岐）](../../control-if/)に進みましょう。
 
+
 ```{=openxml}
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
 ```
 
+
 # 第5章: 制御構造（条件分岐） - 演習問題
+
 
 ## 演習の目的
 
@@ -1609,11 +1624,14 @@ BMI値: 29.38
 
 演習問題お疲れさまでした！次は[第6章: 制御構造（ループ）](../../control-loop/)に進みましょう。
 
+
 ```{=openxml}
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
 ```
 
+
 # 第6章: 制御構造（ループ） - 演習問題
+
 
 ## 演習の目的
 
@@ -2029,6 +2047,7 @@ Ctrl+Cで終了します...
 ## 次の章へ
 
 演習問題お疲れさまでした！次は[第7章: 配列（基本編）](../../arrays-basics/)に進みましょう。
+
 
 # 演習問題を解き終えたら
 
