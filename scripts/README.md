@@ -4,10 +4,23 @@
 
 ## PDF生成
 
-`build_book.py`は、`docs/book.json`に定義した順序で`src`以下のMarkdownを読み込み、本文、演習問題、解答例を1冊のPDFへまとめます。
+`build_book.py`は、`docs/book.json`に定義した順序で`src`以下のMarkdownを読み込みます。
+通常版では、読み込んだ本文、演習問題、解答例を1冊のPDFへまとめます。
+演習問題集版では、同じ原稿から演習問題だけを抽出します。
 
 ```bash
 npm run docs:publish
+```
+
+次のPDFを生成します。
+
+- `output/pdf/C言語プログラミング教材.pdf`
+- `output/pdf/C言語プログラミング演習問題集.pdf`
+
+演習問題集だけを生成する場合は、次のコマンドを実行します。
+
+```bash
+npm run docs:publish:exercises
 ```
 
 処理は次の順序で進みます。

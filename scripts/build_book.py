@@ -55,6 +55,7 @@ from reportlab.platypus.xpreformatted import XPreformatted
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = ROOT / "docs" / "book.json"
 TMP_ROOT = ROOT / "tmp" / "pdfs"
+CODE_FONT_PATH = ROOT / "assets" / "fonts" / "MPLUS1Code-wght.ttf"
 PANDOC = shutil.which("pandoc")
 MMDC = shutil.which("mmdc")
 PDFINFO = shutil.which("pdfinfo")
@@ -67,6 +68,14 @@ SPACE_BETWEEN_SCRIPTS = re.compile(rf"(?:{JAPANESE}[ \t]+[A-Za-z0-9]|[A-Za-z0-9]
 HALFWIDTH_PUNCTUATION = re.compile(rf"(?:{JAPANESE}[?!:;]|[?!:;]{JAPANESE})")
 HEADING_SEPARATOR = re.compile(r"^#{1,6}\s+.*(?:--+|[\u2014\u2015\u2500]{2,}).*$")
 PROSE_DASH = re.compile(r"[\u2014\u2015]")
+NONBREAKING_TERMS = (
+    "IEEE 754",
+    "ISO/IEC 9899:2024",
+    "Visual Studio Code",
+    "Apple Clang",
+    "GNU Make",
+    "Hello World",
+)
 
 
 def resolve_font(families: tuple[str, ...], style: str = "Regular") -> Path | None:
@@ -90,7 +99,7 @@ def resolve_font(families: tuple[str, ...], style: str = "Regular") -> Path | No
 
 BODY_FONT = resolve_font(("FORM UDPGothic", "Noto Sans JP", "Arial Unicode MS"))
 BOLD_FONT = resolve_font(("FORM UDPGothic", "Noto Sans JP", "Arial Unicode MS"), "Bold")
-CODE_FONT = resolve_font(("Noto Sans Mono CJK JP", "FORM UDPGothic", "Arial Unicode MS"))
+CODE_FONT = CODE_FONT_PATH
 
 def require_tools() -> None:
     missing = []
@@ -107,6 +116,22 @@ def require_tools() -> None:
 
 def load_manifest() -> dict[str, Any]:
     return json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+
+
+def configure_edition(manifest: dict[str, Any], edition: str) -> dict[str, Any]:
+    editions = manifest.get("editions", {})
+    if edition not in editions:
+        raise RuntimeError(f"Unknown edition: {edition}")
+    settings = editions[edition]
+    configured = dict(manifest)
+    for key in ("title", "subtitle", "author", "output"):
+        if key in settings:
+            configured[key] = settings[key]
+    configured["_edition"] = edition
+    configured["_edition_parts"] = list(settings["parts"])
+    configured["_minimum_pages"] = int(settings["minimum_pages"])
+    configured["_show_part_headings"] = bool(settings["show_part_headings"])
+    return configured
 
 
 def audit_japanese_text(path: Path, manifest: dict[str, Any]) -> list[str]:
@@ -233,6 +258,22 @@ def prepare_source(path: Path, title: str, css_class: str, drop_sections: set[st
     return "\n".join(lines).strip() + "\n"
 
 
+def part_specs(manifest: dict[str, Any]) -> dict[str, tuple[Path, str, str]]:
+    return {
+        "textbook": (ROOT / "src" / "{id}" / "README.md", "chapter", ""),
+        "exercises": (
+            ROOT / "src" / "{id}" / "exercises" / "README.md",
+            "chapter",
+            manifest["labels"]["exercise_suffix"],
+        ),
+        "solutions": (
+            ROOT / "src" / "{id}" / "solutions" / "README.md",
+            "chapter",
+            manifest["labels"]["solution_suffix"],
+        ),
+    }
+
+
 def build_markdown(manifest: dict[str, Any], target: Path) -> list[Path]:
     used: list[Path] = []
     sections: list[str] = [
@@ -244,24 +285,12 @@ def build_markdown(manifest: dict[str, Any], target: Path) -> list[Path]:
         "---",
         "",
     ]
-    part_specs = (
-        ("textbook", ROOT / "src" / "{id}" / "README.md", "chapter", ""),
-        (
-            "exercises",
-            ROOT / "src" / "{id}" / "exercises" / "README.md",
-            "chapter",
-            manifest["labels"]["exercise_suffix"],
-        ),
-        (
-            "solutions",
-            ROOT / "src" / "{id}" / "solutions" / "README.md",
-            "chapter",
-            manifest["labels"]["solution_suffix"],
-        ),
-    )
+    specs = part_specs(manifest)
     drop_sections = {manifest["navigation_heading"]}
-    for part_key, pattern, css_class, suffix in part_specs:
-        sections.extend((f'# {manifest["parts"][part_key]} {{.part}}', ""))
+    for part_key in manifest["_edition_parts"]:
+        pattern, css_class, suffix = specs[part_key]
+        if manifest["_show_part_headings"]:
+            sections.extend((f'# {manifest["parts"][part_key]} {{.part}}', ""))
         for chapter in manifest["chapters"]:
             source = Path(str(pattern).format(id=chapter["id"]))
             if not source.exists():
@@ -306,22 +335,88 @@ def register_fonts() -> None:
         italic="BookBody",
         boldItalic="BookBodyBold",
     )
+    ascii_widths = {
+        round(pdfmetrics.stringWidth(character, "BookCode", 10), 4)
+        for character in "0iWM"
+    }
+    japanese_widths = {
+        round(pdfmetrics.stringWidth(character, "BookCode", 10), 4)
+        for character in "あ漢"
+    }
+    if len(ascii_widths) != 1 or len(japanese_widths) != 1:
+        raise RuntimeError("BookCode does not have stable monospaced metrics")
+    ascii_width = next(iter(ascii_widths))
+    japanese_width = next(iter(japanese_widths))
+    if abs(japanese_width - ascii_width * 2) > 0.01:
+        raise RuntimeError("BookCode does not use halfwidth ASCII and fullwidth Japanese metrics")
     rl_config.canvas_basefontname = "BookBody"
+
+
+def inline_edge_text(inline: dict[str, Any], from_end: bool) -> str:
+    kind = inline["t"]
+    value = inline.get("c")
+    if kind == "Str":
+        return value
+    if kind in {"Code", "Math"}:
+        return value[1]
+    if kind in {"Strong", "Emph", "Strikeout", "Superscript", "Subscript"}:
+        content = value
+    elif kind == "Quoted":
+        content = value[1]
+    elif kind in {"Link", "Image"}:
+        content = value[1]
+    elif kind == "Span":
+        content = value[1]
+    else:
+        return ""
+    ordered = reversed(content) if from_end else content
+    for child in ordered:
+        text = inline_edge_text(child, from_end)
+        if text:
+            return text
+    return ""
+
+
+def soft_break_text(inlines: list[dict[str, Any]], index: int) -> str:
+    previous = ""
+    following = ""
+    for inline in reversed(inlines[:index]):
+        previous = inline_edge_text(inline, from_end=True)
+        if previous:
+            break
+    for inline in inlines[index + 1 :]:
+        following = inline_edge_text(inline, from_end=False)
+        if following:
+            break
+    if previous and following and previous[-1].isascii() and following[0].isascii():
+        if previous[-1].isalnum() and following[0].isalnum():
+            return " "
+    return ""
+
+
+def nonbreaking_markup(text: str) -> str:
+    for term in NONBREAKING_TERMS:
+        escaped = html.escape(term)
+        text = text.replace(escaped, escaped.replace(" ", "&#160;"))
+    return text
 
 
 def inline_markup(inlines: list[dict[str, Any]]) -> str:
     parts: list[str] = []
-    for inline in inlines:
+    for index, inline in enumerate(inlines):
         kind = inline["t"]
         value = inline.get("c")
         if kind == "Str":
             parts.append(html.escape(value))
-        elif kind in {"Space", "SoftBreak"}:
+        elif kind == "Space":
             parts.append(" ")
+        elif kind == "SoftBreak":
+            parts.append(soft_break_text(inlines, index))
         elif kind == "LineBreak":
             parts.append("<br/>")
         elif kind == "Code":
-            parts.append(f'<font name="BookCode">{html.escape(value[1])}</font>')
+            code = html.escape(value[1]).replace(" ", "&#160;")
+            parts.append(f'<font name="BookCode">{code}</font>')
         elif kind == "Strong":
             parts.append("<b>" + inline_markup(value) + "</b>")
         elif kind == "Emph":
@@ -355,7 +450,7 @@ def inline_markup(inlines: list[dict[str, Any]]) -> str:
             parts.append("[Note]")
         else:
             parts.append(html.escape(str(value)) if value is not None else "")
-    return "".join(parts)
+    return nonbreaking_markup("".join(parts))
 
 
 def plain_text(inlines: list[dict[str, Any]]) -> str:
@@ -428,9 +523,10 @@ class EmbeddedFontCanvas(canvas.Canvas):
 
 
 class Renderer:
-    def __init__(self, styles: dict[str, ParagraphStyle], workdir: Path) -> None:
+    def __init__(self, styles: dict[str, ParagraphStyle], workdir: Path, chapter_toc_level: int = 1) -> None:
         self.styles = styles
         self.workdir = workdir
+        self.chapter_toc_level = chapter_toc_level
         self.heading_index = 0
         self.has_heading = False
 
@@ -445,7 +541,7 @@ class Renderer:
             paragraph._toc_level = 0  # type: ignore[attr-defined]
             paragraph._bookmark_name = bookmark  # type: ignore[attr-defined]
         elif "chapter" in classes:
-            paragraph._toc_level = 1  # type: ignore[attr-defined]
+            paragraph._toc_level = self.chapter_toc_level  # type: ignore[attr-defined]
             paragraph._bookmark_name = bookmark  # type: ignore[attr-defined]
         flowables: list[Flowable] = []
         if self.has_heading and ("part" in classes or "chapter" in classes):
@@ -612,6 +708,7 @@ def make_styles() -> dict[str, ParagraphStyle]:
         leading=15,
         textColor=colors.HexColor("#20252b"),
         spaceAfter=4.5,
+        wordWrap="CJK",
         splitLongWords=True,
         allowWidows=1,
         allowOrphans=1,
@@ -623,8 +720,8 @@ def make_styles() -> dict[str, ParagraphStyle]:
             "Code",
             parent=body,
             fontName="BookCode",
-            fontSize=6.8,
-            leading=8.8,
+            fontSize=7,
+            leading=9.2,
             leftIndent=4 * mm,
             rightIndent=4 * mm,
             borderPadding=5,
@@ -632,8 +729,9 @@ def make_styles() -> dict[str, ParagraphStyle]:
             borderWidth=0.5,
             borderRadius=2,
             backColor=colors.HexColor("#f5f7fa"),
-            spaceBefore=3,
-            spaceAfter=6,
+            spaceBefore=7.5,
+            spaceAfter=7.5,
+            wordWrap=None,
             splitLongWords=True,
         ),
         "TableHead": ParagraphStyle("TableHead", parent=body, fontName="BookBodyBold", fontSize=7.2, leading=9.2),
@@ -710,7 +808,8 @@ def title_story(manifest: dict[str, Any], styles: dict[str, ParagraphStyle]) -> 
 def build_pdf(ast: dict[str, Any], manifest: dict[str, Any], output: Path, workdir: Path) -> None:
     register_fonts()
     styles = make_styles()
-    renderer = Renderer(styles, workdir)
+    chapter_toc_level = 1 if manifest["_show_part_headings"] else 0
+    renderer = Renderer(styles, workdir, chapter_toc_level)
     story = title_story(manifest, styles) + renderer.blocks(ast["blocks"])
     output.parent.mkdir(parents=True, exist_ok=True)
     doc = BookDocTemplate(
@@ -746,7 +845,7 @@ def validate_sources(paths: list[Path], manifest: dict[str, Any]) -> None:
 
 def validate_pdf(output: Path, manifest: dict[str, Any]) -> int:
     reader = PdfReader(str(output))
-    if len(reader.pages) < 100:
+    if len(reader.pages) < manifest["_minimum_pages"]:
         raise RuntimeError(f"Unexpected page count: {len(reader.pages)}")
     expected_width, expected_height = A4
     empty_pages: list[int] = []
@@ -779,12 +878,18 @@ def validate_pdf(output: Path, manifest: dict[str, Any]) -> int:
     if found:
         raise RuntimeError("Forbidden output tokens: " + ", ".join(found))
     missing_headings: list[str] = []
-    for chapter in manifest["chapters"]:
-        label = str(chapter["number"])
-        template = manifest["labels"]["supplement"] if not label.isdigit() else manifest["labels"]["chapter"]
-        heading = template.format(number=label, title=chapter["title"], suffix="")
-        if heading not in all_text:
-            missing_headings.append(heading)
+    specs = part_specs(manifest)
+    for part_key in manifest["_edition_parts"]:
+        pattern, _, suffix = specs[part_key]
+        for chapter in manifest["chapters"]:
+            source = Path(str(pattern).format(id=chapter["id"]))
+            if not source.exists():
+                continue
+            label = str(chapter["number"])
+            template = manifest["labels"]["supplement"] if not label.isdigit() else manifest["labels"]["chapter"]
+            heading = template.format(number=label, title=chapter["title"], suffix=suffix)
+            if heading not in all_text:
+                missing_headings.append(heading)
     if missing_headings:
         raise RuntimeError("Missing chapter headings: " + ", ".join(missing_headings))
     if PDFFONTS:
@@ -793,6 +898,8 @@ def validate_pdf(output: Path, manifest: dict[str, Any]) -> int:
         not_embedded = [row[0] for row in font_rows if len(row) > 3 and row[3].lower() != "yes"]
         if not_embedded:
             raise RuntimeError("Fonts are not embedded: " + ", ".join(not_embedded))
+        if not any(row and "MPLUS1Code" in row[0] for row in font_rows):
+            raise RuntimeError("M PLUS 1 Code was not embedded in the PDF")
     return len(reader.pages)
 
 
@@ -852,6 +959,7 @@ def create_contact_sheets(preview_dir: Path, columns: int = 4, rows: int = 5) ->
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--edition", choices=("book", "exercises"), default="book", help="Select the PDF edition")
     parser.add_argument("--output", type=Path, help="Override the PDF output path")
     parser.add_argument("--render", action="store_true", help="Render every PDF page to PNG")
     parser.add_argument("--dpi", type=int, default=90, help="Preview rendering resolution")
@@ -862,7 +970,7 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    manifest = load_manifest()
+    manifest = configure_edition(load_manifest(), args.edition)
     audit_all_markdown(manifest)
     if args.audit_only:
         print(f"Audited {len(active_markdown_paths())} Markdown files")
@@ -885,7 +993,8 @@ def main() -> int:
         build_pdf(ast, manifest, output, workdir)
         pages = validate_pdf(output, manifest)
         if args.render:
-            render_preview(output, TMP_ROOT / "rendered", args.dpi)
+            preview_name = "rendered" if args.edition == "book" else f"rendered-{args.edition}"
+            render_preview(output, TMP_ROOT / preview_name, args.dpi)
         print(f"Built {output.relative_to(ROOT)} ({pages} pages)")
     finally:
         if cleanup is not None:

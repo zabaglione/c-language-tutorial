@@ -3,6 +3,21 @@
   "subtitle": "基礎からC23までを段階的に学ぶ",
   "author": "C言語学習教材プロジェクト",
   "output": "output/pdf/C言語プログラミング教材.pdf",
+  "editions": {
+    "book": {
+      "parts": ["textbook", "exercises", "solutions"],
+      "minimum_pages": 100,
+      "show_part_headings": true
+    },
+    "exercises": {
+      "title": "C言語プログラミング演習問題集",
+      "subtitle": "基礎問題からチャレンジ問題まで段階的に取り組む",
+      "output": "output/pdf/C言語プログラミング演習問題集.pdf",
+      "parts": ["exercises"],
+      "minimum_pages": 70,
+      "show_part_headings": false
+    }
+  },
   "toc_title": "目次",
   "navigation_heading": "次の章へ",
   "validation": {
