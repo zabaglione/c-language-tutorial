@@ -154,6 +154,13 @@ jobs:
           BOOK_PDF="output/pdf/C言語プログラミング教材.pdf"
           EXERCISES_PDF="output/pdf/C言語プログラミング演習問題集.pdf"
 
+          # GitHub Release asset filenames must be ASCII; attach Japanese names as display labels.
+          mkdir -p /tmp/release-assets
+          BOOK_ASSET="/tmp/release-assets/c-language-tutorial.pdf"
+          EXERCISES_ASSET="/tmp/release-assets/c-language-tutorial-exercises.pdf"
+          cp "$BOOK_PDF" "$BOOK_ASSET"
+          cp "$EXERCISES_PDF" "$EXERCISES_ASSET"
+
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]] && [[ -n "${{ inputs.tag_name }}" ]]; then
             TAG_NAME="${{ inputs.tag_name }}"
           elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
@@ -170,8 +177,8 @@ jobs:
           cat <<EOF > /tmp/release-notes.md
           ## 配布PDF
 
-          - \`C言語プログラミング教材.pdf\`（${BOOK_PAGES}ページ）
-          - \`C言語プログラミング演習問題集.pdf\`（${EXERCISES_PAGES}ページ）
+          - \`c-language-tutorial.pdf\` — C言語プログラミング教材（${BOOK_PAGES}ページ）
+          - \`c-language-tutorial-exercises.pdf\` — C言語プログラミング演習問題集（${EXERCISES_PAGES}ページ）
 
           ## ビルド情報
 
@@ -180,12 +187,15 @@ jobs:
           EOF
 
           if gh release view "$TAG_NAME" >/dev/null 2>&1; then
-            gh release upload "$TAG_NAME" "$BOOK_PDF" "$EXERCISES_PDF" --clobber
+            gh release upload "$TAG_NAME" \
+              "${BOOK_ASSET}#C言語プログラミング教材.pdf" \
+              "${EXERCISES_ASSET}#C言語プログラミング演習問題集.pdf" \
+              --clobber
             gh release edit "$TAG_NAME" --notes-file /tmp/release-notes.md --latest
           else
             gh release create "$TAG_NAME" \
-              "$BOOK_PDF" \
-              "$EXERCISES_PDF" \
+              "${BOOK_ASSET}#C言語プログラミング教材.pdf" \
+              "${EXERCISES_ASSET}#C言語プログラミング演習問題集.pdf" \
               --target "$GITHUB_SHA" \
               --title "$TAG_NAME" \
               --notes-file /tmp/release-notes.md \
