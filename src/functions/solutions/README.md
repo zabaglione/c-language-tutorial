@@ -131,12 +131,12 @@ gcc -Wall -Wextra -pedantic -std=c99 ex11_4_multiple_returns_c99.c -lm -o ex11_4
 
 ### 4. メモリ管理
 
-動的メモリを使用する場合。
+動的メモリを使用する場合は、次の点に注意します。
 
-- `malloc`/`calloc`で確保
-- 使用後は必ず`free`で解放
+- `malloc`/`calloc`で確保する
+- 使用後は必ず`free`で解放する
 - NULLチェックを忘れない
-- メモリリークに注意
+- メモリリークに注意する
 
 ### 5. 移植性の考慮
 

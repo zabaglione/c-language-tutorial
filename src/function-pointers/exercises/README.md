@@ -323,7 +323,7 @@ gcc -std=c99 -Wall -Wextra -pedantic ex14_1_basic_function_pointer_c99.c -o ex14
 
 - 関数ポインターは初期化前に使用しない
 - 型の一致を厳密に確認する
-- NULLポインターチェックを忘れずに
+- NULLポインターチェックを忘れない
 - デバッグ時は関数名の確認が困難な場合がある
 
 ## 実用的な応用

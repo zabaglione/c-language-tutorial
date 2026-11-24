@@ -116,7 +116,7 @@ int main(void)
 ```
 
 `sizeof values / sizeof values[0]`は、`values`が配列として見えている場所で要素数を求めます。
-関数仮引数として宣言した配列には使えません。
+関数の仮引数として宣言した配列には使えません。
 
 ## 線形探索
 
@@ -138,7 +138,7 @@ int find_value(const int values[], int count, int target)
 }
 ```
 
-関数仮引数の`const int values[]`は、`const int *values`へ調整されます。
+関数の仮引数`const int values[]`は、`const int *values`へ調整されます。
 配列全体の要素数は関数へ自動では渡らないため、`count`を別の引数として渡します。
 
 ## 最大値、最小値、平均

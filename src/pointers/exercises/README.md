@@ -259,16 +259,16 @@ gcc -std=c90 -Wall -Wextra -pedantic ex_pointer_swap.c -o ex_pointer_swap
 
 ### ポインターの基本
 
-- 宣言： `int *ptr;`
-- アドレス取得： `ptr = &variable;`
-- 値の取得： `value = *ptr;`
-- 演算： `ptr + 1` は次の要素を指す
+- 宣言：`int *ptr;`
+- アドレス取得：`ptr = &variable;`
+- 値の取得：`value = *ptr;`
+- 演算：`ptr + 1` は次の要素を指す
 
 ### 安全なプログラミング
 
-- NULLポインターのチェック： `if (ptr != NULL)`
+- NULLポインターのチェック：`if (ptr != NULL)`
 - 配列の境界チェック
-- 初期化されていないポインターの使用を避ける
+- 初期化していないポインターを使わない
 
 ### デバッグのコツ
 
