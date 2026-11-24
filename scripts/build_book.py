@@ -15,6 +15,7 @@ import argparse
 import hashlib
 import html
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -97,8 +98,8 @@ def resolve_font(families: tuple[str, ...], style: str = "Regular") -> Path | No
     return None
 
 
-BODY_FONT = resolve_font(("FORM UDPGothic", "Noto Sans JP", "Arial Unicode MS"))
-BOLD_FONT = resolve_font(("FORM UDPGothic", "Noto Sans JP", "Arial Unicode MS"), "Bold")
+BODY_FONT = resolve_font(("FORM UDPGothic", "BIZ UDPGothic", "Noto Sans JP", "Arial Unicode MS"))
+BOLD_FONT = resolve_font(("FORM UDPGothic", "BIZ UDPGothic", "Noto Sans JP", "Arial Unicode MS"), "Bold")
 CODE_FONT = CODE_FONT_PATH
 
 def require_tools() -> None:
@@ -571,6 +572,9 @@ class Renderer:
                 "-s",
                 "2",
             ]
+            puppeteer_config = os.environ.get("MERMAID_PUPPETEER_CONFIG")
+            if puppeteer_config:
+                command.extend(["-p", puppeteer_config])
             result = subprocess.run(command, cwd=ROOT, check=False, capture_output=True, text=True)
             if result.returncode != 0:
                 raise RuntimeError("Mermaid rendering failed:\n" + (result.stderr or result.stdout))

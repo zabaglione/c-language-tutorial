@@ -1,0 +1,193 @@
+name: Build and Release PDFs
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: "Release tag name (leave empty to auto-generate vYYYY.MM.DD-<sha>)"
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-pdf-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  check-changes:
+    name: Check target paths
+    runs-on: ubuntu-latest
+    outputs:
+      should_run: ${{ steps.filter.outputs.should_run }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine whether PDF build should run
+        id: filter
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]] || [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            BASE_SHA="${{ github.event.pull_request.base.sha }}"
+            HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+          else
+            BASE_SHA="${{ github.event.before }}"
+            HEAD_SHA="${{ github.sha }}"
+            if [[ "$BASE_SHA" == "0000000000000000000000000000000000000000" ]]; then
+              echo "should_run=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+          fi
+
+          CHANGED=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" -- \
+            'src/**' \
+            'docs/book.json' \
+            'assets/fonts/**' \
+            'scripts/build_book.py' \
+            '.mermaid-config.json' \
+            '.mermaid.css' \
+            '.github/workflows/release-pdf.yml')
+
+          if [[ -n "$CHANGED" ]]; then
+            echo "Detected relevant changes:"
+            echo "$CHANGED"
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No PDF-related files changed. Skipping build."
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  build-and-release:
+    name: Build PDFs and Publish Release
+    needs: check-changes
+    if: needs.check-changes.outputs.should_run == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install system tools (Pandoc, Poppler, Fontconfig)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends pandoc poppler-utils fontconfig
+
+      - name: Install Japanese TrueType fonts (BIZ UDPGothic)
+        run: |
+          set -euo pipefail
+          mkdir -p "$HOME/.local/share/fonts/bizudpgothic"
+          curl -fsSL \
+            -o "$HOME/.local/share/fonts/bizudpgothic/BIZUDPGothic-Regular.ttf" \
+            "https://raw.githubusercontent.com/google/fonts/main/ofl/bizudpgothic/BIZUDPGothic-Regular.ttf"
+          curl -fsSL \
+            -o "$HOME/.local/share/fonts/bizudpgothic/BIZUDPGothic-Bold.ttf" \
+            "https://raw.githubusercontent.com/google/fonts/main/ofl/bizudpgothic/BIZUDPGothic-Bold.ttf"
+          fc-cache -fv
+          fc-match -f "%{family} | %{file}\n" "BIZ UDPGothic:style=Regular"
+          fc-match -f "%{family} | %{file}\n" "BIZ UDPGothic:style=Bold"
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Mermaid CLI and configure Puppeteer
+        run: |
+          set -euo pipefail
+          if command -v google-chrome >/dev/null 2>&1; then
+            CHROME_PATH="$(command -v google-chrome)"
+            PUPPETEER_SKIP_DOWNLOAD=true npm install -g @mermaid-js/mermaid-cli
+            cat <<EOF > /tmp/puppeteer-config.json
+          {"executablePath": "${CHROME_PATH}", "args": ["--no-sandbox", "--disable-setuid-sandbox"]}
+          EOF
+          else
+            npm install -g @mermaid-js/mermaid-cli
+            cat <<EOF > /tmp/puppeteer-config.json
+          {"args": ["--no-sandbox", "--disable-setuid-sandbox"]}
+          EOF
+          fi
+
+      - name: Audit Japanese Markdown and build PDFs
+        env:
+          MERMAID_PUPPETEER_CONFIG: /tmp/puppeteer-config.json
+        run: |
+          set -euo pipefail
+          npm run lint:ja
+          npm run docs:check
+
+      - name: Upload PDFs as workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: c-language-tutorial-pdfs
+          path: |
+            output/pdf/C言語プログラミング教材.pdf
+            output/pdf/C言語プログラミング演習問題集.pdf
+          retention-days: 30
+
+      - name: Publish GitHub Release
+        if: github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          BOOK_PDF="output/pdf/C言語プログラミング教材.pdf"
+          EXERCISES_PDF="output/pdf/C言語プログラミング演習問題集.pdf"
+
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]] && [[ -n "${{ inputs.tag_name }}" ]]; then
+            TAG_NAME="${{ inputs.tag_name }}"
+          elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            TAG_NAME="${GITHUB_REF_NAME}"
+          else
+            SHORT_SHA="${GITHUB_SHA:0:7}"
+            DATE_STR="$(TZ=Asia/Tokyo date +'%Y.%m.%d')"
+            TAG_NAME="v${DATE_STR}-${SHORT_SHA}"
+          fi
+
+          BOOK_PAGES="$(pdfinfo "$BOOK_PDF" | awk '/^Pages:/ {print $2}')"
+          EXERCISES_PAGES="$(pdfinfo "$EXERCISES_PDF" | awk '/^Pages:/ {print $2}')"
+
+          cat <<EOF > /tmp/release-notes.md
+          ## 配布PDF
+
+          - \`C言語プログラミング教材.pdf\`（${BOOK_PAGES}ページ）
+          - \`C言語プログラミング演習問題集.pdf\`（${EXERCISES_PAGES}ページ）
+
+          ## ビルド情報
+
+          - コミット: ${GITHUB_SHA}
+          - タグ: \`${TAG_NAME}\`
+          EOF
+
+          if gh release view "$TAG_NAME" >/dev/null 2>&1; then
+            gh release upload "$TAG_NAME" "$BOOK_PDF" "$EXERCISES_PDF" --clobber
+            gh release edit "$TAG_NAME" --notes-file /tmp/release-notes.md --latest
+          else
+            gh release create "$TAG_NAME" \
+              "$BOOK_PDF" \
+              "$EXERCISES_PDF" \
+              --target "$GITHUB_SHA" \
+              --title "$TAG_NAME" \
+              --notes-file /tmp/release-notes.md \
+              --latest
+          fi
