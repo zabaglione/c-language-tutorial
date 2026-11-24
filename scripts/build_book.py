@@ -45,12 +45,20 @@ from reportlab.platypus import (
     LongTable,
     PageBreak,
     PageTemplate,
-    Paragraph,
+    Paragraph as _ReportLabParagraph,
     Spacer,
     TableStyle,
 )
 from reportlab.platypus.tableofcontents import TableOfContents
 from reportlab.platypus.xpreformatted import XPreformatted
+
+
+class Paragraph(_ReportLabParagraph):
+    def drawPara(self, debug: int = 0) -> None:
+        bl_para = getattr(self, "blPara", None)
+        if bl_para is not None and bl_para.kind == 0 and bl_para.lines and hasattr(bl_para.lines[0], "words"):
+            bl_para.kind = 1
+        super().drawPara(debug)
 
 
 ROOT = Path(__file__).resolve().parents[1]
